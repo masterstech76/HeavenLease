@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Understand the possession process on HeavenLease — how property handover works, inspection, escrow release, and taking keys.">
+    <title>Possession — HeavenLease</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styles.css?v=20260909a">
+<link rel="stylesheet" href="feature-panel.css?v=20260902a">
+    <style>
+        .page-header { background: var(--gradient-soft); padding: 140px 0 80px; text-align: center; position: relative; overflow: hidden; }
+        .page-header h1 { font-family: var(--font-heading); font-size: 48px; font-weight: 700; color: var(--dark); margin-bottom: 16px; }
+        .page-header p { font-size: 18px; color: var(--gray-500); max-width: 640px; margin: 0 auto; }
+        .page-header .breadcrumb { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 16px; font-size: 14px; color: var(--gray-500); }
+        .page-header .breadcrumb a { color: var(--primary); }
+        .pos-section { padding: 80px 0; }
+        .pos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+        .pos-card { background: var(--white); border-radius: var(--radius-lg); padding: 32px; border: 1px solid var(--gray-200); }
+        .pos-icon { width: 54px; height: 54px; border-radius: var(--radius-md); background: var(--gradient-soft); display: flex; align-items: center; justify-content: center; font-size: 22px; color: var(--primary); margin-bottom: 16px; }
+        .pos-card h3 { font-size: 18px; font-weight: 600; color: var(--dark); margin-bottom: 8px; }
+        .pos-card p { font-size: 14px; color: var(--gray-500); line-height: 1.7; }
+        .steps-section { padding: 70px 0; background: linear-gradient(135deg, #F6F8FF 0%, #FDF4F8 100%); }
+        .steps-section .section-head { text-align: center; margin-bottom: 48px; }
+        .steps-section .section-head h2 { font-family: var(--font-heading); font-size: 30px; font-weight: 700; color: var(--dark); margin-bottom: 8px; }
+        .steps-section .section-head p { font-size: 15px; color: var(--gray-500); }
+        .steps-grid { max-width: 1020px; margin: 0 auto; display: grid; grid-template-columns: repeat(5, 1fr); gap: 18px; position: relative; }
+        .steps-grid::before { content: ''; position: absolute; top: 22px; left: 9%; right: 9%; height: 2px; background: repeating-linear-gradient(90deg, #C7D2FE 0 6px, transparent 6px 12px); }
+        .step-item { background: var(--white); border-radius: var(--radius-lg); padding: 26px 18px; text-align: center; border: 1px solid var(--gray-200); position: relative; box-shadow: var(--shadow-sm); transition: var(--transition); }
+        .step-item:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--primary); }
+        .step-num { width: 44px; height: 44px; margin: 0 auto 14px; background: var(--gradient); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; box-shadow: var(--shadow-primary); }
+        .step-item h4 { font-size: 15px; font-weight: 600; color: var(--dark); margin-bottom: 6px; }
+        .step-item h4 i { color: var(--primary); margin-right: 6px; font-size: 13px; }
+        .step-item p { font-size: 13px; color: var(--gray-500); line-height: 1.55; }
+        @media (max-width: 900px) { .steps-grid { grid-template-columns: 1fr; gap: 14px; } .steps-grid::before { display: none; } .step-item { text-align: left; display: flex; gap: 14px; align-items: flex-start; } .step-num { margin: 0; flex-shrink: 0; } }
+        .cta-section { padding: 0 0 100px; }
+        .cta-banner { background: var(--gradient); border-radius: var(--radius-xl); padding: 56px; text-align: center; position: relative; overflow: hidden; }
+        .cta-banner h2 { font-family: var(--font-heading); font-size: 30px; margin-bottom: 12px; color: #fff; }
+        .cta-banner p { font-size: 16px; color: rgba(255,255,255,0.9); margin-bottom: 28px; max-width: 560px; margin-left: auto; margin-right: auto; }
+        .cta-banner .cta-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+        .cta-banner .btn { background: #fff; color: var(--primary); }
+        .cta-banner .btn-outline { background: transparent; border: 1px solid #fff; color: #fff; }
+        @media (max-width: 900px) { .pos-grid { grid-template-columns: 1fr 1fr; } }
+        @media (max-width: 768px) { .page-header { padding: 120px 0 50px; } .page-header h1 { font-size: 34px; } .pos-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <span class="logo-text">Heaven<span>Lease</span></span>
+            </a>
+            
+            <div class="nav-actions">
+                                <div class="user-menu" id="userMenu">
+                    <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu">
+                        <span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span>
+                        <span id="navUserName">Account</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="user-dropdown" id="profileDropdown">
+                        <a href="home" id="mainHomeLink"><i class="fas fa-home"></i> Main Home</a>
+                        <a href="edit-profile" id="myProfileLink"><i class="fas fa-user"></i> My Profile &amp; Settings</a>
+                        <a href="payment"><i class="fas fa-credit-card"></i> Access Pass</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="properties"><i class="fas fa-building"></i> Browse Properties</a>
+                        <a href="map"><i class="fas fa-map-location-dot"></i> Property Map</a>
+                        <a href="comfort-scores"><i class="fas fa-gauge-high"></i> Comfort Scores</a>
+                        <a href="saved-properties"><i class="fas fa-heart"></i> Saved Properties</a>
+                        <a href="list-property"><i class="fas fa-key"></i> List Your Property</a>
+                        <a href="tenant-screening"><i class="fas fa-user-check"></i> Tenant Screening</a>
+                        <a href="owner-resources"><i class="fas fa-toolbox"></i> Owner Resources</a>
+                        <a href="buy-sell"><i class="fas fa-tag"></i> Buy / Sell</a>
+                        <a href="possession"><i class="fas fa-key"></i> Possession &amp; Handover</a>
+                        <a href="lease-signing"><i class="fas fa-file-signature"></i> Leases &amp; Signing</a>
+                        <a href="tour-booking"><i class="fas fa-calendar-check"></i> Tour Bookings</a>
+                        <a href="messages"><i class="fas fa-comments"></i> Messages</a>
+                        <a href="notifications"><i class="fas fa-bell"></i> Notifications</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="how-it-works"><i class="fas fa-circle-question"></i> How It Works</a>
+                        <a href="about"><i class="fas fa-building"></i> About Us</a>
+                        <a href="blog"><i class="fas fa-newspaper"></i> Blog</a>
+<a href="comfort-scores"><i class="fas fa-chart-simple"></i> Type &amp; Voice Search</a>
+                                                <a href="contact"><i class="fas fa-envelope"></i> Contact &amp; Support</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="login" id="signInLink" class="hide-when-auth"><i class="fas fa-arrow-right-to-bracket"></i> Sign In</a>
+                        <a href="#" id="logoutLink" class="logout-link hide-when-guest"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+
+                
+            </div>
+        </div>
+    </nav>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>Possession &amp; <span class="gradient-text">Handover</span></h1>
+            <p>Understand how property possession works — from lease end and inspection to escrow release and taking the keys.</p>
+            <div class="breadcrumb">
+                <a href="/">Home</a>
+                <i class="fas fa-chevron-right"></i>
+                <span>Possession</span>
+            </div>
+        </div>
+    </section>
+    <section class="pos-section">
+        <div class="container">
+            <div class="pos-grid">
+                <div class="pos-card"><div class="pos-icon"><i class="fas fa-file-signature"></i></div><h3>Signed Agreement</h3><p>The lease or sale agreement is signed digitally. Key dates and responsibilities are recorded.</p></div>
+                <div class="pos-card"><div class="pos-icon"><i class="fas fa-clipboard-check"></i></div><h3>Inspection</h3><p>Property is inspected against the condition report. Any issues are logged before handover.</p></div>
+                <div class="pos-card"><div class="pos-icon"><i class="fas fa-key"></i></div><h3>Keys &amp; Possession</h3><p>The tenant or buyer receives the keys and officially takes possession from the handover date.</p></div>
+                <div class="pos-card"><div class="pos-icon"><i class="fas fa-indian-rupee-sign"></i></div><h3>Deposit / Escrow</h3><p>The security deposit or sale amount is held in escrow and released only after a clean handover.</p></div>
+                <div class="pos-card"><div class="pos-icon"><i class="fas fa-calendar-check"></i></div><h3>Track Timeline</h3><p>Follow every milestone from signed date to possession date in one place.</p></div>
+                <div class="pos-card"><div class="pos-icon"><i class="fas fa-shield-halved"></i></div><h3>Protected &amp; Verified</h3><p>Both parties are verified and every step is protected by our escrow policy.</p></div>
+            </div>
+        </div>
+    </section>
+    <section class="steps-section">
+        <div class="container">
+            <div class="section-head">
+                <h2>The Handover Process</h2>
+                <p>Five clear milestones — from signed agreement to taking the keys.</p>
+            </div>
+            <div class="steps-grid">
+                <div class="step-item"><div class="step-num">1</div><div><h4><i class="fas fa-file-signature"></i> Finalize the agreement</h4><p>Complete and sign the lease or sale agreement, confirming the intended possession date.</p></div></div>
+                <div class="step-item"><div class="step-num">2</div><div><h4><i class="fas fa-clipboard-check"></i> Conduct inspection</h4><p>Perform the final walkthrough and update the condition report together.</p></div></div>
+                <div class="step-item"><div class="step-num">3</div><div><h4><i class="fas fa-bolt"></i> Resolve utility dues</h4><p>Settle any pending bills and record meter readings on the handover date.</p></div></div>
+                <div class="step-item"><div class="step-num">4</div><div><h4><i class="fas fa-indian-rupee-sign"></i> Release escrow</h4><p>Once handover is confirmed, escrow releases the deposit or payment to the rightful party.</p></div></div>
+                <div class="step-item"><div class="step-num">5</div><div><h4><i class="fas fa-key"></i> Take possession</h4><p>Keys are handed over and possession begins as documented.</p></div></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-banner">
+                <h2>Manage Your Possession</h2>
+                <p>Start with a lease or rent collection to begin the handover process.</p>
+                <div class="cta-buttons">
+                    <a href="lease-signing" class="btn btn-lg"><i class="fas fa-file-signature"></i> Lease Signing</a>
+                    <a href="rent-collection" class="btn btn-lg btn-outline"><i class="fas fa-money-bill-transfer"></i> Rent Collection</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section" style="padding-top:0;">
+        <div class="container">
+            <div id="featurePanel"></div>
+        </div>
+    </section>
+
+    <script src="api.js?v=20260913a"></script>
+    <script src="script.js?v=20260913a"></script>
+    <script src="feature-panel.js?v=20260902a"></script>
+</body>
+</html>
+
+

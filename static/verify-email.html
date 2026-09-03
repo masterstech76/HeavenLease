@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Verify your email address on HeavenLease with the OTP sent to your inbox.">
+    <title>Verify Email — HeavenLease</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styles.css?v=20260909a">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(rgba(15,23,42,0.85), rgba(30,27,75,0.82)), url('bg-home.jpg') center/cover fixed no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: -200px;
+            right: -200px;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(79, 70, 229, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: 0;
+        }
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: -200px;
+            left: -200px;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: 0;
+        }
+        .auth-container { width: 100%; max-width: 440px; position: relative; z-index: 1; }
+        .back-home {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            margin-bottom: 20px;
+            transition: all 0.2s;
+        }
+        .back-home:hover { color: #fff; }
+        .auth-brand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+        .auth-brand .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #4F46E5, #10B981);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 22px;
+            box-shadow: 0 8px 24px rgba(79, 70, 229, 0.4);
+        }
+        .auth-brand .logo-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: #fff;
+        }
+        .auth-brand .logo-text span { color: #818CF8; }
+        .auth-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 36px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .auth-card h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 6px;
+            text-align: center;
+        }
+        .auth-card .subtitle {
+            font-size: 14px;
+            color: #64748b;
+            text-align: center;
+            margin-bottom: 28px;
+            line-height: 1.6;
+        }
+        .verify-icon { text-align: center; margin-bottom: 20px; }
+        .verify-icon i { font-size: 48px; color: #4F46E5; }
+        .email-display {
+            background: #f1f5f9;
+            border-radius: 10px;
+            padding: 12px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #334155;
+            text-align: center;
+            margin-bottom: 18px;
+        }
+        .otp-inputs {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 18px;
+        }
+        .otp-inputs input {
+            width: 46px;
+            height: 52px;
+            text-align: center;
+            font-size: 22px;
+            font-weight: 700;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            background: #f8fafc;
+            color: #0f172a;
+            font-family: 'Inter', sans-serif;
+        }
+        .otp-inputs input:focus {
+            outline: none;
+            border-color: #4F46E5;
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+        }
+        .btn-auth {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #4F46E5, #6366F1);
+            color: #fff;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+            box-shadow: 0 4px 16px rgba(79, 70, 229, 0.3);
+        }
+        .btn-auth:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(79, 70, 229, 0.4); }
+        .btn-auth:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+        .resend-link { text-align: center; font-size: 13px; color: #64748b; margin-top: 14px; }
+        .resend-link button {
+            background: none;
+            border: none;
+            color: #4F46E5;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+        }
+        .resend-link button:disabled { color: #94a3b8; cursor: not-allowed; }
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #fff;
+            color: #0f172a;
+            padding: 14px 24px;
+            border-radius: 10px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 9999;
+            opacity: 0;
+            transition: all 0.3s ease;
+            border-left: 4px solid #10B981;
+            max-width: 90vw;
+        }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+        .toast-error { border-left-color: #EF4444; }
+        .toast-success i { color: #10B981; }
+        .toast-error i { color: #EF4444; }
+        .success-icon { text-align: center; padding: 20px 0; }
+        .success-icon i { font-size: 64px; color: #10B981; }
+        .success-msg { text-align: center; font-size: 15px; color: #334155; margin-bottom: 24px; line-height: 1.6; }
+    </style>
+<script>
+        // Back-button auth guard — if a session already exists, never show this auth page.
+        (function () {
+            try {
+                if (localStorage.getItem('heavenlease_token') || sessionStorage.getItem('heavenlease_token')) {
+                    location.replace('home');
+                }
+            } catch (e) { /* storage unavailable — ignore */ }
+        })();
+    </script>
+</head>
+<body>
+    <div class="auth-container">
+        <a href="login" class="back-home">
+            <i class="fas fa-arrow-left"></i> Back to Sign In
+        </a>
+
+        <div class="auth-brand">
+            <div class="logo-icon"><i class="fas fa-home"></i></div>
+            <span class="logo-text">Heaven<span>Lease</span></span>
+        </div>
+
+        <div class="auth-card">
+            <div class="verify-icon"><i class="fas fa-envelope"></i></div>
+            <h1>Verify Your Email</h1>
+            <p class="subtitle">We've sent a 6-digit verification code to your email address. Enter it below to verify your account.</p>
+
+            <div class="email-display" id="emailDisplay">you@example.com</div>
+
+            <div class="otp-inputs" id="otpInputs">
+                <input type="text" maxlength="1" class="otp-digit" oninput="handleOtpInput(this)">
+                <input type="text" maxlength="1" class="otp-digit" oninput="handleOtpInput(this)">
+                <input type="text" maxlength="1" class="otp-digit" oninput="handleOtpInput(this)">
+                <input type="text" maxlength="1" class="otp-digit" oninput="handleOtpInput(this)">
+                <input type="text" maxlength="1" class="otp-digit" oninput="handleOtpInput(this)">
+                <input type="text" maxlength="1" class="otp-digit" oninput="handleOtpInput(this)">
+            </div>
+
+            <button class="btn-auth" id="verifyBtn" onclick="verifyEmail()">
+                <i class="fas fa-check-circle"></i> Verify Email
+            </button>
+
+            <div class="resend-link">
+                Didn't receive it? <button type="button" id="resendBtn" onclick="resendCode()">Resend</button>
+            </div>
+
+            <div id="successSection" style="display: none; margin-top: 20px;">
+                <div class="success-icon"><i class="fas fa-check-circle"></i></div>
+                <p class="success-msg">Email verified successfully! Redirecting to your dashboard...</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="api.js?v=20260913a"></script>
+    <script>
+        // Read email + redirect from URL params
+        const params = new URLSearchParams(window.location.search);
+        const email = params.get('email');
+        const redirect = params.get('redirect');
+        if (email) document.getElementById('emailDisplay').textContent = email;
+
+        function handleOtpInput(el) {
+            if (el.value.length === 1) {
+                const next = el.nextElementSibling;
+                if (next) next.focus();
+            }
+        }
+        window.handleOtpInput = handleOtpInput;
+
+        function getOtpValue() {
+            const inputs = document.querySelectorAll('#otpInputs .otp-digit');
+            return Array.from(inputs).map(i => i.value).join('');
+        }
+
+        function startCountdown(btnId) {
+            const btn = document.getElementById(btnId);
+            let seconds = 30;
+            btn.disabled = true;
+            btn.textContent = 'Resend in ' + seconds + 's';
+            const interval = setInterval(() => {
+                seconds--;
+                if (seconds <= 0) {
+                    clearInterval(interval);
+                    btn.disabled = false;
+                    btn.textContent = 'Resend';
+                } else {
+                    btn.textContent = 'Resend in ' + seconds + 's';
+                }
+            }, 1000);
+        }
+
+        // Verify email
+        window.verifyEmail = async function() {
+            const code = getOtpValue();
+            if (code.length !== 6) {
+                showToast('Please enter the 6-digit OTP.', 'error');
+                return;
+            }
+            if (!email) {
+                showToast('Email is required. Please go back and try again.', 'error');
+                return;
+            }
+
+            const btn = document.getElementById('verifyBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying...';
+
+            try {
+                await api.verifyEmail(email, code);
+
+                document.getElementById('successSection').style.display = 'block';
+                document.querySelector('.otp-inputs').style.display = 'none';
+                document.getElementById('verifyBtn').style.display = 'none';
+                document.querySelector('.resend-link').style.display = 'none';
+                showToast('Email verified successfully! 🎉', 'success');
+
+                setTimeout(() => {
+                    if (redirect) {
+                        window.location.replace(redirect);
+                    } else {
+                        window.location.replace('home');
+                    }
+                }, 1500);
+            } catch (error) {
+                showToast(error.message || 'Verification failed. Please try again.', 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-check-circle"></i> Verify Email';
+            }
+        };
+
+        // Resend code
+        window.resendCode = async function() {
+            if (!email) {
+                showToast('Email is required.', 'error');
+                return;
+            }
+            try {
+                await api.sendVerification(email);
+                showToast('Verification code resent to your email.', 'success');
+                startCountdown('resendBtn');
+            } catch (error) {
+                showToast(error.message || 'Failed to resend code.', 'error');
+            }
+        };
+
+        // Start countdown on load
+        startCountdown('resendBtn');
+    </script>
+</body>
+</html>
+

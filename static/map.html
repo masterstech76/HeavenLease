@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Live property map on HeavenLease. Owners add homes for rent, they appear on the map instantly. Click any location to see details.">
+    <title>Property Map — HeavenLease</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <link rel="stylesheet" href="styles.css?v=20260909a">
+    <style>
+        .page-header { background: var(--gradient-soft); padding: 140px 0 60px; text-align: center; position: relative; overflow: hidden; }
+        .page-header h1 { font-family: var(--font-heading); font-size: 48px; font-weight: 700; color: var(--dark); margin-bottom: 16px; }
+        .page-header p { font-size: 18px; color: var(--gray-500); max-width: 600px; margin: 0 auto; }
+        .page-header .breadcrumb { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 16px; font-size: 14px; color: var(--gray-500); }
+        .page-header .breadcrumb a { color: var(--primary); }
+        .page-header .breadcrumb i { font-size: 12px; color: var(--gray-400); }
+        .map-section { padding: 40px 0 80px; background: var(--gray-50); }
+        .map-layout { display: grid; grid-template-columns: 1fr 380px; gap: 32px; }
+        .map-container { height: 600px; border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--gray-200); box-shadow: var(--shadow-lg); position: relative; z-index: 1; }
+        #propertyMap { width: 100%; height: 100%; }
+        .map-sidebar { background: var(--white); border-radius: var(--radius-lg); padding: 24px; border: 1px solid var(--gray-200); height: fit-content; max-height: 600px; overflow-y: auto; }
+        .map-sidebar h3 { font-size: 18px; font-weight: 600; color: var(--dark); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+        .map-sidebar h3 i { color: var(--primary); }
+        .map-sidebar .btn-add-property { width: 100%; margin-bottom: 16px; }
+        .property-list { max-height: 400px; overflow-y: auto; }
+        .map-property-item { padding: 16px; border: 1px solid var(--gray-200); border-radius: var(--radius-md); margin-bottom: 12px; cursor: pointer; transition: var(--transition); }
+        .map-property-item:hover { border-color: var(--primary); box-shadow: var(--shadow-md); }
+        .map-property-item.active { border-color: var(--primary); background: var(--primary-light); }
+        .map-property-item h4 { font-size: 15px; font-weight: 600; color: var(--dark); margin-bottom: 4px; }
+        .map-property-item .loc { font-size: 13px; color: var(--gray-500); margin-bottom: 8px; }
+        .map-property-item .price { font-size: 16px; font-weight: 700; color: var(--primary); }
+        .map-property-item .owner { font-size: 12px; color: var(--gray-400); margin-top: 4px; }
+        .map-property-item .owner i { color: var(--secondary); }
+        .popup-content { padding: 8px; min-width: 200px; }
+        .popup-content h4 { font-size: 15px; font-weight: 600; color: var(--dark); margin-bottom: 4px; }
+        .popup-content .loc { font-size: 13px; color: var(--gray-500); margin-bottom: 8px; }
+        .popup-content .price { font-size: 18px; font-weight: 700; color: var(--primary); margin-bottom: 8px; }
+        .popup-content .owner-info { font-size: 13px; color: var(--gray-600); margin-bottom: 8px; padding: 8px; background: var(--gray-50); border-radius: var(--radius-sm); }
+        .popup-content .owner-info i { color: var(--secondary); }
+        .popup-content .btn { width: 100%; font-size: 13px; padding: 8px 16px; }
+        .custom-marker { background: var(--primary); border: 3px solid var(--white); border-radius: 50%; width: 24px; height: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.3); cursor: pointer; }
+        .custom-marker:hover { background: var(--secondary); }
+        .custom-marker.new-marker { background: var(--secondary); }
+        .custom-marker.new-marker:hover { background: var(--primary); }
+        /* Add property form */
+        .add-property-form { display: none; background: var(--white); border-radius: var(--radius-lg); padding: 24px; border: 1px solid var(--gray-200); margin-bottom: 16px; }
+        .add-property-form.show { display: block; }
+        .add-property-form h4 { font-size: 16px; font-weight: 600; color: var(--dark); margin-bottom: 16px; }
+        .form-group { margin-bottom: 12px; }
+        .form-group label { display: block; font-size: 12px; font-weight: 600; color: var(--gray-600); margin-bottom: 4px; }
+        .form-group input { width: 100%; padding: 10px 12px; border: 1px solid var(--gray-200); border-radius: var(--radius-md); background: var(--gray-50); font-size: 13px; transition: var(--transition); }
+        .form-group input:focus { outline: none; border-color: var(--primary); background: var(--white); box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .form-actions { display: flex; gap: 10px; margin-top: 16px; }
+        .form-actions .btn { flex: 1; font-size: 13px; padding: 10px; }
+        .btn-cancel { background: var(--gray-100); color: var(--gray-600); }
+        .btn-cancel:hover { background: var(--gray-200); }
+        .empty-state { text-align: center; padding: 30px 16px; color: var(--gray-400); }
+        .empty-state i { font-size: 40px; margin-bottom: 12px; display: block; }
+        @media (max-width: 1024px) { .map-layout { grid-template-columns: 1fr; } .map-container { height: 450px; } }
+        @media (max-width: 768px) { .page-header { padding: 120px 0 40px; } .page-header h1 { font-size: 36px; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <div class="logo-icon"><i class="fas fa-home"></i></div>
+<span class="logo-text">Heaven<span>Lease</span></span>
+            </a>
+            
+            <div class="nav-actions">
+                                <div class="user-menu" id="userMenu">
+                    <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu">
+                        <span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span>
+                        <span id="navUserName">Account</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="user-dropdown" id="profileDropdown">
+                        <a href="home" id="mainHomeLink"><i class="fas fa-home"></i> Main Home</a>
+                        <a href="edit-profile" id="myProfileLink"><i class="fas fa-user"></i> My Profile &amp; Settings</a>
+                        <a href="payment"><i class="fas fa-credit-card"></i> Access Pass</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="properties"><i class="fas fa-building"></i> Browse Properties</a>
+                        <a href="map"><i class="fas fa-map-location-dot"></i> Property Map</a>
+                        <a href="comfort-scores"><i class="fas fa-gauge-high"></i> Comfort Scores</a>
+                        <a href="saved-properties"><i class="fas fa-heart"></i> Saved Properties</a>
+                        <a href="list-property"><i class="fas fa-key"></i> List Your Property</a>
+                        <a href="tenant-screening"><i class="fas fa-user-check"></i> Tenant Screening</a>
+                        <a href="owner-resources"><i class="fas fa-toolbox"></i> Owner Resources</a>
+                        <a href="buy-sell"><i class="fas fa-tag"></i> Buy / Sell</a>
+                        <a href="possession"><i class="fas fa-key"></i> Possession &amp; Handover</a>
+                        <a href="lease-signing"><i class="fas fa-file-signature"></i> Leases &amp; Signing</a>
+                        <a href="tour-booking"><i class="fas fa-calendar-check"></i> Tour Bookings</a>
+                        <a href="messages"><i class="fas fa-comments"></i> Messages</a>
+                        <a href="notifications"><i class="fas fa-bell"></i> Notifications</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="how-it-works"><i class="fas fa-circle-question"></i> How It Works</a>
+                        <a href="about"><i class="fas fa-building"></i> About Us</a>
+                        <a href="blog"><i class="fas fa-newspaper"></i> Blog</a>
+<a href="comfort-scores"><i class="fas fa-chart-simple"></i> Type &amp; Voice Search</a>
+                                                <a href="contact"><i class="fas fa-envelope"></i> Contact &amp; Support</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="login" id="signInLink" class="hide-when-auth"><i class="fas fa-arrow-right-to-bracket"></i> Sign In</a>
+                        <a href="#" id="logoutLink" class="logout-link hide-when-guest"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+</div>
+        </div>
+    </nav>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>Property <span class="gradient-text">Map</span></h1>
+            <p>Live map of available homes for rent. Owners can add their property and it appears instantly.</p>
+            <div class="breadcrumb">
+                <a href="/">Home</a>
+                <i class="fas fa-chevron-right"></i>
+                <span>Map View</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="map-section">
+        <div class="container">
+            <div class="map-layout">
+                <div class="map-container">
+                    <div id="propertyMap"></div>
+                </div>
+                <div class="map-sidebar">
+                    <h3><i class="fas fa-list"></i> Available Properties <span id="count">(0)</span></h3>
+                    <button type="button" class="btn btn-primary btn-add-property">
+                        <i class="fas fa-plus"></i> Add Your Property for Rent
+                    </button>
+                    
+                    <!-- Add Property Form -->
+                    <div class="add-property-form" id="addPropertyForm">
+                        <h4><i class="fas fa-home"></i> List Your Home</h4>
+                        <div class="form-group">
+                            <label>Property Name *</label>
+                            <input type="text" id="propTitle" placeholder="e.g. 2 BHK in Indiranagar">
+                        </div>
+                        <div class="form-group">
+                            <label>City *</label>
+                            <input type="text" id="propCity" placeholder="e.g. Bengaluru">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Rent (₹/month) *</label>
+                                <input type="number" id="propRent" placeholder="e.g. 25000">
+                            </div>
+                            <div class="form-group">
+                                <label>BHK *</label>
+                                <input type="number" id="propBhk" placeholder="e.g. 2">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Full Address *</label>
+                            <input type="text" id="propAddress" placeholder="Street, locality, city">
+                        </div>
+                        <div class="form-group">
+                            <label>Your Name *</label>
+                            <input type="text" id="ownerName" placeholder="Your full name">
+                        </div>
+                        <div class="form-group">
+                            <label>Your Phone *</label>
+                            <input type="tel" id="ownerPhone" placeholder="+91 XXXXX XXXXX">
+                        </div>
+                        <div class="form-group">
+                            <label>Your Email *</label>
+                            <input type="email" id="ownerEmail" placeholder="you@example.com">
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-primary" id="addToMapBtn">
+                                <i class="fas fa-map-pin"></i> Add to Map
+                            </button>
+                            <button type="button" class="btn btn-cancel" id="cancelAddBtn">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="property-list" id="propertyList">
+                        <!-- Property list injected by JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid" style="grid-template-columns: 1fr; text-align: center;">
+                <div class="footer-brand">
+                    <a href="/" class="logo">
+                        <div class="logo-icon"><i class="fas fa-home"></i></div>
+                        <span class="logo-text">Heaven<span>Lease</span></span>
+                    </a>
+                    <p style="margin: 10px auto; max-width: 300px;">Simple steps to your perfect stay. Direct owner rentals with zero broker fees and comfort-first search.</p></div>
+            </div>
+            <div class="footer-bottom" style="justify-content: center;">
+                <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
+            </div>
+        </div>
+    </footer>
+
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="api.js?v=20260913a"></script>
+    <script src="script.js?v=20260913a"></script>
+    <script>
+        (function() {
+        const navbar = document.getElementById('navbar');
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+        const backToTop = document.getElementById('backToTop');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) navbar.classList.add('scrolled');
+            else navbar.classList.remove('scrolled');
+            if (window.scrollY > 500) backToTop.classList.add('visible');
+            else backToTop.classList.remove('visible');
+        });
+
+        if (hamburger) hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        if (hamburger && navLinks) {
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburger.classList.remove('active');
+                    navLinks.classList.remove('active');
+                });
+            });
+        }
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Live property data — exclusively from the real backend (in-memory cache from fetchProperties).
+        let mapProperties = [];
+        let nextId = 1;
+
+        // REAL: load live properties from the backend (single source of truth).
+        fetchApiProperties(0, 200).then(list => {
+            if (list && list.length > 0) {
+                mapProperties = list;
+                nextId = list.length + 1;
+                renderAllProperties();
+            }
+        }).catch(() => {});
+
+        // Initialize map
+        const map = L.map('propertyMap').setView([20.5937, 78.9629], 5);
+
+        // English-label basemap (CARTO Voyager) so place names render in English
+        // instead of mixed local languages. Free tiles; no API key required.
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+            subdomains: 'abcd',
+            maxZoom: 19,
+            detectRetina: true
+        }).addTo(map);
+
+        let markers = [];
+
+        // Custom marker icon
+        const customIcon = L.divIcon({
+            className: 'custom-marker',
+            html: '<i class="fas fa-home" style="color: white; font-size: 12px; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;"></i>',
+            iconSize: [24, 24],
+            iconAnchor: [12, 12]
+        });
+
+        // Render all properties
+        function renderAllProperties() {
+            // Clear existing markers
+            markers.forEach(m => m.marker.remove());
+            markers = [];
+
+            // Clear sidebar
+            const propertyList = document.getElementById('propertyList');
+            document.getElementById('count').textContent = '(' + mapProperties.length + ')';
+            
+            if (mapProperties.length === 0) {
+                propertyList.innerHTML = '<div class="empty-state"><i class="fas fa-home"></i><p>No properties yet.<br>Be the first to add yours!</p></div>';
+                return;
+            }
+
+            // Add markers for each property
+            mapProperties.forEach(property => {
+                const marker = L.marker([property.lat, property.lng], { icon: customIcon }).addTo(map);
+                const popupContent = `
+                    <div class="popup-content">
+                        <h4>${property.title}</h4>
+                        <div class="loc"><i class="fas fa-location-dot"></i> ${property.location || property.address}</div>
+                        <div class="price">₹${Number(property.price).toLocaleString('en-IN')}/month</div>
+                        <div class="owner-info">
+                            <strong><i class="fas fa-user-check"></i> Owner:</strong> ${property.owner || 'Verified Owner'}
+                            ${property.contactLocked
+                                ? '<br><span style="color:#B45309;"><i class="fas fa-lock"></i> Contact details locked</span><br><a href="payment" class="btn btn-primary" style="margin-top:6px;width:100%;"><i class="fas fa-unlock"></i> Unlock Contact</a>'
+                                : `<br><i class="fas fa-phone"></i> ${property.phone || '—'}
+                                   <br><i class="fas fa-envelope"></i> ${property.email || '—'}`}
+                        </div>
+                        <a href="property-detail?id=${property.id}" class="btn btn-primary" style="margin-top: 8px;">
+                            <i class="fas fa-eye"></i> View Details
+                        </a>
+                    </div>
+                `;
+                marker.bindPopup(popupContent);
+                marker.on('click', () => {
+                    document.querySelectorAll('.map-property-item').forEach(item => item.classList.remove('active'));
+                    const listItem = document.querySelector(`.map-property-item[data-id="${property.id}"]`);
+                    if (listItem) listItem.classList.add('active');
+                });
+                markers.push({ marker, property });
+            });
+
+            // Render sidebar list
+            propertyList.innerHTML = mapProperties.map(property => `
+                <div class="map-property-item" data-id="${property.id}" onclick="focusProperty(${property.id})">
+                    <h4>${property.title}</h4>
+                    <div class="loc"><i class="fas fa-location-dot"></i> ${property.location || property.address}</div>
+                    <div class="price">₹${Number(property.price).toLocaleString('en-IN')}/month</div>
+                    <div class="owner"><i class="fas fa-user-check"></i> ${property.owner}</div>
+                </div>
+            `).join('');
+        }
+
+        // Focus property
+        window.focusProperty = function(id) {
+            const prop = mapProperties.find(p => p.id === id);
+            if (prop) {
+                map.setView([prop.lat, prop.lng], 14);
+                const marker = markers.find(m => m.property.id === id);
+                if (marker) marker.marker.openPopup();
+                document.querySelectorAll('.map-property-item').forEach(item => item.classList.remove('active'));
+                document.querySelector(`.map-property-item[data-id="${id}"]`).classList.add('active');
+            }
+        };
+
+        // Toggle add property form
+        const addForm = document.getElementById('addPropertyForm');
+        const cancelBtn = document.getElementById('cancelAddBtn');
+        const addToMapBtn = document.getElementById('addToMapBtn');
+
+        // Handle the toggle button
+        document.querySelector('.btn-add-property').addEventListener('click', () => {
+            addForm.classList.toggle('show');
+            const btn = document.querySelector('.btn-add-property');
+            if (addForm.classList.contains('show')) {
+                btn.innerHTML = '<i class="fas fa-times"></i> Close Form';
+            } else {
+                btn.innerHTML = '<i class="fas fa-plus"></i> Add Your Property for Rent';
+            }
+        });
+
+        if (cancelBtn) {
+            cancelBtn.addEventListener('click', () => {
+                addForm.classList.remove('show');
+                const btn = document.querySelector('.btn-add-property');
+                btn.innerHTML = '<i class="fas fa-plus"></i> Add Your Property for Rent';
+            });
+        }
+
+        // Add property to map
+        function addPropertyToMap() {
+            const title = document.getElementById('propTitle').value.trim();
+            const city = document.getElementById('propCity').value.trim();
+            const rent = document.getElementById('propRent').value;
+            const bhk = document.getElementById('propBhk').value;
+            const address = document.getElementById('propAddress').value.trim();
+            const owner = document.getElementById('ownerName').value.trim();
+            const phone = document.getElementById('ownerPhone').value.trim();
+            const email = document.getElementById('ownerEmail').value.trim();
+
+            if (!title || !city || !rent || !address || !owner || !phone || !email) {
+                showToast('Please fill in all required fields.', 'error');
+                return;
+            }
+
+            if (!api.isAuthenticated()) {
+                showToast('Please sign in to list a property.', 'error');
+                setTimeout(() => { window.location.href = 'login?redirect=map'; }, 1200);
+                return;
+            }
+
+            // Get coordinates
+            const coords = geocodeCity(city);
+
+            // REAL: persist the listing to the backend. The map only shows the
+            // property after the server confirms it — no localStorage copies.
+            const payload = {
+                title: title,
+                address: address,
+                city: city,
+                rentAmount: Number(rent) || 0,
+                deposit: 0,
+                bhk: Number(bhk) || 1,
+                propertyType: 'apartment',
+                petFriendly: false,
+                furnished: false,
+                quietness: 75,
+                sunlight: 80,
+                commute: 70,
+                lat: coords.lat,
+                lng: coords.lng,
+                ownerName: owner,
+                ownerPhone: phone,
+                ownerEmail: email,
+                icon: 'fa-building',
+                badge: 'Verified Owner',
+                status: 'active'
+            };
+
+            const btn = document.querySelector('.btn-add-property');
+            const original = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+
+            api.createProperty(payload)
+                .then((saved) => {
+                    const created = Object.assign({}, payload, { id: saved && saved.id ? saved.id : Date.now() });
+                    mapProperties.unshift(created);
+                    renderAllProperties();
+                    map.setView([coords.lat, coords.lng], 13);
+                    const newMarker = markers.find(m => m.property.id === created.id);
+                    if (newMarker) newMarker.marker.openPopup();
+
+                    document.getElementById('propTitle').value = '';
+                    document.getElementById('propCity').value = '';
+                    document.getElementById('propRent').value = '';
+                    document.getElementById('propBhk').value = '';
+                    document.getElementById('propAddress').value = '';
+                    document.getElementById('ownerName').value = '';
+                    document.getElementById('ownerPhone').value = '';
+                    document.getElementById('ownerEmail').value = '';
+                    addForm.classList.remove('show');
+                    btn.innerHTML = original;
+                    btn.disabled = false;
+                    showToast('Your property has been listed! It now appears on the map.', 'success');
+                })
+                .catch((err) => {
+                    btn.innerHTML = original;
+                    btn.disabled = false;
+                    showToast((err && err.message) || 'Could not list your property. Please try again.', 'error');
+                });
+        }
+
+        if (addToMapBtn) {
+            addToMapBtn.addEventListener('click', addPropertyToMap);
+        }
+
+        // Geocode city to coordinates
+        function geocodeCity(cityName) {
+            const cityCoords = {
+                'bengaluru': { lat: 12.9716, lng: 77.5946 },
+                'hyderabad': { lat: 17.3850, lng: 78.4867 },
+                'pune': { lat: 18.5204, lng: 73.8567 },
+                'mumbai': { lat: 19.0760, lng: 72.8777 },
+                'delhi': { lat: 28.6139, lng: 77.2090 },
+                'kolkata': { lat: 22.5726, lng: 88.3639 },
+                'chennai': { lat: 13.0827, lng: 80.2707 },
+                'goa': { lat: 15.2993, lng: 74.1240 },
+                'noida': { lat: 28.5355, lng: 77.3910 },
+                'gurgaon': { lat: 28.4595, lng: 77.0266 },
+                'jaipur': { lat: 26.9124, lng: 75.7873 },
+                'lucknow': { lat: 26.8467, lng: 80.9462 },
+                'ahmedabad': { lat: 23.0225, lng: 72.5714 }
+            };
+            const found = cityCoords[cityName.toLowerCase().trim()];
+            return found || { lat: 20.5937 + (Math.random() * 2 - 1), lng: 78.9629 + (Math.random() * 4 - 2) };
+        }
+
+        // Initialize
+        renderAllProperties();
+        })();
+    </script>
+</body>
+</html>
+

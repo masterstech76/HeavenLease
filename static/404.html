@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Page not found — HeavenLease">
+    <title>404 — Page Not Found | HeavenLease</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(rgba(15,23,42,0.85), rgba(30,27,75,0.82)), url('bg-home.jpg') center/cover fixed no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: -200px;
+            right: -200px;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(79, 70, 229, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: 0;
+        }
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: -200px;
+            left: -200px;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: 0;
+        }
+        .error-container { text-align: center; position: relative; z-index: 1; color: #fff; }
+        .error-brand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 40px;
+        }
+        .error-brand .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #4F46E5, #10B981);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 22px;
+            box-shadow: 0 8px 24px rgba(79, 70, 229, 0.4);
+        }
+        .error-brand .logo-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 700;
+        }
+        .error-brand .logo-text span { color: #818CF8; }
+        .error-code { font-size: 120px; font-weight: 800; font-family: 'Playfair Display', serif; line-height: 1; background: linear-gradient(135deg, #818CF8, #10B981); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 16px; }
+        .error-title { font-size: 28px; font-weight: 700; margin-bottom: 12px; }
+        .error-desc { font-size: 16px; color: rgba(255, 255, 255, 0.7); max-width: 400px; margin: 0 auto 32px; line-height: 1.6; }
+        .error-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+        .btn-primary-error {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #4F46E5, #6366F1);
+            color: #fff;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 16px rgba(79, 70, 229, 0.3);
+        }
+        .btn-primary-error:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(79, 70, 229, 0.4); }
+        .btn-outline-error {
+            padding: 14px 28px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            background: transparent;
+            color: #fff;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-outline-error:hover { border-color: #fff; background: rgba(255, 255, 255, 0.1); }
+        .error-footer { margin-top: 60px; font-size: 12px; color: rgba(255, 255, 255, 0.4); }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <div class="error-brand">
+            <div class="logo-icon"><i class="fas fa-home"></i></div>
+            <span class="logo-text">Heaven<span>Lease</span></span>
+        </div>
+
+        <div class="error-code">404</div>
+        <h1 class="error-title">Page Not Found</h1>
+        <p class="error-desc">The page you're looking for doesn't exist or has been moved. Let's get you back home.</p>
+
+        <div class="error-actions">
+            <a href="/" class="btn-primary-error">
+                <i class="fas fa-home"></i> Back Home
+            </a>
+            <a href="properties" class="btn-outline-error">
+                <i class="fas fa-search"></i> Search Properties
+            </a>
+            <a href="contact" class="btn-outline-error">
+                <i class="fas fa-headset"></i> Contact Support
+            </a>
+        </div>
+
+        <p class="error-footer">&copy; 2026 HeavenLease. All rights reserved.</p>
+    </div>
+</body>
+</html>

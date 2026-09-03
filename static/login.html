@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sign in to HeavenLease. Login with email, phone, OTP, or Google.">
+    <title>Sign In — HeavenLease</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styles.css?v=20260909a">
+    <style>
+        :root {
+            --auth-bg: #0f172a;
+            --auth-card-bg: #ffffff;
+            --auth-primary: #4F46E5;
+            --auth-accent: #10B981;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(rgba(15,23,42,0.85), rgba(30,27,75,0.82)), url('bg-home.jpg') center/cover fixed no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Background decorations */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -200px;
+            right: -200px;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(79, 70, 229, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: -200px;
+            left: -200px;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        .auth-wrapper {
+            width: 100%;
+            max-width: 440px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Brand */
+        .auth-brand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 28px;
+            text-decoration: none;
+        }
+
+        .auth-brand .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #4F46E5, #10B981);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 22px;
+            box-shadow: 0 8px 24px rgba(79, 70, 229, 0.4);
+        }
+
+        .auth-brand .logo-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .auth-brand .logo-text span { color: #818CF8; }
+
+        /* Card */
+        .auth-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 36px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .auth-card h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 6px;
+            text-align: center;
+        }
+
+        .auth-card .subtitle {
+            font-size: 14px;
+            color: #64748b;
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        /* Tabs */
+        .auth-tabs {
+            display: flex;
+            gap: 6px;
+            background: #f1f5f9;
+            border-radius: 12px;
+            padding: 4px;
+            margin-bottom: 24px;
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 10px 8px;
+            border: none;
+            background: transparent;
+            border-radius: 9px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #64748b;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .auth-tab:hover { color: #4F46E5; }
+
+        .auth-tab.active {
+            background: #fff;
+            color: #4F46E5;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .tab-pane { display: none; }
+        .tab-pane.active { display: block; }
+
+        /* Form */
+        .form-group { margin-bottom: 18px; }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 6px;
+        }
+
+        .input-wrap {
+            position: relative;
+        }
+
+        .input-wrap > i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            font-size: 15px;
+        }
+
+        .input-wrap input {
+            width: 100%;
+            padding: 12px 40px 12px 42px;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            background: #f8fafc;
+            font-size: 14px;
+            color: #0f172a;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .input-wrap input:focus {
+            outline: none;
+            border-color: #4F46E5;
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+        }
+
+        .input-wrap .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #94a3b8;
+            cursor: pointer;
+            font-size: 15px;
+            padding: 4px;
+        }
+
+        .input-wrap .toggle-password:hover { color: #4F46E5; }
+
+        .form-row-between {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 18px;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: #64748b;
+            cursor: pointer;
+        }
+
+        .checkbox-label input { accent-color: #4F46E5; width: 15px; height: 15px; }
+
+        .forgot-link { font-size: 13px; color: #4F46E5; font-weight: 500; text-decoration: none; }
+        .forgot-link:hover { text-decoration: underline; }
+
+        /* Buttons */
+        .btn-auth {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #4F46E5, #6366F1);
+            color: #fff;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+            box-shadow: 0 4px 16px rgba(79, 70, 229, 0.3);
+        }
+
+        .btn-auth:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(79, 70, 229, 0.4); }
+        .btn-auth:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+        .btn-otp {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            background: #f8fafc;
+            color: #4F46E5;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+            margin-bottom: 18px;
+        }
+
+        .btn-otp:hover { border-color: #4F46E5; background: #eef2ff; }
+        .btn-otp:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        /* reCAPTCHA row — hidden by default; api.js reveals it only after the
+           REAL v2 checkbox has rendered (prevents an empty gap on the form). */
+        .recaptcha-row { margin: 4px 0 2px; display: none; }
+        .auth-hint {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 8px 0 12px;
+            padding: 10px 14px;
+            border-radius: 10px;
+            background: #fef3c7;
+            border: 1px solid #fcd34d;
+            color: #92400e;
+            font-size: 12.5px;
+            line-height: 1.4;
+        }
+        .auth-hint i { color: #b45309; flex-shrink: 0; }
+
+        /* Divider */
+        .auth-divider {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin: 24px 0;
+        }
+
+        .auth-divider::before,
+        .auth-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #e2e8f0;
+        }
+
+        .auth-divider span { font-size: 12px; color: #94a3b8; }
+
+        /* Social */
+        .social-btns { display: flex; gap: 10px; }
+
+        .social-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            background: #fff;
+            font-size: 14px;
+            font-weight: 500;
+            color: #334155;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .social-btn:hover { background: #f8fafc; border-color: #cbd5e1; }
+        .social-btn .fa-google { color: #EA4335; font-size: 17px; }
+        .social-btn .fa-mobile-screen { color: #10B981; font-size: 17px; }
+
+        /* Switch */
+        .auth-switch {
+            text-align: center;
+            font-size: 14px;
+            color: #64748b;
+            margin-top: 20px;
+        }
+
+        .auth-switch a { color: #4F46E5; font-weight: 600; text-decoration: none; }
+        .auth-switch a:hover { text-decoration: underline; }
+
+        /* Back home */
+        .back-home {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            margin-bottom: 20px;
+            transition: all 0.2s;
+        }
+
+        .back-home:hover { color: #fff; }
+
+        /* OTP Input */
+        .otp-inputs {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 18px;
+        }
+
+        .otp-inputs input {
+            width: 46px;
+            height: 52px;
+            text-align: center;
+            font-size: 22px;
+            font-weight: 700;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            background: #f8fafc;
+            color: #0f172a;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .otp-inputs input:focus {
+            outline: none;
+            border-color: #4F46E5;
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+        }
+
+        .otp-info {
+            text-align: center;
+            font-size: 13px;
+            color: #64748b;
+            margin-bottom: 18px;
+            line-height: 1.6;
+        }
+
+        .otp-info strong { color: #4F46E5; }
+
+        .resend-link {
+            text-align: center;
+            font-size: 13px;
+            color: #64748b;
+            margin-top: 14px;
+        }
+
+        .resend-link button {
+            background: none;
+            border: none;
+            color: #4F46E5;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .resend-link button:disabled { color: #94a3b8; cursor: not-allowed; }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #fff;
+            color: #0f172a;
+            padding: 14px 24px;
+            border-radius: 10px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 9999;
+            opacity: 0;
+            transition: all 0.3s ease;
+            border-left: 4px solid #10B981;
+            max-width: 90vw;
+        }
+
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+        .toast-error { border-left-color: #EF4444; }
+        .toast-success i { color: #10B981; }
+        .toast-error i { color: #EF4444; }
+
+        @media (max-width: 480px) {
+            .auth-card { padding: 24px; }
+            .social-btns { flex-direction: column; }
+        }
+    </style>
+<script>
+        // Back-button auth guard — if a session already exists, never show this auth page.
+        (function () {
+            try {
+                if (localStorage.getItem('heavenlease_token') || sessionStorage.getItem('heavenlease_token')) {
+                    location.replace('home');
+                }
+            } catch (e) { /* storage unavailable — ignore */ }
+        })();
+    </script>
+</head>
+<body>
+    <div class="auth-wrapper">
+        <a href="/" class="back-home">
+            <i class="fas fa-arrow-left"></i> Back to Home
+        </a>
+
+        <div class="auth-brand">
+            <div class="logo-icon"><i class="fas fa-home"></i></div>
+            <span class="logo-text">Heaven<span>Lease</span></span>
+        </div>
+
+        <div class="auth-card">
+            <h1>Welcome Back</h1>
+            <p class="subtitle">Sign in to your HeavenLease account</p>
+
+            <!-- Tabs -->
+            <div class="auth-tabs">
+                <button class="auth-tab active" data-tab="password">Password</button>
+                <button class="auth-tab" data-tab="email-otp">Email OTP</button>
+                <button class="auth-tab" data-tab="phone-otp">Phone OTP</button>
+            </div>
+
+            <!-- Password Login -->
+            <div class="tab-pane active" id="tab-password">
+                <form id="passwordLoginForm">
+                    <div class="form-group">
+                        <label for="loginEmail">Email Address</label>
+                        <div class="input-wrap">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="loginEmail" name="loginEmail" placeholder="you@example.com" autocomplete="email" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <div class="input-wrap">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="loginPassword" name="loginPassword" placeholder="Enter your password" autocomplete="current-password" required>
+                            <button type="button" class="toggle-password" onclick="togglePassword('loginPassword', this)">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-row-between">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="rememberMe">
+                            <span>Remember me</span>
+                        </label>
+                        <a href="forgot-password" class="forgot-link">Forgot Password?</a>
+                    </div>
+
+                    <!-- reCAPTCHA v2 checkbox placeholder.
+                         Hidden by default; revealed by api.js ONLY when RECAPTCHA_VERSION=v2
+                         and the real checkbox has rendered — so there is never an empty gap. -->
+                    <div class="form-group recaptcha-row" style="display:none;">
+                        <div data-recaptcha-v2 style="transform: scale(0.9); transform-origin: 0 0;"></div>
+                    </div>
+
+                    <button type="submit" class="btn-auth" id="passwordSubmitBtn">
+                        <i class="fas fa-sign-in-alt"></i> Sign In
+                    </button>
+                </form>
+            </div>
+
+            <!-- Email OTP Login -->
+            <div class="tab-pane" id="tab-email-otp">
+                <form id="emailOtpForm">
+                    <div class="form-group">
+                        <label for="otpEmail">Email Address</label>
+                        <div class="input-wrap">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="otpEmail" name="otpEmail" placeholder="you@example.com" autocomplete="email" required>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn-otp" id="sendEmailOtpBtn" onclick="sendEmailOtp()">
+                        <i class="fas fa-paper-plane"></i> Send OTP to Email
+                    </button>
+
+                    <div id="emailOtpSection" style="display: none;">
+                        <div class="otp-inputs" id="emailOtpInputs">
+                            <input type="text" maxlength="1" class="otp-digit" oninput="handleOtpInput(this)">
+                            <input type="text" maxlength="1" class="otp-digit" oninput="handleOtpInput(this)">
+                            <input type="text" maxlength="1" class="otp-digit" oninput="handleOtpInput(this)">
+                            <input type="text" maxlength="1" class="otp-digit" oninput="handleOtpInput(this)">
+                            <input type="text" maxlength="1" class="otp-digit" oninput="handleOtpInput(this)">
+                            <input type="text" maxlength="1" class="otp-digit" oninput="handleOtpInput(this)">
+                        </div>
+                        <div class="otp-info">Enter the 6-digit code sent to <strong id="emailOtpTarget"></strong></div>
+                        <button type="button" class="btn-auth" onclick="verifyEmailOtpLogin()">
+                            <i class="fas fa-check-circle"></i> Verify & Sign In
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Phone OTP Login -->
+            <div class="tab-pane" id="tab-phone-otp">
+                <form id="phoneOtpForm">
+                    <div class="form-group">
+                        <label for="otpPhone">Phone Number</label>
+                        <div class="input-wrap">
+                            <i class="fas fa-phone"></i>
+                            <input type="tel" id="otpPhone" name="otpPhone" placeholder="10-digit mobile number" autocomplete="tel" required>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn-otp" id="sendPhoneOtpBtn" onclick="sendPhoneOtp()">
+                        <i class="fas fa-paper-plane"></i> Send OTP to Phone
+                    </button>
+
+                    <div id="phoneOtpSection" style="display: none;">
+                        <!-- Self-hosted OTP preview: shows the code when no SMS gateway is available -->
+                        <div id="phoneOtpPreviewBox" class="otp-preview-box" style="display:none;margin:14px 0;padding:12px 16px;background:#EEF2FF;border:1px dashed #4F46E5;border-radius:12px;text-align:center;font-size:14px;color:#1e1b4b;">
+                            <div style="font-weight:600;margin-bottom:4px;"><i class="fas fa-mobile-screen"></i> Your OTP</div>
+                            <strong id="phoneOtpPreviewValue" style="font-size:26px;letter-spacing:6px;color:#4F46E5;"></strong>
+                            <div style="font-size:12px;color:#64748B;margin-top:4px;">Check your notifications too — the code expires in 10 minutes.</div>
+                        </div>
+                        <div class="otp-inputs" id="phoneOtpInputs">
+                            <input type="text" maxlength="1" class="otp-digit" oninput="handleOtpInput(this)">
+                            <input type="text" maxlength="1" class="otp-digit" oninput="handleOtpInput(this)">
+                            <input type="text" maxlength="1" class="otp-digit" oninput="handleOtpInput(this)">
+                            <input type="text" maxlength="1" class="otp-digit" oninput="handleOtpInput(this)">
+                            <input type="text" maxlength="1" class="otp-digit" oninput="handleOtpInput(this)">
+                            <input type="text" maxlength="1" class="otp-digit" oninput="handleOtpInput(this)">
+                        </div>
+                        <div class="otp-info">Enter the 6-digit code sent to <strong id="phoneOtpTarget"></strong></div>
+                        <button type="button" class="btn-auth" onclick="verifyPhoneOtpLogin()">
+                            <i class="fas fa-check-circle"></i> Verify & Sign In
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Divider -->
+            <div class="auth-divider">
+                <span>or continue with</span>
+            </div>
+
+            <!-- Social -->
+            <div class="social-btns">
+                <button type="button" class="social-btn" id="googleBtn">
+                    <i class="fab fa-google"></i> Google
+                </button>
+            </div>
+
+            <p class="auth-switch">
+                Don't have an account? <a href="signup">Create Account</a>
+            </p>
+        </div>
+    </div>
+
+    <script src="api.js?v=20260913a"></script>
+    <script src="https://accounts.google.com/gsi/client"></script>
+    <script>
+        // ===== AUTH GUARD: if already logged in, never show login (blocks back-button bypass) =====
+        (function() {
+            if (window.api && api.isAuthenticated()) {
+                window.location.replace('home');
+                return;
+            }
+        })();
+
+        // Tabs
+        document.querySelectorAll('.auth-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+                tab.classList.add('active');
+                document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+            });
+        });
+
+        function togglePassword(id, btn) {
+            const input = document.getElementById(id);
+            const icon = btn.querySelector('i');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+        window.togglePassword = togglePassword;
+
+        // OTP input auto-advance
+        function handleOtpInput(el) {
+            if (el.value.length === 1) {
+                const next = el.nextElementSibling;
+                if (next) next.focus();
+            }
+        }
+        window.handleOtpInput = handleOtpInput;
+
+        function getOtpValue(containerId) {
+            const inputs = document.querySelectorAll('#' + containerId + ' .otp-digit');
+            return Array.from(inputs).map(i => i.value).join('');
+        }
+        window.getOtpValue = getOtpValue;
+
+        function clearOtp(containerId) {
+            document.querySelectorAll('#' + containerId + ' .otp-digit').forEach(i => i.value = '');
+        }
+        window.clearOtp = clearOtp;
+
+        function getRedirect() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('redirect');
+        }
+
+        function redirectAfterLogin(role) {
+            const redirect = getRedirect();
+            // Never land back on the public landing/index page after login.
+            // Only honor a redirect to a real inner page; otherwise go to a
+            // role-appropriate dashboard.
+            if (redirect && redirect !== '/' && !redirect.startsWith('/?') && !redirect.startsWith('/#')) {
+                // location.replace() removes this auth page from the back stack,
+                // so the Back button never lands on login again while signed in.
+                window.location.replace(redirect);
+            } else {
+                // Role-aware landing: tenants go to the tenant dashboard, owners to
+                // the owner dashboard, admins to the admin console.
+                const r = String(role || '').toUpperCase();
+                if (r === 'TENANT') {
+                    window.location.replace('dashboard');
+                } else if (r === 'OWNER' || r === 'VERIFIED_OWNER') {
+                    window.location.replace('dashboard');
+                } else if (r === 'ADMIN') {
+                    window.location.replace('admin-dashboard');
+                } else {
+                    window.location.replace('home');
+                }
+            }
+        }
+
+        // ===== PASSWORD LOGIN =====
+        document.getElementById('passwordLoginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+
+            if (!email || !password) {
+                showToast('Please fill in all fields.', 'error');
+                return;
+            }
+
+            const btn = document.getElementById('passwordSubmitBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing in...';
+
+            try {
+                const captchaToken = await getCaptchaToken('login');
+                const remember = document.getElementById('rememberMe').checked;
+                const data = await api.login(email, password, captchaToken, remember);
+                showToast('Signed in successfully! Welcome back.', 'success');
+                setTimeout(() => redirectAfterLogin(data.role), 800);
+            } catch (error) {
+                showToast(error.message || 'Invalid email or password.', 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Sign In';
+            }
+        });
+
+        // ===== EMAIL OTP =====
+        // Uses ONE button (sendEmailOtpBtn) for both "Send OTP to Email" and "Resend OTP".
+        window.sendEmailOtp = async function() {
+            const email = document.getElementById('otpEmail').value.trim();
+            if (!email || !isValidEmail(email)) {
+                showToast('Please enter a valid email address.', 'error');
+                return;
+            }
+
+            const btn = document.getElementById('sendEmailOtpBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending OTP...';
+
+            try {
+                const res = await api.sendVerification(email);
+                document.getElementById('emailOtpSection').style.display = 'block';
+                document.getElementById('emailOtpTarget').textContent = email;
+                clearOtp('emailOtpInputs');
+
+                showToast('OTP sent to your email. Check your inbox.', 'success');
+            } catch (error) {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send OTP to Email';
+                showToast(error.message || 'Failed to send OTP.', 'error');
+                return;
+            }
+
+            // The same button now becomes the one-button resend control.
+            startOtpCountdown('sendEmailOtpBtn', '<i class="fas fa-paper-plane"></i> Resend OTP');
+        };
+
+        window.verifyEmailOtpLogin = async function() {
+            const email = document.getElementById('otpEmail').value.trim();
+            const code = getOtpValue('emailOtpInputs');
+
+            if (code.length !== 6) {
+                showToast('Please enter the 6-digit OTP.', 'error');
+                return;
+            }
+
+            try {
+                const remember = document.getElementById('rememberMe').checked;
+                const data = await api.loginWithEmailOtp(email, code, remember);
+                showToast('Signed in successfully!', 'success');
+                setTimeout(() => { redirectAfterLogin(data.role); }, 800);
+            } catch (error) {
+                showToast(error.message || 'Invalid OTP. Please try again.', 'error');
+            }
+        };
+
+        // ===== PHONE OTP =====
+        // Uses ONE button (sendPhoneOtpBtn) for both "Send OTP to Phone" and "Resend OTP".
+        window.sendPhoneOtp = async function() {
+            let phone = document.getElementById('otpPhone').value.trim();
+            if (phone.startsWith('+91')) phone = phone.slice(3);
+            if (!phone || !isValidPhone(phone)) {
+                showToast('Please enter a valid 10-digit phone number.', 'error');
+                return;
+            }
+
+            const btn = document.getElementById('sendPhoneOtpBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending OTP...';
+
+            try {
+                const res = await api.sendSmsOtp(phone);
+                document.getElementById('phoneOtpSection').style.display = 'block';
+                document.getElementById('phoneOtpTarget').textContent = '+91 ' + phone;
+                clearOtp('phoneOtpInputs');
+
+                // Self-hosted delivery: when no SMS gateway is available the backend
+                // returns the code so it can be shown on-screen.
+                const previewBox = document.getElementById('phoneOtpPreviewBox');
+                const previewValue = document.getElementById('phoneOtpPreviewValue');
+                if (res && res.deliveryChannel === 'IN_APP' && res.otpPreview) {
+                    if (previewBox) previewBox.style.display = 'block';
+                    if (previewValue) previewValue.textContent = res.otpPreview;
+                } else {
+                    if (previewBox) previewBox.style.display = 'none';
+                }
+
+                showToast(res && res.message ? res.message : 'OTP sent to your phone.', 'success');
+            } catch (error) {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send OTP to Phone';
+                showToast(error.message || 'Failed to send OTP.', 'error');
+                return;
+            }
+
+            // The same button now becomes the one-button resend control.
+            startOtpCountdown('sendPhoneOtpBtn', '<i class="fas fa-paper-plane"></i> Resend OTP');
+        };
+
+        window.verifyPhoneOtpLogin = async function() {
+            let phone = document.getElementById('otpPhone').value.trim();
+            if (phone.length > 10) phone = phone.slice(-10);
+            const code = getOtpValue('phoneOtpInputs');
+
+            if (code.length !== 6) {
+                showToast('Please enter the 6-digit OTP.', 'error');
+                return;
+            }
+
+            try {
+                const remember = document.getElementById('rememberMe').checked;
+                const data = await api.loginWithPhoneOtp(phone, code, remember);
+                showToast('Signed in successfully!', 'success');
+                setTimeout(() => redirectAfterLogin(data.role), 800);
+            } catch (error) {
+                showToast(error.message || 'Invalid OTP. Please try again.', 'error');
+            }
+        };
+
+        // Countdown for resend — used with the ONE send/resend button.
+        // The same button: ⏳ disabled countdown → enabled with the resend label (innerHTML restored).
+        function startOtpCountdown(btnId, resendLabel) {
+            const btn = document.getElementById(btnId);
+            if (!btn) return;
+            let seconds = 30;
+            btn.disabled = true;
+            btn.innerHTML = 'Resend in ' + seconds + 's';
+            const interval = setInterval(() => {
+                seconds--;
+                if (seconds <= 0) {
+                    clearInterval(interval);
+                    btn.disabled = false;
+                    if (resendLabel) btn.innerHTML = resendLabel;
+                } else {
+                    btn.innerHTML = 'Resend in ' + seconds + 's';
+                }
+            }, 1000);
+        }
+
+        // Google login — Client ID is loaded dynamically from the backend
+        // (set by the owner via Admin → Integrations). No hardcoded keys.
+        // Uses google.accounts.id.renderButton() (reliable, always opens the
+        // account chooser) instead of prompt() (One Tap can be silently suppressed).
+        let googleClientId = '';
+
+        function googleSdkReady() {
+            return window.google && google.accounts && google.accounts.id;
+        }
+
+        async function loadGoogleClientId() {
+            try {
+                const cfg = await api.getPublicConfig().catch(() => null);
+                googleClientId = (cfg && cfg.googleClientId) ? cfg.googleClientId : '';
+            } catch (e) {
+                googleClientId = '';
+            }
+            updateGoogleAuthVisibility();
+            if (googleClientId) renderGoogleButton();
+        }
+
+        function updateGoogleAuthVisibility() {
+            const btn = document.getElementById('googleBtn');
+            const divider = document.querySelector('.auth-divider');
+            // The Google button is always visible. If no client ID is configured yet,
+            // clicking it re-fetches the config and shows a clear error instead of a dead button.
+            if (btn) { btn.style.display = ''; btn.disabled = false; }
+            if (divider) divider.style.display = '';
+        }
+
+        // Ensure the GSI library is available before rendering the button.
+        function ensureGoogleSdk(cb) {
+            if (googleSdkReady()) { cb(); return; }
+            const s = document.createElement('script');
+            s.src = 'https://accounts.google.com/gsi/client';
+            s.async = true;
+            s.onload = cb;
+            s.onerror = function () { showToast('Could not load Google sign-in. Please try again.', 'error'); };
+            document.head.appendChild(s);
+        }
+
+        function onGoogleCredential(response) {
+            const btn = document.getElementById('googleBtn');
+            if (!response || !response.credential) {
+                showToast('Google login was cancelled.', 'error');
+                return;
+            }
+            if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing in...'; }
+            api.googleLogin(response.credential, true)
+                .then((data) => {
+                    showToast('Signed in with Google successfully!', 'success');
+                    setTimeout(() => redirectAfterLogin(data.role), 200);
+                })
+                .catch(error => {
+                    showToast(error.message || 'Google login failed.', 'error');
+                    if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fab fa-google"></i> Google'; }
+                });
+        }
+
+        function renderGoogleButton() {
+            const btn = document.getElementById('googleBtn');
+            if (!btn) return;
+            ensureGoogleSdk(function () {
+                try {
+                    google.accounts.id.initialize({
+                        client_id: googleClientId,
+                        callback: onGoogleCredential
+                    });
+                    google.accounts.id.renderButton(btn, {
+                        theme: 'outline',
+                        size: 'large',
+                        shape: 'pill',
+                        text: 'continue_with',
+                        width: Math.max(btn.clientWidth || 280, 280),
+                        logo_alignment: 'left'
+                    });
+                } catch (e) {
+                    showToast('Google sign-in could not start. Please try again.', 'error');
+                }
+            });
+        }
+
+        // Not-configured fallback: clicking the plain button shows a helpful error.
+        document.getElementById('googleBtn').addEventListener('click', function () {
+            if (!googleClientId || !googleSdkReady()) {
+                showToast('Google login is not configured yet. Set GOOGLE_CLIENT_ID in .env or Admin → Integrations, then restart.', 'error');
+            }
+        });
+
+        loadGoogleClientId();
+    </script>
+</body>
+</html>
+

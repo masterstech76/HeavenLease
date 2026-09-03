@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Your saved favorite properties on HeavenLease.">
+    <title>Saved Properties — HeavenLease</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styles.css?v=20260909a">
+    <style>
+        .saved-page { min-height: 100vh; background: var(--gradient-soft); padding: 120px 24px 60px; position: relative; overflow: hidden; }
+        .saved-page::before { content: ''; position: absolute; top: -200px; right: -200px; width: 500px; height: 500px; background: radial-gradient(circle, rgba(79, 70, 229, 0.15) 0%, transparent 70%); border-radius: 50%; }
+        .saved-page::after { content: ''; position: absolute; bottom: -200px; left: -200px; width: 500px; height: 500px; background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, transparent 70%); border-radius: 50%; }
+        .saved-container { max-width: 1200px; margin: 0 auto; position: relative; z-index: 1; }
+        .saved-header { text-align: center; margin-bottom: 40px; }
+        .saved-header h1 { font-family: var(--font-heading); font-size: 40px; font-weight: 700; color: var(--dark); margin-bottom: 8px; }
+        .saved-header h1 i { color: #EF4444; }
+        .saved-header p { font-size: 16px; color: var(--gray-500); }
+        .saved-count { display: inline-flex; align-items: center; gap: 8px; background: var(--white); border: 1px solid var(--gray-200); padding: 8px 16px; border-radius: var(--radius-full); font-size: 14px; color: var(--gray-600); margin-top: 16px; box-shadow: var(--shadow-sm); }
+        .saved-count i { color: var(--primary); }
+        .saved-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; }
+        .saved-card { background: var(--white); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-md); border: 1px solid var(--gray-200); transition: var(--transition); }
+        .saved-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-xl); }
+        .saved-card .card-image { height: 160px; background: var(--gradient-soft); display: flex; align-items: center; justify-content: center; font-size: 48px; color: var(--primary); position: relative; }
+        .saved-card .card-image .remove-btn { position: absolute; top: 12px; right: 12px; width: 36px; height: 36px; border-radius: 50%; background: var(--white); border: none; color: #EF4444; font-size: 16px; cursor: pointer; box-shadow: var(--shadow-md); display: flex; align-items: center; justify-content: center; transition: var(--transition); }
+        .saved-card .card-image .remove-btn:hover { background: #EF4444; color: var(--white); }
+        .saved-card .card-body { padding: 20px; }
+        .saved-card .card-body h3 { font-size: 18px; font-weight: 600; color: var(--dark); margin-bottom: 4px; }
+        .saved-card .card-body .loc { font-size: 13px; color: var(--gray-500); margin-bottom: 12px; }
+        .saved-card .card-body .loc i { color: var(--primary); margin-right: 4px; }
+        .saved-card .card-body .price { font-size: 20px; font-weight: 700; color: var(--primary); margin-bottom: 12px; }
+        .saved-card .card-body .price small { font-size: 13px; color: var(--gray-400); font-weight: 400; }
+        .saved-card .card-body .amenities { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+        .saved-card .card-body .amenity { font-size: 12px; background: var(--gray-50); border: 1px solid var(--gray-200); padding: 4px 10px; border-radius: var(--radius-full); color: var(--gray-600); }
+        .saved-card .card-actions { display: flex; gap: 10px; }
+        .saved-card .card-actions .btn { flex: 1; font-size: 13px; padding: 10px; }
+        .empty-state { text-align: center; padding: 80px 20px; background: var(--white); border-radius: var(--radius-xl); border: 2px dashed var(--gray-200); }
+        .empty-state i { font-size: 64px; color: var(--gray-300); margin-bottom: 16px; }
+        .empty-state h2 { font-family: var(--font-heading); font-size: 24px; color: var(--dark); margin-bottom: 8px; }
+        .empty-state p { color: var(--gray-500); margin-bottom: 24px; }
+        .back-link { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: var(--gray-500); margin-bottom: 24px; transition: var(--transition); }
+        .back-link:hover { color: var(--primary); }
+        @media (max-width: 768px) { .saved-header h1 { font-size: 32px; } .saved-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <!-- ===== NAVIGATION ===== -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="home" class="logo">
+                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <span class="logo-text">Heaven<span>Lease</span></span>
+            </a>
+            
+            <div class="nav-actions">
+                
+                                <div class="user-menu" id="userMenu">
+                    <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu">
+                        <span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span>
+                        <span id="navUserName">Account</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="user-dropdown" id="profileDropdown">
+                        <a href="home" id="mainHomeLink"><i class="fas fa-home"></i> Main Home</a>
+                        <a href="edit-profile" id="myProfileLink"><i class="fas fa-user"></i> My Profile &amp; Settings</a>
+                        <a href="payment"><i class="fas fa-credit-card"></i> Access Pass</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="properties"><i class="fas fa-building"></i> Browse Properties</a>
+                        <a href="map"><i class="fas fa-map-location-dot"></i> Property Map</a>
+                        <a href="comfort-scores"><i class="fas fa-gauge-high"></i> Comfort Scores</a>
+                        <a href="saved-properties"><i class="fas fa-heart"></i> Saved Properties</a>
+                        <a href="list-property"><i class="fas fa-key"></i> List Your Property</a>
+                        <a href="tenant-screening"><i class="fas fa-user-check"></i> Tenant Screening</a>
+                        <a href="owner-resources"><i class="fas fa-toolbox"></i> Owner Resources</a>
+                        <a href="buy-sell"><i class="fas fa-tag"></i> Buy / Sell</a>
+                        <a href="possession"><i class="fas fa-key"></i> Possession &amp; Handover</a>
+                        <a href="lease-signing"><i class="fas fa-file-signature"></i> Leases &amp; Signing</a>
+                        <a href="tour-booking"><i class="fas fa-calendar-check"></i> Tour Bookings</a>
+                        <a href="messages"><i class="fas fa-comments"></i> Messages</a>
+                        <a href="notifications"><i class="fas fa-bell"></i> Notifications</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="how-it-works"><i class="fas fa-circle-question"></i> How It Works</a>
+                        <a href="about"><i class="fas fa-building"></i> About Us</a>
+                        <a href="blog"><i class="fas fa-newspaper"></i> Blog</a>
+<a href="comfort-scores"><i class="fas fa-chart-simple"></i> Type &amp; Voice Search</a>
+                                                <a href="contact"><i class="fas fa-envelope"></i> Contact &amp; Support</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="login" id="signInLink" class="hide-when-auth"><i class="fas fa-arrow-right-to-bracket"></i> Sign In</a>
+                        <a href="#" id="logoutLink" class="logout-link hide-when-guest"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+</div>
+        </div>
+    </nav>
+
+    <!-- ===== SAVED PROPERTIES PAGE ===== -->
+    <section class="saved-page">
+        <div class="saved-container">
+            <a href="properties" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Properties
+            </a>
+
+            <div class="saved-header">
+                <h1><i class="fas fa-heart"></i> Saved Properties</h1>
+                <p>Your favorite homes, all in one place</p>
+                <div class="saved-count">
+                    <i class="fas fa-bookmark"></i> <span id="savedCount">0</span> saved properties
+                </div>
+            </div>
+
+            <div id="savedGrid" class="saved-grid"></div>
+
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <i class="fas fa-heart-crack"></i>
+                <h2>No Saved Properties Yet</h2>
+                <p>Tap the heart icon on any property to save it here for quick access.</p>
+                <a href="properties" class="btn btn-primary">
+                    <i class="fas fa-search"></i> Browse Properties
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <script src="api.js?v=20260913a"></script>
+    <script src="script.js?v=20260913a"></script>
+    <script>
+        (function() {
+        // Navbar
+        const navbar = document.getElementById('navbar');
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) navbar.classList.add('scrolled');
+            else navbar.classList.remove('scrolled');
+        });
+
+        if (hamburger) hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        if (hamburger && navLinks) {
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburger.classList.remove('active');
+                    navLinks.classList.remove('active');
+                });
+            });
+        }
+
+        // Render saved properties — from the real backend (favorites + properties).
+        let savedCache = [];
+        function renderSaved() {
+            const grid = document.getElementById('savedGrid');
+            const empty = document.getElementById('emptyState');
+            document.getElementById('savedCount').textContent = savedCache.length;
+
+            if (savedCache.length === 0) {
+                grid.innerHTML = '';
+                empty.style.display = 'block';
+                return;
+            }
+            empty.style.display = 'none';
+
+            grid.innerHTML = savedCache.map(p => `
+                <div class="saved-card">
+                    <div class="card-image">
+                        ${p.photos && p.photos[0] ? `<img src="${p.photos[0]}" alt="${p.title}" style="width:100%;height:100%;object-fit:cover;">` : `<i class="fas ${p.icon || 'fa-building'}"></i>`}
+                        <button class="remove-btn" onclick="removeSaved(${p.id})" title="Remove from saved">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <h3>${p.title}</h3>
+                        <p class="loc"><i class="fas fa-location-dot"></i> ${p.location}</p>
+                        <div class="price">${formatPrice(p.price || p.rentAmount)} <small>/month</small></div>
+                        <div class="amenities">
+                            ${(Array.isArray(p.amenities) && p.amenities.length ? p.amenities : []).map(a => `<span class="amenity">${a}</span>`).join('')}
+                        </div>
+                        <div class="card-actions">
+                            <a href="property-detail?id=${p.id}" class="btn btn-primary">
+                                <i class="fas fa-calendar-check"></i> View
+                            </a>
+                            <a href="messages?property=${encodeURIComponent(p.title)}" class="btn btn-outline">
+                                <i class="fas fa-comments"></i> Chat
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function loadSaved() {
+            savedCache = [];
+            const user = api.getUser();
+            let favIds = [];
+            if (user && user.id) {
+                try {
+                    const records = await api.getFavoritesByUser(user.id);
+                    favIds = (Array.isArray(records) ? records : []).map(f => Number(f.propertyId));
+                    apiFavoriteCache = (Array.isArray(records) ? records : []).map(f => ({ id: f.id, propertyId: Number(f.propertyId) }));
+                } catch(e) {
+                    favIds = getFavorites();
+                }
+            } else {
+                favIds = getFavorites();
+            }
+            // Load real property data, keep only favorites.
+            const allProps = await fetchApiProperties(0, 200).catch(() => []);
+            savedCache = allProps.filter(p => favIds.includes(Number(p.id)));
+            renderSaved();
+        }
+
+        window.removeSaved = async function(id) {
+            const user = api.getUser();
+            if (user && user.id) {
+                const rec = apiFavoriteCache.find(f => f.propertyId === Number(id));
+                if (rec) { try { await api.removeFavorite(rec.id); } catch(e) {} }
+            } else {
+                let favs = getFavorites().filter(f => f !== Number(id));
+                saveFavorites(favs);
+            }
+            savedCache = savedCache.filter(p => Number(p.id) !== Number(id));
+            renderSaved();
+            showToast('Property removed from saved.', 'success');
+        };
+
+        loadSaved();
+        })();
+    </script>
+</body>
+</html>
+

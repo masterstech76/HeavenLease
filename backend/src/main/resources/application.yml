@@ -1,0 +1,92 @@
+spring:
+  application:
+    name: HeavenLease-backend
+  config:
+    import: optional:file:.env[.properties]
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 10MB
+  datasource:
+    # Production always connects to AWS RDS PostgreSQL (no local DB).
+    # Values come from backend/.env.aws (DB_HOST, DB_NAME, DB_USERNAME, DB_PASSWORD).
+    url: jdbc:postgresql://${DB_HOST}:${DB_PORT:5432}/${DB_NAME}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: false
+    open-in-view: false
+
+server:
+  port: 8080
+  tomcat:
+    max-swallow-size: 2MB
+    max-http-form-post-size: 2MB
+
+app:
+  upload-dir: ${UPLOAD_DIR:./uploads}
+  seed-demo: ${SEED_DEMO:false}
+  # RDS IAM token signing region (may differ from aws.region if RDS and
+  # DynamoDB/SES/SNS live in different AWS regions).
+  rds-iam-region: ${RDS_REGION:${AWS_REGION:ap-south-1}}
+  jwt:
+    secret: ${JWT_SECRET}
+    expiration-ms: 86400000  # 24 hours
+  encryption-key: ${APP_ENCRYPTION_KEY:}
+  rate-limit:
+    enabled: ${RATE_LIMIT_ENABLED:true}
+    max-requests-per-minute: ${RATE_LIMIT_MAX_PER_MINUTE:10}
+  google:
+    client-id: ${GOOGLE_CLIENT_ID:}
+    client-secret: ${GOOGLE_CLIENT_SECRET:}
+  recaptcha:
+    site-key: ${RECAPTCHA_SITE_KEY:}
+    secret-key: ${RECAPTCHA_SECRET_KEY:}
+    version: ${RECAPTCHA_VERSION:v3}
+  otp:
+    from-email: ${OTP_FROM_EMAIL:no-reply@heavenlease.in}
+    # Self-hosted phone OTP: when no external SMS gateway can be used, the
+    # 6-digit code is returned in the API response (otpPreview) so the frontend
+    # can show it inline + the notification bell. Set false to only ever send
+    # via AWS SNS (and fail if SNS is unavailable).
+    self-hosted-preview: ${OTP_SELF_HOSTED_PREVIEW:true}
+  admin:
+    email: ${ADMIN_EMAIL:}
+    password: ${ADMIN_PASSWORD:}
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:https://heavenlease.in,https://www.heavenlease.in}
+
+aws:
+  region: ${AWS_REGION:ap-south-1}
+  access-key-id: ${AWS_ACCESS_KEY_ID:}
+  secret-access-key: ${AWS_SECRET_ACCESS_KEY:}
+  ses:
+    access-key-id: ${AWS_SES_ACCESS_KEY:${AWS_ACCESS_KEY_ID:}}
+    secret-access-key: ${AWS_SES_SECRET_KEY:${AWS_SECRET_ACCESS_KEY:}}
+    region: ${AWS_SES_REGION:${AWS_REGION:ap-south-1}}
+    from-email: ${AWS_SES_FROM_EMAIL:${OTP_FROM_EMAIL:no-reply@heavenlease.in}}
+  sns:
+    access-key-id: ${AWS_SNS_ACCESS_KEY:${AWS_ACCESS_KEY_ID:}}
+    secret-access-key: ${AWS_SNS_SECRET_KEY:${AWS_SECRET_ACCESS_KEY:}}
+    region: ${AWS_SNS_REGION:${AWS_REGION:ap-south-1}}
+    sender-id: ${AWS_SNS_SENDER_ID:HEAVENLEASE}
+  dynamodb:
+    table-name: ${DYNAMODB_TABLE:HeavenLease_Counters}
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /v3/api-docs
+
+logging:
+  level:
+    com.HeavenLease: INFO
+    org.hibernate.SQL: WARN

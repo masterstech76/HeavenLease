@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Get verified as a property owner on HeavenLease. Multi-step verification for trust and safety.">
+    <title>Owner Verification — HeavenLease</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styles.css?v=20260909a">
+    <style>
+        .oa-page { min-height: 100vh; background: var(--gradient-soft); padding: 120px 24px 60px; position: relative; overflow: hidden; }
+        .oa-page::before { content: ''; position: absolute; top: -200px; right: -200px; width: 500px; height: 500px; background: radial-gradient(circle, rgba(79, 70, 229, 0.15) 0%, transparent 70%); border-radius: 50%; }
+        .oa-page::after { content: ''; position: absolute; bottom: -200px; left: -200px; width: 500px; height: 500px; background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, transparent 70%); border-radius: 50%; }
+        .oa-container { max-width: 720px; margin: 0 auto; position: relative; z-index: 1; }
+        .oa-header { text-align: center; margin-bottom: 32px; }
+        .oa-header h1 { font-family: var(--font-heading); font-size: 36px; font-weight: 700; color: var(--dark); }
+        .oa-header h1 i { color: var(--primary); }
+        .oa-header p { color: var(--gray-500); font-size: 15px; margin-top: 8px; }
+        .oa-header .badge-preview { display: inline-flex; align-items: center; gap: 8px; background: var(--white); border: 1px solid var(--gray-200); padding: 8px 16px; border-radius: var(--radius-full); font-size: 13px; color: var(--gray-600); margin-top: 16px; box-shadow: var(--shadow-sm); }
+        .oa-header .badge-preview i { color: var(--secondary); }
+
+        .oa-card { background: var(--white); border-radius: var(--radius-xl); box-shadow: var(--shadow-xl); border: 1px solid var(--gray-200); overflow: hidden; }
+        .oa-progress { display: flex; padding: 20px 28px; border-bottom: 1px solid var(--gray-200); gap: 8px; }
+        .oa-progress .prog-step { flex: 1; text-align: center; font-size: 12px; color: var(--gray-400); position: relative; }
+        .oa-progress .prog-step .dot { width: 28px; height: 28px; border-radius: 50%; background: var(--gray-100); border: 2px solid var(--gray-200); display: flex; align-items: center; justify-content: center; margin: 0 auto 6px; font-size: 12px; color: var(--gray-400); transition: var(--transition); }
+        .oa-progress .prog-step.active .dot { background: var(--primary); border-color: var(--primary); color: var(--white); }
+        .oa-progress .prog-step.done .dot { background: var(--secondary); border-color: var(--secondary); color: var(--white); }
+        .oa-progress .prog-step.active { color: var(--primary); font-weight: 600; }
+        .oa-progress .prog-step.done { color: var(--secondary-dark); }
+
+        .oa-body { padding: 32px 28px; }
+        .oa-step { display: none; }
+        .oa-step.active { display: block; }
+        .oa-step h2 { font-size: 20px; font-weight: 600; color: var(--dark); margin-bottom: 8px; }
+        .oa-step > p { font-size: 14px; color: var(--gray-500); margin-bottom: 24px; }
+
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-size: 13px; font-weight: 600; color: var(--gray-600); margin-bottom: 8px; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px 16px; border: 1px solid var(--gray-200); border-radius: var(--radius-md); background: var(--gray-50); font-size: 14px; color: var(--gray-700); transition: var(--transition); }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--primary); background: var(--white); box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); }
+        .form-group textarea { resize: vertical; min-height: 80px; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+        .upload-box { border: 2px dashed var(--gray-300); border-radius: var(--radius-lg); padding: 32px; text-align: center; cursor: pointer; transition: var(--transition); background: var(--gray-50); }
+        .upload-box:hover { border-color: var(--primary); background: var(--primary-light); }
+        .upload-box i { font-size: 40px; color: var(--gray-400); margin-bottom: 12px; display: block; }
+        .upload-box strong { display: block; font-size: 14px; color: var(--dark); margin-bottom: 4px; }
+        .upload-box span { font-size: 12px; color: var(--gray-400); }
+        .upload-box.uploaded { border-style: solid; border-color: var(--secondary); background: #F0FDF4; }
+        .upload-box.uploaded i { color: var(--secondary-dark); }
+
+        .oa-nav { display: flex; justify-content: space-between; gap: 12px; margin-top: 24px; }
+        .oa-nav .btn { min-width: 120px; }
+
+        .success-screen { display: none; text-align: center; padding: 60px 24px; }
+        .success-screen.show { display: block; }
+        .success-icon { width: 80px; height: 80px; background: #D1FAE5; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 36px; color: var(--secondary-dark); }
+        .success-screen h2 { font-family: var(--font-heading); font-size: 28px; color: var(--dark); margin-bottom: 8px; }
+        .success-screen p { color: var(--gray-500); margin-bottom: 24px; }
+        .verified-badge { display: inline-flex; align-items: center; gap: 8px; background: #D1FAE5; border: 1px solid #A7F3D0; color: var(--secondary-dark); padding: 10px 20px; border-radius: var(--radius-full); font-size: 14px; font-weight: 600; margin-bottom: 24px; }
+        .back-link { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: var(--gray-500); margin-bottom: 24px; transition: var(--transition); }
+        .back-link:hover { color: var(--primary); }
+        @media (max-width: 768px) { .form-row { grid-template-columns: 1fr; } .oa-header h1 { font-size: 28px; } }
+    </style>
+</head>
+<body>
+    <!-- ===== NAVIGATION ===== -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="home" class="logo">
+                <div class="logo-icon"><i class="fas fa-home"></i></div>
+<span class="logo-text">Heaven<span>Lease</span></span>
+            </a>
+            
+            <div class="nav-actions">
+                
+                                <div class="user-menu" id="userMenu">
+                    <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu">
+                        <span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span>
+                        <span id="navUserName">Account</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="user-dropdown" id="profileDropdown">
+                        <a href="home" id="mainHomeLink"><i class="fas fa-home"></i> Main Home</a>
+                        <a href="edit-profile" id="myProfileLink"><i class="fas fa-user"></i> My Profile &amp; Settings</a>
+                        <a href="payment"><i class="fas fa-credit-card"></i> Access Pass</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="properties"><i class="fas fa-building"></i> Browse Properties</a>
+                        <a href="map"><i class="fas fa-map-location-dot"></i> Property Map</a>
+                        <a href="comfort-scores"><i class="fas fa-gauge-high"></i> Comfort Scores</a>
+                        <a href="saved-properties"><i class="fas fa-heart"></i> Saved Properties</a>
+                        <a href="list-property"><i class="fas fa-key"></i> List Your Property</a>
+                        <a href="tenant-screening"><i class="fas fa-user-check"></i> Tenant Screening</a>
+                        <a href="owner-resources"><i class="fas fa-toolbox"></i> Owner Resources</a>
+                        <a href="buy-sell"><i class="fas fa-tag"></i> Buy / Sell</a>
+                        <a href="possession"><i class="fas fa-key"></i> Possession &amp; Handover</a>
+                        <a href="lease-signing"><i class="fas fa-file-signature"></i> Leases &amp; Signing</a>
+                        <a href="tour-booking"><i class="fas fa-calendar-check"></i> Tour Bookings</a>
+                        <a href="messages"><i class="fas fa-comments"></i> Messages</a>
+                        <a href="notifications"><i class="fas fa-bell"></i> Notifications</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="how-it-works"><i class="fas fa-circle-question"></i> How It Works</a>
+                        <a href="about"><i class="fas fa-building"></i> About Us</a>
+                        <a href="blog"><i class="fas fa-newspaper"></i> Blog</a>
+<a href="comfort-scores"><i class="fas fa-chart-simple"></i> Type &amp; Voice Search</a>
+                                                <a href="contact"><i class="fas fa-envelope"></i> Contact &amp; Support</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="login" id="signInLink" class="hide-when-auth"><i class="fas fa-arrow-right-to-bracket"></i> Sign In</a>
+                        <a href="#" id="logoutLink" class="logout-link hide-when-guest"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+</div>
+        </div>
+    </nav>
+
+    <!-- ===== OWNER APPLICATION PAGE ===== -->
+    <section class="oa-page">
+        <div class="oa-container">
+            <a href="edit-profile" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Owner Profile
+            </a>
+
+            <div class="oa-header">
+                <h1><i class="fas fa-shield-halved"></i> Owner Verification</h1>
+                <p>Get the "Verified Owner" badge to build trust with tenants</p>
+                <div class="badge-preview">
+                    <i class="fas fa-check-circle"></i> Verified Owner Badge
+                </div>
+            </div>
+
+            <div class="oa-card">
+                <!-- Progress -->
+                <div class="oa-progress">
+                    <div class="prog-step active" id="prog1"><div class="dot">1</div>Personal ID</div>
+                    <div class="prog-step" id="prog2"><div class="dot">2</div>Ownership Proof</div>
+                    <div class="prog-step" id="prog3"><div class="dot">3</div>Property Details</div>
+                </div>
+
+                <!-- FORM -->
+                <div class="oa-body" id="formBody">
+                    <!-- STEP 1: Personal ID -->
+                    <div class="oa-step active" id="step1">
+                        <h2>Personal Identification</h2>
+                        <p>We need to verify your identity to ensure a safe marketplace.</p>
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" id="ownerName" placeholder="Your full legal name">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Phone Number</label>
+                                <input type="tel" id="ownerPhone" placeholder="+91 98765 43210">
+                            </div>
+                            <div class="form-group">
+                                <label>Email Address</label>
+                                <input type="email" id="ownerEmail" placeholder="you@example.com">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Government ID Type</label>
+                            <select id="idType">
+                                <option value="">Select ID type</option>
+                                <option value="aadhaar">Aadhaar Card</option>
+                                <option value="pan">PAN Card</option>
+                                <option value="passport">Passport</option>
+                                <option value="voter">Voter ID</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>ID Number</label>
+                            <input type="text" id="idNumber" placeholder="Enter your ID number">
+                        </div>
+                        <div class="oa-nav">
+                            <button class="btn btn-outline" onclick="prevStep()" style="visibility:hidden;">Back</button>
+                            <button class="btn btn-primary" onclick="nextStep()">Continue <i class="fas fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- STEP 2: Ownership Proof -->
+                    <div class="oa-step" id="step2">
+                        <h2>Ownership Proof</h2>
+                        <p>Upload documents proving you own the property you wish to list.</p>
+                        <div class="form-group">
+                            <label>Property Type</label>
+                            <select id="propType">
+                                <option value="">Select property type</option>
+                                <option value="apartment">Apartment</option>
+                                <option value="villa">Villa / House</option>
+                                <option value="studio">Studio</option>
+                                <option value="pg">PG / Hostel</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Ownership Document</label>
+                            <div class="upload-box" id="uploadBox" onclick="document.getElementById('docUpload').click()">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <strong>Click to upload</strong>
+                                <span>Property tax receipt, sale deed, or registry (PDF/JPG, max 5MB)</span>
+                                <input type="file" id="docUpload" accept=".pdf,.jpg,.jpeg,.png" style="display:none;" onchange="handleUpload(this)">
+                            </div>
+                        </div>
+                        <div class="oa-nav">
+                            <button class="btn btn-outline" onclick="prevStep()"><i class="fas fa-arrow-left"></i> Back</button>
+                            <button class="btn btn-primary" onclick="nextStep()">Continue <i class="fas fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- STEP 3: Property Details -->
+                    <div class="oa-step" id="step3">
+                        <h2>Property Details</h2>
+                        <p>Tell us about the property you want to list.</p>
+                        <div class="form-group">
+                            <label>Property Address</label>
+                            <input type="text" id="propAddress" placeholder="Full property address">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>City</label>
+                                <input type="text" id="propCity" placeholder="e.g. Bengaluru">
+                            </div>
+                            <div class="form-group">
+                                <label>Monthly Rent (₹)</label>
+                                <input type="number" id="propRent" placeholder="e.g. 25000">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>BHK</label>
+                                <select id="propBhk">
+                                    <option value="1">1 BHK</option>
+                                    <option value="2">2 BHK</option>
+                                    <option value="3">3 BHK</option>
+                                    <option value="4">4+ BHK</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Furnishing</label>
+                                <select id="propFurnished">
+                                    <option value="furnished">Furnished</option>
+                                    <option value="semi">Semi-Furnished</option>
+                                    <option value="unfurnished">Unfurnished</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Additional Notes</label>
+                            <textarea id="propNotes" placeholder="Any additional details about the property..."></textarea>
+                        </div>
+                        <div class="oa-nav">
+                            <button class="btn btn-outline" onclick="prevStep()"><i class="fas fa-arrow-left"></i> Back</button>
+                            <button class="btn btn-primary" onclick="submitApplication()"><i class="fas fa-check"></i> Submit for Verification</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SUCCESS -->
+                <div class="success-screen" id="successScreen">
+                    <div class="success-icon"><i class="fas fa-check"></i></div>
+                    <div class="verified-badge"><i class="fas fa-check-circle"></i> Verified Owner</div>
+                    <h2>Application Submitted! 🎉</h2>
+                    <p>Your verification is under review. You'll be notified within 24-48 hours once approved.</p>
+                    <a href="dashboard" class="btn btn-primary btn-lg" style="width:100%;">
+                        <i class="fas fa-chart-line"></i> Go to Owner Dashboard
+                    </a>
+                    <a href="list-property" class="btn btn-outline btn-lg" style="width:100%; margin-top:10px;">
+                        <i class="fas fa-key"></i> List Your Property
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="api.js?v=20260913a"></script>
+    <script src="script.js?v=20260913a"></script>
+    <script>
+        (function() {
+        // Navbar
+        const navbar = document.getElementById('navbar');
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) navbar.classList.add('scrolled');
+            else navbar.classList.remove('scrolled');
+        });
+
+        if (hamburger) hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        if (hamburger && navLinks) {
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburger.classList.remove('active');
+                    navLinks.classList.remove('active');
+                });
+            });
+        }
+
+        let currentStep = 1;
+        const totalSteps = 3;
+
+        function updateProgress() {
+            for (let i = 1; i <= totalSteps; i++) {
+                const el = document.getElementById('prog' + i);
+                el.classList.remove('active', 'done');
+                if (i < currentStep) el.classList.add('done');
+                if (i === currentStep) el.classList.add('active');
+            }
+            for (let i = 1; i <= totalSteps; i++) {
+                document.getElementById('step' + i).classList.toggle('active', i === currentStep);
+            }
+        }
+
+        window.nextStep = function() {
+            if (currentStep === 1) {
+                if (!document.getElementById('ownerName').value || !document.getElementById('ownerPhone').value || !document.getElementById('idNumber').value) {
+                    showToast('Please fill in all required fields.', 'error');
+                    return;
+                }
+            }
+            if (currentStep === 2) {
+                if (!document.getElementById('propType').value || !document.getElementById('docUpload').files.length) {
+                    showToast('Please upload your ownership document.', 'error');
+                    return;
+                }
+            }
+            if (currentStep < totalSteps) {
+                currentStep++;
+                updateProgress();
+            }
+        };
+
+        window.prevStep = function() {
+            if (currentStep > 1) {
+                currentStep--;
+                updateProgress();
+            }
+        };
+
+        window.handleUpload = function(input) {
+            const box = document.getElementById('uploadBox');
+            if (input.files.length > 0) {
+                box.classList.add('uploaded');
+                box.querySelector('strong').textContent = input.files[0].name;
+                box.querySelector('span').textContent = 'Document uploaded successfully';
+                box.querySelector('i').className = 'fas fa-check-circle';
+            }
+        };
+
+        window.submitApplication = function() {
+            if (!api.isAuthenticated()) {
+                showToast('Please sign in to apply as a verified owner.', 'error');
+                return;
+            }
+            if (!document.getElementById('propAddress').value || !document.getElementById('propCity').value || !document.getElementById('propRent').value) {
+                showToast('Please fill in all required fields.', 'error');
+                return;
+            }
+
+            const docInput = document.getElementById('docUpload');
+            const payload = {
+                fullName: document.getElementById('ownerName').value,
+                email: document.getElementById('ownerEmail').value,
+                phone: document.getElementById('ownerPhone').value,
+                propertyAddress: document.getElementById('propAddress').value,
+                ownershipProofUrl: docInput && docInput.files && docInput.files[0] ? docInput.files[0].name : ''
+            };
+
+            const btn = document.querySelector('.oa-nav .btn-primary');
+            const original = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+
+            // REAL: submit to the backend — the application is stored server-side and
+            // an admin reviews it. The user is only marked verified by an admin action.
+            api.createOwnerApplication(payload)
+                .then(() => {
+                    try {
+                        const user = JSON.parse(localStorage.getItem('heavenlease_user') || '{}');
+                        user.ownershipPending = true;
+                        localStorage.setItem('heavenlease_user', JSON.stringify(user));
+                    } catch (e) { /* non-critical */ }
+                    document.getElementById('formBody').style.display = 'none';
+                    document.getElementById('successScreen').classList.add('show');
+                    showToast('Application submitted! An admin will review it shortly.', 'success');
+                })
+                .catch((err) => {
+                    showToast((err && err.message) || 'Could not submit your application. Please try again.', 'error');
+                })
+                .finally(() => {
+                    btn.disabled = false;
+                    btn.innerHTML = original;
+                });
+        };
+
+        updateProgress();
+        })();
+    </script>
+
+    <section class="page-cta">
+        <div class="container">
+            <div class="cta-banner">
+                <h2>Next Step</h2>
+                <p>Application submitted — complete owner verification to finish onboarding.</p>
+                <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+                    <a href="owner-verify" class="btn btn-lg"><i class="fas fa-shield-halved"></i> Verify Your Identity</a>
+                    <a href="dashboard" class="btn btn-lg ghost"><i class="fas fa-gauge-high"></i> My Dashboard</a>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
+

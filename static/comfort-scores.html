@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Understand HeavenLease Comfort Scores — quietness, sunlight, commute, and pet-friendliness ratings that help you find a home you'll actually love living in.">
+    <title>Comfort Scores — HeavenLease</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styles.css?v=20260909a">
+    <style>
+        .page-header { background: var(--gradient-soft); padding: 140px 0 80px; text-align: center; position: relative; overflow: hidden; }
+        .page-header h1 { font-family: var(--font-heading); font-size: 48px; font-weight: 700; color: var(--dark); margin-bottom: 16px; }
+        .page-header p { font-size: 18px; color: var(--gray-500); max-width: 620px; margin: 0 auto; }
+        .page-header .breadcrumb { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 16px; font-size: 14px; color: var(--gray-500); }
+        .page-header .breadcrumb a { color: var(--primary); }
+        .page-header .breadcrumb i { font-size: 12px; color: var(--gray-400); }
+        .scores-section { padding: 80px 0; }
+        .scores-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+        .score-card { background: var(--white); border-radius: var(--radius-lg); padding: 36px; border: 1px solid var(--gray-200); transition: var(--transition); }
+        .score-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+        .score-icon { width: 56px; height: 56px; background: var(--gradient-soft); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 22px; color: var(--primary); margin-bottom: 20px; }
+        .score-card h3 { font-size: 20px; font-weight: 600; color: var(--dark); margin-bottom: 10px; }
+        .score-card p { font-size: 14px; color: var(--gray-500); line-height: 1.7; }
+        .score-card .score-scale { margin-top: 16px; font-size: 13px; color: var(--gray-400); }
+        .explain-section { padding: 60px 0; background: var(--gray-50); }
+        .explain-grid { max-width: 800px; margin: 0 auto; display: grid; gap: 20px; }
+        .explain-item { background: var(--white); border-radius: var(--radius-md); padding: 24px; border: 1px solid var(--gray-200); }
+        .explain-item h4 { font-size: 16px; font-weight: 600; color: var(--dark); margin-bottom: 8px; }
+        .explain-item p { font-size: 14px; color: var(--gray-500); line-height: 1.7; }
+        .cta-section { padding: 70px 0; text-align: center; background: var(--gradient); color: #fff; }
+        .cta-section h2 { font-family: var(--font-heading); font-size: 30px; margin-bottom: 12px; color: #fff; }
+        .cta-section p { opacity: 0.9; margin-bottom: 20px; }
+        .cta-section .btn { background: #fff; color: var(--primary); }
+        @media (max-width: 1024px) { .scores-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 768px) { .page-header { padding: 120px 0 50px; } .page-header h1 { font-size: 34px; } .scores-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <span class="logo-text">Heaven<span>Lease</span></span>
+            </a>
+            
+            <div class="nav-actions">
+                                <div class="user-menu" id="userMenu">
+                    <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu">
+                        <span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span>
+                        <span id="navUserName">Account</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="user-dropdown" id="profileDropdown">
+                        <a href="home" id="mainHomeLink"><i class="fas fa-home"></i> Main Home</a>
+                        <a href="edit-profile" id="myProfileLink"><i class="fas fa-user"></i> My Profile &amp; Settings</a>
+                        <a href="payment"><i class="fas fa-credit-card"></i> Access Pass</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="properties"><i class="fas fa-building"></i> Browse Properties</a>
+                        <a href="map"><i class="fas fa-map-location-dot"></i> Property Map</a>
+                        <a href="comfort-scores"><i class="fas fa-gauge-high"></i> Comfort Scores</a>
+                        <a href="saved-properties"><i class="fas fa-heart"></i> Saved Properties</a>
+                        <a href="list-property"><i class="fas fa-key"></i> List Your Property</a>
+                        <a href="tenant-screening"><i class="fas fa-user-check"></i> Tenant Screening</a>
+                        <a href="owner-resources"><i class="fas fa-toolbox"></i> Owner Resources</a>
+                        <a href="buy-sell"><i class="fas fa-tag"></i> Buy / Sell</a>
+                        <a href="possession"><i class="fas fa-key"></i> Possession &amp; Handover</a>
+                        <a href="lease-signing"><i class="fas fa-file-signature"></i> Leases &amp; Signing</a>
+                        <a href="tour-booking"><i class="fas fa-calendar-check"></i> Tour Bookings</a>
+                        <a href="messages"><i class="fas fa-comments"></i> Messages</a>
+                        <a href="notifications"><i class="fas fa-bell"></i> Notifications</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="how-it-works"><i class="fas fa-circle-question"></i> How It Works</a>
+                        <a href="about"><i class="fas fa-building"></i> About Us</a>
+                        <a href="blog"><i class="fas fa-newspaper"></i> Blog</a>
+<a href="comfort-scores"><i class="fas fa-chart-simple"></i> Type &amp; Voice Search</a>
+                                                <a href="contact"><i class="fas fa-envelope"></i> Contact &amp; Support</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="login" id="signInLink" class="hide-when-auth"><i class="fas fa-arrow-right-to-bracket"></i> Sign In</a>
+                        <a href="#" id="logoutLink" class="logout-link hide-when-guest"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+
+                
+            </div>
+        </div>
+    </nav>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>Comfort <span class="gradient-text">Scores</span></h1>
+            <p>We don't just show you a home — we score how it feels to live there. Compare properties on the things that affect your everyday comfort.</p>
+            <div class="breadcrumb">
+                <a href="/">Home</a>
+                <i class="fas fa-chevron-right"></i>
+                <span>Comfort Scores</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="scores-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">How We Score</span>
+                <h2>Every Home, Rated On <span class="gradient-text">What Matters</span></h2>
+                <p>Each score is 0–100, built from verified data at the property.</p>
+            </div>
+            <div class="scores-grid">
+                <div class="score-card">
+                    <div class="score-icon"><i class="fas fa-volume-low"></i></div>
+                    <h3>Quietness</h3>
+                    <p>Noise level from the street, neighbours, and common areas. Higher is calmer — perfect for focused work and restful sleep.</p>
+                    <div class="score-scale">0 = busy road · 100 = silent</div>
+                </div>
+                <div class="score-card">
+                    <div class="score-icon"><i class="fas fa-sun"></i></div>
+                    <h3>Sunlight</h3>
+                    <p>Natural light and ventilation through the day. Sunlit homes feel bigger, brighter, and healthier.</p>
+                    <div class="score-scale">0 = no direct light · 100 = full daylight</div>
+                </div>
+                <div class="score-card">
+                    <div class="score-icon"><i class="fas fa-route"></i></div>
+                    <h3>Commute</h3>
+                    <p>Proximity to metro stations, bus stops, offices, and universities. Higher = closer to daily destinations.</p>
+                    <div class="score-scale">0 = far from everything · 100 = walkable</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="explain-section">
+        <div class="container explain-grid">
+            <div class="explain-item">
+                <h4><i class="fas fa-heart" style="color:var(--primary);margin-right:8px;"></i>Pet-Friendly</h4>
+                <p>Properties that welcome pets are flagged and ranked with your furry family in mind. No surprises on move-in day.</p>
+            </div>
+            <div class="explain-item">
+                <h4><i class="fas fa-couch" style="color:var(--primary);margin-right:8px;"></i>Furnishing</h4>
+                <p>Fully furnished, semi-furnished, and empty options — so you only pay for what you actually need.</p>
+            </div>
+            <div class="explain-item">
+                <h4><i class="fas fa-shield-halved" style="color:var(--primary);margin-right:8px;"></i>Verified Owners</h4>
+                <p>Every owner is document-verified and every listing is checked, so the score you see is the home you get.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <h2>Find a Home You'll Love on Day One</h2>
+            <p>Browse verified properties ranked by real comfort, not just rent.</p>
+            <a href="properties" class="btn btn-lg">Explore Properties</a>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid" style="grid-template-columns: 1fr; text-align: center;">
+                <div class="footer-brand">
+                    <a href="/" class="logo">
+                        <div class="logo-icon"><i class="fas fa-home"></i></div>
+                        <span class="logo-text">Heaven<span>Lease</span></span>
+                    </a>
+                    <div style="margin-top:12px;">
+                        <a href="privacy" style="color:#94a3b8;font-size:13px;margin:0 8px;">Privacy</a>
+                        <a href="terms" style="color:#94a3b8;font-size:13px;margin:0 8px;">Terms</a>
+                        <a href="contact" style="color:#94a3b8;font-size:13px;margin:0 8px;">Contact</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom" style="justify-content: center;">
+                <p>&copy; 2026 HeavenLease. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="api.js?v=20260913a"></script>
+    <script src="script.js?v=20260913a"></script>
+<script>
+            // Live tenant comfort feedback — loaded from the real Feedback API.
+            (function () {
+                const target = document.getElementById('liveComfortFeedback');
+                // Insert a live area into the How We Score section if present.
+                const intro = document.querySelector('.scores-section .section-header');
+                if (!intro) return;
+                const box = document.createElement('div');
+                box.id = 'liveComfortFeedback';
+                box.style.cssText = 'margin-top:24px;padding:20px;border-radius:16px;background:var(--white,#fff);border:1px solid var(--gray-200,#e5e7eb);';
+                box.innerHTML = '<h3 style="font-size:15px;font-weight:600;margin-bottom:4px;"><i class="fas fa-users" style="color:var(--primary,#2563eb);margin-right:8px;"></i>Live Tenant Comfort Ratings</h3>' +
+                    '<p id="fpLiveSub" style="font-size:13px;color:#6b7280;margin-bottom:12px;">Loading real feedback…</p>' +
+                    '<div id="fpLiveAvg" style="font-size:26px;font-weight:800;color:#111827;">—</div>' +
+                    '<div id="fpLiveRecent" style="margin-top:12px;font-size:13px;color:#374151;"></div>' +
+                    '<div id="fpLiveEmpty" style="font-size:13px;color:#6b7280;">No tenant feedback yet — submit yours from the Comfort Feedback page.</div>';
+                intro.parentNode.insertBefore(box, intro.nextSibling);
+
+                const avgEl = document.getElementById('fpLiveAvg');
+                const recentEl = document.getElementById('fpLiveRecent');
+                const subEl = document.getElementById('fpLiveSub');
+                const emptyEl = document.getElementById('fpLiveEmpty');
+
+                emptyEl.style.display = 'none';
+                api.getFeedback('comfort_feedback').then(function (res) {
+                    if (!res) { subEl.textContent = 'Ratings unavailable right now.'; return; }
+                    const d = res;
+                    const avg = d.average || 0;
+                    const count = d.count || 0;
+                    subEl.textContent = count + ' tenant rating' + (count === 1 ? '' : 's') + ' so far (1–5 stars).';
+                    avgEl.innerHTML = (avg ? avg.toFixed(1) : '—') + ' <small style="font-size:14px;color:#6b7280;">/ 5 average</small>' +
+                        '<div style="font-size:13px;color:#f59e0b;margin-top:4px;">' + ('★★★★★'.slice(0, Math.round(avg)) ) + ('☆☆☆☆☆'.slice(0, 5 - Math.round(avg))) + '</div>';
+                    const recent = (d.recent || []);
+                    if (recent.length) {
+                        recentEl.innerHTML = recent.slice(0, 3).map(function (r) {
+                            return '<div style="border-top:1px solid #f1f5f9;padding:8px 0;"><span style="color:#f59e0b;">' + '★'.repeat(Math.min(5, r.stars || 0)) + '</span> ' +
+                                '<span class="esc">' + String((r.comment || '').slice(0, 140)) + '</span></div>';
+                        }).join('');
+                    } else {
+                        emptyEl.style.display = 'block';
+                    }
+                }).catch(function () {
+                    subEl.textContent = 'Ratings unavailable right now.';
+                });
+            })();
+</script>
+</body>
+</body>
+</html>
+

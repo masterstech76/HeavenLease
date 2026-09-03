@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Browse all verified rental properties on HeavenLease. Filter by comfort, budget, and location.">
+    <title>Browse Properties — HeavenLease</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="canonical" href="https://heavenlease.in/properties">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="HeavenLease">
+    <meta property="og:title" content="Browse Properties — HeavenLease">
+    <meta property="og:description" content="Browse all verified rental properties on HeavenLease. Filter by comfort, budget, and location.">
+    <meta property="og:url" content="https://heavenlease.in/properties">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1200&q=80">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styles.css?v=20260909a">
+    <style>
+        /* Page-specific styles */
+        .page-header {
+            background: var(--gradient-soft);
+            padding: 140px 0 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header h1 {
+            font-family: var(--font-heading);
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 12px;
+        }
+
+        .page-header p {
+            font-size: 17px;
+            color: var(--gray-500);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .page-header .breadcrumb {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 16px;
+            font-size: 14px;
+            color: var(--gray-500);
+        }
+
+        .page-header .breadcrumb a {
+            color: var(--primary);
+        }
+
+        .page-header .breadcrumb i {
+            font-size: 12px;
+            color: var(--gray-400);
+        }
+
+        .properties-page-section {
+            padding: 60px 0 100px;
+            background: var(--gray-50);
+        }
+
+        .properties-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 32px;
+        }
+
+        .filter-sidebar {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            border: 1px solid var(--gray-200);
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+
+        .filter-sidebar h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .filter-sidebar h3 i {
+            color: var(--primary);
+        }
+
+        .filter-group {
+            margin-bottom: 24px;
+        }
+
+        .filter-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--gray-600);
+            margin-bottom: 8px;
+        }
+
+        .filter-group input,
+        .filter-group select {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-md);
+            background: var(--gray-50);
+            font-size: 14px;
+            color: var(--gray-700);
+            transition: var(--transition);
+        }
+
+        .filter-group input:focus,
+        .filter-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: var(--white);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .filter-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 0;
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--gray-600);
+        }
+
+        .filter-checkbox input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary);
+            cursor: pointer;
+        }
+
+        .filter-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .filter-actions .btn {
+            width: 100%;
+        }
+
+        .btn-clear {
+            background: var(--gray-100);
+            color: var(--gray-600);
+        }
+
+        .btn-clear:hover {
+            background: var(--gray-200);
+        }
+
+        .properties-list-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+
+        .properties-list-header h2 {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .properties-list-header span {
+            color: var(--gray-500);
+            font-size: 14px;
+        }
+
+        .sort-select {
+            padding: 8px 14px;
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-md);
+            background: var(--white);
+            font-size: 14px;
+            color: var(--gray-600);
+        }
+
+        .properties-list-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--gray-200);
+        }
+
+        .no-results i {
+            font-size: 48px;
+            color: var(--gray-300);
+            margin-bottom: 16px;
+        }
+
+        .no-results h3 {
+            font-size: 20px;
+            color: var(--dark);
+            margin-bottom: 8px;
+        }
+
+        .no-results p {
+            color: var(--gray-500);
+            margin-bottom: 20px;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 40px;
+        }
+
+        .page-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--gray-600);
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            transition: var(--transition);
+        }
+
+        .page-btn:hover,
+        .page-btn.active {
+            background: var(--primary);
+            color: var(--white);
+            border-color: var(--primary);
+        }
+
+        @media (max-width: 1024px) {
+            .properties-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-sidebar {
+                position: static;
+                margin-bottom: 24px;
+            }
+
+            .properties-list-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-header {
+                padding: 120px 0 40px;
+            }
+
+            .page-header h1 {
+                font-size: 36px;
+            }
+
+            .properties-list-header {
+                flex-direction: column;
+                gap: 12px;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== NAVIGATION ===== -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <span class="logo-text">Heaven<span>Lease</span></span>
+            </a>
+            
+            <div class="nav-actions">
+                                <div class="user-menu" id="userMenu">
+                    <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu">
+                        <span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span>
+                        <span id="navUserName">Account</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="user-dropdown" id="profileDropdown">
+                        <a href="home" id="mainHomeLink"><i class="fas fa-home"></i> Main Home</a>
+                        <a href="edit-profile" id="myProfileLink"><i class="fas fa-user"></i> My Profile &amp; Settings</a>
+                        <a href="payment"><i class="fas fa-credit-card"></i> Access Pass</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="properties"><i class="fas fa-building"></i> Browse Properties</a>
+                        <a href="map"><i class="fas fa-map-location-dot"></i> Property Map</a>
+                        <a href="comfort-scores"><i class="fas fa-gauge-high"></i> Comfort Scores</a>
+                        <a href="saved-properties"><i class="fas fa-heart"></i> Saved Properties</a>
+                        <a href="list-property"><i class="fas fa-key"></i> List Your Property</a>
+                        <a href="tenant-screening"><i class="fas fa-user-check"></i> Tenant Screening</a>
+                        <a href="owner-resources"><i class="fas fa-toolbox"></i> Owner Resources</a>
+                        <a href="buy-sell"><i class="fas fa-tag"></i> Buy / Sell</a>
+                        <a href="possession"><i class="fas fa-key"></i> Possession &amp; Handover</a>
+                        <a href="lease-signing"><i class="fas fa-file-signature"></i> Leases &amp; Signing</a>
+                        <a href="tour-booking"><i class="fas fa-calendar-check"></i> Tour Bookings</a>
+                        <a href="messages"><i class="fas fa-comments"></i> Messages</a>
+                        <a href="notifications"><i class="fas fa-bell"></i> Notifications</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="how-it-works"><i class="fas fa-circle-question"></i> How It Works</a>
+                        <a href="about"><i class="fas fa-building"></i> About Us</a>
+                        <a href="blog"><i class="fas fa-newspaper"></i> Blog</a>
+<a href="comfort-scores"><i class="fas fa-chart-simple"></i> Type &amp; Voice Search</a>
+                                                <a href="contact"><i class="fas fa-envelope"></i> Contact &amp; Support</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="login" id="signInLink" class="hide-when-auth"><i class="fas fa-arrow-right-to-bracket"></i> Sign In</a>
+                        <a href="#" id="logoutLink" class="logout-link hide-when-guest"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+</div>
+        </div>
+    </nav>
+
+    <!-- ===== PAGE HEADER ===== -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Browse <span class="gradient-text">Properties</span></h1>
+            <p>Find your perfect home from verified owners. Filter by comfort, budget, and location.</p>
+            <div class="breadcrumb">
+                <a href="/">Home</a>
+                <i class="fas fa-chevron-right"></i>
+                <span>Properties</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== PROPERTIES LISTING ===== -->
+    <section class="properties-page-section">
+        <div class="container">
+            <div class="properties-layout">
+                <!-- Filter Sidebar -->
+                <aside class="filter-sidebar">
+                    <h3><i class="fas fa-sliders"></i> Filters</h3>
+                    
+                    <div class="filter-group">
+                        <label>Location</label>
+                        <input type="text" id="filterLocation" placeholder="City or locality">
+                    </div>
+
+                    <div class="filter-group">
+                        <label>Max Budget</label>
+                        <select id="filterBudget">
+                            <option value="">Any Budget</option>
+                            <option value="10000">Under ₹10,000</option>
+                            <option value="20000">₹10,000 – ₹20,000</option>
+                            <option value="30000">₹20,000 – ₹30,000</option>
+                            <option value="40000">₹30,000 – ₹40,000</option>
+                            <option value="50000">₹40,000 – ₹50,000</option>
+                            <option value="60000">₹50,000+</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label>BHK Type</label>
+                        <select id="filterBhk">
+                            <option value="">Any</option>
+                            <option value="1">1 BHK</option>
+                            <option value="2">2 BHK</option>
+                            <option value="3">3 BHK</option>
+                            <option value="4">4+ BHK</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label>Property Type</label>
+                        <select id="filterType">
+                            <option value="">Any</option>
+                            <option value="apartment">Apartment</option>
+                            <option value="villa">Villa / House</option>
+                            <option value="studio">Studio</option>
+                            <option value="pg">PG / Hostel</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label>Comfort Filters</label>
+                        <label class="filter-checkbox">
+                            <input type="checkbox" id="filterPet"> Pet Friendly
+                        </label>
+                        <label class="filter-checkbox">
+                            <input type="checkbox" id="filterFurnished"> Furnished
+                        </label>
+                        <label class="filter-checkbox">
+                            <input type="checkbox" id="filterQuiet"> Quiet (85%+)
+                        </label>
+                        <label class="filter-checkbox">
+                            <input type="checkbox" id="filterSunny"> Sunny (85%+)
+                        </label>
+                        <label class="filter-checkbox">
+                            <input type="checkbox" id="filterMetro"> Near Metro
+                        </label>
+                    </div>
+
+                    <div class="filter-actions">
+                        <button class="btn btn-primary" id="applyFilters">
+                            <i class="fas fa-magnifying-glass"></i> Apply Filters
+                        </button>
+                        <button class="btn btn-clear" id="clearFilters">
+                            <i class="fas fa-rotate-left"></i> Clear All
+                        </button>
+                    </div>
+                </aside>
+
+                <!-- Properties List -->
+                <div class="properties-list">
+                    <div class="properties-list-header">
+                        <h2>Available Properties <span id="propertyCount"></span></h2>
+                        <select class="sort-select" id="sortSelect">
+                            <option value="featured">Sort: Featured</option>
+                            <option value="price-low">Price: Low to High</option>
+                            <option value="price-high">Price: High to Low</option>
+                            <option value="quiet">Quietness Score</option>
+                            <option value="sunlight">Sunlight Score</option>
+                        </select>
+                    </div>
+                    <div class="properties-list-grid" id="propertiesListGrid">
+                        <!-- Property cards injected by JS -->
+                    </div>
+                    <div class="pagination" id="pagination">
+                        <button class="page-btn active">1</button>
+                        <button class="page-btn">2</button>
+                        <button class="page-btn">3</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid" style="grid-template-columns: repeat(3, 1fr); gap: 32px; text-align: left;">
+                <div class="footer-brand">
+                    <a href="/" class="logo">
+                        <div class="logo-icon"><i class="fas fa-home"></i></div>
+                        <span class="logo-text">Heaven<span>Lease</span></span>
+                    </a>
+                    <p style="margin:12px 0 0;max-width:280px;">Simple steps to your perfect stay. Direct owner rentals with zero broker fees and comfort-first search.</p>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:8px;font-size:14px;">
+                    <strong style="margin-bottom:4px;">Company</strong>
+                    <a href="about" style="color:inherit;text-decoration:none;">About Us</a>
+                    <a href="careers" style="color:inherit;text-decoration:none;">Careers</a>
+                    <a href="press" style="color:inherit;text-decoration:none;">Press</a>
+                    <a href="blog" style="color:inherit;text-decoration:none;">Blog</a>
+                    <a href="contact" style="color:inherit;text-decoration:none;">Contact</a>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:8px;font-size:14px;">
+                    <strong style="margin-bottom:4px;">Legal &amp; Resources</strong>
+                    <a href="privacy" style="color:inherit;text-decoration:none;">Privacy Policy</a>
+                    <a href="terms" style="color:inherit;text-decoration:none;">Terms of Service</a>
+                    <a href="cookies" style="color:inherit;text-decoration:none;">Cookie Policy</a>
+                    <a href="rental-laws" style="color:inherit;text-decoration:none;">Rental Laws</a>
+                    <a href="escrow-policy" style="color:inherit;text-decoration:none;">Escrow Policy</a>
+                </div>
+            </div>
+            <div class="footer-bottom" style="justify-content: center;">
+                <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
+            </div>
+        </div>
+    </footer>
+
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="api.js?v=20260913a"></script>
+    <script src="script.js?v=20260913a"></script>
+    <script>
+        // Page-specific JavaScript
+        // Note: navbar, hamburger, navLinks, backToTop are already declared in script.js
+        const propertiesListGrid = document.getElementById('propertiesListGrid');
+        const propertyCount = document.getElementById('propertyCount');
+
+        // Navbar scroll
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) navbar.classList.add('scrolled');
+            else navbar.classList.remove('scrolled');
+            if (window.scrollY > 500) backToTop.classList.add('visible');
+            else backToTop.classList.remove('visible');
+        });
+
+        // Mobile menu
+        if (hamburger) hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        if (hamburger && navLinks) {
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburger.classList.remove('active');
+                    navLinks.classList.remove('active');
+                });
+            });
+        }
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // All properties come from the real backend (single source of truth).
+        let allProperties = loadAllProperties();
+        let usingApi = false;
+
+        // Load from the real backend; render once data is available.
+        fetchApiProperties(0, 100).then(list => {
+            if (list && list.length > 0) {
+                usingApi = true;
+                allProperties = list;
+                renderAllProperties(allProperties);
+            } else {
+                renderAllProperties([]);
+            }
+            applyUrlQueryParams();
+        }).catch(() => renderAllProperties([]));
+
+        // Read ?location= &budget= &bhk= etc. from the URL (set by Type/Voice Search)
+        function applyUrlQueryParams() {
+            try {
+                const params = new URLSearchParams(window.location.search);
+                let changed = false;
+                const loc = params.get('location');
+                const budget = params.get('budget');
+                const bhk = params.get('bhk');
+                const type = params.get('type');
+                if (loc) { document.getElementById('filterLocation').value = loc; changed = true; }
+                if (budget && document.getElementById('filterBudget')) {
+                    // budget may be a number or a band value like "10000"
+                    const opt = Array.from(document.getElementById('filterBudget').options).find(o => o.value === budget);
+                    if (opt) { document.getElementById('filterBudget').value = budget; changed = true; }
+                }
+                if (bhk && document.getElementById('filterBhk')) {
+                    const opt = Array.from(document.getElementById('filterBhk').options).find(o => o.value === bhk);
+                    if (opt) { document.getElementById('filterBhk').value = bhk; changed = true; }
+                }
+                if (type && document.getElementById('filterType')) {
+                    const opt = Array.from(document.getElementById('filterType').options).find(o => o.value === type);
+                    if (opt) { document.getElementById('filterType').value = type; changed = true; }
+                }
+                if (changed) applyFilters();
+            } catch (e) { /* ignore query param errors */ }
+        }
+
+        // Pagination state
+        let currentPage = 1;
+        const PER_PAGE = 6;
+
+        // ===== ACCESS PASS GATING =====
+        // Free (non-subscribed) users see the first freePreviewCount properties
+        // in full; everything after that is blurred with an Unlock overlay.
+        const FREE_PREVIEW_COUNT = 15;
+        let isPaidUserFlag = false;
+
+        // Load the real subscription status (server-side truth) and re-render.
+        (async () => {
+            try {
+                const sub = await loadSubscription();
+                isPaidUserFlag = !!(sub && sub.active);
+            } catch (e) {
+                isPaidUserFlag = false;
+            }
+            // Re-render so locked/unlocked badges update. `lastFiltered` may not be
+            // initialised yet at this point in the page, so fall back to allProperties.
+            renderAllProperties(window.__hlLastFiltered || allProperties);
+        })();
+
+        // Render properties with pagination
+        function renderAllProperties(filtered = allProperties) {
+            propertyCount.textContent = `(${filtered.length})`;
+            
+            if (filtered.length === 0) {
+                currentPage = 1;
+                propertiesListGrid.innerHTML = `
+                    <div class="no-results" style="grid-column: 1/-1;">
+                        <i class="fas fa-search"></i>
+                        <h3>No Properties Found</h3>
+                        <p>Try adjusting your filters, or check back soon — new verified listings are added every day.</p>
+                        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+                            <button class="btn btn-primary" onclick="clearAllFilters()">
+                                <i class="fas fa-rotate-left"></i> Clear Filters
+                            </button>
+                            <a href="list-property" class="btn btn-outline">
+                                <i class="fas fa-plus"></i> List Your Property
+                            </a>
+                        </div>
+                    </div>
+                `;
+                renderPagination(0);
+                return;
+            }
+
+            // Clamp current page to valid range
+            const totalPages = Math.ceil(filtered.length / PER_PAGE);
+            if (currentPage > totalPages) currentPage = totalPages;
+            if (currentPage < 1) currentPage = 1;
+
+            // Slice for current page
+            const start = (currentPage - 1) * PER_PAGE;
+            const pageItems = filtered.slice(start, start + PER_PAGE);
+
+            propertiesListGrid.innerHTML = pageItems.map((property, i) => {
+                const globalIdx = filtered.indexOf(property);
+                const isLocked = !isPaidUserFlag && globalIdx >= FREE_PREVIEW_COUNT;
+                return `
+                <div class="property-card fade-in-up${isLocked ? ' locked' : ''}" data-id="${property.id}">
+                    <div class="property-image">
+                        <div class="property-image-placeholder">
+                            <i class="fas ${property.icon}"></i>
+                        </div>
+                        <span class="property-badge">
+                            <i class="fas fa-check-circle"></i> ${property.badge}
+                        </span>
+                        <button class="property-favorite" data-id="${property.id}" aria-label="Save property">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="property-body">
+                        <h3 class="property-title">${property.title}</h3>
+                        <p class="property-location">
+                            <i class="fas fa-location-dot"></i> ${property.location}
+                        </p>
+                        <div class="property-price">
+                            <span class="price">${formatPrice(property.price)}</span>
+                            <span class="per-month">/month</span>
+                        </div>
+                        <div class="property-amenities">
+                            ${property.amenities.map(a => `
+                                <span class="property-amenity">
+                                    <i class="fas fa-check"></i> ${a}
+                                </span>
+                            `).join('')}
+                        </div>
+                        <div class="property-comfort">
+                            <div class="comfort-score">
+                                <i class="fas fa-volume-low"></i>
+                                <span>Quiet ${property.quietness}%</span>
+                            </div>
+                            <div class="comfort-score">
+                                <i class="fas fa-sun"></i>
+                                <span>Sun ${property.sunlight}%</span>
+                            </div>
+                            <div class="comfort-score">
+                                <i class="fas fa-car"></i>
+                                <span>Commute ${property.commute}%</span>
+                            </div>
+                        </div>
+                        <div class="property-actions">
+                            <a href="property-detail?id=${property.id}" class="btn btn-primary">
+                                <i class="fas fa-eye"></i> View Details
+                            </a>
+                            <a href="messages?property=${encodeURIComponent(property.title)}" class="btn btn-outline" onclick="openChat('${encodeURIComponent(property.title)}')">
+                                <i class="fas fa-comments"></i> Chat
+                            </a>
+                        </div>
+                    </div>
+                    ${isLocked ? `
+                        <div class="property-lock" onclick="event.preventDefault();event.stopPropagation();">
+                            <div class="property-lock-inner">
+                                <i class="fas fa-lock"></i>
+                                <h4>Access Pass required</h4>
+                                <p>Unlock full details and contact the owner.</p>
+                                <a href="payment?redirect=properties" class="btn btn-primary">
+                                    <i class="fas fa-unlock"></i> Unlock with Access Pass
+                                </a>
+                            </div>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+            }).join('');
+
+            // Attach favorite listeners
+            document.querySelectorAll('.property-favorite').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const icon = btn.querySelector('i');
+                    if (btn.classList.contains('active')) {
+                        btn.classList.remove('active');
+                        icon.classList.remove('fas');
+                        icon.classList.add('far');
+                    } else {
+                        btn.classList.add('active');
+                        icon.classList.remove('far');
+                        icon.classList.add('fas');
+                    }
+                });
+            });
+        }
+
+        // Filter logic
+        function applyFilters() {
+            const location = document.getElementById('filterLocation').value.toLowerCase();
+            const budget = document.getElementById('filterBudget').value;
+            const bhk = document.getElementById('filterBhk').value;
+            const type = document.getElementById('filterType').value;
+            const pet = document.getElementById('filterPet').checked;
+            const furnished = document.getElementById('filterFurnished').checked;
+            const quiet = document.getElementById('filterQuiet').checked;
+            const sunny = document.getElementById('filterSunny').checked;
+            const metro = document.getElementById('filterMetro').checked;
+
+            let filtered = allProperties.filter(p => {
+                if (location && !p.location.toLowerCase().includes(location) && !p.title.toLowerCase().includes(location)) return false;
+                if (budget && p.price > parseInt(budget)) return false;
+                if (bhk && p.bhk !== parseInt(bhk)) return false;
+                if (type && p.propertyType !== type) return false;
+                if (pet && !p.petFriendly) return false;
+                if (furnished && !p.furnished) return false;
+                if (quiet && p.quietness < 85) return false;
+                if (sunny && p.sunlight < 85) return false;
+                if (metro && p.commute < 90) return false;
+                return true;
+            });
+
+            currentPage = 1;
+            renderAllProperties(filtered);
+        }
+
+        function clearAllFilters() {
+            document.getElementById('filterLocation').value = '';
+            document.getElementById('filterBudget').value = '';
+            document.getElementById('filterBhk').value = '';
+            document.getElementById('filterType').value = '';
+            document.getElementById('filterPet').checked = false;
+            document.getElementById('filterFurnished').checked = false;
+            document.getElementById('filterQuiet').checked = false;
+            document.getElementById('filterSunny').checked = false;
+            document.getElementById('filterMetro').checked = false;
+            renderAllProperties(allProperties);
+        }
+
+        // Sort logic — sort the current filtered set
+        let lastFiltered = allProperties;
+        document.getElementById('sortSelect').addEventListener('change', (e) => {
+            const sortBy = e.target.value;
+            let sorted = [...lastFiltered];
+            
+            switch (sortBy) {
+                case 'price-low':
+                    sorted.sort((a, b) => a.price - b.price);
+                    break;
+                case 'price-high':
+                    sorted.sort((a, b) => b.price - a.price);
+                    break;
+                case 'quiet':
+                    sorted.sort((a, b) => b.quietness - a.quietness);
+                    break;
+                case 'sunlight':
+                    sorted.sort((a, b) => b.sunlight - a.sunlight);
+                    break;
+            }
+            
+            currentPage = 1;
+            renderAllProperties(sorted);
+        });
+
+        // Pagination rendering
+        function renderPagination(totalItems) {
+            const pagination = document.getElementById('pagination');
+            const totalPages = Math.ceil(totalItems / PER_PAGE);
+            if (totalPages <= 1) {
+                pagination.innerHTML = '';
+                return;
+            }
+            let html = '';
+            for (let i = 1; i <= totalPages; i++) {
+                html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
+            }
+            pagination.innerHTML = html;
+        }
+
+        window.goToPage = function(page) {
+            currentPage = page;
+            // Re-render the current filtered/sorted set on the new page
+            renderAllProperties(lastFiltered);
+        };
+
+        // Update lastFiltered in renderAllProperties
+        const origRender = renderAllProperties;
+        renderAllProperties = function(filtered) {
+            lastFiltered = filtered;
+            origRender(filtered);
+            renderPagination(filtered.length);
+        };
+
+        // Event listeners
+        document.getElementById('applyFilters').addEventListener('click', () => {
+            applyFilters();
+        });
+        document.getElementById('clearFilters').addEventListener('click', clearAllFilters);
+
+        // Open chat (no paywall gate; access is open)
+        window.openChat = function(encodedTitle) {
+            window.location.href = 'messages?property=' + encodedTitle;
+        };
+
+        // Paywall banner is open — no gate on this build
+
+        // Initialize
+        renderAllProperties(allProperties);
+    </script>
+</body>
+</html>
+

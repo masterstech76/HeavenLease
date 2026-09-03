@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="List your property for sale on HeavenLease. Verified buyers, direct contact and dealing, and no broker commission.">
+    <title>Sell Your Home — HeavenLease</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styles.css?v=20260909a">
+    <style>
+        .sh-hero { background: linear-gradient(135deg,#0F172A 0%,#065F46 50%,#10B981 100%); color:#fff; padding:150px 0 90px; text-align:center; position:relative; overflow:hidden; }
+        .sh-hero .sh-badge { display:inline-flex; align-items:center; gap:8px; background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.25); padding:8px 16px; border-radius:999px; font-size:13px; letter-spacing:0.5px; margin-bottom:20px; }
+        .sh-hero h1 { font-family:var(--font-heading); font-size:52px; font-weight:700; margin-bottom:16px; }
+        .sh-hero p { font-size:18px; opacity:0.9; max-width:640px; margin:0 auto 30px; line-height:1.7; }
+        .sh-hero .btn-hero { background:#fff; color:#0F172A; padding:14px 34px; border-radius:999px; font-weight:600; }
+        .sh-hero .btn-hero:hover { background:var(--primary); color:#fff; }
+        .sh-features { padding:80px 0; }
+        .sh-features .sh-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:28px; }
+        .sh-card { background:var(--white); border-radius:var(--radius-lg); padding:32px; border:1px solid var(--gray-200); transition:var(--transition); }
+        .sh-card:hover { transform:translateY(-5px); box-shadow:var(--shadow-lg); }
+        .sh-icon { width:56px; height:56px; border-radius:var(--radius-md); background:var(--gradient-soft); display:flex; align-items:center; justify-content:center; font-size:22px; color:var(--secondary-dark); margin-bottom:18px; }
+        .sh-card h3 { font-size:19px; font-weight:700; color:var(--dark); margin-bottom:10px; }
+        .sh-card p { font-size:14px; color:var(--gray-500); line-height:1.7; }
+        .sh-steps { padding:70px 0; background:linear-gradient(135deg, #F6F8FF 0%, #FDF4F8 100%); }
+        .sh-steps .steps-grid { max-width:1020px; margin:0 auto; display:grid; grid-template-columns:repeat(4,1fr); gap:18px; position:relative; }
+        .sh-steps .steps-grid::before { content:''; position:absolute; top:22px; left:10%; right:10%; height:2px; background:repeating-linear-gradient(90deg, #C7D2FE 0 6px, transparent 6px 12px); }
+        .sh-steps .step-item { background:var(--white); border-radius:var(--radius-lg); padding:26px 18px; text-align:center; border:1px solid var(--gray-200); position:relative; box-shadow:var(--shadow-sm); transition:var(--transition); }
+        .sh-steps .step-item:hover { transform:translateY(-4px); box-shadow:var(--shadow-lg); border-color:var(--primary); }
+        .sh-steps .step-num { width:44px; height:44px; margin:0 auto 14px; background:var(--gradient); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:16px; box-shadow:var(--shadow-primary); }
+        .sh-steps .step-item h4 { font-size:15px; font-weight:600; color:var(--dark); margin-bottom:6px; }
+        .sh-steps .step-item h4 i { color:var(--secondary-dark); margin-right:6px; font-size:13px; }
+        .sh-steps .step-item p { font-size:13px; color:var(--gray-500); line-height:1.55; }
+        .sh-cta { padding:70px 0; text-align:center; background:var(--gradient); color:#fff; position:relative; overflow:hidden; }
+        .sh-cta h2 { font-family:var(--font-heading); font-size:32px; margin-bottom:12px; color:#fff; }
+        .sh-cta p { max-width:520px; margin:0 auto 26px; opacity:0.95; }
+        .sh-cta .btn { background:#fff; color:var(--secondary-dark); font-weight:600; }
+        .sh-cta .btn.ghost { background:transparent; border:1px solid #fff; color:#fff; }
+        @media (max-width:900px){ .sh-steps .steps-grid{grid-template-columns:1fr; gap:14px;} .sh-steps .steps-grid::before{display:none;} .sh-steps .step-item{text-align:left; display:flex; gap:14px; align-items:flex-start;} .sh-steps .step-num{margin:0; flex-shrink:0;} }
+        @media (max-width:768px){ .sh-hero h1{font-size:34px} .sh-features .sh-grid{grid-template-columns:1fr} }
+    </style>
+</head>
+<body>
+<nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <span class="logo-text">Heaven<span>Lease</span></span>
+            </a>
+            
+            <div class="nav-actions">
+                                <div class="user-menu" id="userMenu">
+                    <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu">
+                        <span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span>
+                        <span id="navUserName">Account</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="user-dropdown" id="profileDropdown">
+                        <a href="home" id="mainHomeLink"><i class="fas fa-home"></i> Main Home</a>
+                        <a href="edit-profile" id="myProfileLink"><i class="fas fa-user"></i> My Profile &amp; Settings</a>
+                        <a href="payment"><i class="fas fa-credit-card"></i> Access Pass</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="properties"><i class="fas fa-building"></i> Browse Properties</a>
+                        <a href="map"><i class="fas fa-map-location-dot"></i> Property Map</a>
+                        <a href="comfort-scores"><i class="fas fa-gauge-high"></i> Comfort Scores</a>
+                        <a href="saved-properties"><i class="fas fa-heart"></i> Saved Properties</a>
+                        <a href="list-property"><i class="fas fa-key"></i> List Your Property</a>
+                        <a href="tenant-screening"><i class="fas fa-user-check"></i> Tenant Screening</a>
+                        <a href="owner-resources"><i class="fas fa-toolbox"></i> Owner Resources</a>
+                        <a href="buy-sell"><i class="fas fa-tag"></i> Buy / Sell</a>
+                        <a href="possession"><i class="fas fa-key"></i> Possession &amp; Handover</a>
+                        <a href="lease-signing"><i class="fas fa-file-signature"></i> Leases &amp; Signing</a>
+                        <a href="tour-booking"><i class="fas fa-calendar-check"></i> Tour Bookings</a>
+                        <a href="messages"><i class="fas fa-comments"></i> Messages</a>
+                        <a href="notifications"><i class="fas fa-bell"></i> Notifications</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="how-it-works"><i class="fas fa-circle-question"></i> How It Works</a>
+                        <a href="about"><i class="fas fa-building"></i> About Us</a>
+                        <a href="blog"><i class="fas fa-newspaper"></i> Blog</a>
+<a href="comfort-scores"><i class="fas fa-chart-simple"></i> Type &amp; Voice Search</a>
+                                                <a href="contact"><i class="fas fa-envelope"></i> Contact &amp; Support</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="login" id="signInLink" class="hide-when-auth"><i class="fas fa-arrow-right-to-bracket"></i> Sign In</a>
+                        <a href="#" id="logoutLink" class="logout-link hide-when-guest"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+
+                
+            </div>
+        </div>
+    </nav>
+
+    <section class="sh-hero">
+        <div class="container">
+            <span class="sh-badge"><i class="fas fa-handshake"></i> No Broker. No Commission.</span>
+            <h1>Sell Your Home to<br>Verified, Ready Buyers</h1>
+            <p>List your property for free, reach genuine buyers, and connect with them directly. You negotiate and settle the deal with the buyer — HeavenLease brings you both together.</p>
+            <a href="list-property" class="btn btn-lg btn-hero"><i class="fas fa-plus"></i> List Your Property</a>
+        </div>
+    </section>
+
+    <section class="sh-features">
+        <div class="container">
+            <div class="sh-grid">
+                <div class="sh-card">
+                    <div class="sh-icon"><i class="fas fa-circle-check"></i></div>
+                    <h3>Verified Serious Buyers</h3>
+                    <p>Message directly with pre-verified buyers — no time-wasters, no brokers in between.</p>
+                </div>
+                <div class="sh-card">
+                    <div class="sh-icon"><i class="fas fa-piggy-bank"></i></div>
+                    <h3>Zero Commission</h3>
+                    <p>Keep the full sale price. We don't take a brokerage cut — you earn more from every sale.</p>
+                </div>
+                <div class="sh-card">
+                    <div class="sh-icon"><i class="fas fa-comments"></i></div>
+                    <h3>Deal Directly with the Buyer</h3>
+                    <p>Chat or call interested buyers, share documents, and negotiate the terms together — no online payment needed on the platform.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+<section class="sh-steps">
+        <div class="container">
+            <h2 style="text-align:center;margin-bottom:40px;">How Selling Works</h2>
+            <div class="steps-grid">
+                <div class="step-item"><div class="step-num">1</div><div><h4><i class="fas fa-house-circle-check"></i> List your property</h4><p>Add photos, details, and your asking price. Our team verifies your ownership documents.</p></div></div>
+                <div class="step-item"><div class="step-num">2</div><div><h4><i class="fas fa-comments"></i> Connect with buyers</h4><p>Verified buyers find your listing, chat with you, and schedule visits securely.</p></div></div>
+                <div class="step-item"><div class="step-num">3</div><div><h4><i class="fas fa-handshake"></i> Negotiate &amp; agree</h4><p>Finalize the price and terms directly with the buyer — the deal is made between you two, off-platform.</p></div></div>
+                <div class="step-item"><div class="step-num">4</div><div><h4><i class="fas fa-key"></i> Complete the sale</h4><p>Finish your agreement and paperwork with the buyer, then hand over possession of the home.</p></div></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="sh-cta">
+        <div class="container">
+            <h2>Ready to Sell Without a Broker?</h2>
+            <p>List free and keep the full value of your home.</p>
+            <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+                <a href="list-property" class="btn btn-lg"><i class="fas fa-plus"></i> List Your Property</a>
+                <a href="buy-sell" class="btn btn-lg ghost"><i class="fas fa-search"></i> I'm Buying Instead</a>
+            </div>
+        </div>
+    </section>
+
+    <script src="api.js?v=20260913a"></script>
+    <script src="script.js?v=20260913a"></script>
+</body>
+</html>
+

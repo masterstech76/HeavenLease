@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Join the HeavenLease team - careers and job openings.">
+    <title>Careers — HeavenLease</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styles.css?v=20260909a">
+    <style>
+        .page-header { background: var(--gradient-soft); padding: 140px 0 80px; text-align: center; position: relative; overflow: hidden; }
+        .page-header h1 { font-family: var(--font-heading); font-size: 48px; font-weight: 700; color: var(--dark); margin-bottom: 16px; }
+        .page-header p { font-size: 18px; color: var(--gray-500); max-width: 600px; margin: 0 auto; }
+        .page-header .breadcrumb { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 16px; font-size: 14px; color: var(--gray-500); }
+        .page-header .breadcrumb a { color: var(--primary); }
+        .page-header .breadcrumb i { font-size: 12px; color: var(--gray-400); }
+        .content-section { padding: 80px 0; }
+        .jobs-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; }
+        .job-card { background: var(--white); border-radius: var(--radius-lg); padding: 32px; border: 1px solid var(--gray-200); transition: var(--transition); }
+        .job-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+        .job-card h3 { font-size: 20px; font-weight: 600; color: var(--dark); margin-bottom: 8px; }
+        .job-card .job-type { font-size: 13px; color: var(--primary); font-weight: 500; margin-bottom: 12px; }
+        .job-card p { font-size: 14px; color: var(--gray-500); line-height: 1.7; margin-bottom: 16px; }
+        .job-card .btn { margin-top: 8px; }
+        .culture-section { padding: 80px 0; background: var(--gray-50); }
+        .culture-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+        .culture-card { background: var(--white); border-radius: var(--radius-lg); padding: 32px; border: 1px solid var(--gray-200); }
+        .culture-card h3 { font-size: 18px; font-weight: 600; color: var(--dark); margin-bottom: 12px; }
+        .culture-card p { font-size: 14px; color: var(--gray-500); line-height: 1.7; }
+        @media (max-width: 1024px) { .jobs-grid, .culture-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) { .page-header { padding: 120px 0 50px; } .page-header h1 { font-size: 36px; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <div class="logo-icon"><i class="fas fa-home"></i></div>
+<span class="logo-text">Heaven<span>Lease</span></span>
+            </a>
+            
+            <div class="nav-actions">
+                                <div class="user-menu" id="userMenu">
+                    <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu">
+                        <span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span>
+                        <span id="navUserName">Account</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="user-dropdown" id="profileDropdown">
+                        <a href="home" id="mainHomeLink"><i class="fas fa-home"></i> Main Home</a>
+                        <a href="edit-profile" id="myProfileLink"><i class="fas fa-user"></i> My Profile &amp; Settings</a>
+                        <a href="payment"><i class="fas fa-credit-card"></i> Access Pass</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="properties"><i class="fas fa-building"></i> Browse Properties</a>
+                        <a href="map"><i class="fas fa-map-location-dot"></i> Property Map</a>
+                        <a href="comfort-scores"><i class="fas fa-gauge-high"></i> Comfort Scores</a>
+                        <a href="saved-properties"><i class="fas fa-heart"></i> Saved Properties</a>
+                        <a href="list-property"><i class="fas fa-key"></i> List Your Property</a>
+                        <a href="tenant-screening"><i class="fas fa-user-check"></i> Tenant Screening</a>
+                        <a href="owner-resources"><i class="fas fa-toolbox"></i> Owner Resources</a>
+                        <a href="buy-sell"><i class="fas fa-tag"></i> Buy / Sell</a>
+                        <a href="possession"><i class="fas fa-key"></i> Possession &amp; Handover</a>
+                        <a href="lease-signing"><i class="fas fa-file-signature"></i> Leases &amp; Signing</a>
+                        <a href="tour-booking"><i class="fas fa-calendar-check"></i> Tour Bookings</a>
+                        <a href="messages"><i class="fas fa-comments"></i> Messages</a>
+                        <a href="notifications"><i class="fas fa-bell"></i> Notifications</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="how-it-works"><i class="fas fa-circle-question"></i> How It Works</a>
+                        <a href="about"><i class="fas fa-building"></i> About Us</a>
+                        <a href="blog"><i class="fas fa-newspaper"></i> Blog</a>
+<a href="comfort-scores"><i class="fas fa-chart-simple"></i> Type &amp; Voice Search</a>
+                                                <a href="contact"><i class="fas fa-envelope"></i> Contact &amp; Support</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="login" id="signInLink" class="hide-when-auth"><i class="fas fa-arrow-right-to-bracket"></i> Sign In</a>
+                        <a href="#" id="logoutLink" class="logout-link hide-when-guest"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+</div>
+        </div>
+    </nav>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>Join Our <span class="gradient-text">Team</span></h1>
+            <p>Help us make renting simple, direct, and broker-free for everyone.</p>
+            <div class="breadcrumb">
+                <a href="/">Home</a>
+                <i class="fas fa-chevron-right"></i>
+                <span>Careers</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Open Positions</span>
+                <h2>Current <span class="gradient-text">Openings</span></h2>
+            </div>
+            <div class="jobs-grid">
+                <div class="job-card">
+                    <h3>Property Manager</h3>
+                    <span class="job-type">Property Management · Bengaluru · Full-time</span>
+                    <p>Oversee a portfolio of listed homes — coordinate owner onboarding, property visits and move-in/move-out inspections, and keep every listing accurate and comfortable.</p>
+                    <a href="contact" class="btn btn-outline">Apply Now</a>
+                </div>
+                <div class="job-card">
+                    <h3>Home Verification Executive</h3>
+                    <span class="job-type">Field Operations · Multiple Cities · Full-time</span>
+                    <p>Visit properties in person, verify ownership documents, capture photo/video walkthroughs and score comfort factors like quietness, sunlight and commute.</p>
+                    <a href="contact" class="btn btn-outline">Apply Now</a>
+                </div>
+                <div class="job-card">
+                    <h3>Interior Design & Space Consultant</h3>
+                    <span class="job-type">Design · Remote + On-site · Full-time</span>
+                    <p>Advise owners on space optimisation, furnishing and presentation so every home feels move-in ready. Comfort-first thinking is a must.</p>
+                    <a href="contact" class="btn btn-outline">Apply Now</a>
+                </div>
+                <div class="job-card">
+                    <h3>Leasing & Tenant Success Specialist</h3>
+                    <span class="job-type">Tenant Experience · Remote · Full-time</span>
+                    <p>Guide tenants from search to signed lease — screening coordination, tour bookings and move-in support, with a warm, people-first approach.</p>
+                    <a href="contact" class="btn btn-outline">Apply Now</a>
+                </div>
+                <div class="job-card">
+                    <h3>Regional Expansion Lead — North India</h3>
+                    <span class="job-type">Business Development · Delhi NCR · Full-time</span>
+                    <p>Build our listing supply in the north — partner with owners, real-estate societies and local services to grow the HeavenLease network city by city.</p>
+                    <a href="contact" class="btn btn-outline">Apply Now</a>
+                </div>
+                <div class="job-card">
+                    <h3>Architecture & Home Quality Consultant</h3>
+                    <span class="job-type">Advisory · Remote · Part-time</span>
+                    <p>Share expertise on building quality, Vastu-friendly layouts, sustainable materials and home safety to shape our comfort-scores framework.</p>
+                    <a href="contact" class="btn btn-outline">Apply Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="culture-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Our Culture</span>
+                <h2>Why Work at <span class="gradient-text">HeavenLease</span></h2>
+            </div>
+            <div class="culture-grid">
+                <div class="culture-card">
+                    <h3><i class="fas fa-bolt"></i> Fast-Paced Innovation</h3>
+                    <p>We move quickly and ship often. Every team member has a direct impact on the product.</p>
+                </div>
+                <div class="culture-card">
+                    <h3><i class="fas fa-users"></i> Collaborative Team</h3>
+                    <p>Work with passionate people who care about making renting better for everyone.</p>
+                </div>
+                <div class="culture-card">
+                    <h3><i class="fas fa-heart"></i> Mission-Driven</h3>
+                    <p>We're building a platform that saves people money and makes their lives better.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid" style="grid-template-columns: 1fr; text-align: center;">
+                <div class="footer-brand">
+                    <a href="/" class="logo">
+                        <div class="logo-icon"><i class="fas fa-home"></i></div>
+                        <span class="logo-text">Heaven<span>Lease</span></span>
+                    </a>
+                    <p style="margin: 10px auto; max-width: 300px;">Simple steps to your perfect stay. Direct owner rentals with zero broker fees and comfort-first search.</p></div>
+            </div>
+            <div class="footer-bottom" style="justify-content: center;">
+                <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
+            </div>
+        </div>
+    </footer>
+
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="api.js?v=20260913a"></script>
+    <script src="script.js?v=20260913a"></script>
+    <script>
+        // Note: navbar, hamburger, navLinks, backToTop are already declared in script.js
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) navbar.classList.add('scrolled');
+            else navbar.classList.remove('scrolled');
+            if (window.scrollY > 500) backToTop.classList.add('visible');
+            else backToTop.classList.remove('visible');
+        });
+
+        if (hamburger) hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        if (hamburger && navLinks) {
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburger.classList.remove('active');
+                    navLinks.classList.remove('active');
+                });
+            });
+        }
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>
+

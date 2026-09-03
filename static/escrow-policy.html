@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="HeavenLease Escrow Policy - how your security deposit is protected.">
+    <title>Escrow Policy — HeavenLease</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styles.css?v=20260909a">
+    <style>
+        .page-header { background: var(--gradient-soft); padding: 140px 0 80px; text-align: center; position: relative; overflow: hidden; }
+        .page-header h1 { font-family: var(--font-heading); font-size: 48px; font-weight: 700; color: var(--dark); margin-bottom: 16px; }
+        .page-header p { font-size: 18px; color: var(--gray-500); max-width: 600px; margin: 0 auto; }
+        .page-header .breadcrumb { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 16px; font-size: 14px; color: var(--gray-500); }
+        .page-header .breadcrumb a { color: var(--primary); }
+        .page-header .breadcrumb i { font-size: 12px; color: var(--gray-400); }
+        .legal-section { padding: 80px 0; }
+        .legal-content { max-width: 800px; margin: 0 auto; }
+        .legal-content h2 { font-family: var(--font-heading); font-size: 24px; font-weight: 700; color: var(--dark); margin: 40px 0 16px; }
+        .legal-content h2:first-child { margin-top: 0; }
+        .legal-content p { font-size: 15px; color: var(--gray-500); line-height: 1.8; margin-bottom: 16px; }
+        .legal-content ul { margin-bottom: 16px; padding-left: 20px; }
+        .legal-content ul li { font-size: 15px; color: var(--gray-500); line-height: 1.8; margin-bottom: 8px; }
+        .legal-content .last-updated { font-size: 13px; color: var(--gray-400); margin-bottom: 40px; }
+        @media (max-width: 768px) { .page-header { padding: 120px 0 50px; } .page-header h1 { font-size: 36px; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <div class="logo-icon"><i class="fas fa-home"></i></div>
+<span class="logo-text">Heaven<span>Lease</span></span>
+            </a>
+            
+            <div class="nav-actions">
+                                <div class="user-menu" id="userMenu">
+                    <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu">
+                        <span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span>
+                        <span id="navUserName">Account</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="user-dropdown" id="profileDropdown">
+                        <a href="home" id="mainHomeLink"><i class="fas fa-home"></i> Main Home</a>
+                        <a href="edit-profile" id="myProfileLink"><i class="fas fa-user"></i> My Profile &amp; Settings</a>
+                        <a href="payment"><i class="fas fa-credit-card"></i> Access Pass</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="properties"><i class="fas fa-building"></i> Browse Properties</a>
+                        <a href="map"><i class="fas fa-map-location-dot"></i> Property Map</a>
+                        <a href="comfort-scores"><i class="fas fa-gauge-high"></i> Comfort Scores</a>
+                        <a href="saved-properties"><i class="fas fa-heart"></i> Saved Properties</a>
+                        <a href="list-property"><i class="fas fa-key"></i> List Your Property</a>
+                        <a href="tenant-screening"><i class="fas fa-user-check"></i> Tenant Screening</a>
+                        <a href="owner-resources"><i class="fas fa-toolbox"></i> Owner Resources</a>
+                        <a href="buy-sell"><i class="fas fa-tag"></i> Buy / Sell</a>
+                        <a href="possession"><i class="fas fa-key"></i> Possession &amp; Handover</a>
+                        <a href="lease-signing"><i class="fas fa-file-signature"></i> Leases &amp; Signing</a>
+                        <a href="tour-booking"><i class="fas fa-calendar-check"></i> Tour Bookings</a>
+                        <a href="messages"><i class="fas fa-comments"></i> Messages</a>
+                        <a href="notifications"><i class="fas fa-bell"></i> Notifications</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="how-it-works"><i class="fas fa-circle-question"></i> How It Works</a>
+                        <a href="about"><i class="fas fa-building"></i> About Us</a>
+                        <a href="blog"><i class="fas fa-newspaper"></i> Blog</a>
+<a href="comfort-scores"><i class="fas fa-chart-simple"></i> Type &amp; Voice Search</a>
+                                                <a href="contact"><i class="fas fa-envelope"></i> Contact &amp; Support</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="login" id="signInLink" class="hide-when-auth"><i class="fas fa-arrow-right-to-bracket"></i> Sign In</a>
+                        <a href="#" id="logoutLink" class="logout-link hide-when-guest"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+</div>
+        </div>
+    </nav>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>Escrow <span class="gradient-text">Policy</span></h1>
+            <p>How your security deposit is protected with HeavenLease.</p>
+            <div class="breadcrumb">
+                <a href="/">Home</a>
+                <i class="fas fa-chevron-right"></i>
+                <span>Escrow Policy</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="legal-section">
+        <div class="container">
+            <div class="legal-content">
+                <p class="last-updated">Last Updated: August 27, 2026</p>
+                <h2>1. What Is Escrow?</h2>
+                <p>Escrow is a secure holding account where a security deposit is kept until the conditions of the tenancy are satisfied. On HeavenLease, escrow protects deposits between tenants and owners so neither side bears the risk of misuse.</p>
+                <p>Instead of a tenant handing a deposit directly to an owner, the funds are held safely and independently. They are released only when the agreed conditions are met, and every step leaves a clear, traceable record.</p>
+                <p>Escrow protects both sides: it gives the tenant confidence that the deposit is safe, and it gives the owner certainty that real, verified funds are committed to the tenancy.</p>
+                <h2>2. How Escrow Works on HeavenLease</h2>
+                <p>When a tenancy is agreed, the tenant pays the security deposit into a regulated escrow account rather than to the owner directly. The funds are clearly linked to that specific tenancy.</p>
+                <p>At move-in, the tenant and owner complete a property inspection. At move-out, a final joint inspection is completed. When the agreed conditions are satisfied, the deposit is released to the owner or returned to the tenant, after any agreed deductions.</p>
+                <p>Every stage is recorded, so there is a single, auditable account of how the deposit moved and why.</p>
+                <h2>3. Protection for Tenants</h2>
+                <p>Your deposit is not handed to the owner to spend. It is held securely and returned at a satisfactory move-out, so a valid refund cannot simply be withheld.</p>
+                <p>If the property does not match the listing or written agreement, you can raise a dispute before release, and the funds remain in escrow while it is reviewed.</p>
+                <p>A fair, photographed move-out inspection means deductions are limited to clearly documented damage or unpaid bills, never routine wear and tear.</p>
+                <h2>4. Protection for Owners</h2>
+                <p>As an owner, you receive the deposit when the agreed conditions are satisfied — no chasing tenants for the deposit and no wondering where the money is.</p>
+                <p>Legitimate deductions for real damage or arrears are settled and recorded from the held deposit rather than being fought over later.</p>
+                <p>Escrow gives owners certainty that the funds are real, committed, and will arrive on a clear, documented basis.</p>
+                <h2>5. Security Deposits and the Escrow Account</h2>
+                <p>Deposits that would normally sit with one party now sit in a controlled, independent account, with clear records for the tenant, the owner and the platform.</p>
+                <p>The deposit amount, who holds it, the timeline, and the release conditions are all stated in the escrow agreement and the lease template, so there is no ambiguity about the money.</p>
+                <p>Funds are kept identifiable to their tenancy at all times, so there is never confusion about which deposit belongs to which property.</p>
+                <h2>6. When Is the Deposit Released?</h2>
+                <p>The deposit is released only when the agreed conditions are satisfied. This normally means the move-out inspection is complete and the tenant and owner have confirmed, or any dispute has been resolved.</p>
+                <p>On a clean move-out with no deductions, the deposit is returned to the tenant promptly after inspection. When there are legitimate deductions, the deducted amount goes to the owner and the balance is returned to the tenant.</p>
+                <p>If the tenancy continues, the deposit stays in escrow until the tenancy actually ends.</p>
+                <h2>7. Deductions and Normal Wear and Tear</h2>
+                <p>Owners may deduct from the deposit only for genuine damage beyond normal wear and tear, or for unpaid bills or arrears that are real and evidenced.</p>
+                <p>Normal wear and tear — such as light fading, minor scuffs, or ordinary day-to-day use — is not a valid deduction. Evidence is required before any amount is taken from the deposit.</p>
+                <p>HeavenLease encourages a joint, photographed move-out inspection so any deductions are transparent and agreed at the time of move-out.</p>
+                <h2>8. How Disputes Work</h2>
+                <p>If the parties cannot agree on releasing a deposit, either party can raise a dispute. The funds stay in escrow while it is investigated, and neither side can take the money on their own.</p>
+                <p>We invite evidence from both parties, such as photos, the signed agreement and written communication, and we review it fairly.</p>
+                <p>We aim to reach a clear, reasoned outcome within a defined number of business days and record the result so both parties have a full trail.</p>
+                <h2>9. Fees and Charges</h2>
+                <p>Escrow protection is provided as part of the standard lease process on HeavenLease. In some cases, a small documented processing fee may apply, and it is always shown clearly before you proceed.</p>
+                <p>We never add hidden fees to a tenant deposit or an owner's release. Where a fee exists it is stated separately and transparently.</p>
+                <h2>10. Your Rights Are Not Reduced by Escrow</h2>
+                <p>Escrow does not take away the legal rights that tenants and owners would otherwise have. It makes the deposit reliable, traceable and equally accountable for both parties.</p>
+                <p>Both sides remain free to pursue a dispute through the courts or alternative processes where that is available, and the escrow records are preserved to support any such process.</p>
+                <h2>11. Changes to Escrow Policy</h2>
+                <p>We may update this policy from time to time to reflect how escrow is provided, or changes in technology or law. We will update the Last Updated date and notify you of meaningful changes.</p>
+                <p>For an active tenancy, the escrow terms in force at the time the tenancy began apply, and we will give you the opportunity to review before a change affects you.</p>
+                <h2>12. How to Contact the Escrow Team</h2>
+                <p>If you have any question about escrow, contact us support and we will respond as quickly as possible and guide you through each step of the deposit process.</p>
+                <p>Every escrow enquiry and dispute is kept confidential, handled fairly, and documented so the outcome is clear to both parties.</p>
+                <h2>13. Not Savings or Investment Advice</h2>
+                <p>Escrow on HeavenLease is a mechanism for securely managing a deposit within a tenancy. It is not a savings account, deposit instrument, or investment product, and it does not earn interest for you.</p>
+                <p>This policy is general information and not legal advice. For a matter about a specific property or local law, please consult a qualified professional.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid" style="grid-template-columns: 1fr; text-align: center;">
+                <div class="footer-brand">
+                    <a href="/" class="logo">
+                        <div class="logo-icon"><i class="fas fa-home"></i></div>
+                        <span class="logo-text">Heaven<span>Lease</span></span>
+                    </a>
+                    <p style="margin: 10px auto; max-width: 300px;">Simple steps to your perfect stay. Direct owner rentals with zero broker fees and comfort-first search.</p></div>
+            </div>
+            <div class="footer-bottom" style="justify-content: center;">
+                <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
+            </div>
+        </div>
+    </footer>
+
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="api.js?v=20260913a"></script>
+    <script src="script.js?v=20260913a"></script>
+    <script>
+        // Note: navbar, hamburger, navLinks, backToTop are already declared in script.js
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) navbar.classList.add('scrolled');
+            else navbar.classList.remove('scrolled');
+            if (window.scrollY > 500) backToTop.classList.add('visible');
+            else backToTop.classList.remove('visible');
+        });
+
+        if (hamburger) hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        if (hamburger && navLinks) {
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburger.classList.remove('active');
+                    navLinks.classList.remove('active');
+                });
+            });
+        }
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,17 @@
+{
+  "name": "HeavenLease — Rent Directly, Live Comfortably",
+  "short_name": "HeavenLease",
+  "description": "Find rental homes directly from verified owners. No broker fees, comfort-first search.",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#0F172A",
+  "theme_color": "#4F46E5",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

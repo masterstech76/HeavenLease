@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /dashboard.html
+Disallow: /admin-dashboard.html
+Disallow: /messages.html
+Disallow: /payment.html
+Disallow: /api/
+
+Sitemap: https://heavenlease.in/sitemap.xml

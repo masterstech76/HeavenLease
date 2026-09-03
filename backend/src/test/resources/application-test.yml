@@ -1,0 +1,37 @@
+spring:
+  datasource:
+    # In-memory H2 for tests ONLY — never touches disk, so no .db files are produced.
+    url: jdbc:h2:mem:heavenlease_test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+
+app:
+  jwt:
+    secret: HeavenLease-test-secret-key-2026-xyz9abc7def
+    expiration-ms: 86400000
+  encryption-key: HeavenLease-test-encryption-key-2026-abcdefghij
+  seed-demo: false
+  rate-limit:
+    enabled: false
+    max-requests-per-minute: 100
+  recaptcha:
+    site-key: ""
+    secret-key: ""
+    version: v3
+  admin:
+    email: admin@test.local
+    password: TestPass123!
+
+aws:
+  region: us-east-1
+  access-key-id: ""
+  secret-access-key: ""
+  dynamodb:
+    table-name: test_counters

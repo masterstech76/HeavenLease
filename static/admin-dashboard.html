@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="HeavenLease admin dashboard - manage users, properties, and owner verifications.">
+    <title>Admin Dashboard — HeavenLease</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styles.css?v=20260909a">
+    <style>
+        .admin-page { min-height: 100vh; background: var(--gray-50); padding-top: 72px; }
+        .admin-container { max-width: 1200px; margin: 0 auto; padding: 40px 24px; }
+        .admin-header { margin-bottom: 32px; }
+        .admin-header h1 { font-family: var(--font-heading); font-size: 28px; font-weight: 700; color: var(--dark); display: flex; align-items: center; gap: 12px; }
+        .admin-header h1 i { color: var(--primary); }
+        .admin-header p { font-size: 14px; color: var(--gray-500); margin-top: 4px; }
+        .admin-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 32px; }
+        .admin-stat { background: var(--white); border-radius: var(--radius-lg); padding: 20px; border: 1px solid var(--gray-200); display: flex; align-items: center; gap: 14px; }
+        .admin-stat .icon { width: 48px; height: 48px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+        .admin-stat .icon.blue { background: var(--primary-light); color: var(--primary); }
+        .admin-stat .icon.green { background: #D1FAE5; color: var(--secondary-dark); }
+        .admin-stat .icon.amber { background: #FEF3C7; color: #B45309; }
+        .admin-stat .icon.red { background: #FEE2E2; color: #DC2626; }
+        .admin-stat strong { display: block; font-size: 24px; font-weight: 700; color: var(--dark); }
+        .admin-stat span { font-size: 13px; color: var(--gray-500); }
+        .admin-tabs { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+        .admin-tab { padding: 10px 20px; border: 1px solid var(--gray-200); border-radius: var(--radius-md); background: var(--white); font-size: 14px; font-weight: 600; color: var(--gray-600); cursor: pointer; transition: var(--transition); }
+        .admin-tab:hover { border-color: var(--primary); color: var(--primary); }
+        .admin-tab.active { background: var(--primary); color: var(--white); border-color: var(--primary); }
+        .admin-panel { display: none; }
+        .admin-panel.active { display: block; }
+        .admin-card { background: var(--white); border-radius: var(--radius-lg); border: 1px solid var(--gray-200); overflow: hidden; }
+        .admin-card-header { padding: 20px 24px; border-bottom: 1px solid var(--gray-200); display: flex; align-items: center; justify-content: space-between; }
+        .admin-card-header h3 { font-size: 16px; font-weight: 600; color: var(--dark); }
+        .admin-table { width: 100%; }
+        .admin-table th { text-align: left; padding: 12px 16px; font-size: 12px; font-weight: 600; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid var(--gray-200); }
+        .admin-table td { padding: 12px 16px; font-size: 14px; color: var(--gray-600); border-bottom: 1px solid var(--gray-100); }
+        .admin-table tr:last-child td { border-bottom: none; }
+        .badge { padding: 4px 12px; border-radius: var(--radius-full); font-size: 12px; font-weight: 600; }
+        .badge-pending { background: #FEF3C7; color: #B45309; }
+        .badge-approved { background: #D1FAE5; color: var(--secondary-dark); }
+        .badge-rejected { background: #FEE2E2; color: #DC2626; }
+        .badge-active { background: var(--primary-light); color: var(--primary); }
+        .admin-btn { padding: 6px 14px; border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; cursor: pointer; border: none; transition: var(--transition); margin-right: 4px; }
+        .admin-btn-approve { background: #D1FAE5; color: var(--secondary-dark); }
+        .admin-btn-approve:hover { background: #A7F3D0; }
+        .admin-btn-reject { background: #FEE2E2; color: #DC2626; }
+        .admin-btn-reject:hover { background: #FECACA; }
+        .empty-state { text-align: center; padding: 40px; color: var(--gray-400); }
+        .empty-state i { font-size: 40px; margin-bottom: 12px; display: block; }
+
+        /* ===== INTEGRATION SETTINGS ===== */
+        .int-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        .int-card { background: var(--white); border-radius: var(--radius-lg); border: 1px solid var(--gray-200); padding: 20px; }
+        .int-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+        .int-card-header .int-title { display: flex; align-items: center; gap: 12px; }
+        .int-card-header .int-icon { width: 40px; height: 40px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+        .int-card-header .int-icon.rzp { background: #D4F1F9; color: #0C3C60; }
+        .int-card-header .int-icon.ses { background: #FFE7E7; color: #D13212; }
+        .int-card-header .int-icon.sns { background: #FEF3C7; color: #B45309; }
+        .int-card-header .int-icon.google { background: #E8F0FE; color: #4285F4; }
+        .int-card-header .int-icon.captcha { background: #D1FAE5; color: #059669; }
+        .int-card-header h4 { font-size: 15px; font-weight: 600; color: var(--dark); }
+        .int-card-header p { font-size: 12px; color: var(--gray-500); }
+        .int-status { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: var(--radius-full); font-size: 11px; font-weight: 600; }
+        .int-status.live { background: #D1FAE5; color: #059669; }
+        .int-status.not-configured { background: #FEF3C7; color: #B45309; }
+        .int-field { margin-bottom: 12px; }
+        .int-field label { display: block; font-size: 12px; font-weight: 600; color: var(--gray-600); margin-bottom: 4px; }
+        .int-field input { width: 100%; padding: 10px 12px; border: 1px solid var(--gray-200); border-radius: var(--radius-sm); font-size: 13px; font-family: var(--font-body); color: var(--dark); }
+        .int-field input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79,70,229,0.1); }
+        .int-field .hint { font-size: 11px; color: var(--gray-400); margin-top: 4px; }
+        .int-save-btn { width: 100%; padding: 10px; border: none; border-radius: var(--radius-sm); background: var(--primary); color: var(--white); font-size: 13px; font-weight: 600; cursor: pointer; transition: var(--transition); font-family: var(--font-body); }
+        .int-save-btn:hover { background: var(--primary-dark); }
+        .int-save-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .int-remove-btn { width: 100%; padding: 8px; border: 1px solid #FEE2E2; border-radius: var(--radius-sm); background: #fff; color: #DC2626; font-size: 12px; font-weight: 600; cursor: pointer; margin-top: 8px; font-family: var(--font-body); }
+        .int-remove-btn:hover { background: #FEE2E2; }
+        .int-masked { background: var(--gray-50); border: 1px dashed var(--gray-200); border-radius: var(--radius-sm); padding: 10px 12px; font-size: 13px; color: var(--gray-500); font-family: monospace; }
+        @media (max-width: 768px) { .int-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 1024px) { .admin-stats { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 768px) { .admin-stats { grid-template-columns: 1fr; } .admin-table { display: block; overflow-x: auto; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="home" class="logo">
+                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <span class="logo-text">Heaven<span>Lease</span></span>
+            </a>
+            
+            <div class="nav-actions">
+                
+                                <div class="user-menu" id="userMenu">
+                    <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu">
+                        <span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span>
+                        <span id="navUserName">Account</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="user-dropdown" id="profileDropdown">
+                        <a href="home" id="mainHomeLink"><i class="fas fa-home"></i> Main Home</a>
+                        <a href="edit-profile" id="myProfileLink"><i class="fas fa-user"></i> My Profile &amp; Settings</a>
+                        <a href="payment"><i class="fas fa-credit-card"></i> Access Pass</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="properties"><i class="fas fa-building"></i> Browse Properties</a>
+                        <a href="map"><i class="fas fa-map-location-dot"></i> Property Map</a>
+                        <a href="comfort-scores"><i class="fas fa-gauge-high"></i> Comfort Scores</a>
+                        <a href="saved-properties"><i class="fas fa-heart"></i> Saved Properties</a>
+                        <a href="list-property"><i class="fas fa-key"></i> List Your Property</a>
+                        <a href="tenant-screening"><i class="fas fa-user-check"></i> Tenant Screening</a>
+                        <a href="owner-resources"><i class="fas fa-toolbox"></i> Owner Resources</a>
+                        <a href="buy-sell"><i class="fas fa-tag"></i> Buy / Sell</a>
+                        <a href="possession"><i class="fas fa-key"></i> Possession &amp; Handover</a>
+                        <a href="lease-signing"><i class="fas fa-file-signature"></i> Leases &amp; Signing</a>
+                        <a href="tour-booking"><i class="fas fa-calendar-check"></i> Tour Bookings</a>
+                        <a href="messages"><i class="fas fa-comments"></i> Messages</a>
+                        <a href="notifications"><i class="fas fa-bell"></i> Notifications</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="how-it-works"><i class="fas fa-circle-question"></i> How It Works</a>
+                        <a href="about"><i class="fas fa-building"></i> About Us</a>
+                        <a href="blog"><i class="fas fa-newspaper"></i> Blog</a>
+<a href="comfort-scores"><i class="fas fa-chart-simple"></i> Type &amp; Voice Search</a>
+                                                <a href="contact"><i class="fas fa-envelope"></i> Contact &amp; Support</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="login" id="signInLink" class="hide-when-auth"><i class="fas fa-arrow-right-to-bracket"></i> Sign In</a>
+                        <a href="#" id="logoutLink" class="logout-link hide-when-guest"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+</div>
+        </div>
+    </nav>
+
+    <div class="admin-page">
+        <div class="admin-container">
+            <div class="admin-header">
+                <h1><i class="fas fa-shield-alt"></i> Admin Dashboard</h1>
+                <p>Manage users, property verifications, and owner applications.</p>
+            </div>
+
+            <!-- Stats -->
+            <div class="admin-stats">
+                <div class="admin-stat">
+                    <div class="icon blue"><i class="fas fa-users"></i></div>
+                    <div><strong id="statUsers">0</strong><span>Total Users</span></div>
+                </div>
+                <div class="admin-stat">
+                    <div class="icon green"><i class="fas fa-building"></i></div>
+                    <div><strong id="statProperties">0</strong><span>Total Properties</span></div>
+                </div>
+                <div class="admin-stat">
+                    <div class="icon amber"><i class="fas fa-file-shield"></i></div>
+                    <div><strong id="statOwnerApps">0</strong><span>Owner Applications</span></div>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="admin-tabs">
+                <button class="admin-tab active" data-tab="users">Users</button>
+                <button class="admin-tab" data-tab="properties">Properties</button>
+                <button class="admin-tab" data-tab="owners">Owner Apps</button>
+                <button class="admin-tab" data-tab="integrations">Integrations</button>
+            </div>
+
+            <!-- Users Panel -->
+            <div class="admin-panel active" id="panel-users">
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <h3><i class="fas fa-users"></i> Registered Users</h3>
+                    </div>
+                    <div id="usersList"><div class="empty-state"><i class="fas fa-users"></i><p>Loading users...</p></div></div>
+                </div>
+            </div>
+
+            <!-- Properties Panel -->
+            <div class="admin-panel" id="panel-properties">
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <h3><i class="fas fa-building"></i> Property Listings</h3>
+                    </div>
+                    <div id="propertiesList"><div class="empty-state"><i class="fas fa-building"></i><p>Loading properties...</p></div></div>
+                </div>
+            </div>
+
+            <!-- Owner Applications Panel -->
+            <div class="admin-panel" id="panel-owners">
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <h3><i class="fas fa-file-shield"></i> Owner Verification Applications</h3>
+                    </div>
+                    <div id="ownersList"><div class="empty-state"><i class="fas fa-file-shield"></i><p>Loading applications...</p></div></div>
+                </div>
+            </div>
+
+            <!-- Integrations Panel -->
+            <div class="admin-panel" id="panel-integrations">
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <h3><i class="fas fa-plug"></i> Integration Settings</h3>
+                    </div>
+                    <div style="padding: 24px;">
+                        <div class="int-grid" id="intGrid">
+                            <!-- Cards injected by JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="api.js?v=20260913a"></script>
+    <script src="script.js?v=20260913a"></script>
+    <script>
+        (function() {
+        // Navbar (navbar, hamburger, navLinks already declared in script.js)
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) navbar.classList.add('scrolled');
+            else navbar.classList.remove('scrolled');
+        });
+
+        if (hamburger) hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        if (hamburger && navLinks) {
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+                });
+            });
+        }
+
+        // Tabs
+        document.querySelectorAll('.admin-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active'));
+                tab.classList.add('active');
+                document.getElementById('panel-' + tab.dataset.tab).classList.add('active');
+            });
+        });
+
+        function badge(status) {
+            const s = (status || '').toLowerCase();
+            const cls = s === 'approved' || s === 'active' || s === 'verified' ? 'badge-approved' :
+                s === 'rejected' || s === 'inactive' ? 'badge-rejected' : 'badge-pending';
+            return `<span class="badge ${cls}">${status}</span>`;
+        }
+
+        // Load users
+        async function loadUsers() {
+            try {
+                const users = await api.getUsers().catch(() => []);
+                document.getElementById('statUsers').textContent = users.length || 0;
+                const el = document.getElementById('usersList');
+                if (!users || users.length === 0) {
+                    el.innerHTML = '<div class="empty-state"><i class="fas fa-users"></i><p>No users yet.</p></div>';
+                    return;
+                }
+                el.innerHTML = `
+                    <table class="admin-table">
+                        <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Role</th><th>Status</th><th>Actions</th></tr></thead>
+                        <tbody>${users.map(u => `
+                            <tr>
+                                <td>${escapeHtml(u.fullName || u.name || '-')}</td>
+                                <td>${escapeHtml(u.email || '-')}</td>
+                                <td>${escapeHtml(u.phone || '-')}</td>
+                                <td>${escapeHtml(u.role || '-')}</td>
+                                <td>${u.verified ? '<span class="badge badge-approved">Verified</span>' : '<span class="badge badge-pending">Pending</span>'}</td>
+                                <td>
+                                    ${u.verified ? '' : `<button class="admin-btn admin-btn-approve" onclick="verifyUser(${u.id})"><i class="fas fa-check"></i> Verify</button>`}
+                                </td>
+                            </tr>
+                        `).join('')}</tbody>
+                    </table>`;
+            } catch (e) {
+                document.getElementById('usersList').innerHTML = '<div class="empty-state"><i class="fas fa-users"></i><p>Could not load users.</p></div>';
+            }
+        }
+
+        window.verifyUser = async function(id) {
+            try {
+                await api.verifyUser(id);
+                showToast('User verified successfully!', 'success');
+                setTimeout(loadUsers, 500);
+            } catch (e) {
+                showToast(e.message || 'Failed to verify user.', 'error');
+            }
+        };
+
+        // Load properties
+        async function loadProperties() {
+            try {
+                const props = await api.getProperties(0, 100).catch(() => []);
+                document.getElementById('statProperties').textContent = props.length || 0;
+                const el = document.getElementById('propertiesList');
+                if (!props || props.length === 0) {
+                    el.innerHTML = '<div class="empty-state"><i class="fas fa-building"></i><p>No properties yet.</p></div>';
+                    return;
+                }
+                el.innerHTML = `
+                    <table class="admin-table">
+                        <thead><tr><th>Title</th><th>City</th><th>Rent</th><th>BHK</th><th>Status</th></tr></thead>
+                        <tbody>${props.map(p => `
+                            <tr>
+                                <td>${escapeHtml(p.title || '-')}</td>
+                                <td>${escapeHtml(p.city || p.location || '-')}</td>
+                                <td>${p.rentAmount ? '₹' + Number(p.rentAmount).toLocaleString('en-IN') : (p.price ? '₹' + Number(p.price).toLocaleString('en-IN') : '-')}</td>
+                                <td>${escapeHtml(p.bhk || '-')} BHK</td>
+                                <td>${badge(p.status || 'active')}</td>
+                            </tr>
+                        `).join('')}</tbody>
+                    </table>`;
+            } catch (e) {
+                document.getElementById('propertiesList').innerHTML = '<div class="empty-state"><i class="fas fa-building"></i><p>Could not load properties.</p></div>';
+            }
+        }
+
+        // Load owner applications — real backend only (no localStorage fake entries).
+        async function loadOwnerApps() {
+            try {
+                const apps = await api.getOwnerApplications().catch(() => []);
+                document.getElementById('statOwnerApps').textContent = (apps || []).length || 0;
+                const el = document.getElementById('ownersList');
+                if (!apps || apps.length === 0) {
+                    el.innerHTML = '<div class="empty-state"><i class="fas fa-file-shield"></i><p>No owner applications.</p></div>';
+                    return;
+                }
+                el.innerHTML = `
+                    <table class="admin-table">
+                        <thead><tr><th>Name</th><th>Email</th><th>Property</th><th>Status</th><th>Actions</th></tr></thead>
+                        <tbody>${apps.map(a => `
+                            <tr>
+                                <td>${escapeHtml(a.fullName || '-')}</td>
+                                <td>${escapeHtml(a.email || '-')}</td>
+                                <td>${escapeHtml(a.propertyAddress || '-')}</td>
+                                <td>${badge(a.status || 'pending')}</td>
+                                <td>
+                                    ${a.status === 'approved' ? '<span class="badge badge-approved">Verified ✓</span>'
+                                    : a.status === 'rejected' ? '<span class="badge badge-rejected">Rejected</span>'
+                                    : `<button class="admin-btn admin-btn-approve" onclick="handleOwnerApp(${a.id}, 'approved')"><i class="fas fa-check"></i> Approve</button>
+                                       <button class="admin-btn admin-btn-reject" onclick="handleOwnerApp(${a.id}, 'rejected')"><i class="fas fa-times"></i> Reject</button>`}
+                                </td>
+                            </tr>
+                        `).join('')}</tbody>
+                    </table>`;
+            } catch (e) {
+                document.getElementById('ownersList').innerHTML = '<div class="empty-state"><i class="fas fa-file-shield"></i><p>Could not load applications.</p></div>';
+            }
+        }
+
+        window.handleOwnerApp = async function(id, status) {
+            try {
+                await api.updateOwnerApplicationStatus(id, status, 'Reviewed by admin');
+                showToast('Application ' + status + '!', status === 'approved' ? 'success' : 'error');
+                setTimeout(loadOwnerApps, 500);
+            } catch (e) {
+                showToast((e && e.message) || 'Action failed.', 'error');
+            }
+        };
+
+        // ===== INTEGRATION SETTINGS =====
+        const INTEGRATION_GROUPS = [
+            {
+                id: 'razorpay', icon: 'fas fa-credit-card', iconCls: 'rzp', title: 'Razorpay Payments',
+                desc: 'Accept UPI, cards & netbanking for access passes & escrow', fields: [
+                    { key: 'razorpay_key_id', label: 'Key ID', secret: false, placeholder: 'rzp_live_...', hint: 'From Razorpay Dashboard → Settings → API Keys' },
+                    { key: 'razorpay_key_secret', label: 'Key Secret', secret: true, placeholder: '••••••••', hint: 'Revealed only at creation. Store securely.' }
+                ]
+            },
+            {
+                id: 'ses', icon: 'fas fa-envelope', iconCls: 'ses', title: 'AWS SES — Email',
+                desc: 'Send real email OTPs & notifications', fields: [
+                    { key: 'aws_ses_access_key', label: 'Access Key ID', secret: true, placeholder: 'AKIA...' },
+                    { key: 'aws_ses_secret_key', label: 'Secret Access Key', secret: true, placeholder: '••••••••' },
+                    { key: 'aws_ses_region', label: 'Region', secret: false, placeholder: 'ap-south-1' },
+                    { key: 'aws_ses_from_email', label: 'From Email', secret: false, placeholder: 'no-reply@heavenlease.in' }
+                ]
+            },
+            {
+                id: 'sns', icon: 'fas fa-sms', iconCls: 'sns', title: 'AWS SNS — SMS',
+                desc: 'Send real SMS OTPs to phones', fields: [
+                    { key: 'aws_sns_access_key', label: 'Access Key ID', secret: true, placeholder: 'AKIA...' },
+                    { key: 'aws_sns_secret_key', label: 'Secret Access Key', secret: true, placeholder: '••••••••' },
+                    { key: 'aws_sns_region', label: 'Region', secret: false, placeholder: 'ap-south-1' },
+                    { key: 'aws_sns_sender_id', label: 'Sender ID', secret: false, placeholder: 'HEAVENLEASE' }
+                ]
+            },
+            {
+                id: 'google', icon: 'fab fa-google', iconCls: 'google', title: 'Google OAuth',
+                desc: 'Sign in with Google', fields: [
+                    { key: 'google_client_id', label: 'Client ID', secret: false, placeholder: 'xxxx.apps.googleusercontent.com' },
+                    { key: 'google_client_secret', label: 'Client Secret', secret: true, placeholder: '••••••••' }
+                ]
+            },
+            {
+                id: 'recaptcha', icon: 'fas fa-shield-halved', iconCls: 'captcha', title: 'reCAPTCHA v3',
+                desc: 'Bot protection on auth forms', fields: [
+                    { key: 'recaptcha_site_key', label: 'Site Key', secret: false, placeholder: '6Lc...' },
+                    { key: 'recaptcha_secret_key', label: 'Secret Key', secret: true, placeholder: '••••••••' }
+                ]
+            }
+        ];
+
+        let integrationStatus = {};
+
+        function escapeHtml(str) {
+            const map = { '&': '&' + 'amp;', '<': '&' + 'lt;', '>': '&' + 'gt;', '"': '&' + 'quot;', "'": '&' + '#39;' };
+            return String(str || '').replace(/[&<>"']/g, m => map[m]);
+        }
+
+        function renderIntegrationCards() {
+            const grid = document.getElementById('intGrid');
+
+            grid.innerHTML = INTEGRATION_GROUPS.map(group => {
+                const fieldsHtml = group.fields.map(f => {
+                    const st = integrationStatus[f.key] || { isConfigured: false, maskedValue: '' };
+                    const maskedHtml = st.isConfigured
+                        ? `<div class="int-masked" style="margin-bottom: 12px;">${escapeHtml(st.maskedValue)}</div>`
+                        : '';
+                    return `
+                        <div class="int-field" data-key="${f.key}">
+                            <label>${f.label} ${st.isConfigured ? '<span class="badge badge-approved" style="margin-left:6px;">Active</span>' : ''}</label>
+                            ${maskedHtml}
+                            <input type="${f.secret ? 'password' : 'text'}" placeholder="${f.placeholder}" value="">
+                            <div class="hint">${f.hint || ''}</div>
+                        </div>
+                    `;
+                }).join('');
+
+                const groupKeys = group.fields.map(f => f.key);
+                const isGroupLive = groupKeys.every(k => integrationStatus[k] && integrationStatus[k].isConfigured);
+
+                return `
+                    <div class="int-card" id="card-${group.id}">
+                        <div class="int-card-header">
+                            <div class="int-title">
+                                <div class="int-icon ${group.iconCls}"><i class="${group.icon}"></i></div>
+                                <div>
+                                    <h4>${group.title}</h4>
+                                    <p>${group.desc}</p>
+                                </div>
+                            </div>
+                            <span class="int-status ${isGroupLive ? 'live' : 'not-configured'}">
+                                <i class="fas ${isGroupLive ? 'fa-check-circle' : 'fa-circle-info'}"></i>
+                                ${isGroupLive ? 'Live' : 'Not configured'}
+                            </span>
+                        </div>
+                        ${fieldsHtml}
+                        <button class="int-save-btn" onclick="saveIntegrationGroup('${group.id}')"><i class="fas fa-save"></i> Save</button>
+                        <button class="int-remove-btn" onclick="removeIntegrationGroup('${group.id}')" style="${isGroupLive ? '' : 'display: none;'}"><i class="fas fa-trash"></i> Remove Saved Keys</button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        window.saveIntegrationGroup = async function(groupId) {
+            const group = INTEGRATION_GROUPS.find(g => g.id === groupId);
+            if (!group) return;
+            const btn = document.querySelector(`#card-${groupId} .int-save-btn`);
+            const original = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+            try {
+                for (const f of group.fields) {
+                    const input = document.querySelector(`#card-${groupId} .int-field[data-key="${f.key}"] input`);
+                    const value = input.value.trim();
+                    if (value) {
+                        await api.saveIntegration(f.key, value);
+                    }
+                }
+                showToast('Integration settings saved!', 'success');
+                await loadIntegrations();
+            } catch (e) {
+                showToast(e.message || 'Failed to save integration.', 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = original;
+            }
+        };
+
+        window.removeIntegrationGroup = async function(groupId) {
+            const group = INTEGRATION_GROUPS.find(g => g.id === groupId);
+            if (!group) return;
+            if (!confirm('Remove saved credentials for ' + group.title + '? This cannot be undone.')) return;
+            try {
+                for (const f of group.fields) {
+                    await api.deleteIntegration(f.key).catch(() => {});
+                }
+                showToast('Saved keys removed.', 'success');
+                await loadIntegrations();
+            } catch (e) {
+                showToast(e.message || 'Failed to remove integration.', 'error');
+            }
+        };
+
+        async function loadIntegrations() {
+            try {
+                const data = await api.getIntegrationStatus().catch(() => ({ integrations: [] }));
+                integrationStatus = {};
+                (data.integrations || []).forEach(item => {
+                    integrationStatus[item.key] = item;
+                });
+                renderIntegrationCards();
+            } catch (e) {
+                // If backend not running, show empty cards (a config requirement)
+                integrationStatus = {};
+                renderIntegrationCards();
+            }
+        }
+
+        // Initialize
+        loadUsers();
+        loadProperties();
+        loadOwnerApps();
+        loadIntegrations();
+        })();
+    </script>
+</body>
+</html>
+
+

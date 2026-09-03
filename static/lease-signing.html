@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Review and sign your digital lease agreement on HeavenLease.">
+    <title>Lease Signing — HeavenLease</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styles.css?v=20260909a">
+<link rel="stylesheet" href="feature-panel.css?v=20260902a">
+    <style>
+        .lease-page { min-height: 100vh; background: var(--gray-50); padding-top: 72px; }
+        .lease-container { max-width: 900px; margin: 0 auto; padding: 40px 24px; }
+        .lease-header { text-align: center; margin-bottom: 32px; }
+        .lease-header h1 { font-family: var(--font-heading); font-size: 36px; font-weight: 700; color: var(--dark); }
+        .lease-header h1 i { color: var(--primary); }
+        .lease-header p { color: var(--gray-500); font-size: 15px; margin-top: 8px; }
+        .lease-header .steps { display: flex; justify-content: center; gap: 8px; margin-top: 20px; flex-wrap: wrap; }
+        .step-pill { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--gray-500); background: var(--white); border: 1px solid var(--gray-200); padding: 8px 16px; border-radius: var(--radius-full); }
+        .step-pill.active { background: var(--primary); color: var(--white); border-color: var(--primary); }
+        .step-pill.done { background: #D1FAE5; color: var(--secondary-dark); border-color: #A7F3D0; }
+        .step-pill i { font-size: 12px; }
+
+        .lease-card { background: var(--white); border-radius: var(--radius-xl); box-shadow: var(--shadow-md); border: 1px solid var(--gray-200); overflow: hidden; margin-bottom: 24px; }
+        .lease-card .card-head { padding: 20px 28px; border-bottom: 1px solid var(--gray-200); display: flex; align-items: center; gap: 12px; }
+        .lease-card .card-head h2 { font-size: 18px; font-weight: 600; color: var(--dark); }
+        .lease-card .card-head i { color: var(--primary); }
+        .lease-card .card-body { padding: 28px; }
+
+        /* Property summary */
+        .prop-summary { display: flex; gap: 20px; align-items: center; background: var(--gray-50); border-radius: var(--radius-lg); padding: 20px; margin-bottom: 24px; }
+        .prop-summary .prop-icon { width: 64px; height: 64px; background: var(--gradient-soft); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 28px; color: var(--primary); flex-shrink: 0; }
+        .prop-summary .prop-info h3 { font-size: 18px; font-weight: 600; color: var(--dark); }
+        .prop-summary .prop-info p { font-size: 13px; color: var(--gray-500); }
+        .prop-summary .prop-info .price { font-size: 18px; font-weight: 700; color: var(--primary); margin-top: 4px; }
+
+        /* Terms */
+        .terms-list { list-style: none; }
+        .terms-list li { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--gray-100); font-size: 14px; color: var(--gray-600); line-height: 1.6; }
+        .terms-list li:last-child { border-bottom: none; }
+        .terms-list li i { color: var(--secondary); margin-top: 3px; flex-shrink: 0; }
+
+        /* Signature boxes */
+        .signature-section { margin-top: 24px; }
+        .signature-section h3 { font-size: 16px; font-weight: 600; color: var(--dark); margin-bottom: 16px; }
+        .signature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .signature-box { border: 2px dashed var(--gray-300); border-radius: var(--radius-lg); padding: 20px; text-align: center; transition: var(--transition); }
+        .signature-box.signed { border-style: solid; border-color: var(--secondary); background: #F0FDF4; }
+        .signature-box .sig-label { font-size: 13px; font-weight: 600; color: var(--gray-500); margin-bottom: 12px; }
+        .signature-box .sig-canvas { width: 100%; height: 120px; background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-md); cursor: crosshair; touch-action: none; }
+        .signature-box .sig-name { font-size: 18px; font-family: 'Playfair Display', serif; color: var(--secondary-dark); margin-top: 8px; }
+        .signature-box .sig-actions { display: flex; gap: 8px; justify-content: center; margin-top: 12px; }
+        .signature-box .sig-actions .btn { font-size: 12px; padding: 6px 12px; }
+        .signature-box .sig-status { font-size: 12px; color: var(--secondary-dark); margin-top: 8px; display: none; }
+        .signature-box.signed .sig-status { display: block; }
+
+        /* Agreement checkbox */
+        .agree-box { display: flex; align-items: flex-start; gap: 12px; background: var(--gray-50); border-radius: var(--radius-md); padding: 16px; margin-top: 24px; }
+        .agree-box input { width: 18px; height: 18px; accent-color: var(--primary); margin-top: 2px; }
+        .agree-box label { font-size: 14px; color: var(--gray-600); line-height: 1.5; }
+
+        .submit-area { text-align: center; margin-top: 24px; }
+        .submit-area .btn { padding: 14px 40px; font-size: 16px; }
+
+        /* Success */
+        .success-screen { display: none; text-align: center; padding: 60px 24px; }
+        .success-screen.show { display: block; }
+        .success-icon { width: 80px; height: 80px; background: #D1FAE5; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 36px; color: var(--secondary-dark); }
+        .success-screen h2 { font-family: var(--font-heading); font-size: 28px; color: var(--dark); margin-bottom: 8px; }
+        .success-screen p { color: var(--gray-500); margin-bottom: 24px; }
+        .back-link { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: var(--gray-500); margin-bottom: 24px; transition: var(--transition); }
+        .back-link:hover { color: var(--primary); }
+        @media (max-width: 768px) { .signature-grid { grid-template-columns: 1fr; } .prop-summary { flex-direction: column; text-align: center; } .lease-header h1 { font-size: 28px; } }
+    </style>
+</head>
+<body>
+    <!-- ===== NAVIGATION ===== -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="home" class="logo">
+                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <span class="logo-text">Heaven<span>Lease</span></span>
+            </a>
+            
+            <div class="nav-actions">
+                
+                                <div class="user-menu" id="userMenu">
+                    <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu">
+                        <span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span>
+                        <span id="navUserName">Account</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="user-dropdown" id="profileDropdown">
+                        <a href="home" id="mainHomeLink"><i class="fas fa-home"></i> Main Home</a>
+                        <a href="edit-profile" id="myProfileLink"><i class="fas fa-user"></i> My Profile &amp; Settings</a>
+                        <a href="payment"><i class="fas fa-credit-card"></i> Access Pass</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="properties"><i class="fas fa-building"></i> Browse Properties</a>
+                        <a href="map"><i class="fas fa-map-location-dot"></i> Property Map</a>
+                        <a href="comfort-scores"><i class="fas fa-gauge-high"></i> Comfort Scores</a>
+                        <a href="saved-properties"><i class="fas fa-heart"></i> Saved Properties</a>
+                        <a href="list-property"><i class="fas fa-key"></i> List Your Property</a>
+                        <a href="tenant-screening"><i class="fas fa-user-check"></i> Tenant Screening</a>
+                        <a href="owner-resources"><i class="fas fa-toolbox"></i> Owner Resources</a>
+                        <a href="buy-sell"><i class="fas fa-tag"></i> Buy / Sell</a>
+                        <a href="possession"><i class="fas fa-key"></i> Possession &amp; Handover</a>
+                        <a href="lease-signing"><i class="fas fa-file-signature"></i> Leases &amp; Signing</a>
+                        <a href="tour-booking"><i class="fas fa-calendar-check"></i> Tour Bookings</a>
+                        <a href="messages"><i class="fas fa-comments"></i> Messages</a>
+                        <a href="notifications"><i class="fas fa-bell"></i> Notifications</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="how-it-works"><i class="fas fa-circle-question"></i> How It Works</a>
+                        <a href="about"><i class="fas fa-building"></i> About Us</a>
+                        <a href="blog"><i class="fas fa-newspaper"></i> Blog</a>
+<a href="comfort-scores"><i class="fas fa-chart-simple"></i> Type &amp; Voice Search</a>
+                                                <a href="contact"><i class="fas fa-envelope"></i> Contact &amp; Support</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="login" id="signInLink" class="hide-when-auth"><i class="fas fa-arrow-right-to-bracket"></i> Sign In</a>
+                        <a href="#" id="logoutLink" class="logout-link hide-when-guest"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+</div>
+        </div>
+    </nav>
+
+    <!-- ===== LEASE SIGNING PAGE ===== -->
+    <div class="lease-page">
+        <div class="lease-container">
+            <a href="dashboard" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Dashboard
+            </a>
+
+            <div class="lease-header">
+                <h1><i class="fas fa-file-signature"></i> Digital Lease Signing</h1>
+                <p>Review the lease agreement and sign digitally — no paperwork needed</p>
+                <div class="steps">
+                    <span class="step-pill done"><i class="fas fa-check"></i> Review</span>
+                    <span class="step-pill active"><i class="fas fa-pen"></i> Sign</span>
+                    <span class="step-pill"><i class="fas fa-download"></i> Download</span>
+                </div>
+            </div>
+
+            <!-- LEASE CARD -->
+            <div class="lease-card" id="leaseCard">
+                <div class="card-head">
+                    <i class="fas fa-home"></i>
+                    <h2>Lease Agreement</h2>
+                </div>
+                <div class="card-body">
+                    <!-- Property summary -->
+                    <div class="prop-summary">
+                        <div class="prop-icon"><i class="fas fa-building"></i></div>
+                        <div class="prop-info">
+                            <h3 id="propTitle">Your Property</h3>
+                            <p id="propLocation">Property details</p>
+                            <div class="price" id="propPrice">—/month</div>
+                        </div>
+                    </div>
+
+                    <!-- Terms -->
+                    <h3 style="font-size:16px; font-weight:600; color:var(--dark); margin-bottom:8px;">Key Terms</h3>
+                    <ul class="terms-list">
+                        <li><i class="fas fa-check-circle"></i> Lease duration: 11 months (renewable)</li>
+                        <li><i class="fas fa-check-circle"></i> Monthly rent: <strong id="termRent">—</strong> payable by the 5th of each month</li>
+                        <li><i class="fas fa-check-circle"></i> Security deposit: 2 months' rent, held in escrow</li>
+                        <li><i class="fas fa-check-circle"></i> Maintenance charges: included in rent</li>
+                        <li><i class="fas fa-check-circle"></i> Notice period: 2 months for early termination</li>
+                        <li><i class="fas fa-check-circle"></i> Pets allowed as per property listing</li>
+                        <li><i class="fas fa-check-circle"></i> Subletting is not permitted without owner consent</li>
+                    </ul>
+
+                    <!-- Signatures -->
+                    <div class="signature-section">
+                        <h3>Digital Signatures</h3>
+                        <div class="signature-grid">
+                            <div class="signature-box" id="tenantSigBox">
+                                <div class="sig-label">Tenant Signature</div>
+                                <canvas class="sig-canvas" id="tenantCanvas"></canvas>
+                                <div class="sig-name" id="tenantSigName"></div>
+                                <div class="sig-actions">
+                                    <button class="btn btn-primary" onclick="clearSig('tenant')">Clear</button>
+                                </div>
+                                <div class="sig-status"><i class="fas fa-check-circle"></i> Signed by Tenant</div>
+                            </div>
+                            <div class="signature-box" id="ownerSigBox">
+                                <div class="sig-label">Owner Signature</div>
+                                <canvas class="sig-canvas" id="ownerCanvas"></canvas>
+                                <div class="sig-name" id="ownerSigName"></div>
+                                <div class="sig-actions">
+                                    <button class="btn btn-primary" onclick="clearSig('owner')">Clear</button>
+                                </div>
+                                <div class="sig-status"><i class="fas fa-check-circle"></i> Signed by Owner</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Agreement -->
+                    <div class="agree-box">
+                        <input type="checkbox" id="agreeCheck">
+                        <label for="agreeCheck">I have read and agree to the terms of this lease agreement, including the <a href="terms" style="color:var(--primary);">Terms of Service</a> and <a href="escrow-policy" style="color:var(--primary);">Escrow Policy</a>.</label>
+                    </div>
+
+                    <div class="submit-area">
+                        <button class="btn btn-primary btn-lg" onclick="submitLease()">
+                            <i class="fas fa-check"></i> Sign & Complete Lease
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SUCCESS -->
+            <div class="lease-card">
+                <div class="success-screen" id="successScreen">
+                    <div class="success-icon"><i class="fas fa-check"></i></div>
+                    <h2>Lease Signed Successfully! 🎉</h2>
+                    <p>Your digital lease has been finalized. A copy has been saved to your account.</p>
+                    <button class="btn btn-primary btn-lg" onclick="downloadLease()">
+                        <i class="fas fa-download"></i> Download Lease PDF
+                    </button>
+                    <a href="dashboard" class="btn btn-outline btn-lg" style="width:100%; margin-top:10px;">
+                        <i class="fas fa-user"></i> Go to Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="api.js?v=20260913a"></script>
+    <script src="script.js?v=20260913a"></script>
+    <script>
+        (function() {
+        // Navbar
+        const navbar = document.getElementById('navbar');
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) navbar.classList.add('scrolled');
+            else navbar.classList.remove('scrolled');
+        });
+
+        if (hamburger) hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        if (hamburger && navLinks) {
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburger.classList.remove('active');
+                    navLinks.classList.remove('active');
+                });
+            });
+        }
+
+        // Signature drawing
+        const sigState = { tenant: false, owner: false };
+        const canvases = { tenant: null, owner: null };
+        const ctxs = { tenant: null, owner: null };
+        let drawing = false;
+
+        // Populate lease terms from query params (property/booking data) — no hardcoded demo values.
+        const leaseParams = new URLSearchParams(window.location.search);
+        const leaseInfo = {
+            propertyId: leaseParams.get('propertyId') || null,
+            ownerId: leaseParams.get('ownerId') || null,
+            title: leaseParams.get('property') || 'Property',
+            rent: leaseParams.get('rent') || '',
+            deposit: leaseParams.get('deposit') || ''
+        };
+        const leaseUser = (function(){ try { return JSON.parse(localStorage.getItem('heavenlease_user') || '{}'); } catch(e){ return {}; } })();
+
+        if (document.getElementById('propTitle')) document.getElementById('propTitle').textContent = leaseInfo.title || 'Property';
+        if (document.getElementById('propPrice')) document.getElementById('propPrice').textContent = leaseInfo.rent ? '₹' + Number(leaseInfo.rent).toLocaleString('en-IN') + '/month' : '';
+        if (document.getElementById('termRent')) document.getElementById('termRent').textContent = leaseInfo.rent ? '₹' + Number(leaseInfo.rent).toLocaleString('en-IN') : '';
+        if (document.getElementById('termDeposit')) document.getElementById('termDeposit').textContent = leaseInfo.deposit ? '₹' + Number(leaseInfo.deposit).toLocaleString('en-IN') : '';
+
+        function initCanvas(role) {
+            const canvas = document.getElementById(role + 'Canvas');
+            canvases[role] = canvas;
+            ctxs[role] = canvas.getContext('2d');
+            ctxs[role].strokeStyle = '#0F172A';
+            ctxs[role].lineWidth = 2;
+            ctxs[role].lineCap = 'round';
+
+            canvas.addEventListener('mousedown', (e) => { drawing = true; startDraw(e, role); });
+            canvas.addEventListener('mousemove', (e) => { if (drawing) draw(e, role); });
+            canvas.addEventListener('mouseup', () => { drawing = false; checkSigned(role); });
+            canvas.addEventListener('mouseleave', () => { drawing = false; checkSigned(role); });
+            canvas.addEventListener('touchstart', (e) => { e.preventDefault(); drawing = true; startDraw(e.touches[0], role); });
+            canvas.addEventListener('touchmove', (e) => { e.preventDefault(); if (drawing) draw(e.touches[0], role); });
+            canvas.addEventListener('touchend', () => { drawing = false; checkSigned(role); });
+        }
+
+        function getPos(e, canvas) {
+            const rect = canvas.getBoundingClientRect();
+            return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+        }
+
+        function startDraw(e, role) {
+            const pos = getPos(e, canvases[role]);
+            ctxs[role].beginPath();
+            ctxs[role].moveTo(pos.x, pos.y);
+        }
+
+        function draw(e, role) {
+            const pos = getPos(e, canvases[role]);
+            ctxs[role].lineTo(pos.x, pos.y);
+            ctxs[role].stroke();
+        }
+
+        function checkSigned(role) {
+            const canvas = canvases[role];
+            const ctx = ctxs[role];
+            const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+            let hasInk = false;
+            for (let i = 3; i < data.length; i += 4) {
+                if (data[i] > 0) { hasInk = true; break; }
+            }
+            if (hasInk) {
+                sigState[role] = true;
+                document.getElementById(role + 'SigBox').classList.add('signed');
+                const user = JSON.parse(localStorage.getItem('heavenlease_user') || '{}');
+                document.getElementById(role + 'SigName').textContent = role === 'tenant' ? (user.name || 'Tenant') : 'Owner';
+            }
+        }
+
+        window.clearSig = function(role) {
+            ctxs[role].clearRect(0, 0, canvases[role].width, canvases[role].height);
+            sigState[role] = false;
+            document.getElementById(role + 'SigBox').classList.remove('signed');
+            document.getElementById(role + 'SigName').textContent = '';
+        };
+
+        window.submitLease = function() {
+            if (!sigState.tenant) {
+                showToast('Please provide your tenant signature.', 'error');
+                return;
+            }
+            if (!sigState.owner) {
+                showToast('Please provide the owner signature.', 'error');
+                return;
+            }
+            if (!document.getElementById('agreeCheck').checked) {
+                showToast('Please agree to the lease terms.', 'error');
+                return;
+            }
+
+            if (!api.isAuthenticated()) {
+                showToast('Please sign in to complete the lease.', 'error');
+                setTimeout(() => { window.location.href = 'login?redirect=lease-signing'; }, 1200);
+                return;
+            }
+
+            // Build a real Lease for the backend (owner of the property signs; tenant = current user).
+            const payload = {
+                propertyId: Number(leaseInfo.propertyId) || 0,
+                tenantId: Number((leaseUser && leaseUser.id) || 0),
+                startDate: new Date().toISOString().split('T')[0],
+                endDate: '',
+                monthlyRent: Number(leaseInfo.rent) || 0,
+                deposit: Number(leaseInfo.deposit) || 0,
+                signatureTenant: (leaseUser && leaseUser.name) || 'Tenant',
+                signatureOwner: 'Owner',
+                status: 'active',
+                propertyTitle: leaseInfo.title || 'Property',
+                tenantName: (leaseUser && leaseUser.name) || 'Tenant',
+                ownerName: 'Owner'
+            };
+            if (!payload.tenantId || !payload.propertyId) {
+                showToast('Missing lease details. Please book a property first.', 'error');
+                return;
+            }
+
+            const btn = event.currentTarget;
+            const original = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing...';
+
+            api.createLease(payload)
+                .then(() => {
+                    document.getElementById('leaseCard').style.display = 'none';
+                    document.getElementById('successScreen').classList.add('show');
+                    showToast('Lease signed successfully! 🎉', 'success');
+                })
+                .catch(err => {
+                    showToast((err && err.message) || 'Lease signing failed. Please try again.', 'error');
+                })
+                .finally(() => {
+                    btn.disabled = false;
+                    btn.innerHTML = original;
+                });
+        };
+
+        window.downloadLease = function() {
+            showToast('Lease downloaded. Check your downloads folder.', 'success');
+        };
+
+        initCanvas('tenant');
+        initCanvas('owner');
+        })();
+    </script>
+
+    <section class="content-section" style="padding-top:0;">
+        <div class="container">
+            <div id="featurePanel"></div>
+        </div>
+    </section>
+
+    <script src="feature-panel.js?v=20260902a"></script>
+
+    <section class="page-cta">
+        <div class="container">
+            <div class="cta-banner">
+                <h2>Next Step</h2>
+                <p>Lease signed — configure monthly rent collection.</p>
+                <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+                    <a href="rent-collection" class="btn btn-lg"><i class="fas fa-hand-holding-dollar"></i> Set Up Rent Collection</a>
+                    <a href="dashboard" class="btn btn-lg ghost"><i class="fas fa-gauge-high"></i> My Dashboard</a>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
+

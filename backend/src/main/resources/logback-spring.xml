@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- Standard Spring Boot console logging for ALL profiles.
+         Uses only built-in logback defaults (no external JSON/contrib classes),
+         so logging always works in dev AND production. -->
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+
+    <logger name="com.HeavenLease" level="INFO"/>
+    <logger name="org.hibernate.SQL" level="WARN"/>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+</configuration>

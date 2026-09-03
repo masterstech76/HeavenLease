@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Create and submit a maintenance request.">
+    <title>Maintenance Request — HeavenLease</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styles.css?v=20260909a">
+    <style>
+        .page-header { background: rgba(255,255,255,0.45); backdrop-filter: blur(6px); padding: 140px 0 70px; text-align: center; position: relative; overflow: hidden; }
+        .page-header h1 { font-family: var(--font-heading); font-size: 46px; font-weight: 700; color: var(--dark); margin-bottom: 12px; }
+        .page-header p { font-size: 17px; color: var(--gray-500); max-width: 640px; margin: 0 auto; }
+        .page-header .ph-icon { width: 68px; height: 68px; border-radius: 18px; background: var(--gradient); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 28px; margin: 0 auto 18px; box-shadow: var(--shadow-primary); }
+        .page-section { padding: 70px 0 90px; }
+        .page-section .section-head { text-align: center; margin-bottom: 44px; }
+        .page-section .section-head h2 { font-family: var(--font-heading); font-size: 30px; font-weight: 700; color: var(--dark); }
+        .feature-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 26px; }
+        .feature-card { background: rgba(255,255,255,0.92); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 28px; transition: var(--transition); box-shadow: var(--shadow-sm); }
+        .feature-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--primary); }
+        .feature-card .fc-icon { width: 52px; height: 52px; border-radius: 14px; background: var(--gradient-soft); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 14px; }
+        .feature-card h3 { font-size: 17px; font-weight: 600; color: var(--dark); margin-bottom: 6px; }
+        .feature-card p { font-size: 14px; color: var(--gray-500); line-height: 1.6; margin: 0; }
+        .page-cta { padding: 0 0 90px; }
+        .cta-banner { background: var(--gradient); border-radius: var(--radius-xl); padding: 44px 32px; text-align: center; color: #fff; }
+        .cta-banner h2 { font-family: var(--font-heading); font-size: 28px; margin-bottom: 8px; }
+        .cta-banner p { opacity: 0.92; margin-bottom: 20px; }
+        .cta-banner .btn { background: #fff; color: var(--primary); font-weight: 600; }
+        .cta-banner .btn.ghost { background: transparent; border: 1px solid #fff; color: #fff; }
+        @media (max-width: 900px) { .feature-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) { .page-header { padding: 120px 0 50px; } .page-header h1 { font-size: 34px; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <span class="logo-text">Heaven<span>Lease</span></span>
+            </a>
+            <div class="nav-actions">
+                <div class="user-menu" id="userMenu">
+                    <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu">
+                        <span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span>
+                        <span id="navUserName">Account</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="user-dropdown" id="profileDropdown">
+                        <a href="home" id="mainHomeLink"><i class="fas fa-home"></i> Main Home</a>
+                        <a href="edit-profile" id="myProfileLink"><i class="fas fa-user"></i> My Profile &amp; Settings</a>
+                        <a href="payment"><i class="fas fa-credit-card"></i> Access Pass</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <section class="page-header">
+        <div class="container">
+            <div class="ph-icon"><i class="fas fa-screwdriver-wrench"></i></div>
+            <h1>New Maintenance Request</h1>
+            <p>Tell your owner what needs fixing — fast and clear.</p>
+        </div>
+    </section>
+
+    <section class="page-section">
+        <div class="container" style="max-width: 680px;">
+            <form id="maintenanceForm" class="profile-card" style="display:block;background:var(--white);border-radius:var(--radius-lg);padding:32px;border:1px solid var(--gray-200);">
+                <h2 style="font-size:18px;font-weight:600;color:var(--dark);margin-bottom:24px;display:flex;align-items:center;gap:10px;"><i class="fas fa-screwdriver-wrench" style="color:var(--primary);"></i> Raise a Maintenance Request</h2>
+
+                <div class="form-group" style="margin-bottom:20px;">
+                    <label for="propertySelect" style="display:block;font-size:13px;font-weight:600;color:var(--gray-600);margin-bottom:8px;">Property *</label>
+                    <select id="propertySelect" name="propertyId" required style="width:100%;padding:12px 16px;border:1px solid var(--gray-200);border-radius:var(--radius-md);background:var(--gray-50);font-size:14px;">
+                        <option value="">Select a property from your tours…</option>
+                    </select>
+                </div>
+
+                <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+                    <div class="form-group" style="margin-bottom:20px;">
+                        <label for="category" style="display:block;font-size:13px;font-weight:600;color:var(--gray-600);margin-bottom:8px;">Category</label>
+                        <select id="category" name="category" style="width:100%;padding:12px 16px;border:1px solid var(--gray-200);border-radius:var(--radius-md);background:var(--gray-50);font-size:14px;">
+                            <option value="PLUMBING">Plumbing</option>
+                            <option value="ELECTRICAL">Electrical</option>
+                            <option value="APPLIANCE">Appliance / Fitting</option>
+                            <option value="CLEANING">Cleaning / Pest</option>
+                            <option value="PAINTING">Painting / Structural</option>
+                            <option value="OTHER">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="margin-bottom:20px;">
+                        <label for="priority" style="display:block;font-size:13px;font-weight:600;color:var(--gray-600);margin-bottom:8px;">Priority</label>
+                        <select id="priority" name="priority" style="width:100%;padding:12px 16px;border:1px solid var(--gray-200);border-radius:var(--radius-md);background:var(--gray-50);font-size:14px;">
+                            <option value="LOW">Low</option>
+                            <option value="NORMAL" selected>Normal</option>
+                            <option value="URGENT">Urgent</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-bottom:20px;">
+                    <label for="subject" style="display:block;font-size:13px;font-weight:600;color:var(--gray-600);margin-bottom:8px;">Subject *</label>
+                    <input type="text" id="subject" name="subject" required maxlength="200" placeholder="e.g. Kitchen tap is leaking" style="width:100%;padding:12px 16px;border:1px solid var(--gray-200);border-radius:var(--radius-md);background:var(--gray-50);font-size:14px;">
+                </div>
+
+                <div class="form-group" style="margin-bottom:20px;">
+                    <label for="description" style="display:block;font-size:13px;font-weight:600;color:var(--gray-600);margin-bottom:8px;">Details *</label>
+                    <textarea id="description" name="description" required rows="4" maxlength="1000" placeholder="Describe the issue — when it started, how bad it is…" style="width:100%;padding:12px 16px;border:1px solid var(--gray-200);border-radius:var(--radius-md);background:var(--gray-50);font-size:14px;font-family:inherit;"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-save" style="width:100%;padding:14px;font-size:15px;"><i class="fas fa-paper-plane"></i> Submit Request</button>
+                <p id="formStatus" style="margin-top:12px;font-size:13px;color:var(--gray-500);text-align:center;"></p>
+            </form>
+        </div>
+    </section>
+
+    <section class="page-cta">
+        <div class="container">
+            <div class="cta-banner">
+                <h2>Ready to continue?</h2>
+                <p>Head back to your dashboard or browse the next step.</p>
+                                <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+                    <a href="maintenance-requests" class="btn btn-lg"><i class="fas fa-toolbox"></i> Track Maintenance</a>
+                    <a href="maintenance-management" class="btn btn-lg"><i class="fas fa-screwdriver-wrench"></i> Maintenance Management</a>
+                    <a href="dashboard" class="btn btn-lg"><i class="fas fa-gauge-high"></i> My Dashboard</a>
+                    <a href="home" class="btn btn-lg ghost"><i class="fas fa-home"></i> Main Home</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<script src="api.js?v=20260913a"></script>
+    <script src="script.js?v=20260913a"></script>
+    <script>
+        (function() {
+            const user = api.getUser();
+            if (user && user.role) {
+                const r = (user.role || '').toLowerCase();
+                const link = document.getElementById('myProfileLink');
+                if (link) link.href = 'edit-profile';
+            }
+
+            // Load the tenant's booked properties into the property picker so the
+            // owner can be resolved server-side.
+            const propSelect = document.getElementById('propertySelect');
+            async function loadProperties() {
+                try {
+                    const me = api.getUser() || {};
+                    let bookings = [];
+                    if (me.id) {
+                        bookings = await api.getBookingsByTenant(me.id).catch(() => []);
+                    }
+                    const props = (Array.isArray(bookings) ? bookings : [])
+                        .filter(b => b && b.propertyId)
+                        .map(b => ({ id: b.propertyId, label: (b.propertyTitle || ('Property #' + b.propertyId)) + (b.status ? ' (' + b.status + ')' : '') }))
+                        .filter((v, i, a) => a.findIndex(x => x.id === v.id) === i);
+                    if (props.length === 0) {
+                        propSelect.innerHTML = '<option value="">No booked properties found — book a tour first</option>';
+                        propSelect.disabled = true;
+                        return;
+                    }
+                    propSelect.innerHTML = props.map(p => '<option value="' + p.id + '">' + api.escapeHtml(p.label) + '</option>').join('');
+                } catch (e) {
+                    propSelect.innerHTML = '<option value="">Could not load your properties</option>';
+                }
+            }
+            loadProperties();
+
+            window.submitMaintenance = async function(ev) {
+                ev.preventDefault();
+                const subject = document.getElementById('subject').value.trim();
+                const description = document.getElementById('description').value.trim();
+                const propertyId = document.getElementById('propertySelect').value;
+                const statusEl = document.getElementById('formStatus');
+                if (!subject || !description || !propertyId) {
+                    if (statusEl) statusEl.textContent = 'Please fill in the property, subject and details.';
+                    return;
+                }
+                const btn = ev.target.querySelector('button[type="submit"]');
+                if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting…'; }
+                try {
+                    await api.createMaintenanceRequest({
+                        propertyId: Number(propertyId),
+                        category: document.getElementById('category').value,
+                        priority: document.getElementById('priority').value,
+                        subject,
+                        description,
+                        tenantName: (api.getUser() || {}).name || ''
+                    });
+                    if (statusEl) { statusEl.innerHTML = '<i class="fas fa-check-circle" style="color:var(--secondary);"></i> Request submitted — your owner has been notified.'; }
+                    showToast('Maintenance request submitted!', 'success');
+                    setTimeout(() => { window.location.href = 'maintenance-requests'; }, 1200);
+                } catch (error) {
+                    if (statusEl) statusEl.textContent = error.message || 'Failed to submit.';
+                    showToast(error.message || 'Failed to submit request.', 'error');
+                    if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Request'; }
+                }
+            };
+            const form = document.getElementById('maintenanceForm');
+            if (form) form.addEventListener('submit', window.submitMaintenance);
+        })();
+    </script>
+</body>
+</html>

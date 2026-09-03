@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Chat directly with property owners on HeavenLease. No brokers, direct communication.">
+    <title>Messages — HeavenLease</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styles.css?v=20260909a">
+    <style>
+        .messages-page { min-height: 100vh; background: var(--gray-50); padding-top: 72px; }
+        .messages-layout { display: grid; grid-template-columns: 320px 1fr; min-height: calc(100vh - 72px); }
+        
+        /* Conversation List */
+        .conversations-list { background: var(--white); border-right: 1px solid var(--gray-200); display: flex; flex-direction: column; }
+        .conversations-header { padding: 24px; border-bottom: 1px solid var(--gray-200); }
+        .conversations-header h1 { font-family: var(--font-heading); font-size: 24px; font-weight: 700; color: var(--dark); display: flex; align-items: center; gap: 10px; }
+        .conversations-header h1 i { color: var(--primary); }
+        .conversations-header p { font-size: 13px; color: var(--gray-500); margin-top: 4px; }
+        
+        .conversations-search { padding: 16px 24px; border-bottom: 1px solid var(--gray-200); }
+        .conversations-search input { width: 100%; padding: 10px 14px; border: 1px solid var(--gray-200); border-radius: var(--radius-md); background: var(--gray-50); font-size: 14px; }
+        .conversations-search input:focus { outline: none; border-color: var(--primary); background: var(--white); }
+        
+        .conversation-items { flex: 1; overflow-y: auto; }
+        .conversation-item { display: flex; gap: 12px; padding: 16px 24px; cursor: pointer; transition: var(--transition); border-bottom: 1px solid var(--gray-100); }
+        .conversation-item:hover { background: var(--gray-50); }
+        .conversation-item.active { background: var(--primary-light); border-left: 3px solid var(--primary); }
+        
+        .conversation-avatar { width: 48px; height: 48px; background: var(--gradient); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--white); font-size: 18px; flex-shrink: 0; }
+        .conversation-info { flex: 1; min-width: 0; }
+        .conversation-info .name { font-size: 14px; font-weight: 600; color: var(--dark); display: flex; justify-content: space-between; align-items: center; }
+        .conversation-info .name .time { font-size: 11px; color: var(--gray-400); font-weight: 400; }
+        .conversation-info .preview { font-size: 13px; color: var(--gray-500); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
+        .conversation-info .property-tag { font-size: 11px; color: var(--primary); background: var(--primary-light); padding: 2px 8px; border-radius: var(--radius-full); display: inline-block; margin-top: 4px; }
+        
+        .unread-badge { background: var(--primary); color: var(--white); border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; }
+        
+        /* Chat Window */
+        .chat-window { display: flex; flex-direction: column; background: var(--white); }
+        .chat-header { padding: 16px 24px; border-bottom: 1px solid var(--gray-200); display: flex; align-items: center; gap: 12px; }
+        .chat-header .avatar { width: 44px; height: 44px; background: var(--gradient); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--white); font-size: 16px; }
+        .chat-header .info { flex: 1; }
+        .chat-header .info strong { display: block; font-size: 15px; color: var(--dark); }
+        .chat-header .info span { font-size: 12px; color: var(--secondary-dark); }
+        .chat-header .info span.offline { color: var(--gray-400); }
+        .chat-header .header-actions { display: flex; gap: 8px; }
+        .chat-header .header-action { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--gray-500); background: var(--gray-50); transition: var(--transition); }
+        .chat-header .header-action:hover { background: var(--primary-light); color: var(--primary); }
+        
+        .chat-messages { flex: 1; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; gap: 12px; background: var(--gray-50); }
+        .chat-message { max-width: 70%; padding: 12px 16px; border-radius: var(--radius-md); font-size: 14px; line-height: 1.5; }
+        .chat-message.sent { align-self: flex-end; background: var(--primary); color: var(--white); border-bottom-right-radius: 4px; }
+        .chat-message.received { align-self: flex-start; background: var(--white); color: var(--gray-700); border: 1px solid var(--gray-200); border-bottom-left-radius: 4px; }
+        .chat-message .msg-time { display: block; font-size: 11px; margin-top: 4px; opacity: 0.7; }
+        
+        .chat-date-divider { text-align: center; font-size: 12px; color: var(--gray-400); margin: 12px 0; }
+        
+        .chat-input-area { padding: 16px 24px; border-top: 1px solid var(--gray-200); display: flex; gap: 12px; align-items: center; }
+        .chat-input-area input { flex: 1; padding: 12px 16px; border: 1px solid var(--gray-200); border-radius: var(--radius-full); background: var(--gray-50); font-size: 14px; }
+        .chat-input-area input:focus { outline: none; border-color: var(--primary); background: var(--white); }
+        .chat-send-btn { width: 44px; height: 44px; border-radius: 50%; background: var(--primary); color: var(--white); display: flex; align-items: center; justify-content: center; font-size: 16px; box-shadow: var(--shadow-primary); transition: var(--transition); }
+        .chat-send-btn:hover { transform: scale(1.05); }
+        
+        .empty-chat { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--gray-400); }
+        .empty-chat i { font-size: 64px; margin-bottom: 16px; }
+        .empty-chat h3 { font-size: 18px; color: var(--gray-500); margin-bottom: 8px; }
+        .empty-chat p { font-size: 14px; max-width: 300px; text-align: center; }
+        
+        .paywall-banner { background: var(--primary-light); padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+        .paywall-banner .text { font-size: 14px; color: var(--primary); display: flex; align-items: center; gap: 8px; }
+        .paywall-banner .btn { font-size: 13px; padding: 8px 16px; }
+        
+        @media (max-width: 768px) {
+            .messages-layout { grid-template-columns: 1fr; }
+            .conversations-list { display: none; }
+            .conversations-list.mobile-show { display: flex; }
+            .chat-window.mobile-hide { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== NAVIGATION ===== -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="home" class="logo">
+                <div class="logo-icon"><i class="fas fa-home"></i></div>
+<span class="logo-text">Heaven<span>Lease</span></span>
+            </a>
+            
+            <div class="nav-actions">
+                
+                                <div class="user-menu" id="userMenu">
+                    <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu">
+                        <span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span>
+                        <span id="navUserName">Account</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="user-dropdown" id="profileDropdown">
+                        <a href="home" id="mainHomeLink"><i class="fas fa-home"></i> Main Home</a>
+                        <a href="edit-profile" id="myProfileLink"><i class="fas fa-user"></i> My Profile &amp; Settings</a>
+                        <a href="payment"><i class="fas fa-credit-card"></i> Access Pass</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="properties"><i class="fas fa-building"></i> Browse Properties</a>
+                        <a href="map"><i class="fas fa-map-location-dot"></i> Property Map</a>
+                        <a href="comfort-scores"><i class="fas fa-gauge-high"></i> Comfort Scores</a>
+                        <a href="saved-properties"><i class="fas fa-heart"></i> Saved Properties</a>
+                        <a href="list-property"><i class="fas fa-key"></i> List Your Property</a>
+                        <a href="tenant-screening"><i class="fas fa-user-check"></i> Tenant Screening</a>
+                        <a href="owner-resources"><i class="fas fa-toolbox"></i> Owner Resources</a>
+                        <a href="buy-sell"><i class="fas fa-tag"></i> Buy / Sell</a>
+                        <a href="possession"><i class="fas fa-key"></i> Possession &amp; Handover</a>
+                        <a href="lease-signing"><i class="fas fa-file-signature"></i> Leases &amp; Signing</a>
+                        <a href="tour-booking"><i class="fas fa-calendar-check"></i> Tour Bookings</a>
+                        <a href="messages"><i class="fas fa-comments"></i> Messages</a>
+                        <a href="notifications"><i class="fas fa-bell"></i> Notifications</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="how-it-works"><i class="fas fa-circle-question"></i> How It Works</a>
+                        <a href="about"><i class="fas fa-building"></i> About Us</a>
+                        <a href="blog"><i class="fas fa-newspaper"></i> Blog</a>
+<a href="comfort-scores"><i class="fas fa-chart-simple"></i> Type &amp; Voice Search</a>
+                                                <a href="contact"><i class="fas fa-envelope"></i> Contact &amp; Support</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="login" id="signInLink" class="hide-when-auth"><i class="fas fa-arrow-right-to-bracket"></i> Sign In</a>
+                        <a href="#" id="logoutLink" class="logout-link hide-when-guest"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+</div>
+        </div>
+    </nav>
+
+    <!-- ===== MESSAGES PAGE ===== -->
+    <div class="messages-page">
+        <div class="messages-layout">
+            <!-- Conversation List -->
+            <div class="conversations-list" id="conversationsList">
+                <div class="conversations-header">
+                    <h1><i class="fas fa-comments"></i> Messages</h1>
+                    <p>Chat directly with owners</p>
+                </div>
+                <div class="conversations-search">
+                    <input type="text" placeholder="Search conversations..." oninput="filterConversations(this.value)">
+                </div>
+                <div class="conversation-items" id="conversationItems">
+                    <!-- Conversations injected by JS -->
+                </div>
+            </div>
+
+            <!-- Chat Window -->
+            <div class="chat-window" id="chatWindow">
+                <div class="chat-header" id="chatHeader" style="display: none;">
+                    <div class="avatar" id="chatAvatar"><i class="fas fa-user"></i></div>
+                    <div class="info">
+                        <strong id="chatOwnerName"></strong>
+                        <span id="chatOwnerStatus">Owner · Verified</span>
+                    </div>
+                    <div class="header-actions">
+                        <a href="property-detail" class="header-action" title="View Property"><i class="fas fa-home"></i></a>
+                        <button class="header-action" title="Video Call"><i class="fas fa-video"></i></button>
+                        <button class="header-action" title="More"><i class="fas fa-ellipsis-vertical"></i></button>
+                    </div>
+                </div>
+
+                <div class="chat-messages" id="chatMessages">
+                    <!-- Messages injected by JS -->
+                </div>
+
+                <div class="empty-chat" id="emptyChat">
+                    <i class="fas fa-comments"></i>
+                    <h3>Select a conversation</h3>
+                    <p>Choose a conversation from the list to start chatting with a property owner.</p>
+                    <a href="properties" class="btn btn-outline" style="margin-top: 16px;">Browse Properties</a>
+                </div>
+
+                <div class="chat-input-area" id="chatInputArea" style="display: none;">
+                    <input type="text" id="messageInput" placeholder="Type a message..." onkeypress="if(event.key === 'Enter') sendMessage()">
+                    <button class="chat-send-btn" onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="api.js?v=20260913a"></script>
+    <script src="script.js?v=20260913a"></script>
+    <script>
+        (function() {
+        // Navbar
+        const navbar = document.getElementById('navbar');
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) navbar.classList.add('scrolled');
+            else navbar.classList.remove('scrolled');
+        });
+
+        if (hamburger) hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        if (hamburger && navLinks) {
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburger.classList.remove('active');
+                    navLinks.classList.remove('active');
+                });
+            });
+        }
+
+        // Get user from localStorage
+        let currentUser = { name: 'You', id: 'me' };
+        try {
+            const stored = JSON.parse(localStorage.getItem('heavenlease_user') || '{}');
+            currentUser = { ...currentUser, ...stored, id: stored.email || 'me' };
+        } catch(e) {}
+
+        // Owner/Other party data — populated from real backend conversations.
+        const owners = {};
+
+        // Conversations are created from real backend messages only (no sample data).
+        const STORAGE_KEY = 'HeavenLease_messages';
+
+        function loadConversations() {
+            try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch(e) { return []; }
+        }
+
+        let conversations = [];
+        let activeConversation = null;
+        let currentUserId = null;
+        const meUser = (function(){ try { return JSON.parse(localStorage.getItem('heavenlease_user') || '{}'); } catch(e) { return {}; } })();
+        if (meUser && meUser.id) currentUserId = Number(meUser.id);
+
+        function saveConversations() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(conversations));
+        }
+
+        // Load conversations from the real backend into the display shape.
+        async function loadInitial() {
+            if (!currentUserId) {
+                renderConversations();
+                return;
+            }
+            try {
+                const list = await api.getMyConversations();
+                conversations = (Array.isArray(list) ? list : []).map(c => ({
+                    id: String(c.conversationId),
+                    ownerName: c.otherName || 'User',
+                    property: '',
+                    unread: c.unread || 0,
+                    online: false,
+                    otherUserId: c.otherUserId,
+                    lastMessage: c.lastMessage || '',
+                    lastTime: c.lastTime ? formatTime(c.lastTime) : '',
+                    messages: []
+                }));
+            } catch (e) {
+                conversations = [];
+            }
+            renderConversations();
+
+            // Real-time updates via WebSocket
+            connectWebSocket((msg) => {
+                if (msg && msg.conversationId && activeConversation && String(msg.conversationId) === String(activeConversation)) {
+                    appendIncoming(msg);
+                }
+            });
+        }
+
+        function appendIncoming(msg) {
+            const conv = conversations.find(c => c.id === String(msg.conversationId));
+            if (!conv) return;
+            if (!conv.messages) conv.messages = [];
+            const from = (msg.senderId && String(msg.senderId) === String(currentUserId)) ? 'me' : 'them';
+            conv.messages.push({ from, text: msg.content || msg.text || '', time: formatTime(msg.timestamp) });
+            saveConversations();
+            if (activeConversation && String(activeConversation) === String(msg.conversationId)) {
+                renderMessages(activeConversation);
+            }
+            renderConversations();
+        }
+
+        function formatTime(ts) {
+            if (!ts) return new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+            try {
+                const d = new Date(ts);
+                return d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+            } catch(e) { return ''; }
+        }
+
+        // Render conversation list
+        function renderConversations(filter = '') {
+            const items = document.getElementById('conversationItems');
+            const filtered = conversations.filter(c => 
+                c.ownerName.toLowerCase().includes(filter.toLowerCase()) ||
+                c.property.toLowerCase().includes(filter.toLowerCase())
+            );
+
+            if (filtered.length === 0) {
+                items.innerHTML = '<div style="text-align:center; padding:40px 20px; color: var(--gray-400);"><i class="fas fa-comments" style="font-size: 36px; margin-bottom: 12px; display:block;"></i><p>No conversations found.</p><a href="properties" style="color: var(--primary); font-weight: 500; display:inline-block; margin-top:12px;">Browse properties →</a></div>';
+                return;
+            }
+
+            items.innerHTML = filtered.map(c => `
+                <div class="conversation-item ${activeConversation === c.id ? 'active' : ''}" onclick="openConversation('${c.id}')">
+                    <div class="conversation-avatar"><i class="fas fa-user"></i></div>
+                    <div class="conversation-info">
+                        <div class="name">
+                            ${escapeHtml(c.ownerName)}
+                            <span class="time">${escapeHtml(c.messages && c.messages.length ? c.messages[c.messages.length-1].time : (c.lastTime || ''))}</span>
+                        </div>
+                        <span class="property-tag"><i class="fas fa-home"></i> ${escapeHtml(c.property || 'Messages')}</span>
+                        <div class="preview">${escapeHtml(c.messages && c.messages.length ? c.messages[c.messages.length-1].text : (c.lastMessage || 'Start a conversation'))}</div>
+                    </div>
+                    ${c.unread > 0 ? `<span class="unread-badge">${c.unread}</span>` : ''}
+                </div>
+            `).join('');
+        }
+
+        window.filterConversations = function(value) {
+            renderConversations(value);
+        };
+
+        window.openConversation = function(convId) {
+            if (!isPaid) {
+                window.location.href = 'payment?redirect=messages';
+                return;
+            }
+
+            activeConversation = convId;
+            const conv = conversations.find(c => c.id === convId);
+            if (!conv) return;
+
+            // Show chat window
+            document.getElementById('emptyChat').style.display = 'none';
+            document.getElementById('chatHeader').style.display = 'flex';
+            document.getElementById('chatInputArea').style.display = 'flex';
+            document.getElementById('chatAvatar').innerHTML = '<i class="fas fa-user"></i>';
+            document.getElementById('chatOwnerName').textContent = conv.ownerName;
+            document.getElementById('chatOwnerStatus').textContent = 'Verified Owner';
+            document.getElementById('chatOwnerStatus').className = '';
+
+            // Fetch real messages from the backend, then render.
+            if (currentUserId) {
+                api.getConversation(Number(convId)).then(msgs => {
+                    conv.messages = (Array.isArray(msgs) ? msgs : []).map(m => ({
+                        from: (m.senderId && String(m.senderId) === String(currentUserId)) ? 'me' : 'them',
+                        text: m.content || '',
+                        time: formatTime(m.timestamp)
+                    }));
+                    conv.unread = 0;
+                    saveConversations();
+                    renderMessages(conv.id);
+                }).catch(() => {
+                    conv.messages = conv.messages || [];
+                    renderMessages(conv.id);
+                });
+            } else {
+                conv.messages = conv.messages || [];
+                renderMessages(conv.id);
+            }
+
+            // Mobile: show chat, hide list
+            if (window.innerWidth <= 768) {
+                document.getElementById('conversationsList').classList.remove('mobile-show');
+                document.getElementById('chatWindow').classList.remove('mobile-hide');
+            }
+        };
+
+        function renderMessages(convId) {
+            const conv = conversations.find(c => c.id === convId);
+            if (!conv) return;
+
+            const messagesDiv = document.getElementById('chatMessages');
+            const grouped = {};
+            conv.messages.forEach(m => {
+                const day = m.time.includes('Yesterday') ? 'Yesterday' : 'Today';
+                if (!grouped[day]) grouped[day] = [];
+                grouped[day].push(m);
+            });
+
+            messagesDiv.innerHTML = Object.keys(grouped).map(day => `
+                <div class="chat-date-divider">${escapeHtml(day)}</div>
+                ${grouped[day].map(m => `
+                    <div class="chat-message ${m.from === 'me' ? 'sent' : 'received'}">
+                        ${escapeHtml(m.text)}
+                        <span class="msg-time">${escapeHtml(m.time)}</span>
+                    </div>
+                `).join('')}
+            `).join('');
+
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+
+        window.sendMessage = function() {
+            const input = document.getElementById('messageInput');
+            const text = input.value.trim();
+            if (!text || !activeConversation) return;
+
+            const conv = conversations.find(c => c.id === activeConversation);
+            if (!conv) return;
+            if (!currentUserId) {
+                showToast('Please sign in to send messages.', 'error');
+                return;
+            }
+
+            // Optimistic render
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+            if (!conv.messages) conv.messages = [];
+            conv.messages.push({ from: 'me', text: text, time: timeStr });
+            saveConversations();
+            input.value = '';
+            renderMessages(activeConversation);
+            renderConversations();
+
+            // Persist to the real backend
+            api.sendMessage({
+                conversationId: Number(activeConversation),
+                senderId: currentUserId,
+                receiverId: conv.otherUserId || 0,
+                content: text
+            }).then(() => {
+                // Broadcast to other clients via WebSocket
+                sendWebSocketMessage({
+                    conversationId: Number(activeConversation),
+                    senderId: currentUserId,
+                    senderName: meUser.name || 'You',
+                    content: text,
+                    timestamp: new Date().toISOString()
+                });
+            }).catch(err => {
+                showToast((err && err.message) || 'Failed to send message.', 'error');
+            });
+        };
+
+        // Load initial — real conversations from the backend
+        loadInitial();
+
+        // Check URL for ?property= param to auto-open a matching conversation once ready.
+        const urlParams = new URLSearchParams(window.location.search);
+        const propertyParam = urlParams.get('property');
+        if (propertyParam && isPaid) {
+            setTimeout(() => {
+                const matching = conversations.find(c => (c.property || '').toLowerCase().includes(propertyParam.toLowerCase()));
+                if (matching) openConversation(matching.id);
+            }, 800);
+        }
+
+        // Back button on mobile
+        // (Simple - add back arrow when on mobile with active conv)
+        })();
+    </script>
+</body>
+</html>
+

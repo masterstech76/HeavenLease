@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Book a property tour on HeavenLease. Choose your property, date, and time.">
+    <title>Book a Tour — HeavenLease</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styles.css?v=20260909a">
+    <style>
+        .tb-page { min-height: 100vh; background: var(--gradient-soft); padding: 120px 24px 60px; position: relative; overflow: hidden; }
+        .tb-page::before { content: ''; position: absolute; top: -200px; right: -200px; width: 500px; height: 500px; background: radial-gradient(circle, rgba(79, 70, 229, 0.15) 0%, transparent 70%); border-radius: 50%; }
+        .tb-page::after { content: ''; position: absolute; bottom: -200px; left: -200px; width: 500px; height: 500px; background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, transparent 70%); border-radius: 50%; }
+        .tb-container { max-width: 720px; margin: 0 auto; position: relative; z-index: 1; }
+        .tb-header { text-align: center; margin-bottom: 32px; }
+        .tb-header h1 { font-family: var(--font-heading); font-size: 36px; font-weight: 700; color: var(--dark); }
+        .tb-header h1 i { color: var(--primary); }
+        .tb-header p { color: var(--gray-500); font-size: 15px; margin-top: 8px; }
+
+        .tb-card { background: var(--white); border-radius: var(--radius-xl); box-shadow: var(--shadow-xl); border: 1px solid var(--gray-200); overflow: hidden; }
+        .tb-card .card-head { padding: 20px 28px; border-bottom: 1px solid var(--gray-200); display: flex; align-items: center; gap: 12px; }
+        .tb-card .card-head h2 { font-size: 18px; font-weight: 600; color: var(--dark); }
+        .tb-card .card-head i { color: var(--primary); }
+        .tb-card .card-body { padding: 28px; }
+
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-size: 13px; font-weight: 600; color: var(--gray-600); margin-bottom: 8px; }
+        .form-group input, .form-group select { width: 100%; padding: 12px 16px; border: 1px solid var(--gray-200); border-radius: var(--radius-md); background: var(--gray-50); font-size: 14px; color: var(--gray-700); transition: var(--transition); }
+        .form-group input:focus, .form-group select:focus { outline: none; border-color: var(--primary); background: var(--white); box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+        .time-slots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .time-slot { padding: 12px; border: 2px solid var(--gray-200); border-radius: var(--radius-md); text-align: center; cursor: pointer; font-size: 13px; font-weight: 500; color: var(--gray-600); transition: var(--transition); background: var(--white); }
+        .time-slot:hover { border-color: var(--primary); background: var(--primary-light); }
+        .time-slot.selected { border-color: var(--primary); background: var(--primary-light); color: var(--primary); box-shadow: var(--shadow-primary); }
+
+        .summary-box { background: var(--gray-50); border-radius: var(--radius-lg); padding: 20px; margin-top: 24px; }
+        .summary-box .summary-row { display: flex; justify-content: space-between; padding: 8px 0; font-size: 14px; color: var(--gray-600); }
+        .summary-box .summary-row strong { color: var(--dark); }
+        .summary-box .summary-row.total { border-top: 1px solid var(--gray-200); margin-top: 8px; padding-top: 12px; font-weight: 600; color: var(--dark); }
+
+        .submit-area { text-align: center; margin-top: 24px; }
+        .submit-area .btn { padding: 14px 40px; font-size: 16px; }
+
+        .success-screen { display: none; text-align: center; padding: 60px 24px; }
+        .success-screen.show { display: block; }
+        .success-icon { width: 80px; height: 80px; background: #D1FAE5; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 36px; color: var(--secondary-dark); }
+        .success-screen h2 { font-family: var(--font-heading); font-size: 28px; color: var(--dark); margin-bottom: 8px; }
+        .success-screen p { color: var(--gray-500); margin-bottom: 24px; }
+        .back-link { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: var(--gray-500); margin-bottom: 24px; transition: var(--transition); }
+        .back-link:hover { color: var(--primary); }
+        @media (max-width: 768px) { .form-row { grid-template-columns: 1fr; } .time-slots { grid-template-columns: repeat(2, 1fr); } .tb-header h1 { font-size: 28px; } }
+    </style>
+</head>
+<body>
+    <!-- ===== NAVIGATION ===== -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="home" class="logo">
+                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <span class="logo-text">Heaven<span>Lease</span></span>
+            </a>
+            
+            <div class="nav-actions">
+                
+                                <div class="user-menu" id="userMenu">
+                    <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu">
+                        <span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span>
+                        <span id="navUserName">Account</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="user-dropdown" id="profileDropdown">
+                        <a href="home" id="mainHomeLink"><i class="fas fa-home"></i> Main Home</a>
+                        <a href="edit-profile" id="myProfileLink"><i class="fas fa-user"></i> My Profile &amp; Settings</a>
+                        <a href="payment"><i class="fas fa-credit-card"></i> Access Pass</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="properties"><i class="fas fa-building"></i> Browse Properties</a>
+                        <a href="map"><i class="fas fa-map-location-dot"></i> Property Map</a>
+                        <a href="comfort-scores"><i class="fas fa-gauge-high"></i> Comfort Scores</a>
+                        <a href="saved-properties"><i class="fas fa-heart"></i> Saved Properties</a>
+                        <a href="list-property"><i class="fas fa-key"></i> List Your Property</a>
+                        <a href="tenant-screening"><i class="fas fa-user-check"></i> Tenant Screening</a>
+                        <a href="owner-resources"><i class="fas fa-toolbox"></i> Owner Resources</a>
+                        <a href="buy-sell"><i class="fas fa-tag"></i> Buy / Sell</a>
+                        <a href="possession"><i class="fas fa-key"></i> Possession &amp; Handover</a>
+                        <a href="lease-signing"><i class="fas fa-file-signature"></i> Leases &amp; Signing</a>
+                        <a href="tour-booking"><i class="fas fa-calendar-check"></i> Tour Bookings</a>
+                        <a href="messages"><i class="fas fa-comments"></i> Messages</a>
+                        <a href="notifications"><i class="fas fa-bell"></i> Notifications</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="how-it-works"><i class="fas fa-circle-question"></i> How It Works</a>
+                        <a href="about"><i class="fas fa-building"></i> About Us</a>
+                        <a href="blog"><i class="fas fa-newspaper"></i> Blog</a>
+<a href="comfort-scores"><i class="fas fa-chart-simple"></i> Type &amp; Voice Search</a>
+                                                <a href="contact"><i class="fas fa-envelope"></i> Contact &amp; Support</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="login" id="signInLink" class="hide-when-auth"><i class="fas fa-arrow-right-to-bracket"></i> Sign In</a>
+                        <a href="#" id="logoutLink" class="logout-link hide-when-guest"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+</div>
+        </div>
+    </nav>
+
+    <!-- ===== TOUR BOOKING PAGE ===== -->
+    <section class="tb-page">
+        <div class="tb-container">
+            <a href="properties" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Properties
+            </a>
+
+            <div class="tb-header">
+                <h1><i class="fas fa-calendar-check"></i> Book a Tour</h1>
+                <p>Schedule a visit to see your dream home in person</p>
+            </div>
+
+            <div class="tb-card" id="bookingCard">
+                <div class="card-head">
+                    <i class="fas fa-home"></i>
+                    <h2>Tour Details</h2>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label>Select Property</label>
+                        <select id="propertySelect">
+                            <option value="">Choose a property...</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Tour Date</label>
+                            <input type="date" id="tourDate">
+                        </div>
+                        <div class="form-group">
+                            <label>Your Name</label>
+                            <input type="text" id="tourName" placeholder="Your full name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Preferred Time</label>
+                        <div class="time-slots" id="timeSlots">
+                            <div class="time-slot" data-time="10:00 AM" onclick="selectTime(this)">10:00 AM</div>
+                            <div class="time-slot" data-time="11:30 AM" onclick="selectTime(this)">11:30 AM</div>
+                            <div class="time-slot" data-time="1:00 PM" onclick="selectTime(this)">1:00 PM</div>
+                            <div class="time-slot" data-time="3:00 PM" onclick="selectTime(this)">3:00 PM</div>
+                            <div class="time-slot" data-time="4:30 PM" onclick="selectTime(this)">4:30 PM</div>
+                            <div class="time-slot" data-time="6:00 PM" onclick="selectTime(this)">6:00 PM</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="tel" id="tourPhone" placeholder="+91 98765 43210">
+                    </div>
+
+                    <div class="summary-box">
+                        <div class="summary-row"><span>Property</span><strong id="sumProperty">—</strong></div>
+                        <div class="summary-row"><span>Date</span><strong id="sumDate">—</strong></div>
+                        <div class="summary-row"><span>Time</span><strong id="sumTime">—</strong></div>
+                        <div class="summary-row total"><span>Tour Fee</span><strong>Free</strong></div>
+                    </div>
+
+                    <div class="submit-area">
+                        <button class="btn btn-primary btn-lg" id="bookTourBtn" onclick="bookTour()">
+                            <i class="fas fa-check"></i> Confirm Tour Booking
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SUCCESS -->
+            <div class="tb-card">
+                <div class="success-screen" id="successScreen">
+                    <div class="success-icon"><i class="fas fa-check"></i></div>
+                    <h2>Tour Booked! 🎉</h2>
+                    <p id="successText">Your tour request has been sent to the owner. They'll confirm shortly.</p>
+                    <a href="dashboard" class="btn btn-primary btn-lg" style="width:100%;">
+                        <i class="fas fa-user"></i> Go to My Dashboard
+                    </a>
+                    <a href="properties" class="btn btn-outline btn-lg" style="width:100%; margin-top:10px;">
+                        <i class="fas fa-search"></i> Browse More Properties
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="api.js?v=20260913a"></script>
+    <script src="script.js?v=20260913a"></script>
+    <script>
+        (function() {
+        // Navbar
+        const navbar = document.getElementById('navbar');
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) navbar.classList.add('scrolled');
+            else navbar.classList.remove('scrolled');
+        });
+
+        if (hamburger) hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        if (hamburger && navLinks) {
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburger.classList.remove('active');
+                    navLinks.classList.remove('active');
+                });
+            });
+        }
+
+        // Live property list — load from the real backend; local `properties` is empty.
+        const select = document.getElementById('propertySelect');
+        let liveProperties = [];
+        function populateSelect(list) {
+            list.forEach(p => {
+                const opt = document.createElement('option');
+                opt.value = p.id;
+                opt.textContent = (p.title || 'Property') + ' — ' + (p.location || p.city || '');
+                select.appendChild(opt);
+            });
+            // Pre-select from URL param (after options exist)
+            const propParam = new URLSearchParams(window.location.search).get('property');
+            if (propParam) {
+                const match = list.find(p => (p.title || '').toLowerCase().includes(propParam.toLowerCase()));
+                if (match) select.value = match.id;
+            }
+            updateSummary();
+        }
+        fetchApiProperties(0, 200).then(list => {
+            liveProperties = list;
+            populateSelect(list);
+        }).catch(() => populateSelect([]));
+
+        let selectedTime = '';
+
+        window.selectTime = function(el) {
+            document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedTime = el.getAttribute('data-time');
+            updateSummary();
+        };
+
+        function updateSummary() {
+            const prop = liveProperties.find(p => Number(p.id) === Number(select.value));
+            document.getElementById('sumProperty').textContent = prop ? (prop.title || 'Property') : '—';
+            document.getElementById('sumDate').textContent = document.getElementById('tourDate').value || '—';
+            document.getElementById('sumTime').textContent = selectedTime || '—';
+        }
+
+        select.addEventListener('change', updateSummary);
+        document.getElementById('tourDate').addEventListener('change', updateSummary);
+
+        window.bookTour = function() {
+            if (!select.value) {
+                showToast('Please select a property.', 'error');
+                return;
+            }
+            if (!document.getElementById('tourDate').value) {
+                showToast('Please select a tour date.', 'error');
+                return;
+            }
+            if (!selectedTime) {
+                showToast('Please select a preferred time.', 'error');
+                return;
+            }
+            if (!document.getElementById('tourName').value || !document.getElementById('tourPhone').value) {
+                showToast('Please fill in your name and phone number.', 'error');
+                return;
+            }
+            if (!api.isAuthenticated()) {
+                showToast('Please sign in to book a tour.', 'error');
+                setTimeout(() => { window.location.href = 'login?redirect=tour-booking'; }, 1200);
+                return;
+            }
+
+            const prop = liveProperties.find(p => Number(p.id) === Number(select.value));
+            const user = api.getUser();
+            const payload = {
+                propertyId: Number(select.value),
+                tenantId: user ? Number(user.id) : 0,
+                ownerId: prop ? Number(prop.ownerId) || 0 : 0,
+                tourDate: document.getElementById('tourDate').value,
+                tourTime: selectedTime,
+                tenantName: document.getElementById('tourName').value,
+                tenantPhone: document.getElementById('tourPhone').value,
+                message: '',
+                propertyTitle: prop ? (prop.title || 'Property') : 'Property'
+            };
+
+            const btn = document.getElementById('bookTourBtn');
+            const original = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Booking...';
+
+            api.createBooking(payload)
+                .then(() => {
+                    document.getElementById('bookingCard').style.display = 'none';
+                    document.getElementById('successScreen').classList.add('show');
+                    document.getElementById('successText').textContent = 'Your tour for ' + (prop ? prop.title : 'Property') + ' on ' + document.getElementById('tourDate').value + ' at ' + selectedTime + ' has been requested. The owner will confirm shortly.';
+                    showToast('Tour booked successfully! 🎉', 'success');
+                })
+                .catch(err => {
+                    showToast((err && err.message) || 'Booking failed. Please verify your email/phone.', 'error');
+                })
+                .finally(() => {
+                    btn.disabled = false;
+                    btn.innerHTML = original;
+                });
+        };
+
+        updateSummary();
+        })();
+    </script>
+</body>
+</html>
+

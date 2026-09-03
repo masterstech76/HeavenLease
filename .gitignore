@@ -1,0 +1,61 @@
+# Environment variables
+.env
+.env.local
+.env.*.local
+.env.aws
+.env.aws.local
+
+# Local notes / scratch files that may contain secrets
+details.md
+
+# Restored backups (28/08/2026 snapshot) — inspect locally only, never push
+/BACKUP_2026-08-28/
+
+# Backend build artifacts
+backend/target/
+*.class
+*.jar
+*.war
+
+# IDE files
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Node modules
+node_modules/
+
+# Logs
+*.log
+logs/
+
+# Sensitive config
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+
+# Credential files — never commit or hand over with the repo
+*.csv
+client_secret*.json
+aws_accessKeys*.csv
+service_account*.json
+credentials*.json
+
+# Test output
+coverage/
+
+# Local database files (never commit these)
+*.db
+*.mv.db
+*.trace.db
+*.lock.db
+*.sqlite
+*.sqlite3

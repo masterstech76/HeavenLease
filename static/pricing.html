@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="HeavenLease pricing - Tenant Access from ₹299, Owner Plus plans from ₹299, and pay-as-you-go services. Transparent fees, no hidden costs.">
+    <title>Pricing — HeavenLease</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="canonical" href="https://heavenlease.in/pricing">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="HeavenLease">
+    <meta property="og:title" content="Pricing — HeavenLease">
+    <meta property="og:description" content="HeavenLease pricing - Tenant Access from ₹299, Owner Plus plans from ₹299, and pay-as-you-go services. Transparent fees, no hidden costs.">
+    <meta property="og:url" content="https://heavenlease.in/pricing">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1200&q=80">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styles.css?v=20260909a">
+    <style>
+        .page-header { background: var(--gradient-soft); padding: 140px 0 80px; text-align: center; position: relative; overflow: hidden; }
+        .page-header h1 { font-family: var(--font-heading); font-size: 48px; font-weight: 700; color: var(--dark); margin-bottom: 16px; }
+        .page-header p { font-size: 18px; color: var(--gray-500); max-width: 600px; margin: 0 auto; }
+        .page-header .breadcrumb { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 16px; font-size: 14px; color: var(--gray-500); }
+        .page-header .breadcrumb a { color: var(--primary); }
+        .page-header .breadcrumb i { font-size: 12px; color: var(--gray-400); }
+
+        .pricing-page-section { padding: 80px 0; }
+        .pricing-group-title { text-align: center; margin-bottom: 32px; }
+        .pricing-group-title h2 { font-family: var(--font-heading); font-size: 28px; font-weight: 700; color: var(--dark); margin-bottom: 8px; }
+        .pricing-group-title p { font-size: 15px; color: var(--gray-500); }
+
+        .pricing-group { margin-bottom: 64px; }
+        .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+        .pricing-card { background: var(--white); border-radius: var(--radius-xl); padding: 40px; border: 1px solid var(--gray-200); position: relative; transition: var(--transition); display: flex; flex-direction: column; }
+        .pricing-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+        .pricing-card.featured { border: 2px solid var(--primary); box-shadow: var(--shadow-primary); }
+        .pricing-badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--gradient); color: var(--white); padding: 4px 16px; border-radius: var(--radius-full); font-size: 12px; font-weight: 600; }
+        .pricing-card h3 { font-size: 20px; font-weight: 600; color: var(--dark); margin-bottom: 12px; }
+        .pricing-amount { margin-bottom: 16px; }
+        .pricing-amount .amount { font-size: 48px; font-weight: 800; color: var(--dark); font-family: var(--font-heading); }
+        .pricing-amount .period { font-size: 14px; color: var(--gray-500); }
+        .pricing-desc { font-size: 14px; color: var(--gray-500); margin-bottom: 24px; }
+        .pricing-features { margin-bottom: 24px; flex: 1; }
+        .pricing-features li { font-size: 14px; color: var(--gray-600); padding: 8px 0; display: flex; align-items: center; gap: 10px; }
+        .pricing-features li i { color: var(--secondary); }
+        .btn-block { width: 100%; }
+
+        .faq-section { padding: 80px 0; background: var(--gray-50); }
+        .faq-grid { max-width: 800px; margin: 0 auto; }
+        .faq-item { background: var(--white); border-radius: var(--radius-md); padding: 24px; margin-bottom: 16px; border: 1px solid var(--gray-200); }
+        .faq-item h3 { font-size: 16px; font-weight: 600; color: var(--dark); margin-bottom: 8px; }
+        .faq-item p { font-size: 14px; color: var(--gray-500); line-height: 1.7; }
+
+        @media (max-width: 1024px) { .pricing-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) { .page-header { padding: 120px 0 50px; } .page-header h1 { font-size: 36px; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <span class="logo-text">Heaven<span>Lease</span></span>
+            </a>
+            
+            <div class="nav-actions">
+                                <div class="user-menu" id="userMenu">
+                    <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu">
+                        <span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span>
+                        <span id="navUserName">Account</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="user-dropdown" id="profileDropdown">
+                        <a href="home" id="mainHomeLink"><i class="fas fa-home"></i> Main Home</a>
+                        <a href="edit-profile" id="myProfileLink"><i class="fas fa-user"></i> My Profile &amp; Settings</a>
+                        <a href="payment"><i class="fas fa-credit-card"></i> Access Pass</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="properties"><i class="fas fa-building"></i> Browse Properties</a>
+                        <a href="map"><i class="fas fa-map-location-dot"></i> Property Map</a>
+                        <a href="comfort-scores"><i class="fas fa-gauge-high"></i> Comfort Scores</a>
+                        <a href="saved-properties"><i class="fas fa-heart"></i> Saved Properties</a>
+                        <a href="list-property"><i class="fas fa-key"></i> List Your Property</a>
+                        <a href="tenant-screening"><i class="fas fa-user-check"></i> Tenant Screening</a>
+                        <a href="owner-resources"><i class="fas fa-toolbox"></i> Owner Resources</a>
+                        <a href="buy-sell"><i class="fas fa-tag"></i> Buy / Sell</a>
+                        <a href="possession"><i class="fas fa-key"></i> Possession &amp; Handover</a>
+                        <a href="lease-signing"><i class="fas fa-file-signature"></i> Leases &amp; Signing</a>
+                        <a href="tour-booking"><i class="fas fa-calendar-check"></i> Tour Bookings</a>
+                        <a href="messages"><i class="fas fa-comments"></i> Messages</a>
+                        <a href="notifications"><i class="fas fa-bell"></i> Notifications</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="how-it-works"><i class="fas fa-circle-question"></i> How It Works</a>
+                        <a href="about"><i class="fas fa-building"></i> About Us</a>
+                        <a href="blog"><i class="fas fa-newspaper"></i> Blog</a>
+<a href="comfort-scores"><i class="fas fa-chart-simple"></i> Type &amp; Voice Search</a>
+                                                <a href="contact"><i class="fas fa-envelope"></i> Contact &amp; Support</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="login" id="signInLink" class="hide-when-auth"><i class="fas fa-arrow-right-to-bracket"></i> Sign In</a>
+                        <a href="#" id="logoutLink" class="logout-link hide-when-guest"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+</div>
+        </div>
+    </nav>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>Transparent <span class="gradient-text">Pricing</span></h1>
+            <p>Fair fees. No surprises. Plans start from just ₹299.</p>
+            <div class="breadcrumb">
+                <a href="/">Home</a>
+                <i class="fas fa-chevron-right"></i>
+                <span>Pricing</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- TENANT PLANS -->
+    <section class="pricing-page-section">
+        <div class="container">
+            <div class="pricing-group">
+                <div class="pricing-group-title">
+                    <h2><i class="fas fa-user" style="color: var(--primary);"></i> Tenant Access</h2>
+                    <p>Unlock owner contacts, direct messaging, and tour booking</p>
+                </div>
+                <div class="pricing-grid">
+                    <div class="pricing-card">
+                        <div class="pricing-badge">Entry Plan</div>
+                        <h3>3-Month Access</h3>
+                        <div class="pricing-amount">
+                            <span class="amount">₹299</span>
+                            <span class="period">/ 3 months</span>
+                        </div>
+                        <p class="pricing-desc">Perfect if you're actively hunting right now.</p>
+                        <ul class="pricing-features">
+                            <li><i class="fas fa-check"></i> View owner contact details</li>
+                            <li><i class="fas fa-check"></i> Direct owner messaging</li>
+                            <li><i class="fas fa-check"></i> Book home tours</li>
+                            <li><i class="fas fa-check"></i> Save favorite properties</li>
+                            <li><i class="fas fa-check"></i> Escrow deposit protection</li>
+                        </ul>
+                        <a href="payment?plan=3&amount=299" class="btn btn-outline btn-block">Get 3-Month Access — ₹299</a>
+                    </div>
+                    <div class="pricing-card featured">
+                        <div class="pricing-badge">Most Popular</div>
+                        <h3>6-Month Access</h3>
+                        <div class="pricing-amount">
+                            <span class="amount">₹459</span>
+                            <span class="period">/ 6 months</span>
+                        </div>
+                        <p class="pricing-desc">Best value — only ₹76/month for full access.</p>
+                        <ul class="pricing-features">
+                            <li><i class="fas fa-check"></i> View owner contact details</li>
+                            <li><i class="fas fa-check"></i> Direct owner messaging</li>
+                            <li><i class="fas fa-check"></i> Book unlimited home tours</li>
+                            <li><i class="fas fa-check"></i> Save favorite properties</li>
+                            <li><i class="fas fa-check"></i> Escrow deposit protection</li>
+                            <li><i class="fas fa-check"></i> Digital lease templates</li>
+                        </ul>
+                        <a href="payment?plan=6&amount=459" class="btn btn-primary btn-block">Get 6-Month Access — ₹459</a>
+                    </div>
+                    <div class="pricing-card">
+                        <div class="pricing-badge">Loyalty Plan</div>
+                        <h3>12-Month Access</h3>
+                        <div class="pricing-amount">
+                            <span class="amount">₹799</span>
+                            <span class="period">/ 12 months</span>
+                        </div>
+                        <p class="pricing-desc">Just ₹66/month — lowest cost per month.</p>
+                        <ul class="pricing-features">
+                            <li><i class="fas fa-check"></i> View owner contact details</li>
+                            <li><i class="fas fa-check"></i> Direct owner messaging</li>
+                            <li><i class="fas fa-check"></i> Book unlimited home tours</li>
+                            <li><i class="fas fa-check"></i> Save favorite properties</li>
+                            <li><i class="fas fa-check"></i> Escrow deposit protection</li>
+                            <li><i class="fas fa-check"></i> Priority support</li>
+                        </ul>
+                        <a href="payment?plan=12&amount=799" class="btn btn-outline btn-block">Get 12-Month Access — ₹799</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- OWNER PLANS -->
+            <div class="pricing-group">
+                <div class="pricing-group-title">
+                    <h2><i class="fas fa-key" style="color: var(--primary);"></i> Owner Plus</h2>
+                    <p>Rent faster, manage smarter — for serious property owners</p>
+                </div>
+                <div class="pricing-grid">
+                    <div class="pricing-card">
+                        <div class="pricing-badge">Owner Plus Basic</div>
+                        <h3>3-Month Owner</h3>
+                        <div class="pricing-amount">
+                            <span class="amount">₹299</span>
+                            <span class="period">/ 3 months</span>
+                        </div>
+                        <p class="pricing-desc">Boost your property visibility instantly.</p>
+                        <ul class="pricing-features">
+                            <li><i class="fas fa-check"></i> Boosted property visibility</li>
+                            <li><i class="fas fa-check"></i> Verified Owner badge</li>
+                            <li><i class="fas fa-check"></i> AI rent recommendations</li>
+                            <li><i class="fas fa-check"></i> Standard listing support</li>
+                            <li class="disabled" style="color: var(--gray-400);"><i class="fas fa-times" style="color: var(--gray-300);"></i> Priority tenant matching</li>
+                            <li class="disabled" style="color: var(--gray-400);"><i class="fas fa-times" style="color: var(--gray-300);"></i> Featured listing boosts</li>
+                        </ul>
+                        <a href="payment?plan=3&amount=299&role=owner" class="btn btn-outline btn-block">Get Owner Plus — ₹299</a>
+                    </div>
+                    <div class="pricing-card featured">
+                        <div class="pricing-badge">Best Value</div>
+                        <h3>6-Month Owner</h3>
+                        <div class="pricing-amount">
+                            <span class="amount">₹459</span>
+                            <span class="period">/ 6 months</span>
+                        </div>
+                        <p class="pricing-desc">The complete owner toolkit for serious renters.</p>
+                        <ul class="pricing-features">
+                            <li><i class="fas fa-check"></i> Boosted property visibility</li>
+                            <li><i class="fas fa-check"></i> Verified Owner badge</li>
+                            <li><i class="fas fa-check"></i> AI rent recommendations</li>
+                            <li><i class="fas fa-check"></i> Priority tenant matching</li>
+                            <li><i class="fas fa-check"></i> Faster rent payouts</li>
+                            <li><i class="fas fa-check"></i> Dedicated support</li>
+                        </ul>
+                        <a href="payment?plan=6&amount=459&role=owner" class="btn btn-primary btn-block">Get Owner Plus — ₹459</a>
+                    </div>
+                    <div class="pricing-card">
+                        <div class="pricing-badge">Premium</div>
+                        <h3>12-Month Owner</h3>
+                        <div class="pricing-amount">
+                            <span class="amount">₹799</span>
+                            <span class="period">/ 12 months</span>
+                        </div>
+                        <p class="pricing-desc">Maximum growth and priority on the platform.</p>
+                        <ul class="pricing-features">
+                            <li><i class="fas fa-check"></i> Unlimited leases</li>
+                            <li><i class="fas fa-check"></i> Featured listing boosts included</li>
+                            <li><i class="fas fa-check"></i> Premium support</li>
+                            <li><i class="fas fa-check"></i> Boosted property visibility</li>
+                            <li><i class="fas fa-check"></i> Priority tenant matching</li>
+                            <li><i class="fas fa-check"></i> Faster rent payouts</li>
+                        </ul>
+                        <a href="payment?plan=12&amount=799&role=owner" class="btn btn-outline btn-block">Get Owner Plus — ₹799</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SERVICES -->
+            <div class="pricing-group">
+                <div class="pricing-group-title">
+                    <h2><i class="fas fa-concierge-bell" style="color: var(--primary);"></i> Services (Pay As You Go)</h2>
+                    <p>Optional services — pay only when you need them</p>
+                </div>
+                <div class="pricing-grid">
+                    <div class="pricing-card">
+                        <div class="pricing-badge">Essentials</div>
+                        <h3>Individual Services</h3>
+                        <div class="pricing-amount">
+                            <span class="amount">₹199</span>
+                            <span class="period">starting</span>
+                        </div>
+                        <p class="pricing-desc">Standalone services for when you need them.</p>
+                        <ul class="pricing-features">
+                            <li><i class="fas fa-check"></i> Digital lease creation — ₹499–₹999</li>
+                            <li><i class="fas fa-check"></i> Background check — ₹699–₹1,399</li>
+                            <li><i class="fas fa-check"></i> Featured listing boost — ₹199 per boost</li>
+                        </ul>
+                        <a href="contact" class="btn btn-outline btn-block">Learn More</a>
+                    </div>
+                    <div class="pricing-card featured">
+                        <div class="pricing-badge">Best Deal</div>
+                        <h3>Starter Pack</h3>
+                        <div class="pricing-amount">
+                            <span class="amount">₹999</span>
+                            <span class="period">one-time</span>
+                        </div>
+                        <p class="pricing-desc">Lease creation + background check bundled.</p>
+                        <ul class="pricing-features">
+                            <li><i class="fas fa-check"></i> Digital lease creation</li>
+                            <li><i class="fas fa-check"></i> Tenant background check</li>
+                            <li><i class="fas fa-check"></i> Save ₹199 vs individual pricing</li>
+                        </ul>
+                        <a href="contact" class="btn btn-primary btn-block">Get Starter Pack</a>
+                    </div>
+                    <div class="pricing-card">
+                        <div class="pricing-badge">Complete</div>
+                        <h3>Premium Pack</h3>
+                        <div class="pricing-amount">
+                            <span class="amount">₹1,499</span>
+                            <span class="period">one-time</span>
+                        </div>
+                        <p class="pricing-desc">Everything you need in one complete bundle.</p>
+                        <ul class="pricing-features">
+                            <li><i class="fas fa-check"></i> Digital lease creation</li>
+                            <li><i class="fas fa-check"></i> Tenant background check</li>
+                            <li><i class="fas fa-check"></i> Featured listing boost</li>
+                            <li><i class="fas fa-check"></i> Save ₹299 vs individual</li>
+                        </ul>
+                        <a href="contact" class="btn btn-outline btn-block">Get Premium Pack</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Pricing FAQ</span>
+                <h2>Pricing <span class="gradient-text">Questions</span></h2>
+            </div>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <h3>What does the Tenant Access Pass include?</h3>
+                    <p>Depending on your plan, you get access to view owner contact details, chat directly with owners, and book home tours for 3, 6, or 12 months. Choose ₹299/3mo, ₹459/6mo, or ₹799/12mo.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>What's the difference between Owner plans?</h3>
+                    <p>All Owner Plus plans include boosted visibility and the Verified badge. 6-month adds priority tenant matching and faster payouts. 12-month adds featured listing boosts and unlimited leases.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>When do owners have to pay?</h3>
+                    <p>Listing is always free. Owner Plus plans are optional upgrades for faster renting. You only pay if you choose to upgrade.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Are there any hidden fees?</h3>
+                    <p>No. Our pricing is completely transparent. What you see is what you pay. No hidden costs, no broker commissions.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid" style="grid-template-columns: 1fr; text-align: center;">
+                <div class="footer-brand">
+                    <a href="/" class="logo">
+                        <div class="logo-icon"><i class="fas fa-home"></i></div>
+                        <span class="logo-text">Heaven<span>Lease</span></span>
+                    </a>
+                    <p style="margin: 10px auto; max-width: 300px;">Simple steps to your perfect stay. Direct owner rentals with zero broker fees and comfort-first search.</p></div>
+            </div>
+            <div class="footer-bottom" style="justify-content: center;">
+                <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
+            </div>
+        </div>
+    </footer>
+
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="api.js?v=20260913a"></script>
+    <script src="script.js?v=20260913a"></script>
+    <script>
+        const navbar = document.getElementById('navbar');
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+        const backToTop = document.getElementById('backToTop');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) navbar.classList.add('scrolled');
+            else navbar.classList.remove('scrolled');
+            if (window.scrollY > 500) backToTop.classList.add('visible');
+            else backToTop.classList.remove('visible');
+        });
+
+        if (hamburger) hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        if (hamburger && navLinks) {
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburger.classList.remove('active');
+                    navLinks.classList.remove('active');
+                });
+            });
+        }
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>
+

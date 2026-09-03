@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Your notification center on HeavenLease - tour confirmations, lease updates, payments, and new listings.">
+    <title>Notifications — HeavenLease</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styles.css?v=20260909a">
+    <style>
+        .notif-page { min-height: 100vh; background: var(--gray-50); padding-top: 72px; }
+        .notif-container { max-width: 800px; margin: 0 auto; padding: 40px 24px; }
+        .notif-header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-bottom: 24px; }
+        .notif-header h1 { font-family: var(--font-heading); font-size: 32px; font-weight: 700; color: var(--dark); }
+        .notif-header h1 i { color: var(--primary); }
+        .notif-header p { color: var(--gray-500); font-size: 14px; margin-top: 4px; }
+        .notif-actions { display: flex; gap: 10px; }
+        .notif-actions .btn { font-size: 13px; padding: 8px 16px; }
+
+        .notif-list { display: flex; flex-direction: column; gap: 12px; }
+        .notif-item { background: var(--white); border-radius: var(--radius-lg); padding: 20px 24px; box-shadow: var(--shadow-sm); border: 1px solid var(--gray-200); display: flex; gap: 16px; transition: var(--transition); position: relative; }
+        .notif-item:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+        .notif-item.unread { border-left: 4px solid var(--primary); background: var(--primary-light); }
+        .notif-icon { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+        .notif-icon.blue { background: var(--primary-light); color: var(--primary); }
+        .notif-icon.green { background: #D1FAE5; color: var(--secondary-dark); }
+        .notif-icon.amber { background: #FEF3C7; color: #D97706; }
+        .notif-icon.red { background: #FEE2E2; color: #EF4444; }
+        .notif-icon.purple { background: #EDE9FE; color: #7C3AED; }
+        .notif-content { flex: 1; }
+        .notif-content strong { display: block; font-size: 15px; color: var(--dark); margin-bottom: 4px; }
+        .notif-content p { font-size: 14px; color: var(--gray-500); line-height: 1.5; }
+        .notif-content .notif-time { font-size: 12px; color: var(--gray-400); margin-top: 8px; display: flex; align-items: center; gap: 6px; }
+        .notif-content .notif-time i { font-size: 11px; }
+        .notif-item .notif-link { align-self: center; font-size: 13px; color: var(--primary); font-weight: 500; white-space: nowrap; }
+        .notif-item .notif-link:hover { text-decoration: underline; }
+
+        .empty-state { text-align: center; padding: 80px 20px; background: var(--white); border-radius: var(--radius-xl); border: 2px dashed var(--gray-200); }
+        .empty-state i { font-size: 64px; color: var(--gray-300); margin-bottom: 16px; }
+        .empty-state h2 { font-family: var(--font-heading); font-size: 24px; color: var(--dark); margin-bottom: 8px; }
+        .empty-state p { color: var(--gray-500); margin-bottom: 24px; }
+        .back-link { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: var(--gray-500); margin-bottom: 24px; transition: var(--transition); }
+        .back-link:hover { color: var(--primary); }
+        @media (max-width: 768px) { .notif-header h1 { font-size: 26px; } .notif-item { flex-wrap: wrap; } .notif-item .notif-link { width: 100%; text-align: right; } }
+    </style>
+</head>
+<body>
+    <!-- ===== NAVIGATION ===== -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="home" class="logo">
+                <div class="logo-icon"><i class="fas fa-home"></i></div>
+<span class="logo-text">Heaven<span>Lease</span></span>
+            </a>
+            
+            <div class="nav-actions">
+                
+                                <div class="user-menu" id="userMenu">
+                    <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu">
+                        <span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span>
+                        <span id="navUserName">Account</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="user-dropdown" id="profileDropdown">
+                        <a href="home" id="mainHomeLink"><i class="fas fa-home"></i> Main Home</a>
+                        <a href="edit-profile" id="myProfileLink"><i class="fas fa-user"></i> My Profile &amp; Settings</a>
+                        <a href="payment"><i class="fas fa-credit-card"></i> Access Pass</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="properties"><i class="fas fa-building"></i> Browse Properties</a>
+                        <a href="map"><i class="fas fa-map-location-dot"></i> Property Map</a>
+                        <a href="comfort-scores"><i class="fas fa-gauge-high"></i> Comfort Scores</a>
+                        <a href="saved-properties"><i class="fas fa-heart"></i> Saved Properties</a>
+                        <a href="list-property"><i class="fas fa-key"></i> List Your Property</a>
+                        <a href="tenant-screening"><i class="fas fa-user-check"></i> Tenant Screening</a>
+                        <a href="owner-resources"><i class="fas fa-toolbox"></i> Owner Resources</a>
+                        <a href="buy-sell"><i class="fas fa-tag"></i> Buy / Sell</a>
+                        <a href="possession"><i class="fas fa-key"></i> Possession &amp; Handover</a>
+                        <a href="lease-signing"><i class="fas fa-file-signature"></i> Leases &amp; Signing</a>
+                        <a href="tour-booking"><i class="fas fa-calendar-check"></i> Tour Bookings</a>
+                        <a href="messages"><i class="fas fa-comments"></i> Messages</a>
+                        <a href="notifications"><i class="fas fa-bell"></i> Notifications</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="how-it-works"><i class="fas fa-circle-question"></i> How It Works</a>
+                        <a href="about"><i class="fas fa-building"></i> About Us</a>
+                        <a href="blog"><i class="fas fa-newspaper"></i> Blog</a>
+<a href="comfort-scores"><i class="fas fa-chart-simple"></i> Type &amp; Voice Search</a>
+                                                <a href="contact"><i class="fas fa-envelope"></i> Contact &amp; Support</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="login" id="signInLink" class="hide-when-auth"><i class="fas fa-arrow-right-to-bracket"></i> Sign In</a>
+                        <a href="#" id="logoutLink" class="logout-link hide-when-guest"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+</div>
+        </div>
+    </nav>
+
+    <!-- ===== NOTIFICATIONS PAGE ===== -->
+    <div class="notif-page">
+        <div class="notif-container">
+            <a href="dashboard" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Dashboard
+            </a>
+
+            <div class="notif-header">
+                <div>
+                    <h1><i class="fas fa-bell"></i> Notifications</h1>
+                    <p>Stay updated on your rental journey</p>
+                </div>
+                <div class="notif-actions">
+                    <button class="btn btn-outline" onclick="markAllRead()">
+                        <i class="fas fa-check-double"></i> Mark All Read
+                    </button>
+                </div>
+            </div>
+
+            <div class="notif-list" id="notifList"></div>
+
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <i class="fas fa-bell-slash"></i>
+                <h2>No Notifications</h2>
+                <p>You're all caught up! New alerts will appear here.</p>
+                <a href="properties" class="btn btn-primary">
+                    <i class="fas fa-search"></i> Browse Properties
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="api.js?v=20260913a"></script>
+    <script src="script.js?v=20260913a"></script>
+    <script>
+        (function() {
+        // Navbar
+        const navbar = document.getElementById('navbar');
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) navbar.classList.add('scrolled');
+            else navbar.classList.remove('scrolled');
+        });
+
+        if (hamburger) hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        if (hamburger && navLinks) {
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburger.classList.remove('active');
+                    navLinks.classList.remove('active');
+                });
+            });
+        }
+
+        // ===== REAL BACKEND NOTIFICATIONS =====
+        const user = api.getUser();
+
+        async function loadNotifications() {
+            try {
+                let list = [];
+                if (user && user.id) {
+                    list = await api.getNotificationsByUser(user.id).catch(() => []);
+                } else {
+                    list = await api.getNotifications().catch(() => []);
+                }
+                return Array.isArray(list) ? list : [];
+            } catch (e) {
+                return [];
+            }
+        }
+
+        // Normalize backend notification -> UI shape.
+        function normalize(n) {
+            return {
+                id: n.id,
+                unread: !n.read,
+                title: n.title || 'Notification',
+                text: n.message || '',
+                time: n.createdAt,
+                type: (n.type || 'INFO').toLowerCase(),
+                icon: (n.type || 'INFO').includes('DOCUMENT') ? 'fa-file-shield' :
+                      (n.type || 'INFO').toLowerCase() === 'error' ? 'fa-triangle-exclamation' : 'fa-bell',
+                link: 'home',
+                linkText: 'View'
+            };
+        }
+
+        let notifications = [];
+
+        async function renderNotifications() {
+            const list = document.getElementById('notifList');
+            const empty = document.getElementById('emptyState');
+            notifications = await loadNotifications();
+
+            if (!notifications.length) {
+                list.innerHTML = '';
+                empty.style.display = 'block';
+                return;
+            }
+            empty.style.display = 'none';
+
+            list.innerHTML = notifications.slice(0, 50).map(raw => {
+                const n = normalize(raw);
+                const timeStr = n.time ? new Date(n.time).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) : '';
+                return `
+                <div class="notif-item ${n.unread ? 'unread' : ''}">
+                    <div class="notif-icon"><i class="fas ${escapeHtml(n.icon)}"></i></div>
+                    <div class="notif-content">
+                        <strong>${escapeHtml(n.title)}</strong>
+                        <p>${escapeHtml(n.text)}</p>
+                        <div class="notif-time"><i class="fas fa-clock"></i> ${escapeHtml(timeStr)}</div>
+                    </div>
+                    <a href="${escapeHtml(n.link)}" class="notif-link">${escapeHtml(n.linkText)} →</a>
+                </div>
+            `;
+            }).join('');
+        }
+
+        window.markRead = async function(id) {
+            try { await api.markNotificationRead(id); } catch (e) {}
+            renderNotifications();
+        };
+
+        window.markAllRead = async function() {
+            try {
+                for (const n of notifications) {
+                    if (!n.read) await api.markNotificationRead(n.id).catch(() => {});
+                }
+                showToast('All notifications marked as read.', 'success');
+            } catch (e) {}
+            renderNotifications();
+        };
+
+        renderNotifications();
+        })();
+    </script>
+</body>
+</html>
+

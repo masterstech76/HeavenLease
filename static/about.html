@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Learn about HeavenLease - our mission to make renting simple, direct, and broker-free.">
+    <title>About Us — HeavenLease</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="canonical" href="https://heavenlease.in/about">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="HeavenLease">
+    <meta property="og:title" content="About Us — HeavenLease">
+    <meta property="og:description" content="Learn about HeavenLease - our mission to make renting simple, direct, and broker-free.">
+    <meta property="og:url" content="https://heavenlease.in/about">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1200&q=80">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styles.css?v=20260909a">
+    <style>
+        .page-header {
+            background: var(--gradient-soft);
+            padding: 140px 0 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header h1 {
+            font-family: var(--font-heading);
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 16px;
+        }
+
+        .page-header p {
+            font-size: 18px;
+            color: var(--gray-500);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .page-header .breadcrumb {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 16px;
+            font-size: 14px;
+            color: var(--gray-500);
+        }
+
+        .page-header .breadcrumb a {
+            color: var(--primary);
+        }
+
+        .page-header .breadcrumb i {
+            font-size: 12px;
+            color: var(--gray-400);
+        }
+
+        .mission-section {
+            padding: 80px 0;
+        }
+
+        .mission-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .mission-content h2 {
+            font-family: var(--font-heading);
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 20px;
+        }
+
+        .mission-content p {
+            font-size: 16px;
+            color: var(--gray-500);
+            line-height: 1.8;
+            margin-bottom: 16px;
+        }
+
+        .mission-visual {
+            position: relative;
+        }
+
+        .mission-card {
+            background: var(--white);
+            border-radius: var(--radius-xl);
+            padding: 40px;
+            box-shadow: var(--shadow-xl);
+            border: 1px solid var(--gray-200);
+            text-align: center;
+        }
+
+        .mission-card .big-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient);
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: var(--white);
+            margin: 0 auto 24px;
+            box-shadow: var(--shadow-primary);
+        }
+
+        .mission-card h3 {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 12px;
+        }
+
+        .mission-card p {
+            font-size: 14px;
+            color: var(--gray-500);
+            line-height: 1.7;
+        }
+
+        .values-section {
+            padding: 80px 0;
+            background: var(--gray-50);
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+        }
+
+        .value-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            border: 1px solid var(--gray-200);
+            transition: var(--transition);
+        }
+
+        .value-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .value-icon {
+            width: 56px;
+            height: 56px;
+            background: var(--gradient-soft);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .value-card h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 12px;
+        }
+
+        .value-card p {
+            font-size: 14px;
+            color: var(--gray-500);
+            line-height: 1.7;
+        }
+
+        .stats-section {
+            padding: 80px 0;
+        }
+
+        .stats-banner {
+            background: var(--dark);
+            border-radius: var(--radius-xl);
+            padding: 60px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            text-align: center;
+        }
+
+        .stats-banner .stat-number {
+            color: var(--white);
+            font-size: 42px;
+        }
+
+        .stats-banner .stat-label {
+            color: var(--gray-400);
+        }
+
+        .team-section {
+            padding: 80px 0;
+            background: var(--gray-50);
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+        }
+
+        .team-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            text-align: center;
+            border: 1px solid var(--gray-200);
+            transition: var(--transition);
+        }
+
+        .team-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .team-avatar {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: var(--white);
+            margin: 0 auto 16px;
+        }
+
+        .team-card h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 4px;
+        }
+
+        .team-card .role {
+            font-size: 14px;
+            color: var(--primary);
+            font-weight: 500;
+            margin-bottom: 12px;
+        }
+
+        .team-card p {
+            font-size: 14px;
+            color: var(--gray-500);
+            line-height: 1.6;
+        }
+
+        .team-social {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 16px;
+        }
+
+        .team-social a {
+            width: 32px;
+            height: 32px;
+            background: var(--gray-50);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray-500);
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .team-social a:hover {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        @media (max-width: 1024px) {
+            .mission-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .values-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .stats-banner {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .team-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-header {
+                padding: 120px 0 50px;
+            }
+
+            .page-header h1 {
+                font-size: 36px;
+            }
+
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-banner {
+                grid-template-columns: 1fr;
+                padding: 40px 24px;
+            }
+
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== NAVIGATION ===== -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <span class="logo-text">Heaven<span>Lease</span></span>
+            </a>
+            
+            <div class="nav-actions">
+                                <div class="user-menu" id="userMenu">
+                    <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu">
+                        <span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span>
+                        <span id="navUserName">Account</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="user-dropdown" id="profileDropdown">
+                        <a href="home" id="mainHomeLink"><i class="fas fa-home"></i> Main Home</a>
+                        <a href="edit-profile" id="myProfileLink"><i class="fas fa-user"></i> My Profile &amp; Settings</a>
+                        <a href="payment"><i class="fas fa-credit-card"></i> Access Pass</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="properties"><i class="fas fa-building"></i> Browse Properties</a>
+                        <a href="map"><i class="fas fa-map-location-dot"></i> Property Map</a>
+                        <a href="comfort-scores"><i class="fas fa-gauge-high"></i> Comfort Scores</a>
+                        <a href="saved-properties"><i class="fas fa-heart"></i> Saved Properties</a>
+                        <a href="list-property"><i class="fas fa-key"></i> List Your Property</a>
+                        <a href="tenant-screening"><i class="fas fa-user-check"></i> Tenant Screening</a>
+                        <a href="owner-resources"><i class="fas fa-toolbox"></i> Owner Resources</a>
+                        <a href="buy-sell"><i class="fas fa-tag"></i> Buy / Sell</a>
+                        <a href="possession"><i class="fas fa-key"></i> Possession &amp; Handover</a>
+                        <a href="lease-signing"><i class="fas fa-file-signature"></i> Leases &amp; Signing</a>
+                        <a href="tour-booking"><i class="fas fa-calendar-check"></i> Tour Bookings</a>
+                        <a href="messages"><i class="fas fa-comments"></i> Messages</a>
+                        <a href="notifications"><i class="fas fa-bell"></i> Notifications</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="how-it-works"><i class="fas fa-circle-question"></i> How It Works</a>
+                        <a href="about"><i class="fas fa-building"></i> About Us</a>
+                        <a href="blog"><i class="fas fa-newspaper"></i> Blog</a>
+<a href="comfort-scores"><i class="fas fa-chart-simple"></i> Type &amp; Voice Search</a>
+                                                <a href="contact"><i class="fas fa-envelope"></i> Contact &amp; Support</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="login" id="signInLink" class="hide-when-auth"><i class="fas fa-arrow-right-to-bracket"></i> Sign In</a>
+                        <a href="#" id="logoutLink" class="logout-link hide-when-guest"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+</div>
+        </div>
+    </nav>
+
+    <!-- ===== PAGE HEADER ===== -->
+    <section class="page-header">
+        <div class="container">
+            <h1>About <span class="gradient-text">HeavenLease</span></h1>
+            <p>We're on a mission to make renting simple, direct, and broker-free for everyone.</p>
+            <div class="breadcrumb">
+                <a href="/">Home</a>
+                <i class="fas fa-chevron-right"></i>
+                <span>About</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== MISSION ===== -->
+    <section class="mission-section">
+        <div class="container">
+            <div class="mission-layout">
+                <div class="mission-content">
+                    <span class="section-tag">Our Mission</span>
+                    <h2>Renting Should Be <span class="gradient-text">Simple</span></h2>
+                    <p>
+                        Finding a rental home shouldn't require paying a broker a month's rent, dealing with hidden property flaws, or navigating endless phone calls. We believe everyone deserves a home that matches their comfort — not just their budget.
+                    </p>
+                    <p>
+                        HeavenLease connects tenants directly with verified property owners. Our comfort-first search lets you filter by quietness, sunlight, commute time, and pet policy — so you find a home that truly fits your lifestyle.
+                    </p>
+                    <p>
+                        For owners, we provide verified tenants, automated rent collection, and digital lease management — all in one dashboard. No more chasing payments or dealing with unreliable tenants.
+                    </p>
+                </div>
+                <div class="mission-visual">
+                    <div class="mission-card">
+                        <div class="big-icon"><i class="fas fa-handshake"></i></div>
+                        <h3>Direct. Trusted. Comfortable.</h3>
+                        <p>
+                            Every owner is document-checked before they become verified, and tenants can pay security deposits into escrow-protected payments. We've built the platform we wished existed when we were renting.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== VALUES ===== -->
+    <section class="values-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Our Values</span>
+                <h2>What We <span class="gradient-text">Stand For</span></h2>
+            </div>
+            <div class="values-grid">
+                <a href="no-brokers-ever" style="text-decoration:none;color:inherit;display:block;"><div class="value-card">
+                    <div class="value-icon"><i class="fas fa-handshake-slash"></i></div>
+                    <h3>No Brokers, Ever</h3>
+                    <p>We eliminate the middleman entirely. Tenants connect directly with owners, saving up to a month's rent in broker fees.</p>
+                </div></a>
+                <a href="trust-and-safety-first" style="text-decoration:none;color:inherit;display:block;"><div class="value-card">
+                    <div class="value-icon"><i class="fas fa-shield-halved"></i></div>
+                    <h3>Trust & Safety First</h3>
+                    <p>Every owner is document-verified before they are marked verified, and tenants can pay security deposits into escrow-protected payments.</p>
+                </div></a>
+                <a href="comfort-over-everything" style="text-decoration:none;color:inherit;display:block;"><div class="value-card">
+                    <div class="value-icon"><i class="fas fa-heart"></i></div>
+                    <h3>Comfort Over Everything</h3>
+                    <p>We score every property on quietness, sunlight, commute, and pet-friendliness — because comfort matters as much as cost.</p>
+                </div></a>
+                <a href="speed-and-simplicity" style="text-decoration:none;color:inherit;display:block;"><div class="value-card">
+                    <div class="value-icon"><i class="fas fa-bolt"></i></div>
+                    <h3>Speed & Simplicity</h3>
+                    <p>From search to signed lease in days, not weeks. Our digital-first approach makes renting faster than ever.</p>
+                </div></a>
+                <a href="fair-for-everyone" style="text-decoration:none;color:inherit;display:block;"><div class="value-card">
+                    <div class="value-icon"><i class="fas fa-scale-balanced"></i></div>
+                    <h3>Fair for Everyone</h3>
+                    <p>Transparent pricing, fair lease terms, and balanced protections for both tenants and owners.</p>
+                </div></a>
+                <a href="community-focused" style="text-decoration:none;color:inherit;display:block;"><div class="value-card">
+                    <div class="value-icon"><i class="fas fa-leaf"></i></div>
+                    <h3>Community Focused</h3>
+                    <p>We partner with local services — movers, Wi-Fi providers, and cleaners — to make moving easier for everyone.</p>
+                </div></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== STATS ===== -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="stats-banner">
+                <div class="stat">
+                    <span class="stat-number" data-key="statProperties">0</span>
+                    <span class="stat-label">Active Listings</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number" data-key="statTenants">0</span>
+                    <span class="stat-label">Tenants Joined</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number" data-key="statOwners">0</span>
+                    <span class="stat-label">Verified Owners</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number" data-key="statCities">0</span>
+                    <span class="stat-label">Cities Served</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CTA ===== -->
+    <section class="cta-section" style="padding-top: 80px;">
+        <div class="container">
+            <div class="cta-banner">
+                <div class="cta-content">
+                    <h2>Join the <span class="gradient-text">HeavenLease</span> Community</h2>
+                    <p>Whether you're looking for your next home or listing your property, we're here to help.</p>
+                    <div class="cta-buttons">
+                        <a href="properties" class="btn btn-light btn-lg"><i class="fas fa-search"></i> Find a Home</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid" style="grid-template-columns: repeat(3, 1fr); gap: 32px; text-align: left;">
+                <div class="footer-brand">
+                    <a href="/" class="logo">
+                        <div class="logo-icon"><i class="fas fa-home"></i></div>
+                        <span class="logo-text">Heaven<span>Lease</span></span>
+                    </a>
+                    <p style="margin:12px 0 0;max-width:280px;">Simple steps to your perfect stay. Direct owner rentals with zero broker fees and comfort-first search.</p>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:8px;font-size:14px;">
+                    <strong style="margin-bottom:4px;">Company</strong>
+                    <a href="about" style="color:inherit;text-decoration:none;">About Us</a>
+                    <a href="careers" style="color:inherit;text-decoration:none;">Careers</a>
+                    <a href="press" style="color:inherit;text-decoration:none;">Press</a>
+                    <a href="blog" style="color:inherit;text-decoration:none;">Blog</a>
+                    <a href="contact" style="color:inherit;text-decoration:none;">Contact</a>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:8px;font-size:14px;">
+                    <strong style="margin-bottom:4px;">Legal &amp; Resources</strong>
+                    <a href="privacy" style="color:inherit;text-decoration:none;">Privacy Policy</a>
+                    <a href="terms" style="color:inherit;text-decoration:none;">Terms of Service</a>
+                    <a href="cookies" style="color:inherit;text-decoration:none;">Cookie Policy</a>
+                    <a href="rental-laws" style="color:inherit;text-decoration:none;">Rental Laws</a>
+                    <a href="escrow-policy" style="color:inherit;text-decoration:none;">Escrow Policy</a>
+                </div>
+            </div>
+            <div class="footer-bottom" style="justify-content: center;">
+                <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
+            </div>
+        </div>
+    </footer>
+
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="api.js?v=20260913a"></script>
+    <script src="script.js?v=20260913a"></script>
+    <script>
+        // Page-specific JavaScript
+        // Note: navbar, hamburger, navLinks, backToTop are already declared in script.js
+
+        // Navbar scroll
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) navbar.classList.add('scrolled');
+            else navbar.classList.remove('scrolled');
+            if (window.scrollY > 500) backToTop.classList.add('visible');
+            else backToTop.classList.remove('visible');
+        });
+
+        // Mobile menu
+        if (hamburger) hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        if (hamburger && navLinks) {
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburger.classList.remove('active');
+                    navLinks.classList.remove('active');
+                });
+            });
+        }
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Counter animation — real live numbers from the backend /api/stats
+        function animateCounter(element, target) {
+            const duration = 2000;
+            const startTime = performance.now();
+
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const eased = 1 - Math.pow(1 - progress, 3);
+                const current = Math.floor(eased * target);
+                element.textContent = current.toLocaleString('en-IN');
+                if (progress < 1) requestAnimationFrame(update);
+            }
+            requestAnimationFrame(update);
+        }
+
+        // Fetch real, live platform stats from the database and populate the counters.
+        (async function loadRealStats() {
+            let stats = null;
+            try {
+                stats = await api.getPublicStats();
+            } catch (e) { /* backend unreachable — show honest zeros */ }
+            const mapping = {
+                statProperties: stats ? stats.properties : 0,
+                statTenants: stats ? stats.tenants : 0,
+                statOwners: stats ? stats.verifiedOwners : 0,
+                statCities: stats ? stats.cities : 0
+            };
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const el = entry.target;
+                        const key = el.getAttribute('data-key');
+                        animateCounter(el, (mapping[key] !== undefined ? mapping[key] : 0));
+                        observer.unobserve(el);
+                    }
+                });
+            }, { threshold: 0.5 });
+            document.querySelectorAll('.stat-number').forEach(counter => observer.observe(counter));
+        })();
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Buy or sell homes on HeavenLease - verified sellers, direct owner contact, no broker fee.">
+    <title>Buy &amp; Sell Homes - HeavenLease</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styles.css?v=20260909a">
+<link rel="stylesheet" href="feature-panel.css?v=20260902a">
+    <style>
+        .bs-page-hero { background: linear-gradient(135deg,#0F172A 0%,#4F46E5 45%,#10B981 100%); color:#fff; padding:150px 0 90px; text-align:center; position:relative; overflow:hidden; }
+        .bs-page-hero .badge { display:inline-flex; align-items:center; gap:8px; background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.25); padding:8px 16px; border-radius:999px; font-size:13px; margin-bottom:20px; }
+        .bs-page-hero h1 { font-family:var(--font-heading); font-size:52px; font-weight:700; margin-bottom:16px; }
+        .bs-page-hero p { font-size:18px; opacity:0.92; max-width:660px; margin:0 auto; line-height:1.7; }
+        .bs-options { padding:70px 0; }
+        .bs-options .grid { display:grid; grid-template-columns:1fr 1fr; gap:32px; max-width:1000px; margin:0 auto; }
+        .bs-opt { border-radius:var(--radius-xl); padding:44px 38px; position:relative; overflow:hidden; color:#fff; box-shadow:var(--shadow-xl); transition:var(--transition); }
+        .bs-opt:hover { transform:translateY(-6px); }
+        .bs-opt.sell { background: linear-gradient(135deg,#065F46,#10B981); }
+        .bs-opt.buy { background: linear-gradient(135deg,#1E3A8A,#4F46E5); }
+        .bs-opt .big-icon { font-size:40px; opacity:0.9; margin-bottom:16px; }
+        .bs-opt h2 { font-family:var(--font-heading); font-size:30px; font-weight:700; margin-bottom:12px; color:#fff; }
+        .bs-opt p { font-size:15px; opacity:0.92; line-height:1.75; margin-bottom:26px; }
+        .bs-opt .btn { background:#fff; color:#0F172A; font-weight:600; }
+        .bs-opt .btn:hover { opacity:0.92; }
+        .bs-benefits { padding:70px 0; background:var(--gray-50); }
+        .bs-benefits .grid { display:grid; grid-template-columns:repeat(3,1fr); gap:28px; }
+        .benefit { background:var(--white); border-radius:var(--radius-lg); padding:32px; border:1px solid var(--gray-200); text-align:center; }
+        .benefit i { font-size:30px; color:var(--primary); margin-bottom:16px; }
+        .benefit h4 { font-size:18px; font-weight:700; color:var(--dark); margin-bottom:10px; }
+        .benefit p { font-size:14px; color:var(--gray-500); line-height:1.7; }
+        .bs-cta { padding:70px 0; text-align:center; background:var(--gradient); color:#fff; }
+        .bs-cta h2 { font-family:var(--font-heading); font-size:32px; margin-bottom:12px; color:#fff; }
+        .bs-cta .btn { background:#fff; color:var(--primary); font-weight:600; }
+        @media (max-width:768px){ .bs-page-hero h1{font-size:34px} .bs-options .grid,.bs-benefits .grid{grid-template-columns:1fr} }
+    </style>
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <span class="logo-text">Heaven<span>Lease</span></span>
+            </a>
+            
+            <div class="nav-actions">
+                                <div class="user-menu" id="userMenu">
+                    <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu">
+                        <span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span>
+                        <span id="navUserName">Account</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="user-dropdown" id="profileDropdown">
+                        <a href="home" id="mainHomeLink"><i class="fas fa-home"></i> Main Home</a>
+                        <a href="edit-profile" id="myProfileLink"><i class="fas fa-user"></i> My Profile &amp; Settings</a>
+                        <a href="payment"><i class="fas fa-credit-card"></i> Access Pass</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="properties"><i class="fas fa-building"></i> Browse Properties</a>
+                        <a href="map"><i class="fas fa-map-location-dot"></i> Property Map</a>
+                        <a href="comfort-scores"><i class="fas fa-gauge-high"></i> Comfort Scores</a>
+                        <a href="saved-properties"><i class="fas fa-heart"></i> Saved Properties</a>
+                        <a href="list-property"><i class="fas fa-key"></i> List Your Property</a>
+                        <a href="tenant-screening"><i class="fas fa-user-check"></i> Tenant Screening</a>
+                        <a href="owner-resources"><i class="fas fa-toolbox"></i> Owner Resources</a>
+                        <a href="buy-sell"><i class="fas fa-tag"></i> Buy / Sell</a>
+                        <a href="possession"><i class="fas fa-key"></i> Possession &amp; Handover</a>
+                        <a href="lease-signing"><i class="fas fa-file-signature"></i> Leases &amp; Signing</a>
+                        <a href="tour-booking"><i class="fas fa-calendar-check"></i> Tour Bookings</a>
+                        <a href="messages"><i class="fas fa-comments"></i> Messages</a>
+                        <a href="notifications"><i class="fas fa-bell"></i> Notifications</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="how-it-works"><i class="fas fa-circle-question"></i> How It Works</a>
+                        <a href="about"><i class="fas fa-building"></i> About Us</a>
+                        <a href="blog"><i class="fas fa-newspaper"></i> Blog</a>
+<a href="comfort-scores"><i class="fas fa-chart-simple"></i> Type &amp; Voice Search</a>
+                                                <a href="contact"><i class="fas fa-envelope"></i> Contact &amp; Support</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="login" id="signInLink" class="hide-when-auth"><i class="fas fa-arrow-right-to-bracket"></i> Sign In</a>
+                        <a href="#" id="logoutLink" class="logout-link hide-when-guest"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+
+                
+            </div>
+        </div>
+    </nav>
+
+    <section class="bs-page-hero">
+        <div class="container">
+            <span class="badge"><i class="fas fa-handshake"></i> No-Broker Property Marketplace</span>
+            <h1>Buy or Sell Homes,<br>Direct with the Owner</h1>
+            <p>Skip the brokers. List your home to verified buyers or discover your next property — connect directly and negotiate your deal between yourselves.</p>
+        </div>
+    </section>
+
+    <section class="bs-options">
+        <div class="container">
+            <div class="grid">
+                <div class="bs-opt sell">
+                    <div class="big-icon"><i class="fas fa-tag"></i></div>
+                    <h2>Sell Your Home</h2>
+                    <p>List your property for free, reach verified serious buyers, and connect with them directly — zero broker commission.</p>
+                    <a href="sell-your-home" class="btn btn-lg"><i class="fas fa-arrow-right"></i> Start Selling</a>
+                </div>
+                <div class="bs-opt buy">
+                    <div class="big-icon"><i class="fas fa-key"></i></div>
+                    <h2>Buy a Home</h2>
+                    <p>Browse homes listed by verified owners, compare comfort scores and prices, then contact the owner to make your deal.</p>
+                    <a href="buy-a-home" class="btn btn-lg"><i class="fas fa-arrow-right"></i> Start Buying</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="bs-benefits">
+        <div class="container">
+            <h2 style="text-align:center;margin-bottom:44px;">Why Buy or Sell on HeavenLease</h2>
+            <div class="grid">
+                <div class="benefit"><i class="fas fa-handshake"></i><h4>Direct Dealing</h4><p>Buyers and sellers connect directly — message, call, visit, and negotiate the deal between yourselves.</p></div>
+                <div class="benefit"><i class="fas fa-user-check"></i><h4>Verified People</h4><p>Both buyers and sellers are identity- and document-verified.</p></div>
+                <div class="benefit"><i class="fas fa-file-signature"></i><h4>Agreement Support</h4><p>Use our templates and guidance to create your sale agreement with the owner or buyer.</p></div>
+                <div class="benefit"><i class="fas fa-map-location-dot"></i><h4>Comfort Scores</h4><p>Judge property quality at a glance with data-backed comfort scores.</p></div>
+                <div class="benefit"><i class="fas fa-indian-rupee-sign"></i><h4>No Hidden Fees</h4><p>No broker commission. Keep the full value of your home.</p></div>
+                <div class="benefit"><i class="fas fa-key"></i><h4>Smooth Possession</h4><p>Guided handover with inspection, dues settlement, and key transfer.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="bs-cta">
+        <div class="container">
+            <h2>Ready to Buy or Sell?</h2>
+            <p style="margin-bottom:24px;">Join the no-broker property marketplace.</p>
+            <a href="signup" class="btn btn-lg"><i class="fas fa-user-plus"></i> Get Started</a>
+        </div>
+    </section>
+
+    <section class="content-section" style="padding-top:0;">
+        <div class="container">
+            <div id="featurePanel"></div>
+        </div>
+    </section>
+
+    <script src="api.js?v=20260913a"></script>
+    <script src="script.js?v=20260913a"></script>
+    <script src="feature-panel.js?v=20260902a"></script>
+</body>
+</html>
+
+

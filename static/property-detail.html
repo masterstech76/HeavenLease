@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="View detailed property information, comfort scores, and book a tour on HeavenLease.">
+    <title>Property Details — HeavenLease</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styles.css?v=20260909a">
+    <style>
+        .page-header {
+            background: var(--gradient-soft);
+            padding: 140px 0 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: var(--gray-500);
+            margin-bottom: 16px;
+        }
+
+        .page-header .breadcrumb a {
+            color: var(--primary);
+        }
+
+        .page-header .breadcrumb i {
+            font-size: 12px;
+            color: var(--gray-400);
+        }
+
+        .detail-section {
+            padding: 40px 0 100px;
+            background: var(--gray-50);
+        }
+
+        .detail-layout {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 40px;
+        }
+
+        .detail-main {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--gray-200);
+        }
+
+        .detail-gallery {
+            position: relative;
+            height: 400px;
+            background: var(--gradient);
+        }
+
+        .detail-gallery-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 100px;
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .detail-badge {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: var(--white);
+            color: var(--secondary-dark);
+            padding: 8px 16px;
+            border-radius: var(--radius-full);
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .detail-favorite {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 44px;
+            height: 44px;
+            background: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray-400);
+            font-size: 18px;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+        }
+
+        .detail-favorite:hover,
+        .detail-favorite.active {
+            color: #EF4444;
+        }
+
+        .detail-content {
+            padding: 32px;
+        }
+
+        .detail-title-row {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .detail-title {
+            font-family: var(--font-heading);
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .detail-location {
+            font-size: 16px;
+            color: var(--gray-500);
+            margin-bottom: 16px;
+        }
+
+        .detail-location i {
+            color: var(--primary);
+            margin-right: 6px;
+        }
+
+        .detail-price-row {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            margin-bottom: 24px;
+            padding: 16px;
+            background: var(--gray-50);
+            border-radius: var(--radius-md);
+        }
+
+        .detail-price {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .detail-price-period {
+            font-size: 16px;
+            color: var(--gray-500);
+        }
+
+        .detail-deposit {
+            margin-left: auto;
+            font-size: 14px;
+            color: var(--gray-500);
+        }
+
+        .detail-deposit strong {
+            color: var(--dark);
+        }
+
+        .detail-section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .detail-amenities-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+
+        .detail-amenity {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            background: var(--gray-50);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            color: var(--gray-600);
+        }
+
+        .detail-amenity i {
+            color: var(--primary);
+            font-size: 16px;
+        }
+
+        .comfort-detail-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .comfort-detail-card {
+            text-align: center;
+            padding: 20px;
+            background: var(--gray-50);
+            border-radius: var(--radius-md);
+        }
+
+        .comfort-detail-card i {
+            font-size: 28px;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .comfort-detail-card .score {
+            display: block;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .comfort-detail-card .label {
+            font-size: 13px;
+            color: var(--gray-500);
+        }
+
+        .comfort-detail-bar {
+            height: 6px;
+            background: var(--gray-200);
+            border-radius: var(--radius-full);
+            margin-top: 8px;
+            overflow: hidden;
+        }
+
+        .comfort-detail-fill {
+            height: 100%;
+            background: var(--gradient);
+            border-radius: var(--radius-full);
+        }
+
+        .detail-description {
+            font-size: 15px;
+            color: var(--gray-600);
+            line-height: 1.8;
+            margin-bottom: 32px;
+        }
+
+        .owner-card {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 20px;
+            background: var(--gray-50);
+            border-radius: var(--radius-md);
+            margin-bottom: 32px;
+        }
+
+        .owner-avatar {
+            width: 56px;
+            height: 56px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 22px;
+        }
+
+        .owner-info strong {
+            display: block;
+            font-size: 16px;
+            color: var(--dark);
+        }
+
+        .owner-info span {
+            font-size: 13px;
+            color: var(--gray-500);
+        }
+
+        .owner-verified {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            color: var(--secondary-dark);
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 4px;
+        }
+
+        /* Sidebar */
+        .detail-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .booking-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            border: 1px solid var(--gray-200);
+            box-shadow: var(--shadow-md);
+        }
+
+        .booking-card h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 20px;
+        }
+
+        .booking-form .form-group {
+            margin-bottom: 16px;
+        }
+
+        .booking-form label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--gray-600);
+            margin-bottom: 8px;
+        }
+
+        .booking-form input,
+        .booking-form select,
+        .booking-form textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-md);
+            background: var(--gray-50);
+            font-size: 14px;
+            color: var(--gray-700);
+            transition: var(--transition);
+        }
+
+        .booking-form input:focus,
+        .booking-form select:focus,
+        .booking-form textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: var(--white);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .booking-form textarea {
+            resize: vertical;
+        }
+
+        .booking-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .booking-actions .btn {
+            width: 100%;
+        }
+
+        .safety-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            border: 1px solid var(--gray-200);
+        }
+
+        .safety-card h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .safety-card h3 i {
+            color: var(--secondary);
+        }
+
+        .safety-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 8px 0;
+            font-size: 14px;
+            color: var(--gray-600);
+        }
+
+        .safety-item i {
+            color: var(--secondary);
+            margin-top: 3px;
+        }
+
+        .similar-properties {
+            margin-top: 60px;
+        }
+
+        .similar-properties h2 {
+            font-family: var(--font-heading);
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 24px;
+        }
+
+        .similar-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        @media (max-width: 1024px) {
+            .detail-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .similar-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-header {
+                padding: 120px 0 30px;
+            }
+
+            .detail-gallery {
+                height: 280px;
+            }
+
+            .detail-title {
+                font-size: 26px;
+            }
+
+            .detail-amenities-grid,
+            .comfort-detail-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .similar-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .detail-price-row {
+                flex-wrap: wrap;
+            }
+
+            .detail-deposit {
+                margin-left: 0;
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .detail-amenities-grid,
+            .comfort-detail-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== NAVIGATION ===== -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <div class="logo-icon"><i class="fas fa-home"></i></div>
+<span class="logo-text">Heaven<span>Lease</span></span>
+            </a>
+            
+            <div class="nav-actions">
+                                <div class="user-menu" id="userMenu">
+                    <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu">
+                        <span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span>
+                        <span id="navUserName">Account</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="user-dropdown" id="profileDropdown">
+                        <a href="home" id="mainHomeLink"><i class="fas fa-home"></i> Main Home</a>
+                        <a href="edit-profile" id="myProfileLink"><i class="fas fa-user"></i> My Profile &amp; Settings</a>
+                        <a href="payment"><i class="fas fa-credit-card"></i> Access Pass</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="properties"><i class="fas fa-building"></i> Browse Properties</a>
+                        <a href="map"><i class="fas fa-map-location-dot"></i> Property Map</a>
+                        <a href="comfort-scores"><i class="fas fa-gauge-high"></i> Comfort Scores</a>
+                        <a href="saved-properties"><i class="fas fa-heart"></i> Saved Properties</a>
+                        <a href="list-property"><i class="fas fa-key"></i> List Your Property</a>
+                        <a href="tenant-screening"><i class="fas fa-user-check"></i> Tenant Screening</a>
+                        <a href="owner-resources"><i class="fas fa-toolbox"></i> Owner Resources</a>
+                        <a href="buy-sell"><i class="fas fa-tag"></i> Buy / Sell</a>
+                        <a href="possession"><i class="fas fa-key"></i> Possession &amp; Handover</a>
+                        <a href="lease-signing"><i class="fas fa-file-signature"></i> Leases &amp; Signing</a>
+                        <a href="tour-booking"><i class="fas fa-calendar-check"></i> Tour Bookings</a>
+                        <a href="messages"><i class="fas fa-comments"></i> Messages</a>
+                        <a href="notifications"><i class="fas fa-bell"></i> Notifications</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="how-it-works"><i class="fas fa-circle-question"></i> How It Works</a>
+                        <a href="about"><i class="fas fa-building"></i> About Us</a>
+                        <a href="blog"><i class="fas fa-newspaper"></i> Blog</a>
+<a href="comfort-scores"><i class="fas fa-chart-simple"></i> Type &amp; Voice Search</a>
+                                                <a href="contact"><i class="fas fa-envelope"></i> Contact &amp; Support</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="login" id="signInLink" class="hide-when-auth"><i class="fas fa-arrow-right-to-bracket"></i> Sign In</a>
+                        <a href="#" id="logoutLink" class="logout-link hide-when-guest"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+</div>
+        </div>
+    </nav>
+
+    <!-- ===== PAGE HEADER ===== -->
+    <section class="page-header">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="/">Home</a>
+                <i class="fas fa-chevron-right"></i>
+                <a href="properties">Properties</a>
+                <i class="fas fa-chevron-right"></i>
+                <span id="breadcrumbTitle">Property Details</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== PROPERTY DETAIL ===== -->
+    <section class="detail-section">
+        <div class="container">
+            <div class="detail-layout">
+                <!-- Main Content -->
+                <div class="detail-main" id="detailMain">
+                    <!-- Content injected by JS -->
+                </div>
+
+                <!-- Sidebar -->
+                <div class="detail-sidebar">
+                    <div class="booking-card">
+                        <h3><i class="fas fa-calendar-check"></i> Book a Tour</h3>
+                        <form class="booking-form" id="bookingForm">
+                            <div class="form-group">
+                                <label>Your Name</label>
+                                <input type="text" placeholder="Full name" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Phone Number</label>
+                                <input type="tel" placeholder="+91 XXXXX XXXXX" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Preferred Date</label>
+                                <input type="date" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Preferred Time</label>
+                                <select required>
+                                    <option value="">Select time</option>
+                                    <option value="10">10:00 AM</option>
+                                    <option value="12">12:00 PM</option>
+                                    <option value="14">2:00 PM</option>
+                                    <option value="16">4:00 PM</option>
+                                    <option value="18">6:00 PM</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Message (Optional)</label>
+                                <textarea rows="3" placeholder="Any questions for the owner?"></textarea>
+                            </div>
+                            <div class="booking-actions">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-calendar-check"></i> Request Tour
+                                </button>
+                                <a href="messages" class="btn btn-outline" id="chatOwnerBtn">
+                                    <i class="fas fa-comments"></i> Chat with Owner
+                                </a>
+                                <a href="rental-application" class="btn btn-outline">
+                                    <i class="fas fa-file-signature"></i> Apply Now
+                                </a>
+                                <a href="property-compare" class="btn btn-outline">
+                                    <i class="fas fa-code-compare"></i> Compare
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="safety-card">
+                        <h3><i class="fas fa-shield-halved"></i> Safety & Protection</h3>
+                        <div class="safety-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Verified owner with document proof</span>
+                        </div>
+                        <div class="safety-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Deposit held in escrow until move-in</span>
+                        </div>
+                        <div class="safety-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>In-app messaging keeps your number private</span>
+                        </div>
+                        <div class="safety-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Zero-fake guarantee on all listings</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Similar Properties -->
+            <div class="similar-properties">
+                <h2>Similar <span class="gradient-text">Properties</span></h2>
+                <div class="similar-grid" id="similarGrid">
+                    <!-- Similar properties injected by JS -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid" style="grid-template-columns: 1fr; text-align: center;">
+                <div class="footer-brand">
+                    <a href="/" class="logo">
+                        <div class="logo-icon"><i class="fas fa-home"></i></div>
+                        <span class="logo-text">Heaven<span>Lease</span></span>
+                    </a>
+                    <p style="margin: 10px auto; max-width: 300px;">Simple steps to your perfect stay. Direct owner rentals with zero broker fees and comfort-first search.</p></div>
+            </div>
+            <div class="footer-bottom" style="justify-content: center;">
+                <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
+            </div>
+        </div>
+    </footer>
+
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="api.js?v=20260913a"></script>
+    <script src="script.js?v=20260913a"></script>
+    <script>
+        // Page-specific JavaScript
+        // Note: navbar, hamburger, navLinks, backToTop are already declared in script.js
+        const detailMain = document.getElementById('detailMain');
+        const similarGrid = document.getElementById('similarGrid');
+        const bookingForm = document.getElementById('bookingForm');
+
+        // Navbar scroll
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) navbar.classList.add('scrolled');
+            else navbar.classList.remove('scrolled');
+            if (window.scrollY > 500) backToTop.classList.add('visible');
+            else backToTop.classList.remove('visible');
+        });
+
+        // Mobile menu
+        if (hamburger) hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        if (hamburger && navLinks) {
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburger.classList.remove('active');
+                    navLinks.classList.remove('active');
+                });
+            });
+        }
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Get property ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const propertyId = parseInt(urlParams.get('id')) || 1;
+
+        // Real property data comes from the backend.
+        let allProperties = loadAllProperties();
+        let property = allProperties.find(p => Number(p.id) === propertyId) || allProperties[0];
+
+        // Render the full detail view (defined inline below; invoked once data is ready).
+        function renderDetail(property) {
+        // Update breadcrumb
+        document.getElementById('breadcrumbTitle').textContent = property.title;
+
+        // Set Chat with Owner link dynamically with property context
+        const chatOwnerBtn = document.getElementById('chatOwnerBtn');
+        chatOwnerBtn.href = 'messages?property=' + encodeURIComponent(property.title);
+        // Subscription gate: contact + chat require an active Access Pass.
+        chatOwnerBtn.addEventListener('click', (e) => {
+            if (property.contactLocked) {
+                e.preventDefault();
+                if (!api.isAuthenticated()) {
+                    window.location.href = 'login?redirect=property-detail?id=' + property.id;
+                    return;
+                }
+                window.location.href = 'payment?redirect=property-detail?id=' + property.id;
+            }
+        });
+
+        // Render detail
+        detailMain.innerHTML = `
+            <div class="detail-gallery">
+                <div class="detail-gallery-placeholder">
+                    <i class="fas ${property.icon}"></i>
+                </div>
+                <span class="detail-badge">
+                    <i class="fas fa-check-circle"></i> ${property.badge}
+                </span>
+                <button class="detail-favorite" id="detailFavorite">
+                    <i class="far fa-heart"></i>
+                </button>
+            </div>
+            <div class="detail-content">
+                <div class="detail-title-row">
+                    <h1 class="detail-title">${property.title}</h1>
+                </div>
+                <p class="detail-location">
+                    <i class="fas fa-location-dot"></i> ${property.location}
+                </p>
+                <div class="detail-price-row">
+                    <span class="detail-price">${formatPrice(property.price)}</span>
+                    <span class="detail-price-period">/month</span>
+                    <span class="detail-deposit">
+                        <strong>Deposit:</strong> ${formatPrice(property.deposit || property.price * 2)}
+                    </span>
+                </div>
+
+                <h2 class="detail-section-title">Amenities</h2>
+                <div class="detail-amenities-grid">
+                    ${property.amenities.map(a => `
+                        <div class="detail-amenity">
+                            <i class="fas fa-check-circle"></i> ${a}
+                        </div>
+                    `).join('')}
+                    <div class="detail-amenity">
+                        <i class="fas ${property.petFriendly ? 'fa-paw' : 'fa-ban'}"></i>
+                        ${property.petFriendly ? 'Pet Friendly' : 'No Pets'}
+                    </div>
+                    <div class="detail-amenity">
+                        <i class="fas ${property.furnished ? 'fa-couch' : 'fa-box-open'}"></i>
+                        ${property.furnished ? 'Fully Furnished' : 'Unfurnished'}
+                    </div>
+                    <div class="detail-amenity">
+                        <i class="fas fa-shield-halved"></i> 24/7 Security
+                    </div>
+                </div>
+
+                <h2 class="detail-section-title">Comfort Scores</h2>
+                <div class="comfort-detail-grid">
+                    <div class="comfort-detail-card">
+                        <i class="fas fa-volume-low"></i>
+                        <span class="score">${property.quietness}%</span>
+                        <span class="label">Quietness</span>
+                        <div class="comfort-detail-bar">
+                            <div class="comfort-detail-fill" style="width: ${property.quietness}%"></div>
+                        </div>
+                    </div>
+                    <div class="comfort-detail-card">
+                        <i class="fas fa-sun"></i>
+                        <span class="score">${property.sunlight}%</span>
+                        <span class="label">Sunlight</span>
+                        <div class="comfort-detail-bar">
+                            <div class="comfort-detail-fill" style="width: ${property.sunlight}%"></div>
+                        </div>
+                    </div>
+                    <div class="comfort-detail-card">
+                        <i class="fas fa-car"></i>
+                        <span class="score">${property.commute}%</span>
+                        <span class="label">Commute</span>
+                        <div class="comfort-detail-bar">
+                            <div class="comfort-detail-fill" style="width: ${property.commute}%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <h2 class="detail-section-title">About This Property</h2>
+                <p class="detail-description">
+                    ${property.description || 'A beautiful property listed by a verified owner on HeavenLease. Contact the owner directly to schedule a viewing and learn more about this home.'}
+                </p>
+
+                <h2 class="detail-section-title">Owner</h2>
+                <div class="owner-card">
+                    <div class="owner-avatar"><i class="fas fa-user"></i></div>
+                    <div class="owner-info">
+                        <strong>${property.owner || 'Verified Owner'}</strong>
+                        ${property.contactLocked
+                            ? `<span class="owner-verified" style="color:#B45309;">
+                                <i class="fas fa-lock"></i> Contact details locked — subscribe to unlock phone & email
+                               </span>
+                               <a href="payment?redirect=property-detail?id=${property.id}" class="btn btn-primary" style="margin-top:10px;width:100%;">
+                                <i class="fas fa-unlock"></i> Unlock Contacts
+                               </a>`
+                            : `<span class="owner-verified">
+                                <i class="fas fa-check-circle"></i> Document Verified
+                               </span>
+                               <span class="owner-contact" style="display:block;margin-top:6px;"><i class="fas fa-phone"></i> ${property.phone || property.ownerPhone || '—'}</span>
+                               <span class="owner-contact" style="display:block;"><i class="fas fa-envelope"></i> ${property.email || property.ownerEmail || '—'}</span>`
+                        }
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // Favorite toggle
+        document.getElementById('detailFavorite').addEventListener('click', () => {
+            const btn = document.getElementById('detailFavorite');
+            const icon = btn.querySelector('i');
+            if (btn.classList.contains('active')) {
+                btn.classList.remove('active');
+                icon.classList.remove('fas');
+                icon.classList.add('far');
+            } else {
+                btn.classList.add('active');
+                icon.classList.remove('far');
+                icon.classList.add('fas');
+            }
+        });
+
+        // Similar properties
+        const similar = allProperties.filter(p => p.id !== property.id).slice(0, 3);
+        similarGrid.innerHTML = similar.map(p => `
+            <div class="property-card">
+                <div class="property-image">
+                    <div class="property-image-placeholder">
+                        <i class="fas ${p.icon}"></i>
+                    </div>
+                    <span class="property-badge">
+                        <i class="fas fa-check-circle"></i> ${p.badge}
+                    </span>
+                </div>
+                <div class="property-body">
+                    <h3 class="property-title">${p.title}</h3>
+                    <p class="property-location">
+                        <i class="fas fa-location-dot"></i> ${p.location}
+                    </p>
+                    <div class="property-price">
+                        <span class="price">${formatPrice(p.price)}</span>
+                        <span class="per-month">/month</span>
+                    </div>
+                    <div class="property-actions">
+                        <a href="property-detail?id=${p.id}" class="btn btn-primary btn-block">
+                            <i class="fas fa-eye"></i> View Details
+                        </a>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+
+        // Booking form - real backend booking (requires sign-in + subscription to unlock owner contact)
+        bookingForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (property.contactLocked) {
+                showToast('Subscribe to unlock the owner’s contact and book a tour.', 'error');
+                setTimeout(() => { window.location.href = 'payment?redirect=property-detail?id=' + property.id; }, 1200);
+                return;
+            }
+            // REAL: create a backend booking (requires sign-in + verified tenant).
+            if (!api.isAuthenticated()) {
+                showToast('Please sign in to book a tour.', 'error');
+                setTimeout(() => { window.location.href = 'login?redirect=property-detail?id=' + property.id; }, 1200);
+                return;
+            }
+            const user = api.getUser();
+            if (!user || !user.id) {
+                showToast('Please sign in to book a tour.', 'error');
+                setTimeout(() => { window.location.href = 'login?redirect=property-detail?id=' + property.id; }, 1200);
+                return;
+            }
+            const inputs = bookingForm.querySelectorAll('input, select, textarea');
+            const payload = {
+                propertyId: Number(property.id),
+                tenantId: Number(user.id),
+                ownerId: Number(property.ownerId) || 0,
+                tourDate: inputs[2].value,
+                tourTime: inputs[3].value,
+                tenantName: inputs[0].value,
+                tenantPhone: inputs[1].value,
+                message: inputs[4].value,
+                propertyTitle: property.title
+            };
+
+            const submitBtn = bookingForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            submitBtn.disabled = true;
+
+            api.createBooking(payload)
+                .then(() => {
+                    bookingForm.reset();
+                    showToast('Tour request sent! Redirecting to confirm your booking...', 'success');
+                    setTimeout(() => {
+                        const query = new URLSearchParams({
+                            property: property.title,
+                            name: payload.tenantName,
+                            phone: payload.tenantPhone,
+                            date: payload.tourDate,
+                            time: payload.tourTime
+                        });
+                        window.location.href = 'tour-booking?' + query.toString();
+                    }, 1000);
+                })
+                .catch(err => {
+                    showToast((err && err.message) || 'Booking failed. Please verify your email/phone.', 'error');
+                })
+                .finally(() => {
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                });
+        });
+        } // end renderDetail(property)
+
+        // Load real property from the backend; render once data is ready.
+        fetchApiProperties(0, 200).then(list => {
+            if (list && list.length > 0) {
+                allProperties = list;
+                const found = list.find(p => Number(p.id) === propertyId) || list[0];
+                property = found;
+            }
+            renderDetail(property);
+        }).catch(() => renderDetail(property));
+    </script>
+</body>
+</html>
+

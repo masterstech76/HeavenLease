@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="List your property on HeavenLease and connect directly with verified tenants. No broker fees.">
+    <title>List Your Property — HeavenLease</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styles.css?v=20260909a">
+    <style>
+        .page-header {
+            background: var(--gradient-soft);
+            padding: 140px 0 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header h1 {
+            font-family: var(--font-heading);
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 12px;
+        }
+
+        .page-header p {
+            font-size: 17px;
+            color: var(--gray-500);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .page-header .breadcrumb {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 16px;
+            font-size: 14px;
+            color: var(--gray-500);
+        }
+
+        .page-header .breadcrumb a {
+            color: var(--primary);
+        }
+
+        .page-header .breadcrumb i {
+            font-size: 12px;
+            color: var(--gray-400);
+        }
+
+        .list-section {
+            padding: 60px 0 100px;
+            background: var(--gray-50);
+        }
+
+        .list-layout {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 40px;
+        }
+
+        .list-form-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            border: 1px solid var(--gray-200);
+            box-shadow: var(--shadow-md);
+        }
+
+        .list-form-card h2 {
+            font-family: var(--font-heading);
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 8px;
+        }
+
+        .list-form-card > p {
+            font-size: 14px;
+            color: var(--gray-500);
+            margin-bottom: 32px;
+        }
+
+        .form-section {
+            margin-bottom: 32px;
+            padding-bottom: 32px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .form-section:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+            margin-bottom: 0;
+        }
+
+        .form-section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 20px;
+        }
+
+        .form-section-title .step-num {
+            width: 32px;
+            height: 32px;
+            background: var(--gradient);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--gray-600);
+            margin-bottom: 8px;
+        }
+
+        .form-group label .required {
+            color: #EF4444;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-md);
+            background: var(--gray-50);
+            font-size: 14px;
+            color: var(--gray-700);
+            transition: var(--transition);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: var(--white);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+        }
+
+        .form-hint {
+            font-size: 12px;
+            color: var(--gray-400);
+            margin-top: 6px;
+        }
+
+        .upload-area {
+            border: 2px dashed var(--gray-300);
+            border-radius: var(--radius-md);
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            background: var(--gray-50);
+        }
+
+        .upload-area:hover {
+            border-color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .upload-area i {
+            font-size: 40px;
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+
+        .upload-area p {
+            font-size: 14px;
+            color: var(--gray-600);
+            font-weight: 500;
+        }
+
+        .upload-area span {
+            font-size: 12px;
+            color: var(--gray-400);
+        }
+
+        .upload-preview {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .upload-preview-item {
+            position: relative;
+            aspect-ratio: 1;
+            background: var(--gray-100);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray-400);
+            font-size: 24px;
+            overflow: hidden;
+        }
+
+        .upload-preview-item .remove-img {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            width: 24px;
+            height: 24px;
+            background: rgba(239, 68, 68, 0.9);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .comfort-slider {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .comfort-slider input[type="range"] {
+            flex: 1;
+            accent-color: var(--primary);
+        }
+
+        .comfort-slider .value {
+            min-width: 48px;
+            text-align: center;
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 16px;
+        }
+
+        .checkbox-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            background: var(--gray-50);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--gray-600);
+            transition: var(--transition);
+        }
+
+        .checkbox-item:hover {
+            background: var(--primary-light);
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary);
+        }
+
+        .submit-section {
+            margin-top: 32px;
+        }
+
+        .submit-section .btn {
+            width: 100%;
+            padding: 16px;
+            font-size: 16px;
+        }
+
+        /* Sidebar */
+        .list-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .info-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            border: 1px solid var(--gray-200);
+        }
+
+        .info-card h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-card h3 i {
+            color: var(--primary);
+        }
+
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 8px 0;
+            font-size: 14px;
+            color: var(--gray-600);
+        }
+
+        .info-item i {
+            color: var(--secondary);
+            margin-top: 3px;
+        }
+
+        .pricing-tip {
+            background: var(--primary-light);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            margin-top: 16px;
+        }
+
+        .pricing-tip strong {
+            display: block;
+            font-size: 14px;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+
+        .pricing-tip p {
+            font-size: 13px;
+            color: var(--gray-600);
+        }
+
+        @media (max-width: 1024px) {
+            .list-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-header {
+                padding: 120px 0 40px;
+            }
+
+            .page-header h1 {
+                font-size: 36px;
+            }
+
+            .list-form-card {
+                padding: 24px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .upload-preview {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .checkbox-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== NAVIGATION ===== -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="home" class="logo">
+                <div class="logo-icon"><i class="fas fa-home"></i></div>
+<span class="logo-text">Heaven<span>Lease</span></span>
+            </a>
+            
+            <div class="nav-actions">
+                
+                                <div class="user-menu" id="userMenu">
+                    <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu">
+                        <span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span>
+                        <span id="navUserName">Account</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="user-dropdown" id="profileDropdown">
+                        <a href="home" id="mainHomeLink"><i class="fas fa-home"></i> Main Home</a>
+                        <a href="edit-profile" id="myProfileLink"><i class="fas fa-user"></i> My Profile &amp; Settings</a>
+                        <a href="payment"><i class="fas fa-credit-card"></i> Access Pass</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="properties"><i class="fas fa-building"></i> Browse Properties</a>
+                        <a href="map"><i class="fas fa-map-location-dot"></i> Property Map</a>
+                        <a href="comfort-scores"><i class="fas fa-gauge-high"></i> Comfort Scores</a>
+                        <a href="saved-properties"><i class="fas fa-heart"></i> Saved Properties</a>
+                        <a href="list-property"><i class="fas fa-key"></i> List Your Property</a>
+                        <a href="tenant-screening"><i class="fas fa-user-check"></i> Tenant Screening</a>
+                        <a href="owner-resources"><i class="fas fa-toolbox"></i> Owner Resources</a>
+                        <a href="buy-sell"><i class="fas fa-tag"></i> Buy / Sell</a>
+                        <a href="possession"><i class="fas fa-key"></i> Possession &amp; Handover</a>
+                        <a href="lease-signing"><i class="fas fa-file-signature"></i> Leases &amp; Signing</a>
+                        <a href="tour-booking"><i class="fas fa-calendar-check"></i> Tour Bookings</a>
+                        <a href="messages"><i class="fas fa-comments"></i> Messages</a>
+                        <a href="notifications"><i class="fas fa-bell"></i> Notifications</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="how-it-works"><i class="fas fa-circle-question"></i> How It Works</a>
+                        <a href="about"><i class="fas fa-building"></i> About Us</a>
+                        <a href="blog"><i class="fas fa-newspaper"></i> Blog</a>
+<a href="comfort-scores"><i class="fas fa-chart-simple"></i> Type &amp; Voice Search</a>
+                                                <a href="contact"><i class="fas fa-envelope"></i> Contact &amp; Support</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="login" id="signInLink" class="hide-when-auth"><i class="fas fa-arrow-right-to-bracket"></i> Sign In</a>
+                        <a href="#" id="logoutLink" class="logout-link hide-when-guest"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+</div>
+        </div>
+    </nav>
+
+    <!-- ===== PAGE HEADER ===== -->
+    <section class="page-header">
+        <div class="container">
+            <h1>List Your <span class="gradient-text">Property</span></h1>
+            <p>Connect directly with verified tenants. No brokers, no commissions — just more earnings.</p>
+            <div class="breadcrumb">
+                <a href="home">Home</a>
+                <i class="fas fa-chevron-right"></i>
+                <span>List Property</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== LIST PROPERTY ===== -->
+    <section class="list-section">
+        <div class="container">
+            <div class="list-layout">
+                <!-- Main Form -->
+                <div class="list-form-card">
+                    <h2>Property Details</h2>
+                    <p>Fill in the details below to create your listing. It takes less than 5 minutes.</p>
+
+                    <form id="listPropertyForm">
+                        <!-- Step 1: Basic Info -->
+                        <div class="form-section">
+                            <div class="form-section-title">
+                                <span class="step-num">1</span> Basic Information
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Property Title <span class="required">*</span></label>
+                                    <input type="text" id="propTitle" placeholder="e.g. Sunny 2BHK in Indiranagar" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Property Type <span class="required">*</span></label>
+                                    <select id="propType" required>
+                                        <option value="">Select type</option>
+                                        <option value="apartment">Apartment</option>
+                                        <option value="villa">Villa / House</option>
+                                        <option value="studio">Studio</option>
+                                        <option value="pg">PG / Hostel</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>City <span class="required">*</span></label>
+                                    <input type="text" id="propCity" placeholder="e.g. Bengaluru" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Locality <span class="required">*</span></label>
+                                    <input type="text" id="propLocality" placeholder="e.g. Indiranagar" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Full Address</label>
+                                <input type="text" id="propAddress" placeholder="Street, building, apartment number">
+                                <p class="form-hint">Only shared with tenants after they book a tour.</p>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Pricing -->
+                        <div class="form-section">
+                            <div class="form-section-title">
+                                <span class="step-num">2</span> Pricing & Size
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Monthly Rent (₹) <span class="required">*</span></label>
+                                    <input type="number" id="propRent" placeholder="e.g. 25000" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Security Deposit (₹) <span class="required">*</span></label>
+                                    <input type="number" id="propDeposit" placeholder="e.g. 50000" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>For Sale? <span class="required">*</span></label>
+                                    <div class="checkbox-item" style="border:1px solid var(--gray-200);border-radius:12px;padding:10px 14px;">
+                                        <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+                                            <input type="checkbox" id="propForSale"> <span style="font-size:14px;color:var(--gray-600);">Listing this property for <b>sale</b> (not rent)</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Sale Price (₹) <span style="font-size:12px;color:var(--gray-400);">(only if for sale)</span></label>
+                                    <input type="number" id="propSalePrice" placeholder="e.g. 7500000">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>BHK <span class="required">*</span></label>
+                                    <select id="propBhk" required>
+                                        <option value="">Select BHK</option>
+                                        <option value="1">1 BHK</option>
+                                        <option value="2">2 BHK</option>
+                                        <option value="3">3 BHK</option>
+                                        <option value="4">4+ BHK</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Area (sq ft)</label>
+                                    <input type="number" id="propArea" placeholder="e.g. 850">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Available From</label>
+                                    <input type="date" id="propAvailable">
+                                </div>
+                                <div class="form-group">
+                                    <label>Minimum Lease Duration</label>
+                                    <select id="propLeaseDuration">
+                                        <option value="6">6 months</option>
+                                        <option value="11">11 months</option>
+                                        <option value="12">12 months</option>
+                                        <option value="24">24 months</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Amenities -->
+                        <div class="form-section">
+                            <div class="form-section-title">
+                                <span class="step-num">3</span> Amenities & Features
+                            </div>
+                            <div class="checkbox-grid">
+                                <label class="checkbox-item">
+                                    <input type="checkbox"> Furnished
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox"> Pet Friendly
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox"> Parking
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox"> AC
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox"> WiFi
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox"> Gym
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox"> Swimming Pool
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox"> Power Backup
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox"> Security
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox"> Lift
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Step 4: Comfort Scores -->
+                        <div class="form-section">
+                            <div class="form-section-title">
+                                <span class="step-num">4</span> Comfort Scores
+                            </div>
+                            <div class="form-group">
+                                <label>Quietness Score</label>
+                                <div class="comfort-slider">
+                                    <input type="range" min="0" max="100" value="75" oninput="this.nextElementSibling.textContent = this.value + '%'">
+                                    <span class="value">75%</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Sunlight Score</label>
+                                <div class="comfort-slider">
+                                    <input type="range" min="0" max="100" value="80" oninput="this.nextElementSibling.textContent = this.value + '%'">
+                                    <span class="value">80%</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Commute Score</label>
+                                <div class="comfort-slider">
+                                    <input type="range" min="0" max="100" value="70" oninput="this.nextElementSibling.textContent = this.value + '%'">
+                                    <span class="value">70%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 5: Photos -->
+                        <div class="form-section">
+                            <div class="form-section-title">
+                                <span class="step-num">5</span> Photos & Description
+                            </div>
+                            <div class="form-group">
+                                <label>Property Photos</label>
+                                <div class="upload-area" id="uploadArea">
+                                    <i class="fas fa-cloud-arrow-up"></i>
+                                    <p>Click to upload photos</p>
+                                    <span>JPG, PNG or WEBP · Max 10MB each</span>
+                                </div>
+                                <input type="file" id="fileInput" accept="image/*" multiple style="display: none;">
+                                <div class="upload-preview" id="uploadPreview"></div>
+                            </div>
+                            <div class="form-group">
+                                <label>Description</label>
+                                <textarea rows="5" placeholder="Describe your property — highlights, nearby amenities, what makes it special..."></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Step 6: Owner Verification -->
+                        <div class="form-section">
+                            <div class="form-section-title">
+                                <span class="step-num">6</span> Owner Verification
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Full Name <span class="required">*</span></label>
+                                    <input type="text" placeholder="Your full name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Phone Number <span class="required">*</span></label>
+                                    <input type="tel" placeholder="+91 XXXXX XXXXX" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Email <span class="required">*</span></label>
+                                    <input type="email" placeholder="you@example.com" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Ownership Proof</label>
+                                    <input type="file" id="ownershipProof" accept=".pdf,.jpg,.png" onchange="handleOwnershipUpload(this)">
+                                    <p class="form-hint" id="ownershipProofHint">Upload deed, utility bill, or property tax receipt.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="submit-section">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-paper-plane"></i> Submit Listing
+                            </button>
+                            <p class="form-hint" style="text-align: center; margin-top: 12px;">
+                                By submitting, you agree to our listing guidelines and verification process.
+                            </p>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="list-sidebar">
+                    <div class="info-card">
+                        <h3><i class="fas fa-shield-halved"></i> Why List on HeavenLease?</h3>
+                        <div class="info-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Zero listing fees — ever</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Verified, pre-screened tenants</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Automated rent collection</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Digital lease generation</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>AI-powered rent pricing</span>
+                        </div>
+                    </div>
+
+                    <div class="info-card">
+                        <h3><i class="fas fa-chart-line"></i> Smart Pricing</h3>
+                        <div class="pricing-tip">
+                            <strong>AI Recommendation</strong>
+                            <p>Based on similar properties in your area, we recommend a monthly rent between <strong>₹22,000 – ₹28,000</strong>.</p>
+                        </div>
+                        <div class="pricing-tip" style="background: var(--gray-50);">
+                            <strong>Market Insight</strong>
+                            <p>Properties with comfort scores above 80% get <strong>3x more views</strong> and lease 40% faster.</p>
+                        </div>
+                    </div>
+
+                    <div class="info-card">
+                        <h3><i class="fas fa-clock"></i> What Happens Next?</h3>
+                        <div class="info-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span><strong>Within 24 hours:</strong> Our team verifies your listing</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span><strong>Within 48 hours:</strong> Your property goes live</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span><strong>Ongoing:</strong> Receive tour requests and tenant profiles</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid" style="grid-template-columns: 1fr; text-align: center;">
+                <div class="footer-brand">
+                    <a href="home" class="logo">
+                        <div class="logo-icon"><i class="fas fa-home"></i></div>
+                        <span class="logo-text">Heaven<span>Lease</span></span>
+                    </a>
+                    <p style="margin: 10px auto; max-width: 300px;">Simple steps to your perfect stay. Direct owner rentals with zero broker fees and comfort-first search.</p></div>
+            </div>
+            <div class="footer-bottom" style="justify-content: center;">
+                <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
+            </div>
+        </div>
+    </footer>
+
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="api.js?v=20260913a"></script>
+    <script src="script.js?v=20260913a"></script>
+    <script>
+        // Page-specific JavaScript
+        // Note: navbar, hamburger, navLinks, backToTop are already declared in script.js
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const uploadPreview = document.getElementById('uploadPreview');
+        const listPropertyForm = document.getElementById('listPropertyForm');
+
+        // Navbar scroll
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) navbar.classList.add('scrolled');
+            else navbar.classList.remove('scrolled');
+            if (window.scrollY > 500) backToTop.classList.add('visible');
+            else backToTop.classList.remove('visible');
+        });
+
+        // Mobile menu
+        if (hamburger) hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        if (hamburger && navLinks) {
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburger.classList.remove('active');
+                    navLinks.classList.remove('active');
+                });
+            });
+        }
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Ownership proof upload handler
+        window.handleOwnershipUpload = function(input) {
+            const hint = document.getElementById('ownershipProofHint');
+            if (input.files.length > 0) {
+                const file = input.files[0];
+                hint.textContent = '✓ Uploaded: ' + file.name + ' (' + (file.size / 1024).toFixed(1) + ' KB)';
+                hint.style.color = 'var(--secondary-dark)';
+            } else {
+                hint.textContent = 'Upload deed, utility bill, or property tax receipt.';
+                hint.style.color = 'var(--gray-400)';
+            }
+        };
+
+        // Upload photo state
+        let uploadedPhotos = [];   // preview data-URLs
+        let uploadedFiles = [];    // actual File objects for real upload
+        const MAX_PHOTOS = 10;
+        const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+        const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+
+        // Drag and drop support
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.style.borderColor = 'var(--primary)';
+            uploadArea.style.background = 'var(--primary-light)';
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.style.borderColor = 'var(--gray-300)';
+            uploadArea.style.background = 'var(--gray-50)';
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.style.borderColor = 'var(--gray-300)';
+            uploadArea.style.background = 'var(--gray-50)';
+            const files = Array.from(e.dataTransfer.files);
+            handleFiles(files);
+        });
+
+        uploadArea.addEventListener('click', () => fileInput.click());
+
+        fileInput.addEventListener('change', (e) => {
+            const files = Array.from(e.target.files);
+            handleFiles(files);
+            e.target.value = '';
+        });
+
+        // Validate and process uploaded files
+        function handleFiles(files) {
+            const remaining = MAX_PHOTOS - uploadedPhotos.length;
+            if (remaining <= 0) {
+                showToast('Maximum 10 photos allowed.', 'error');
+                return;
+            }
+
+            const validFiles = files.filter(file => {
+                if (!ALLOWED_TYPES.includes(file.type)) {
+                    showToast(`"${file.name}" is not a valid image type. JPG, PNG or WEBP only.`, 'error');
+                    return false;
+                }
+                if (file.size > MAX_FILE_SIZE) {
+                    showToast(`"${file.name}" exceeds 10MB limit.`, 'error');
+                    return false;
+                }
+                return true;
+            }).slice(0, remaining);
+
+            validFiles.forEach((file) => {
+                uploadedFiles.push(file);
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    const photoData = event.target.result;
+                    uploadedPhotos.push(photoData);
+                    
+                    const item = document.createElement('div');
+                    item.className = 'upload-preview-item';
+                    item.dataset.photoIndex = uploadedPhotos.length - 1;
+                    item.innerHTML = `
+                        <img src="${photoData}" alt="Upload preview" style="width: 100%; height: 100%; object-fit: cover;">
+                        <span class="remove-img" onclick="removeUploadedPhoto(this)">
+                            <i class="fas fa-times"></i>
+                        </span>
+                    `;
+                    uploadPreview.appendChild(item);
+                    
+                    // Update upload area label
+                    updateUploadLabel();
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // Remove a photo
+        window.removeUploadedPhoto = function(el) {
+            const item = el.closest('.upload-preview-item');
+            const index = parseInt(item.dataset.photoIndex);
+            uploadedPhotos.splice(index, 1);
+            uploadedFiles.splice(index, 1);
+            item.remove();
+            // Re-index remaining items
+            uploadPreview.querySelectorAll('.upload-preview-item').forEach((el, i) => {
+                el.dataset.photoIndex = i;
+            });
+            updateUploadLabel();
+        };
+
+        // Update upload area text
+        function updateUploadLabel() {
+            if (uploadedPhotos.length >= MAX_PHOTOS) {
+                uploadArea.querySelector('p').textContent = 'Maximum 10 photos reached';
+                uploadArea.querySelector('span').textContent = '';
+                uploadArea.style.opacity = '0.6';
+                uploadArea.style.pointerEvents = 'none';
+            } else {
+                uploadArea.querySelector('p').textContent = 'Click or drag & drop to upload photos';
+                uploadArea.querySelector('span').textContent = `JPG, PNG or WEBP · Max 10MB each · ${uploadedPhotos.length}/${MAX_PHOTOS} uploaded`;
+                uploadArea.style.opacity = '1';
+                uploadArea.style.pointerEvents = 'auto';
+            }
+        }
+
+        // Form submission
+        listPropertyForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            const original = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+            btn.disabled = true;
+
+            // Save to localStorage so it appears live on map
+            const title = document.getElementById('propTitle').value.trim();
+            const city = document.getElementById('propCity').value.trim();
+            const rent = document.getElementById('propRent').value;
+            const bhk = document.getElementById('propBhk').value;
+            const address = document.getElementById('propAddress').value.trim() || document.getElementById('propLocality').value.trim();
+            const propertyType = document.getElementById('propType').value;
+
+            // City → approximate coordinates (same mapping as map)
+            const cityCoords = {
+                'bengaluru': { lat: 12.9716, lng: 77.5946 },
+                'hyderabad': { lat: 17.3850, lng: 78.4867 },
+                'pune': { lat: 18.5204, lng: 73.8567 },
+                'mumbai': { lat: 19.0760, lng: 72.8777 },
+                'delhi': { lat: 28.6139, lng: 77.2090 },
+                'kolkata': { lat: 22.5726, lng: 88.3639 },
+                'chennai': { lat: 13.0827, lng: 80.2707 },
+                'goa': { lat: 15.2993, lng: 74.1240 },
+                'noida': { lat: 28.5355, lng: 77.3910 },
+                'gurgaon': { lat: 28.4595, lng: 77.0266 },
+                'jaipur': { lat: 26.9124, lng: 75.7873 },
+                'lucknow': { lat: 26.8467, lng: 80.9462 },
+                'ahmedabad': { lat: 23.0225, lng: 72.5714 }
+            };
+            const coords = cityCoords[city.toLowerCase().trim()] || { lat: 20.5937 + (Math.random() * 2 - 1), lng: 78.9629 + (Math.random() * 4 - 2) };
+
+            // Owner info from verification section
+            const nameInputs = document.querySelectorAll('#listPropertyForm .form-section:last-of-type input');
+            const ownerName = nameInputs[0] ? nameInputs[0].value.trim() : 'Owner';
+            const ownerPhone = nameInputs[1] ? nameInputs[1].value.trim() : '';
+            const ownerEmail = nameInputs[2] ? nameInputs[2].value.trim() : '';
+
+            // Get user from localStorage if available
+            let storedUser = {};
+            try {
+                storedUser = JSON.parse(localStorage.getItem('heavenlease_user') || '{}');
+            } catch(err) {}
+            const finalOwnerName = ownerName || storedUser.name || 'Owner';
+
+            // Collect amenities from checkboxes
+            const amenities = [];
+            document.querySelectorAll('.checkbox-item input[type="checkbox"]:checked').forEach(cb => {
+                amenities.push(cb.parentElement.textContent.trim());
+            });
+
+            // Collect comfort scores
+            const quietness = parseInt(document.querySelectorAll('.comfort-slider input[type="range"]')[0].value) || 75;
+            const sunlight = parseInt(document.querySelectorAll('.comfort-slider input[type="range"]')[1].value) || 80;
+            const commute = parseInt(document.querySelectorAll('.comfort-slider input[type="range"]')[2].value) || 70;
+
+            // Get description
+            const description = document.querySelector('#listPropertyForm textarea').value.trim();
+
+            const propertyObj = {
+                title: title,
+                address: address,
+                city: city,
+                locality: document.getElementById('propLocality').value.trim(),
+                propertyType: propertyType,
+                rentAmount: Number(rent) || 0,
+                deposit: Number(document.getElementById('propDeposit').value) || 0,
+                forSale: document.getElementById('propForSale')?.checked || false,
+                salePrice: parseFloat(document.getElementById('propSalePrice')?.value) || null,
+                bhk: Number(bhk) || 1,
+                petFriendly: document.querySelectorAll('.checkbox-item input[type="checkbox"]')[1]?.checked || false,
+                furnished: document.querySelectorAll('.checkbox-item input[type="checkbox"]')[0]?.checked || false,
+                lat: coords.lat,
+                lng: coords.lng,
+                amenities: amenities,
+                quietness: quietness,
+                sunlight: sunlight,
+                commute: commute,
+                description: description,
+                icon: 'fa-building',
+                badge: 'Verified Owner',
+                status: 'active',
+                photos: []
+            };
+
+            // REAL: persist to the backend (verified owners only). Fall back to local on failure.
+            const btnSubmit = btn;
+            btnSubmit.disabled = true;
+            btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+
+            api.createProperty(propertyObj)
+                .then(async (saved) => {
+                    // Real file upload: attach each selected photo to the new property.
+                    if (saved && saved.id && uploadedFiles.length > 0) {
+                        let uploaded = 0;
+                        for (const file of uploadedFiles) {
+                            try {
+                                await api.uploadPropertyPhoto(saved.id, file);
+                                uploaded++;
+                            } catch (e) { /* skip a failed image, don't block the listing */ }
+                        }
+                        if (uploaded === 0 && uploadedFiles.length > 0) {
+                            showToast('Property created, but photo upload failed. You can add photos later.', 'error');
+                        }
+                    }
+                    showToast('Property listed successfully! It is now live on the homepage & map.', 'success');
+                    setTimeout(() => { window.location.href = '/'; }, 1800);
+                })
+                .catch((err) => {
+                    showToast((err && err.message) || 'Could not list your property. Please try again.', 'error');
+                })
+                .finally(() => {
+                    btnSubmit.innerHTML = original;
+                    btnSubmit.disabled = false;
+                });
+        });
+    </script>
+
+    <section class="page-cta">
+        <div class="container">
+            <div class="cta-banner">
+                <h2>Next Step</h2>
+                <p>Your listing wizard is almost done — submit the owner application to go live.</p>
+                <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+                    <a href="owner-application" class="btn btn-lg"><i class="fas fa-file-circle-check"></i> Continue to Owner Application</a>
+                    <a href="dashboard" class="btn btn-lg ghost"><i class="fas fa-gauge-high"></i> My Dashboard</a>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
+

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Owner property management dashboard for all listings.">
+    <title>Manage Properties — HeavenLease</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styles.css?v=20260909a">
+    <style>
+        .page-header { background: rgba(255,255,255,0.45); backdrop-filter: blur(6px); padding: 140px 0 70px; text-align: center; position: relative; overflow: hidden; }
+        .page-header h1 { font-family: var(--font-heading); font-size: 46px; font-weight: 700; color: var(--dark); margin-bottom: 12px; }
+        .page-header p { font-size: 17px; color: var(--gray-500); max-width: 640px; margin: 0 auto; }
+        .page-header .ph-icon { width: 68px; height: 68px; border-radius: 18px; background: var(--gradient); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 28px; margin: 0 auto 18px; box-shadow: var(--shadow-primary); }
+        .page-section { padding: 70px 0 90px; }
+        .page-section .section-head { text-align: center; margin-bottom: 44px; }
+        .page-section .section-head h2 { font-family: var(--font-heading); font-size: 30px; font-weight: 700; color: var(--dark); }
+        .feature-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 26px; }
+        .feature-card { background: rgba(255,255,255,0.92); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 28px; transition: var(--transition); box-shadow: var(--shadow-sm); }
+        .feature-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--primary); }
+        .feature-card .fc-icon { width: 52px; height: 52px; border-radius: 14px; background: var(--gradient-soft); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 14px; }
+        .feature-card h3 { font-size: 17px; font-weight: 600; color: var(--dark); margin-bottom: 6px; }
+        .feature-card p { font-size: 14px; color: var(--gray-500); line-height: 1.6; margin: 0; }
+        .page-cta { padding: 0 0 90px; }
+        .cta-banner { background: var(--gradient); border-radius: var(--radius-xl); padding: 44px 32px; text-align: center; color: #fff; }
+        .cta-banner h2 { font-family: var(--font-heading); font-size: 28px; margin-bottom: 8px; }
+        .cta-banner p { opacity: 0.92; margin-bottom: 20px; }
+        .cta-banner .btn { background: #fff; color: var(--primary); font-weight: 600; }
+        .cta-banner .btn.ghost { background: transparent; border: 1px solid #fff; color: #fff; }
+        @media (max-width: 900px) { .feature-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) { .page-header { padding: 120px 0 50px; } .page-header h1 { font-size: 34px; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <span class="logo-text">Heaven<span>Lease</span></span>
+            </a>
+            <div class="nav-actions">
+                <div class="user-menu" id="userMenu">
+                    <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu">
+                        <span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span>
+                        <span id="navUserName">Account</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="user-dropdown" id="profileDropdown">
+                        <a href="home" id="mainHomeLink"><i class="fas fa-home"></i> Main Home</a>
+                        <a href="edit-profile" id="myProfileLink"><i class="fas fa-user"></i> My Profile &amp; Settings</a>
+                        <a href="payment"><i class="fas fa-credit-card"></i> Access Pass</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <section class="page-header">
+        <div class="container">
+            <div class="ph-icon"><i class="fas fa-house-circle-check"></i></div>
+            <h1>Properties Management</h1>
+            <p>Overview of all your listings, statuses and performance.</p>
+        </div>
+    </section>
+
+    <section class="page-section">
+        <div class="container">
+            <div class="section-head"><h2>Everything you need</h2></div>
+            <div class="feature-grid">
+                    <div class="feature-card"><div class="fc-icon"><i class="fas fa-list-check"></i></div><h3>All Listings</h3><p>Active, pending and archived properties.</p></div>
+                    <div class="feature-card"><div class="fc-icon"><i class="fas fa-file-lines"></i></div><h3>Applications</h3><p>Review interested tenants.</p></div>
+                    <div class="feature-card"><div class="fc-icon"><i class="fas fa-chart-line"></i></div><h3>Insights</h3><p>Views, saves and inquiry stats.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="page-cta">
+        <div class="container">
+            <div class="cta-banner">
+                <h2>Ready to continue?</h2>
+                <p>Head back to your dashboard or browse the next step.</p>
+                                <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+                    <a href="edit-property" class="btn btn-lg"><i class="fas fa-pen-to-square"></i> Edit Property</a>
+                    <a href="owner-applications" class="btn btn-lg"><i class="fas fa-users-gear"></i> Owner Applications</a>
+                    <a href="dashboard" class="btn btn-lg"><i class="fas fa-gauge-high"></i> My Dashboard</a>
+                    <a href="home" class="btn btn-lg ghost"><i class="fas fa-home"></i> Main Home</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<script src="api.js?v=20260913a"></script>
+    <script src="script.js?v=20260913a"></script>
+    <script>
+        (function() {
+            const user = api.getUser();
+            if (user && user.role) {
+                const r = (user.role || '').toLowerCase();
+                const link = document.getElementById('myProfileLink');
+                if (link) link.href = (r === 'owner' || r === 'verified_owner') ? 'edit-profile' : 'edit-profile';
+            }
+        })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Upgrade to HeavenLease Premium for owners. Boosted listings, analytics, and more.">
+    <title>Upgrade Plan — HeavenLease</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styles.css?v=20260909a">
+    <style>
+        .up-page { min-height: 100vh; background: var(--gradient-soft); padding: 120px 24px 60px; position: relative; overflow: hidden; }
+        .up-page::before { content: ''; position: absolute; top: -200px; right: -200px; width: 500px; height: 500px; background: radial-gradient(circle, rgba(79, 70, 229, 0.15) 0%, transparent 70%); border-radius: 50%; }
+        .up-page::after { content: ''; position: absolute; bottom: -200px; left: -200px; width: 500px; height: 500px; background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, transparent 70%); border-radius: 50%; }
+        .up-container { max-width: 1000px; margin: 0 auto; position: relative; z-index: 1; }
+        .up-header { text-align: center; margin-bottom: 40px; }
+        .up-header h1 { font-family: var(--font-heading); font-size: 40px; font-weight: 700; color: var(--dark); }
+        .up-header h1 i { color: var(--primary); }
+        .up-header p { color: var(--gray-500); font-size: 16px; margin-top: 8px; max-width: 600px; margin-left: auto; margin-right: auto; }
+
+        .plans-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; align-items: stretch; }
+        .plan-card { background: var(--white); border-radius: var(--radius-xl); box-shadow: var(--shadow-md); border: 1px solid var(--gray-200); padding: 32px; display: flex; flex-direction: column; position: relative; transition: var(--transition); }
+        .plan-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-xl); }
+        .plan-card.popular { border: 2px solid var(--primary); box-shadow: var(--shadow-primary); }
+        .plan-card .popular-tag { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); background: var(--primary); color: var(--white); font-size: 12px; font-weight: 600; padding: 6px 16px; border-radius: var(--radius-full); white-space: nowrap; }
+        .plan-card .plan-name { font-size: 18px; font-weight: 600; color: var(--dark); margin-bottom: 8px; }
+        .plan-card .plan-price { font-size: 40px; font-weight: 800; color: var(--dark); margin-bottom: 4px; }
+        .plan-card .plan-price small { font-size: 16px; font-weight: 400; color: var(--gray-400); }
+        .plan-card .plan-desc { font-size: 14px; color: var(--gray-500); margin-bottom: 24px; }
+        .plan-card .plan-features { list-style: none; flex: 1; margin-bottom: 24px; }
+        .plan-card .plan-features li { display: flex; gap: 10px; padding: 8px 0; font-size: 14px; color: var(--gray-600); }
+        .plan-card .plan-features li i { color: var(--secondary); margin-top: 3px; flex-shrink: 0; }
+        .plan-card .plan-features li.disabled { color: var(--gray-400); }
+        .plan-card .plan-features li.disabled i { color: var(--gray-300); }
+        .plan-card .btn { width: 100%; }
+
+        .up-note { text-align: center; margin-top: 32px; font-size: 13px; color: var(--gray-400); }
+        .up-note a { color: var(--primary); }
+        .back-link { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: var(--gray-500); margin-bottom: 24px; transition: var(--transition); }
+        .back-link:hover { color: var(--primary); }
+        @media (max-width: 768px) { .plans-grid { grid-template-columns: 1fr; } .up-header h1 { font-size: 32px; } }
+    </style>
+</head>
+<body>
+    <!-- ===== NAVIGATION ===== -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="home" class="logo">
+                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <span class="logo-text">Heaven<span>Lease</span></span>
+            </a>
+            
+            <div class="nav-actions">
+                
+                                <div class="user-menu" id="userMenu">
+                    <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu">
+                        <span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span>
+                        <span id="navUserName">Account</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="user-dropdown" id="profileDropdown">
+                        <a href="home" id="mainHomeLink"><i class="fas fa-home"></i> Main Home</a>
+                        <a href="edit-profile" id="myProfileLink"><i class="fas fa-user"></i> My Profile &amp; Settings</a>
+                        <a href="payment"><i class="fas fa-credit-card"></i> Access Pass</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="properties"><i class="fas fa-building"></i> Browse Properties</a>
+                        <a href="map"><i class="fas fa-map-location-dot"></i> Property Map</a>
+                        <a href="comfort-scores"><i class="fas fa-gauge-high"></i> Comfort Scores</a>
+                        <a href="saved-properties"><i class="fas fa-heart"></i> Saved Properties</a>
+                        <a href="list-property"><i class="fas fa-key"></i> List Your Property</a>
+                        <a href="tenant-screening"><i class="fas fa-user-check"></i> Tenant Screening</a>
+                        <a href="owner-resources"><i class="fas fa-toolbox"></i> Owner Resources</a>
+                        <a href="buy-sell"><i class="fas fa-tag"></i> Buy / Sell</a>
+                        <a href="possession"><i class="fas fa-key"></i> Possession &amp; Handover</a>
+                        <a href="lease-signing"><i class="fas fa-file-signature"></i> Leases &amp; Signing</a>
+                        <a href="tour-booking"><i class="fas fa-calendar-check"></i> Tour Bookings</a>
+                        <a href="messages"><i class="fas fa-comments"></i> Messages</a>
+                        <a href="notifications"><i class="fas fa-bell"></i> Notifications</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="how-it-works"><i class="fas fa-circle-question"></i> How It Works</a>
+                        <a href="about"><i class="fas fa-building"></i> About Us</a>
+                        <a href="blog"><i class="fas fa-newspaper"></i> Blog</a>
+<a href="comfort-scores"><i class="fas fa-chart-simple"></i> Type &amp; Voice Search</a>
+                                                <a href="contact"><i class="fas fa-envelope"></i> Contact &amp; Support</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="login" id="signInLink" class="hide-when-auth"><i class="fas fa-arrow-right-to-bracket"></i> Sign In</a>
+                        <a href="#" id="logoutLink" class="logout-link hide-when-guest"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+</div>
+        </div>
+    </nav>
+
+    <!-- ===== UPGRADE PLAN PAGE ===== -->
+    <section class="up-page">
+        <div class="up-container">
+            <a href="dashboard" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Dashboard
+            </a>
+
+            <div class="up-header">
+                <h1><i class="fas fa-crown"></i> Owner Plus Plans</h1>
+                <p>Rent faster, manage smarter. Choose the plan that fits your goals. Upgrade anytime.</p>
+            </div>
+
+            <div class="plans-grid">
+                <!-- BASIC -->
+                <div class="plan-card">
+                    <div class="plan-name">Owner Plus Basic</div>
+                    <div class="plan-price">₹299 <small>/ 3 months</small></div>
+                    <p class="plan-desc">Boost your property visibility instantly.</p>
+                    <ul class="plan-features">
+                        <li><i class="fas fa-check"></i> Boosted property visibility</li>
+                        <li><i class="fas fa-check"></i> Verified Owner badge</li>
+                        <li><i class="fas fa-check"></i> AI rent recommendations</li>
+                        <li><i class="fas fa-check"></i> Standard listing support</li>
+                        <li class="disabled"><i class="fas fa-times"></i> Priority tenant matching</li>
+                        <li class="disabled"><i class="fas fa-times"></i> Featured listing boosts</li>
+                    </ul>
+                    <a href="payment?plan=3&amount=299&role=owner" class="btn btn-outline">
+                        <i class="fas fa-crown"></i> Get Owner Plus — ₹299
+                    </a>
+                </div>
+
+                <!-- STANDARD -->
+                <div class="plan-card popular">
+                    <div class="popular-tag"><i class="fas fa-star"></i> Best Value</div>
+                    <div class="plan-name">Owner Plus Standard</div>
+                    <div class="plan-price">₹459 <small>/ 6 months</small></div>
+                    <p class="plan-desc">The complete owner toolkit for serious renters.</p>
+                    <ul class="plan-features">
+                        <li><i class="fas fa-check"></i> Boosted property visibility</li>
+                        <li><i class="fas fa-check"></i> Verified Owner badge</li>
+                        <li><i class="fas fa-check"></i> AI rent recommendations</li>
+                        <li><i class="fas fa-check"></i> Priority tenant matching</li>
+                        <li><i class="fas fa-check"></i> Faster rent payouts</li>
+                        <li><i class="fas fa-check"></i> Dedicated support</li>
+                    </ul>
+                    <a href="payment?plan=6&amount=459&role=owner" class="btn btn-primary">
+                        <i class="fas fa-crown"></i> Get Owner Plus — ₹459
+                    </a>
+                </div>
+
+                <!-- PREMIUM -->
+                <div class="plan-card">
+                    <div class="plan-name">Owner Plus Premium</div>
+                    <div class="plan-price">₹799 <small>/ 12 months</small></div>
+                    <p class="plan-desc">Maximum growth and priority on the platform.</p>
+                    <ul class="plan-features">
+                        <li><i class="fas fa-check"></i> Unlimited leases</li>
+                        <li><i class="fas fa-check"></i> Featured listing boosts included</li>
+                        <li><i class="fas fa-check"></i> Premium support</li>
+                        <li><i class="fas fa-check"></i> Boosted property visibility</li>
+                        <li><i class="fas fa-check"></i> Priority tenant matching</li>
+                        <li><i class="fas fa-check"></i> Faster rent payouts</li>
+                    </ul>
+                    <a href="payment?plan=12&amount=799&role=owner" class="btn btn-outline">
+                        <i class="fas fa-crown"></i> Get Owner Plus — ₹799
+                    </a>
+                </div>
+            </div>
+
+            <p class="up-note">
+                Need help choosing? <a href="helper">Talk to our team</a> · 
+            </p>
+        </div>
+    </section>
+
+    <script src="api.js?v=20260913a"></script>
+    <script src="script.js?v=20260913a"></script>
+    <script>
+        (function() {
+        // Navbar
+        const navbar = document.getElementById('navbar');
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) navbar.classList.add('scrolled');
+            else navbar.classList.remove('scrolled');
+        });
+
+        if (hamburger) hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        if (hamburger && navLinks) {
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburger.classList.remove('active');
+                    navLinks.classList.remove('active');
+                });
+            });
+        }
+
+        window.upgradePremium = function() {
+            // Owner premium goes through the real payment flow (server-verified), not localStorage.
+            window.location.href = 'payment?plan=12&amount=799&role=owner';
+        };
+        // Owner plan selection now routes to payment with plan params
+        window.selectOwnerPlan = function(months, amount) {
+            window.location.href = 'payment?plan=' + months + '&amount=' + amount + '&role=owner';
+        };
+        })();
+    </script>
+</body>
+</html>
+
