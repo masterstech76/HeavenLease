@@ -28,6 +28,9 @@ backend/target/
 .DS_Store
 Thumbs.db
 
+# One-off provisioning / scratch scripts (not part of the app)
+*.sh
+
 # Node modules
 node_modules/
 
