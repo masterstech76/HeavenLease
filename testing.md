@@ -8,8 +8,8 @@
 
 | Area | Summary |
 |---|---|
-| Frontend | 97 static HTML pages in `static/` + shared `styles.css`, `script.js` + `api.js` helpers |
-| Backend | Spring Boot 3.3.2 (Java 17, Maven) — 20 REST controllers, 14 services, 95 Java files |
+| Frontend | 110 static HTML pages in `static/` + shared `styles.css`, `script.js` + `api.js` helpers (every app page wired to the live API) |
+| Backend | Spring Boot 3.3.2 (Java 17, Maven) — 20 REST controllers, 14 services, 82 Java source files |
 | Database | AWS RDS PostgreSQL (prod, no local DB) · H2 in-memory (tests) · DynamoDB (counters) |
 | Auth | JWT + BCrypt · email OTP (SES) · self-hosted phone OTP · Google login · reCAPTCHA · login rate-limits |
 | Payments | Razorpay (UPI/cards/netbanking) — Tenant Access & Owner Plus plans · escrow deposit flow · invoices |
