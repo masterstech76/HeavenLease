@@ -380,6 +380,7 @@
         /* ===== TESTIMONIALS ===== */
         .testimonials-section { padding: 80px 0; background: #f8fafc; }
         .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .tools-grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
         .testimonial-card {
             background: #fff;
             border-radius: 16px;
@@ -493,11 +494,12 @@
             .properties-grid { grid-template-columns: repeat(2, 1fr); }
             .steps-grid { grid-template-columns: repeat(2, 1fr); }
             .testimonials-grid { grid-template-columns: repeat(2, 1fr); }
+            .tools-grid3 { grid-template-columns: repeat(2, 1fr); }
         }
         @media (max-width: 768px) {
             .hero { padding: 100px 0 60px; }
             .hero-title { font-size: 36px; }
-            .trust-grid, .properties-grid, .steps-grid, .testimonials-grid { grid-template-columns: 1fr; }
+            .trust-grid, .properties-grid, .steps-grid, .testimonials-grid, .tools-grid3 { grid-template-columns: 1fr; }
             .hero-stats { flex-wrap: wrap; gap: 20px; }
             .stat-divider { display: none; }
         }
@@ -732,6 +734,55 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== SAFETY & OWNER TOOLS (latest) ===== -->
+    <section class="how-section" style="background:#f8fafc;" id="safety-tools">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Screening &amp; Owner Tools</span>
+                <h2>Rent With Confidence, <span class="gradient-text">Own With Ease</span></h2>
+                <p>Identity checks, credit and employment screening for tenants — pricing guides, tax tools and resources for owners.</p>
+            </div>
+            <div class="tools-grid3">
+                <a href="tenant-screening" style="display:block;text-decoration:none;color:inherit;background:#fff;border:1px solid #e2e8f0;border-radius:18px;padding:32px 24px;text-align:center;transition:all .3s;box-shadow:0 1px 2px rgba(15,23,42,.04);">
+                    <div style="width:52px;height:52px;margin:0 auto 16px;border-radius:14px;background:linear-gradient(135deg,#4F46E5,#10B981);color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 8px 20px rgba(79,70,229,.25);"><i class="fas fa-user-shield"></i></div>
+                    <h3 style="font-size:16px;font-weight:600;color:#0f172a;margin-bottom:8px;">Tenant Screening</h3>
+                    <p style="font-size:13px;color:#64748b;line-height:1.6;margin:0;">Verify identity, employment and credit before approving any applicant.</p>
+                    <span style="display:inline-flex;align-items:center;gap:6px;margin-top:14px;font-size:13px;font-weight:600;color:#4F46E5;">Screen a Tenant <i class="fas fa-arrow-right"></i></span>
+                </a>
+                <a href="identity-verification" style="display:block;text-decoration:none;color:inherit;background:#fff;border:1px solid #e2e8f0;border-radius:18px;padding:32px 24px;text-align:center;transition:all .3s;box-shadow:0 1px 2px rgba(15,23,42,.04);">
+                    <div style="width:52px;height:52px;margin:0 auto 16px;border-radius:14px;background:linear-gradient(135deg,#4F46E5,#10B981);color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 8px 20px rgba(79,70,229,.25);"><i class="fas fa-id-badge"></i></div>
+                    <h3 style="font-size:16px;font-weight:600;color:#0f172a;margin-bottom:8px;">Identity Verification</h3>
+                    <p style="font-size:13px;color:#64748b;line-height:1.6;margin:0;">Confirm who you rent to or list with using government-ID checks.</p>
+                    <span style="display:inline-flex;align-items:center;gap:6px;margin-top:14px;font-size:13px;font-weight:600;color:#4F46E5;">Verify Identity <i class="fas fa-arrow-right"></i></span>
+                </a>
+                <a href="background-check" style="display:block;text-decoration:none;color:inherit;background:#fff;border:1px solid #e2e8f0;border-radius:18px;padding:32px 24px;text-align:center;transition:all .3s;box-shadow:0 1px 2px rgba(15,23,42,.04);">
+                    <div style="width:52px;height:52px;margin:0 auto 16px;border-radius:14px;background:linear-gradient(135deg,#4F46E5,#10B981);color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 8px 20px rgba(79,70,229,.25);"><i class="fas fa-magnifying-glass"></i></div>
+                    <h3 style="font-size:16px;font-weight:600;color:#0f172a;margin-bottom:8px;">Background Checks</h3>
+                    <p style="font-size:13px;color:#64748b;line-height:1.6;margin:0;">Run clean, respectful background and credit checks on applicants.</p>
+                    <span style="display:inline-flex;align-items:center;gap:6px;margin-top:14px;font-size:13px;font-weight:600;color:#4F46E5;">Run a Check <i class="fas fa-arrow-right"></i></span>
+                </a>
+                <a href="owner-resources" style="display:block;text-decoration:none;color:inherit;background:#fff;border:1px solid #e2e8f0;border-radius:18px;padding:32px 24px;text-align:center;transition:all .3s;box-shadow:0 1px 2px rgba(15,23,42,.04);">
+                    <div style="width:52px;height:52px;margin:0 auto 16px;border-radius:14px;background:linear-gradient(135deg,#0EA5E9,#4F46E5);color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 8px 20px rgba(14,165,233,.25);"><i class="fas fa-book-open"></i></div>
+                    <h3 style="font-size:16px;font-weight:600;color:#0f172a;margin-bottom:8px;">Owner Resources</h3>
+                    <p style="font-size:13px;color:#64748b;line-height:1.6;margin:0;">Practical advice from first listing to smooth move-out.</p>
+                    <span style="display:inline-flex;align-items:center;gap:6px;margin-top:14px;font-size:13px;font-weight:600;color:#0EA5E9;">Explore Resources <i class="fas fa-arrow-right"></i></span>
+                </a>
+                <a href="rent-pricing-guide" style="display:block;text-decoration:none;color:inherit;background:#fff;border:1px solid #e2e8f0;border-radius:18px;padding:32px 24px;text-align:center;transition:all .3s;box-shadow:0 1px 2px rgba(15,23,42,.04);">
+                    <div style="width:52px;height:52px;margin:0 auto 16px;border-radius:14px;background:linear-gradient(135deg,#0EA5E9,#4F46E5);color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 8px 20px rgba(14,165,233,.25);"><i class="fas fa-chart-line"></i></div>
+                    <h3 style="font-size:16px;font-weight:600;color:#0f172a;margin-bottom:8px;">Rent Pricing Guide</h3>
+                    <p style="font-size:13px;color:#64748b;line-height:1.6;margin:0;">Price your property right with market data and local insights.</p>
+                    <span style="display:inline-flex;align-items:center;gap:6px;margin-top:14px;font-size:13px;font-weight:600;color:#0EA5E9;">Compare Pricing <i class="fas fa-arrow-right"></i></span>
+                </a>
+                <a href="owner-guides" style="display:block;text-decoration:none;color:inherit;background:#fff;border:1px solid #e2e8f0;border-radius:18px;padding:32px 24px;text-align:center;transition:all .3s;box-shadow:0 1px 2px rgba(15,23,42,.04);">
+                    <div style="width:52px;height:52px;margin:0 auto 16px;border-radius:14px;background:linear-gradient(135deg,#0EA5E9,#4F46E5);color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 8px 20px rgba(14,165,233,.25);"><i class="fas fa-file-signature"></i></div>
+                    <h3 style="font-size:16px;font-weight:600;color:#0f172a;margin-bottom:8px;">Owner Guides &amp; Support</h3>
+                    <p style="font-size:13px;color:#64748b;line-height:1.6;margin:0;">Lease templates, tax &amp; accounting tips, and dedicated owner support.</p>
+                    <span style="display:inline-flex;align-items:center;gap:6px;margin-top:14px;font-size:13px;font-weight:600;color:#0EA5E9;">Read Guides <i class="fas fa-arrow-right"></i></span>
+                </a>
             </div>
         </div>
     </section>

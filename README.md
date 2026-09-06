@@ -55,7 +55,7 @@ The API runs on `http://localhost:8080` and pages call `/api/*` on the same orig
 
 ```bash
 cd backend
-mvn test          # 76 tests — no external credentials required
+mvn test          # 78 tests (incl. edit-profile E2E) — no external credentials required
 ```
 
 The test profile (`application-test.yml`) uses an in-memory H2 database and test-only

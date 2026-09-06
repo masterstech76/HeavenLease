@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -48,6 +49,13 @@ public class UserController {
     private final OwnerApplicationRepository ownerApplicationRepository;
     private final MessageRepository messageRepository;
     private final PropertyRepository propertyRepository;
+
+    /** Overridable upload root — prod sets UPLOAD_DIR=/app/uploads (absolute).
+     *  Never falls back to a relative path: Spring's MultipartFile.transferTo()
+     *  resolves relative paths against the servlet container's temp work dir,
+     *  which does not exist and silently breaks avatar/photo/document uploads. */
+    @Value("${app.upload-dir}")
+    private String uploadDir;
 
     public UserController(UserRepository userRepository, PasswordEncoder passwordEncoder,
                           BookingRepository bookingRepository, LeaseRepository leaseRepository,
@@ -196,7 +204,6 @@ public class UserController {
         }
 
         try {
-            String uploadDir = System.getenv().getOrDefault("UPLOAD_DIR", "./uploads");
             java.io.File dir = new java.io.File(uploadDir, "avatars");
             if (!dir.exists() && !dir.mkdirs()) {
                 return ResponseEntity.internalServerError().body(Map.of("error", "Could not create upload directory"));

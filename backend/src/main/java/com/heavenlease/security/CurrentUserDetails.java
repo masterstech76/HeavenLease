@@ -16,13 +16,20 @@ public class CurrentUserDetails implements UserDetails {
     private final String email;
     private final String passwordHash;
     private final Collection<? extends GrantedAuthority> authorities;
+    private final boolean enabled;
 
     public CurrentUserDetails(Long id, String email, String passwordHash,
                               Collection<? extends GrantedAuthority> authorities) {
+        this(id, email, passwordHash, authorities, true);
+    }
+
+    public CurrentUserDetails(Long id, String email, String passwordHash,
+                              Collection<? extends GrantedAuthority> authorities, boolean enabled) {
         this.id = id;
         this.email = email;
         this.passwordHash = passwordHash;
         this.authorities = authorities;
+        this.enabled = enabled;
     }
 
     public Long getId() {
@@ -61,6 +68,6 @@ public class CurrentUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return enabled;
     }
 }

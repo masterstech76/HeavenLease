@@ -17,6 +17,9 @@ app:
     secret: HeavenLease-test-secret-key-2026-xyz9abc7def
     expiration-ms: 86400000
   encryption-key: HeavenLease-test-encryption-key-2026-abcdefghij
+  # Absolute path required — MultipartFile.transferTo resolves relative paths
+  # against the servlet container's temp work dir (breaks uploads silently).
+  upload-dir: ${java.io.tmpdir}/hl-uploads
   google:
     client-id: test-client-id.apps.googleusercontent.com
     client-secret: test-client-secret

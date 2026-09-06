@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -58,6 +59,10 @@ public class DocumentController {
             "tax", "trust_safety", "possession", "tenant_screening",
             "lease_signing", "owner_resources", "buy_sell"
     );
+
+    /** Overridable upload root — see other controllers for why this must be absolute. */
+    @Value("${app.upload-dir}")
+    private String uploadDir;
 
     /**
      * Screening/verification page keys whose documents are meant to be reviewed
@@ -126,7 +131,6 @@ public class DocumentController {
         }
 
         try {
-            String uploadDir = System.getenv().getOrDefault("UPLOAD_DIR", "./uploads");
             java.io.File dir = new java.io.File(uploadDir, "documents");
             if (!dir.exists() && !dir.mkdirs()) {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

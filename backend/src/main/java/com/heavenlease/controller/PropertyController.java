@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -41,6 +42,13 @@ public class PropertyController {
     private final UserRepository userRepository;
     private final PaymentRepository paymentRepository;
     private final DynamoDBService dynamoDBService;
+
+    /** Overridable upload root — prod sets UPLOAD_DIR=/app/uploads (absolute).
+     *  Never uses a relative path: Spring's MultipartFile.transferTo() resolves
+     *  relative paths against the servlet container's temp work dir, which does
+     *  not exist and silently breaks uploads. */
+    @Value("${app.upload-dir}")
+    private String uploadDir;
 
     public PropertyController(PropertyRepository propertyRepository,
                               UserRepository userRepository, PaymentRepository paymentRepository,
@@ -283,7 +291,6 @@ public class PropertyController {
                     .body(Map.of("error", "You can only upload photos to your own properties"));
         }
         try {
-            String uploadDir = System.getenv().getOrDefault("UPLOAD_DIR", "./uploads");
             java.io.File dir = new java.io.File(uploadDir);
             if (!dir.exists() && !dir.mkdirs()) {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
