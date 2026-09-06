@@ -2861,6 +2861,19 @@ textarea:focus-visible {
     }
 }
 
+/* OTP digit inputs: 6 fixed 46px boxes overflow small phones (6×46 + 5×8 = 316px).
+   Shrink + keep spacing on narrow screens so no horizontal scroll. */
+@media (max-width: 420px) {
+    .otp-inputs { gap: 6px; }
+    .otp-inputs input {
+        width: 34px !important;
+        height: 46px !important;
+        font-size: 16px !important;
+        box-sizing: border-box !important;
+        padding: 0 !important;
+    }
+}
+
 /* Overflow safety nets everywhere */
 img, iframe, svg, table, pre, .map-container, video {
     max-width: 100%;
