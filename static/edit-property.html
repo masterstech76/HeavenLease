@@ -66,14 +66,71 @@
         </div>
     </section>
 
-    <section class="page-section">
-        <div class="container">
-            <div class="section-head"><h2>Everything you need</h2></div>
-            <div class="feature-grid">
-                    <div class="feature-card"><div class="fc-icon"><i class="fas fa-bolt"></i></div><h3>Quick Updates</h3><p>Edit photos, price or availability fast.</p></div>
-                    <div class="feature-card"><div class="fc-icon"><i class="fas fa-eye"></i></div><h3>Live Preview</h3><p>See how tenants see your listing.</p></div>
-                    <div class="feature-card"><div class="fc-icon"><i class="fas fa-clock-rotate-left"></i></div><h3>Change History</h3><p>Keep track of every edit.</p></div>
-            </div>
+    <section class="page-section" style="padding-top:20px;">
+        <div class="container" style="max-width: 760px;">
+            <div class="section-head" style="text-align:center;margin-bottom:24px;"><h2>Edit Your Listing</h2></div>
+            <form id="propForm" style="background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-xl);padding:28px 30px;box-shadow:var(--shadow-sm);">
+                <div class="form-group" style="margin-bottom:16px;">
+                    <label style="display:block;font-size:13px;font-weight:600;color:var(--gray-600);margin-bottom:6px;">Property ID</label>
+                    <input id="pId" type="number" required placeholder="e.g. 12" style="width:100%;padding:12px 16px;border:1px solid var(--gray-200);border-radius:var(--radius-md);font-size:14px;">
+                    <button type="button" class="btn btn-secondary" style="margin-top:10px;" onclick="loadProp()"><i class="fas fa-download"></i> Load Listing</button>
+                </div>
+                <div id="editFields" style="display:none;">
+                    <div class="form-group" style="margin-bottom:16px;">
+                        <label style="display:block;font-size:13px;font-weight:600;color:var(--gray-600);margin-bottom:6px;">Title</label>
+                        <input id="fTitle" type="text" style="width:100%;padding:12px 16px;border:1px solid var(--gray-200);border-radius:var(--radius-md);font-size:14px;">
+                    </div>
+                    <div class="form-group" style="margin-bottom:16px;">
+                        <label style="display:block;font-size:13px;font-weight:600;color:var(--gray-600);margin-bottom:6px;">Rent (₹/month)</label>
+                        <input id="fRent" type="number" min="0" style="width:100%;padding:12px 16px;border:1px solid var(--gray-200);border-radius:var(--radius-md);font-size:14px;">
+                    </div>
+                    <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+                        <div class="form-group">
+                            <label style="display:block;font-size:13px;font-weight:600;color:var(--gray-600);margin-bottom:6px;">BHK</label>
+                            <input id="fBhk" type="number" min="0" style="width:100%;padding:12px 16px;border:1px solid var(--gray-200);border-radius:var(--radius-md);font-size:14px;">
+                        </div>
+                        <div class="form-group">
+                            <label style="display:block;font-size:13px;font-weight:600;color:var(--gray-600);margin-bottom:6px;">Type</label>
+                            <input id="fType" type="text" placeholder="Apartment / Villa / Studio" style="width:100%;padding:12px 16px;border:1px solid var(--gray-200);border-radius:var(--radius-md);font-size:14px;">
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-bottom:16px;">
+                        <label style="display:block;font-size:13px;font-weight:600;color:var(--gray-600);margin-bottom:6px;">Locality</label>
+                        <input id="fLocality" type="text" style="width:100%;padding:12px 16px;border:1px solid var(--gray-200);border-radius:var(--radius-md);font-size:14px;">
+                    </div>
+                    <div class="form-group" style="margin-bottom:16px;">
+                        <label style="display:block;font-size:13px;font-weight:600;color:var(--gray-600);margin-bottom:6px;">City</label>
+                        <input id="fCity" type="text" style="width:100%;padding:12px 16px;border:1px solid var(--gray-200);border-radius:var(--radius-md);font-size:14px;">
+                    </div>
+                    <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:16px;">
+                        <div class="form-group">
+                            <label style="display:block;font-size:13px;font-weight:600;color:var(--gray-600);margin-bottom:6px;">Quietness %</label>
+                            <input id="fQuiet" type="number" min="0" max="100" style="width:100%;padding:12px 16px;border:1px solid var(--gray-200);border-radius:var(--radius-md);font-size:14px;">
+                        </div>
+                        <div class="form-group">
+                            <label style="display:block;font-size:13px;font-weight:600;color:var(--gray-600);margin-bottom:6px;">Sunlight %</label>
+                            <input id="fSun" type="number" min="0" max="100" style="width:100%;padding:12px 16px;border:1px solid var(--gray-200);border-radius:var(--radius-md);font-size:14px;">
+                        </div>
+                        <div class="form-group">
+                            <label style="display:block;font-size:13px;font-weight:600;color:var(--gray-600);margin-bottom:6px;">Commute %</label>
+                            <input id="fCommute" type="number" min="0" max="100" style="width:100%;padding:12px 16px;border:1px solid var(--gray-200);border-radius:var(--radius-md);font-size:14px;">
+                        </div>
+                    </div>
+                    <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+                        <label style="font-size:14px;color:var(--gray-600);display:flex;align-items:center;gap:8px;"><input id="fPet" type="checkbox"> Pet friendly</label>
+                        <label style="font-size:14px;color:var(--gray-600);display:flex;align-items:center;gap:8px;"><input id="fFurn" type="checkbox"> Furnished</label>
+                    </div>
+                    <div class="form-group" style="margin-bottom:20px;">
+                        <label style="display:block;font-size:13px;font-weight:600;color:var(--gray-600);margin-bottom:6px;">Status</label>
+                        <select id="fStatus" style="width:100%;padding:12px 16px;border:1px solid var(--gray-200);border-radius:var(--radius-md);font-size:14px;">
+                            <option value="active">Active</option>
+                            <option value="pending">Pending</option>
+                            <option value="inactive">Inactive</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width:100%;display:inline-flex;justify-content:center;gap:8px;"><i class="fas fa-floppy-disk"></i> Save Changes</button>
+                </div>
+            </form>
         </div>
     </section>
 
@@ -96,12 +153,67 @@
     <script src="script.js?v=20260913a"></script>
     <script>
         (function() {
-            const user = api.getUser();
-            if (user && user.role) {
-                const r = (user.role || '').toLowerCase();
-                const link = document.getElementById('myProfileLink');
-                if (link) link.href = (r === 'owner' || r === 'verified_owner') ? 'edit-profile' : 'edit-profile';
+            'use strict';
+            const form=document.getElementById('propForm');
+            const editFields=document.getElementById('editFields');
+            let currentId=null;
+
+            function fill(p){
+                currentId=p.id;
+                document.getElementById('fTitle').value=p.title||'';
+                document.getElementById('fRent').value=p.rentAmount||'';
+                document.getElementById('fDeposit').value=p.deposit||'';
+                document.getElementById('fBhk').value=p.bhk||'';
+                document.getElementById('fType').value=p.propertyType||'';
+                document.getElementById('fLocality').value=p.locality||'';
+                document.getElementById('fCity').value=p.city||'';
+                document.getElementById('fQuiet').value=p.quietness!=null?p.quietness:'';
+                document.getElementById('fSun').value=p.sunlight!=null?p.sunlight:'';
+                document.getElementById('fCommute').value=p.commute!=null?p.commute:'';
+                document.getElementById('fPet').checked=!!p.petFriendly;
+                document.getElementById('fFurn').checked=!!p.furnished;
+                document.getElementById('fStatus').value=(p.status||'active').toLowerCase();
+                editFields.style.display='block';
             }
+            window.loadProp=async function(){
+                const id=Number(document.getElementById('pId').value||0);
+                if(!id){showToast('Enter a property ID first.','error');return;}
+                try{
+                    const p=await api.getProperty(id);
+                    if(!p||!p.id){showToast('Property not found.','error');return;}
+                    fill(p);
+                }catch(e){showToast(e.message||'Could not load property.','error');}
+            };
+            if(form){
+                form.addEventListener('submit',async function(ev){
+                    ev.preventDefault();
+                    if(!currentId){showToast('Load a property first.','error');return;}
+                    try{
+                        const payload={
+                            title:document.getElementById('fTitle').value,
+                            rentAmount:Number(document.getElementById('fRent').value)||0,
+                            deposit:Number(document.getElementById('fDeposit').value)||0,
+                            bhk:Number(document.getElementById('fBhk').value)||0,
+                            propertyType:document.getElementById('fType').value,
+                            locality:document.getElementById('fLocality').value,
+                            city:document.getElementById('fCity').value,
+                            quietness:Number(document.getElementById('fQuiet').value)||0,
+                            sunlight:Number(document.getElementById('fSun').value)||0,
+                            commute:Number(document.getElementById('fCommute').value)||0,
+                            petFriendly:document.getElementById('fPet').checked,
+                            furnished:document.getElementById('fFurn').checked,
+                            status:document.getElementById('fStatus').value
+                        };
+                        await api.updateProperty(currentId,payload);
+                        showToast('Property updated!','success');
+                    }catch(e){showToast(e.message||'Save failed.','error');}
+                });
+            }
+            (function(){
+                const q=new URLSearchParams(window.location.search);
+                const id=q.get('id');
+                if(id){document.getElementById('pId').value=id;loadProp();}
+            })();
         })();
     </script>
 </body>
