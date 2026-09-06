@@ -154,6 +154,23 @@
             .hub-section { padding: 32px 0 48px; }
             .hub-grid { grid-template-columns: 1fr; gap: 18px; }
         }
+    .htier { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .hcard { position: relative; overflow: hidden; border-radius: 20px; padding: 26px 24px; min-height: 170px; display: flex; flex-direction: column; justify-content: flex-end; color: #fff; text-decoration: none; box-shadow: 0 18px 40px rgba(15,23,42,0.18); transition: transform .2s ease, box-shadow .2s ease; box-sizing: border-box; }
+        .hcard:hover { transform: translateY(-4px); box-shadow: 0 26px 50px rgba(15,23,42,0.26); }
+        .hcard.t1 { background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%); }
+        .hcard.t1b { background: linear-gradient(135deg, #0F172A 0%, #1E1B4B 100%); }
+        .hcard.t1c { background: linear-gradient(135deg, #059669 0%, #10B981 100%); }
+        .hcard.t2 { background: linear-gradient(135deg, #334155 0%, #1E293B 100%); }
+        .hcard.t3 { background: linear-gradient(135deg, #64748B 0%, #334155 100%); min-height: 130px; }
+        .hcard .hc-icon { width: 46px; height: 46px; border-radius: 12px; background: rgba(255,255,255,0.18); display: flex; align-items: center; justify-content: center; font-size: 18px; margin-bottom: 12px; }
+        .hcard h3 { font-size: 17px; font-weight: 700; margin: 0 0 4px; color: #fff; }
+        .hcard p { font-size: 12.5px; color: rgba(255,255,255,0.85); line-height: 1.55; margin: 0 0 14px; }
+        .hcard .hc-cta { font-size: 12.5px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
+        .htierlink { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+        .hlink { background: rgba(255,255,255,0.6); border: 1px solid var(--gray-200); border-radius: 14px; padding: 12px 16px; font-size: 13px; font-weight: 600; color: var(--gray-600); text-decoration: none; display: flex; align-items: center; gap: 10px; transition: var(--transition); }
+        .hlink:hover { border-color: var(--primary); color: var(--primary); transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+        @media (max-width: 900px) { .htier, .htierlink { grid-template-columns: repeat(2,1fr); } }
+        @media (max-width: 640px) { .htier, .htierlink { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -204,8 +221,63 @@
             </div>
         </div>
     </section>
-<!-- ===== FEATURE HUB ===== -->
-    <section class="hub-section">
+<!-- ===== NEW FEATURE HUB (tiered by usefulness) ===== -->
+    <section class="hub-section" id="hubNew">
+        <div class="container">
+
+            <div class="hub-category" data-role="both">
+                <h2><i class="fas fa-bolt"></i> Get Started</h2>
+                <div class="htier">
+                    <a href="properties" class="hcard t1"><div class="hc-icon"><i class="fas fa-building"></i></div><h3>Browse Properties</h3><p>Search rental homes by budget, comfort score and location.</p><span class="hc-cta">Open Browse <i class="fas fa-arrow-right"></i></span></a>
+                    <a href="verify-account" class="hcard t1b"><div class="hc-icon"><i class="fas fa-user-check"></i></div><h3>Verify Your Account</h3><p>Complete email &amp; phone verification to book tours and apply faster.</p><span class="hc-cta">Verify Now <i class="fas fa-arrow-right"></i></span></a>
+                    <a href="trust-and-safety-first" class="hcard t1c"><div class="hc-icon"><i class="fas fa-shield-halved"></i></div><h3>Trust &amp; Safety</h3><p>Verified owners, protected deposits and escrow-secured payments.</p><span class="hc-cta">Read More <i class="fas fa-arrow-right"></i></span></a>
+                </div>
+            </div>
+
+            <div class="hub-category" data-role="owner">
+                <h2><i class="fas fa-key"></i> Owner Actions</h2>
+                <div class="htier">
+                    <a href="list-property" class="hcard t1"><div class="hc-icon"><i class="fas fa-plus"></i></div><h3>List Your Property</h3><p>Publish your listing in minutes and reach verified tenants.</p><span class="hc-cta">Start Listing <i class="fas fa-arrow-right"></i></span></a>
+                    <a href="properties-management" class="hcard t1b"><div class="hc-icon"><i class="fas fa-house-circle-check"></i></div><h3>Manage Properties</h3><p>Update, edit or archive your live listings anytime.</p><span class="hc-cta">Manage Listings <i class="fas fa-arrow-right"></i></span></a>
+                    <a href="owner-verify" class="hcard t1c"><div class="hc-icon"><i class="fas fa-id-card"></i></div><h3>Owner Verification</h3><p>Get the Verified Owner badge with document checks.</p><span class="hc-cta">Get Verified <i class="fas fa-arrow-right"></i></span></a>
+                </div>
+            </div>
+
+            <div class="hub-category" data-role="both">
+                <h2><i class="fas fa-wand-magic-sparkles"></i> Stay On Top</h2>
+                <div class="htier">
+                    <a href="payment" class="hcard t2"><div class="hc-icon"><i class="fas fa-credit-card"></i></div><h3>Access Pass</h3><p>Unlock owner contact details and premium features.</p><span class="hc-cta">View Plans <i class="fas fa-arrow-right"></i></span></a>
+                    <a href="lease-management" class="hcard t2"><div class="hc-icon"><i class="fas fa-file-contract"></i></div><h3>Manage Leases</h3><p>Track lease terms, renewals and signed agreements.</p><span class="hc-cta">Open Leases <i class="fas fa-arrow-right"></i></span></a>
+                    <a href="maintenance-requests" class="hcard t2"><div class="hc-icon"><i class="fas fa-screwdriver-wrench"></i></div><h3>Maintenance</h3><p>Raise or review maintenance requests and track status.</p><span class="hc-cta">Maintenance <i class="fas fa-arrow-right"></i></span></a>
+                </div>
+            </div>
+
+            <div class="hub-category" data-role="both">
+                <h2><i class="fas fa-compass"></i> Explore More</h2>
+                <div class="htier">
+                    <a href="buy-a-home" class="hcard t3"><div class="hc-icon"><i class="fas fa-house-signal"></i></div><h3>Buy a Home</h3><p>Browse verified homes for sale.</p><span class="hc-cta">Open <i class="fas fa-arrow-right"></i></span></a>
+                    <a href="sell-your-home" class="hcard t3"><div class="hc-icon"><i class="fas fa-tag"></i></div><h3>Sell Your Home</h3><p>List your property to buyers.</p><span class="hc-cta">Open <i class="fas fa-arrow-right"></i></span></a>
+                    <a href="upgrade-plan" class="hcard t3"><div class="hc-icon"><i class="fas fa-rocket"></i></div><h3>Upgrade Plan</h3><p>Compare plans and unlock more.</p><span class="hc-cta">Open <i class="fas fa-arrow-right"></i></span></a>
+                </div>
+            </div>
+
+            <div class="hub-category" data-role="both">
+                <h2 style="margin-bottom:18px;"><i class="fas fa-circle-info"></i> Company &amp; Help</h2>
+                <div class="htierlink">
+                    <a href="how-it-works" class="hlink"><i class="fas fa-circle-question"></i> How It Works</a>
+                    <a href="about" class="hlink"><i class="fas fa-building"></i> About Us</a>
+                    <a href="blog" class="hlink"><i class="fas fa-newspaper"></i> Blog</a>
+                    <a href="faq" class="hlink"><i class="fas fa-circle-question"></i> FAQ</a>
+                    <a href="contact" class="hlink"><i class="fas fa-envelope"></i> Contact &amp; Support</a>
+                    <a href="careers" class="hlink"><i class="fas fa-briefcase"></i> Careers</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ===== FEATURE HUB (legacy, hidden internally) ===== -->
+    <section class="hub-section" id="hubOld" style="display:none;">
         <div class="container">
             <div class="hub-category" data-role="tenant">
                 <h2><i class="fas fa-magnifying-glass"></i> Find &amp; Rent</h2>
