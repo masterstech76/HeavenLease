@@ -63,8 +63,8 @@ class EditProfileE2ETest {
                 "password", "E2eTestPass123",
                 "role", "TENANT",
                 "code", "000000");
-        ResponseEntity<Map> signup = rest.postForEntity(
-                base() + "/api/auth/signup", signupBody, Map.class);
+        ResponseEntity<Map<String, Object>> signup = rest.postForEntity(
+                base() + "/api/auth/signup", signupBody, (Class) Map.class);
         assertThat(signup.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         String token = String.valueOf(signup.getBody().get("token"));
         Number userId = (Number) signup.getBody().get("id");
@@ -74,8 +74,8 @@ class EditProfileE2ETest {
         auth.setContentType(MediaType.APPLICATION_JSON);
 
         // 2) GET /api/auth/me -> profile loads
-        ResponseEntity<Map> me = rest.exchange(
-                base() + "/api/auth/me", HttpMethod.GET, new HttpEntity<>(auth), Map.class);
+        ResponseEntity<Map<String, Object>> me = rest.exchange(
+                base() + "/api/auth/me", HttpMethod.GET, new HttpEntity<>(auth), (Class) Map.class);
         assertThat(me.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(me.getBody().get("fullName")).isEqualTo("E2E Old Name");
         assertThat(me.getBody().get("id")).isEqualTo(userId);
@@ -88,35 +88,35 @@ class EditProfileE2ETest {
                 "website", "example.in",
                 "gender", "other",
                 "phone", "+91 98765 12345");
-        ResponseEntity<Map> updated = rest.exchange(
+        ResponseEntity<Map<String, Object>> updated = rest.exchange(
                 base() + "/api/users/" + userId, HttpMethod.PUT,
-                new HttpEntity<>(update, auth), Map.class);
+                new HttpEntity<>(update, auth), (Class) Map.class);
         assertThat(updated.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(updated.getBody().get("fullName")).isEqualTo("E2E New Name");
         assertThat(updated.getBody().get("phone")).isEqualTo("9876512345");
         assertThat(updated.getBody().get("website")).isEqualTo("https://example.in");
         assertThat(updated.getBody().get("gender")).isEqualTo("other");
 
-        ResponseEntity<Map> meAfter = rest.exchange(
-                base() + "/api/auth/me", HttpMethod.GET, new HttpEntity<>(auth), Map.class);
+        ResponseEntity<Map<String, Object>> meAfter = rest.exchange(
+                base() + "/api/auth/me", HttpMethod.GET, new HttpEntity<>(auth), (Class) Map.class);
         assertThat(meAfter.getBody().get("fullName")).isEqualTo("E2E New Name");
         assertThat(meAfter.getBody().get("username")).isEqualTo(updated.getBody().get("username"));
 
         // 4) PATCH /api/users/{id}/password -> change password with current password
-        ResponseEntity<Map> pwd = rest.exchange(
+        ResponseEntity<Map<String, Object>> pwd = rest.exchange(
                 base() + "/api/users/" + userId + "/password", HttpMethod.PATCH,
                 new HttpEntity<>(Map.of("password", "NewPass456", "currentPassword", "E2eTestPass123"), auth),
-                Map.class);
+                (Class) Map.class);
         assertThat(pwd.getStatusCode()).isEqualTo(HttpStatus.OK);
 
         // Old password must now fail, new one succeeds
-        ResponseEntity<Map> loginOld = rest.postForEntity(
+        ResponseEntity<Map<String, Object>> loginOld = rest.postForEntity(
                 base() + "/api/auth/login",
-                Map.of("email", email, "password", "E2eTestPass123"), Map.class);
+                Map.of("email", email, "password", "E2eTestPass123"), (Class) Map.class);
         assertThat(loginOld.getStatusCode()).isEqualTo(HttpStatus.UNAUTHORIZED);
-        ResponseEntity<Map> loginNew = rest.postForEntity(
+        ResponseEntity<Map<String, Object>> loginNew = rest.postForEntity(
                 base() + "/api/auth/login",
-                Map.of("email", email, "password", "NewPass456"), Map.class);
+                Map.of("email", email, "password", "NewPass456"), (Class) Map.class);
         assertThat(loginNew.getStatusCode()).isEqualTo(HttpStatus.OK);
 
         avatarUploadAndDelete(rest, auth, userId);
@@ -137,9 +137,9 @@ class EditProfileE2ETest {
         };
         MultiValueMap<String, Object> form = new LinkedMultiValueMap<>();
         form.add("file", resource);
-        ResponseEntity<Map> avatar = rest.exchange(
+        ResponseEntity<Map<String, Object>> avatar = rest.exchange(
                 base + "/api/users/" + userId + "/avatar", HttpMethod.POST,
-                new HttpEntity<>(form, formHeaders), Map.class);
+                new HttpEntity<>(form, formHeaders), (Class) Map.class);
         if (!avatar.getStatusCode().is2xxSuccessful()) {
             System.out.println("AVATAR_UPLOAD_BODY=" + avatar.getBody());
         }
@@ -162,8 +162,8 @@ class EditProfileE2ETest {
         if (bearer != null && bearer.startsWith("Bearer ")) {
             deleteHeaders.setBearerAuth(bearer.substring(7));
         }
-        ResponseEntity<Map> deleted = rest.exchange(
-                base + "/api/account", HttpMethod.DELETE, new HttpEntity<>(deleteHeaders), Map.class);
+        ResponseEntity<Map<String, Object>> deleted = rest.exchange(
+                base + "/api/account", HttpMethod.DELETE, new HttpEntity<>(deleteHeaders), (Class) Map.class);
         assertThat(deleted.getStatusCode())
                 .withFailMessage("delete account failed, body=" + deleted.getBody())
                 .isEqualTo(HttpStatus.OK);
@@ -175,11 +175,11 @@ class EditProfileE2ETest {
         doReturn(true).when(emailVerificationService).verifyCode(anyString(), anyString());
 
         String email = "deact" + System.nanoTime() + "@local.test";
-        ResponseEntity<Map> signup = rest.postForEntity(
+        ResponseEntity<Map<String, Object>> signup = rest.postForEntity(
                 base() + "/api/auth/signup",
                 Map.of("fullName", "Deact User", "email", email, "phone", "9812345678",
                         "password", "DeactPass123", "role", "TENANT", "code", "000000"),
-                Map.class);
+                (Class) Map.class);
         assertThat(signup.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         String token = String.valueOf(signup.getBody().get("token"));
 
@@ -187,15 +187,15 @@ class EditProfileE2ETest {
         auth.setBearerAuth(token);
         auth.setContentType(MediaType.APPLICATION_JSON);
 
-        ResponseEntity<Map> deactivated = rest.exchange(
+        ResponseEntity<Map<String, Object>> deactivated = rest.exchange(
                 base() + "/api/account/deactivate", HttpMethod.POST,
-                new HttpEntity<>(Map.of(), auth), Map.class);
+                new HttpEntity<>(Map.of(), auth), (Class) Map.class);
         assertThat(deactivated.getStatusCode()).isEqualTo(HttpStatus.OK);
 
         // After deactivation, logging in must be rejected with a clear 403.
-        ResponseEntity<Map> login = rest.postForEntity(
+        ResponseEntity<Map<String, Object>> login = rest.postForEntity(
                 base() + "/api/auth/login",
-                Map.of("email", email, "password", "DeactPass123"), Map.class);
+                Map.of("email", email, "password", "DeactPass123"), (Class) Map.class);
         assertThat(login.getStatusCode())
                 .withFailMessage("login after deactivate, body=" + login.getBody())
                 .isEqualTo(HttpStatus.FORBIDDEN);

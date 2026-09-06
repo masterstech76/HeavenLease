@@ -2880,3 +2880,85 @@ img, iframe, svg, table, pre, .map-container, video {
 }
 .page-section, .page-cta, .hub-section { overflow-x: hidden; }
 
+/* ============================================================================
+   UNIVERSAL MOBILE SAFETY NET
+   ============================================================================
+   Guarantees NO page can ever horizontally overflow on a phone, regardless of
+   page-specific classes or inline styles. Because styles.css is linked by every
+   app/marketing page and these rules are intentionally more specific than the
+   page CSS, they form a final catch-all on top of each page's own @media rules.
+   ------------------------------------------------------------------------- */
+
+/* 1) Kill any horizontal scroll caused by stray widths, negative margins,
+      decorative blobs, or JS-injected markup across every page. */
+@media (max-width: 768px) {
+    html, body {
+        overflow-x: hidden;
+        width: 100%;
+    }
+}
+
+/* 2) Long unbroken words (URLs, emails, property names) must wrap instead of
+      pushing the page wider. Applied text-wide so it is safe everywhere. */
+@media (max-width: 768px) {
+    p, li, td, th, h1, h2, h3, h4, h5, h6, a, span, strong, small, label, legend, blockquote, figcaption, dt, dd {
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        -webkit-hyphens: auto;
+        hyphens: auto;
+    }
+    code, pre {
+        white-space: pre-wrap;
+        word-break: break-all;
+    }
+}
+
+/* 3) Any grid that still renders 3–5 equal columns on a phone (including
+      JS-injected inline styles) collapses to a safe 2-across, then 1-across. */
+@media (max-width: 768px) {
+    div[style*="grid-template-columns:repeat(3"], div[style*="grid-template-columns: repeat(3"],
+    div[style*="grid-template-columns:repeat(4"], div[style*="grid-template-columns: repeat(4"],
+    div[style*="grid-template-columns:repeat(5"], div[style*="grid-template-columns: repeat(5"],
+    div[style*="grid-template-columns:repeat(6"], div[style*="grid-template-columns: repeat(6"] {
+        grid-template-columns: 1fr 1fr !important;
+    }
+}
+@media (max-width: 480px) {
+    div[style*="grid-template-columns:repeat(3"], div[style*="grid-template-columns: repeat(3"],
+    div[style*="grid-template-columns:repeat(4"], div[style*="grid-template-columns: repeat(4"],
+    div[style*="grid-template-columns:repeat(5"], div[style*="grid-template-columns: repeat(5"],
+    div[style*="grid-template-columns:repeat(6"], div[style*="grid-template-columns: repeat(6"] {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+/* 4) Tables that were missed by an overflow wrapper scroll inside their cell
+      instead of blowing out the viewport (table display block = scrollable). */
+@media (max-width: 768px) {
+    table, thead, tbody, tr, th, td {
+        box-sizing: border-box;
+    }
+    td, th {
+        max-width: 100%;
+    }
+}
+
+/* 5) Wide flex rows (e.g. stat strips, pill groups) wrap on small phones. */
+@media (max-width: 640px) {
+    div[style*="display:flex"], .flex-row, .btn-group, .stat-strip,
+    .actions-row, .page-actions {
+        flex-wrap: wrap;
+    }
+}
+
+/* 6) Common full-bleed wrappers never exceed 2 viewport paddings — prevents
+      modals / banners that were authored wider than the phone screen. */
+@media (max-width: 600px) {
+    .modal, .popup, .card, .panel, .auth-card, .login-card, .profile-card,
+    .feature-card, .testimonial-card, .step-card, .blog-card, .pricing-card,
+    .plan-card, .job-card, .culture-card, .info-card, .hcard {
+        max-width: 100% !important;
+        width: 100% !important;
+    }
+}
+
