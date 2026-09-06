@@ -21,6 +21,7 @@ import software.amazon.awssdk.services.ses.model.Content;
 import software.amazon.awssdk.services.ses.model.Destination;
 import software.amazon.awssdk.services.ses.model.Message;
 import software.amazon.awssdk.services.ses.model.SendEmailRequest;
+import software.amazon.awssdk.services.ses.model.SesException;
 
 /**
  * Email OTP verification. OTP emails are sent for real through AWS SES using
@@ -133,16 +134,37 @@ public class EmailVerificationService {
             }
         } catch (SdkClientException | SdkServiceException e) {
             log.error("Failed to send email via SES for {}: {}", email, e.getMessage());
-            String msg = e.getMessage() == null ? "" : e.getMessage();
-            // SES region-specific: a common cause is that the FROM address isn't
-            // verified in the SAME REGION SES is configured for. Give a direct hint.
-            if (msg.contains("not verified") || msg.contains("identity") || msg.contains("550") || msg.contains("MessageRejected")) {
-                throw new IllegalStateException(
-                        "Email send failed: the sender '" + sesFromEmail() + "' is not verified in AWS SES in region '"
-                                + sesRegion() + "'. Verify this address (or its domain) in the SES console under Identity Management, then retry. Original error: " + msg);
+            // Prefer the real AWS error detail — it names the exact identity(ies) that
+            // failed (e.g. a recipient address in SES sandbox mode). Never guess that
+            // the sender is the problem; the sender/domain is usually verified already.
+            String awsMsg = e.getMessage() == null ? "" : e.getMessage();
+            if (e instanceof SesException sesEx
+                    && sesEx.awsErrorDetails() != null
+                    && sesEx.awsErrorDetails().errorMessage() != null) {
+                awsMsg = sesEx.awsErrorDetails().errorMessage();
             }
-            throw new IllegalStateException("Failed to send verification email: " + msg);
+            throw new IllegalStateException(buildSesFailureMessage(sesRegion(), awsMsg));
         }
+    }
+
+    /**
+     * Builds an accurate, actionable SES failure message from the raw AWS error.
+     * Distinguishes the two real causes instead of guessing:
+     *  - SES sandbox mode: a RECIPIENT address failed verification (the classic
+     *    "why do all my users need verification?" case) -> request production access.
+     *  - The SENDER/domain genuinely isn't verified -> add it under SES Identities.
+     */
+    static String buildSesFailureMessage(String region, String awsMsg) {
+        String msg = awsMsg == null ? "" : awsMsg;
+        if (msg.contains("not verified") || msg.contains("failed the check")
+                || msg.contains("MessageRejected") || msg.contains("550")) {
+            return "Email send rejected by AWS SES in region '" + region + "'. AWS detail: " + msg
+                    + " If this names a recipient (e.g. a '@gmail.com' or other user address), the SES account is in SANDBOX mode: "
+                    + "only verified addresses may RECEIVE mail until you request production access "
+                    + "(AWS SES console -> Account dashboard -> Request production access). "
+                    + "If it names your sender instead, verify that identity under SES -> Identities and retry.";
+        }
+        return "Failed to send email via SES: " + msg;
     }
 
     public boolean verifyCode(String email, String code) {

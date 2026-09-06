@@ -242,7 +242,7 @@
             document.getElementById('bio').value = me.bio || cached.bio || '';
             document.getElementById('website').value = me.website || cached.website || '';
             if (document.getElementById('gender')) document.getElementById('gender').value = me.gender || cached.gender || '';
-            const avatarFrom = me.avatarUrl || cached.avatarUrl || '';
+            const avatarFrom = api.resolveMedia(me.avatarUrl || cached.avatarUrl || '');
             const av = document.getElementById('profileAvatar');
             if (av) {
                 if (avatarFrom) { av.innerHTML = '<img src="' + avatarFrom + '" alt="avatar">'; }
@@ -293,6 +293,13 @@
             }
         })();
         // Save profile
+        const SAVE_BTN_HTML = '<i class="fas fa-save"></i> Save Changes';
+        const profileBtn = document.querySelector('#profileForm button[type="submit"]');
+        function setProfileBusy(busy) {
+            if (!profileBtn) return;
+            profileBtn.disabled = busy;
+            profileBtn.innerHTML = busy ? '<i class="fas fa-spinner fa-spin"></i> Saving…' : SAVE_BTN_HTML;
+        }
         document.getElementById('profileForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const name = document.getElementById('fullName').value.trim();
@@ -304,43 +311,64 @@
             if (digits.length === 10) phone = digits;
             if (!name) {
                 showToast('Please enter your name.', 'error');
+                document.getElementById('fullName').focus();
                 return;
             }
-            const btn = document.querySelector('#profileForm button[type="submit"]');
-            if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving…'; }
+            setProfileBusy(true);
             try {
-                const me = await api.getMe();
-                if (me && me.id) {
-                    const username = document.getElementById('username').value.trim();
-                    const bio = document.getElementById('bio').value.trim();
-                    const website = document.getElementById('website').value.trim();
-                    const gender = document.getElementById('gender').value;
-                    const saved = await api.updateUser(me.id, { fullName: name, phone, username, bio, website, gender });
-                    // Write the server-returned profile (authoritative) into the session
-                    // cache so the dashboard shows updated values immediately.
-                    api.setUser({
-                        ...api.getUser(),
-                        id: me.id,
-                        email: saved.email || me.email || '',
-                        role: saved.role || me.role || 'TENANT',
-                        name: saved.fullName || name,
-                        phone: saved.phone || phone,
-                        username: saved.username || '',
-                        bio: saved.bio || '',
-                        avatarUrl: saved.avatarUrl || '',
-                        website: saved.website || '',
-                        gender: saved.gender || '',
-                        verified: saved.verified != null ? saved.verified : me.verified
-                    });
-                    showToast('Profile updated successfully!', 'success');
-                    setTimeout(() => { window.location.href = 'dashboard'; }, 700);
-                } else {
-                    showToast('Could not load user data.', 'error');
-                    if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-save"></i> Save Changes'; }
+                let cached = api.getUser() || {};
+                let targetId = cached.id;
+                if (!targetId) {
+                    // Fresh session with no cached id yet — fetch it so the save
+                    // never fails just because localStorage was empty/cleared.
+                    const me = await api.getMe();
+                    if (me && me.id) { targetId = me.id; cached = { ...cached, ...me }; }
+                    else { throw new Error('Could not load your account. Please log in again.'); }
                 }
+                const username = document.getElementById('username').value.trim();
+                const bio = document.getElementById('bio').value.trim();
+                const website = document.getElementById('website').value.trim();
+                const gender = document.getElementById('gender').value;
+                const saved = await api.updateUser(targetId, { fullName: name, phone, username, bio, website, gender });
+                // Write the server-returned profile (authoritative) into the session
+                // cache so the dashboard shows updated values immediately.
+                api.setUser({
+                    ...cached,
+                    id: saved.id || targetId,
+                    email: saved.email || cached.email || '',
+                    role: saved.role || cached.role || 'TENANT',
+                    name: saved.fullName || name,
+                    phone: saved.phone || phone,
+                    username: saved.username || '',
+                    bio: saved.bio || '',
+                    avatarUrl: saved.avatarUrl || cached.avatarUrl || '',
+                    website: saved.website || '',
+                    gender: saved.gender || '',
+                    verified: saved.verified != null ? saved.verified : cached.verified
+                });
+                // Re-render the header so the new details show immediately, and stay on
+                // the page (no forced redirect) so the user sees the success state.
+                applyProfile(api.getUser());
+                showToast('Profile updated successfully!', 'success');
             } catch (error) {
-                showToast(error.message || 'Failed to update profile.', 'error');
-                if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-save"></i> Save Changes'; }
+                const msg = (error && error.message) || 'Failed to update profile.';
+                showToast(msg, 'error');
+                // Map the server error to the offending field so the user knows
+                // exactly what to fix (backend sends plain messages, not field keys).
+                const lower = msg.toLowerCase();
+                let field = error && error.data && error.data.field;
+                if (!field) {
+                    if (lower.includes('phone')) field = 'phone';
+                    else if (lower.includes('username') || lower.includes('taken')) field = 'username';
+                    else if (lower.includes('url') || lower.includes('website')) field = 'website';
+                    else if (lower.includes('gender')) field = 'gender';
+                    else if (lower.includes('name')) field = 'fullName';
+                }
+                if (field && document.getElementById(field)) {
+                    document.getElementById(field).focus();
+                }
+            } finally {
+                setProfileBusy(false);
             }
         });
         // Avatar upload (Instagram-style profile photo)
@@ -350,67 +378,146 @@
         document.getElementById('avatarInput').addEventListener('change', async (e) => {
             const file = e.target.files[0];
             if (!file) return;
+            // Validate client-side *before* uploading so the user gets an instant,
+            // clear message instead of a generic server error.
+            if (file.size > 5 * 1024 * 1024) {
+                showToast('Photo must be 5 MB or smaller.', 'error');
+                e.target.value = '';
+                return;
+            }
+            if (!/^image\/(png|jpeg|webp|gif)$/.test(file.type)) {
+                showToast('Please choose a PNG, JPG, WEBP or GIF image.', 'error');
+                e.target.value = '';
+                return;
+            }
+            const changeBtn = document.getElementById('avatarChangeBtn');
+            const previewUrl = URL.createObjectURL(file);
+            if (changeBtn) { changeBtn.disabled = true; changeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading…'; }
+            // Show a local preview immediately so the page never looks stuck.
+            const av = document.getElementById('profileAvatar');
+            const avEdit = document.getElementById('avatarEditAvatar');
+            if (av) av.innerHTML = '<img src="' + previewUrl + '" alt="avatar">';
+            if (avEdit) avEdit.innerHTML = '<img src="' + previewUrl + '" alt="avatar">';
             try {
-                const me = await api.getMe();
-                if (!me || !me.id) { showToast('Could not load your account.', 'error'); return; }
-                const res = await api.updateAvatar(me.id, file);
+                let cached = api.getUser() || {};
+                let targetId = cached.id;
+                if (!targetId) {
+                    const me = await api.getMe();
+                    if (me && me.id) { targetId = me.id; cached = { ...cached, ...me }; }
+                    else { throw new Error('Could not load your account.'); }
+                }
+                const res = await api.updateAvatar(targetId, file);
                 if (res && res.avatarUrl) {
-                    const url = res.avatarUrl;
-                    document.getElementById('profileAvatar').innerHTML = '<img src="' + url + '" alt="avatar">';
-                    const avEdit = document.getElementById('avatarEditAvatar');
+                    const url = api.resolveMedia(res.avatarUrl);
+                    if (av) av.innerHTML = '<img src="' + url + '" alt="avatar">';
                     if (avEdit) avEdit.innerHTML = '<img src="' + url + '" alt="avatar">';
-                    api.setUser({ ...api.getUser(), avatarUrl: url });
+                    api.setUser({ ...api.getUser(), avatarUrl: res.avatarUrl });
                     showToast('Profile photo updated!', 'success');
+                } else {
+                    throw new Error('Upload completed but no photo URL was returned.');
                 }
             } catch (err) {
-                showToast(err.message || 'Failed to upload photo.', 'error');
+                const msg = (err && err.message) || 'Failed to upload photo.';
+                showToast(msg, 'error');
+                // Roll back to the saved avatar (or initial) so the UI never shows a
+                // local preview that the server did not actually accept.
+                const cached = api.getUser() || {};
+                const fallback = api.resolveMedia(cached.avatarUrl || '');
+                const initial = ((cached.name || cached.fullName || 'U').charAt(0)).toUpperCase();
+                if (av) { av.innerHTML = fallback ? '<img src="' + fallback + '" alt="avatar">' : initial; }
+                if (avEdit) { avEdit.innerHTML = fallback ? '<img src="' + fallback + '" alt="avatar">' : initial; }
+            } finally {
+                URL.revokeObjectURL(previewUrl);
+                if (changeBtn) { changeBtn.disabled = false; changeBtn.innerHTML = '<i class="fas fa-camera"></i> Upload Photo'; }
+                e.target.value = '';
             }
         });
         // Change password
+        const pwdBtn = document.querySelector('#passwordForm button[type="submit"]');
+        const PWD_BTN_HTML = '<i class="fas fa-key"></i> Update Password';
+        function setPwdBusy(busy) {
+            if (!pwdBtn) return;
+            pwdBtn.disabled = busy;
+            pwdBtn.innerHTML = busy ? '<i class="fas fa-spinner fa-spin"></i> Updating…' : PWD_BTN_HTML;
+        }
         document.getElementById('passwordForm').addEventListener('submit', async (e) => {
             e.preventDefault();
+            const currentPassword = document.getElementById('currentPassword').value;
             const newPassword = document.getElementById('newPassword').value;
             const confirmPassword = document.getElementById('confirmPassword').value;
-            if (newPassword.length < 8) {
-                showToast('Password must be at least 8 characters.', 'error');
+            if (!currentPassword) {
+                showToast('Please enter your current password.', 'error');
+                document.getElementById('currentPassword').focus();
+                return;
+            }
+            if (newPassword.length < 8 || !/[A-Za-z]/.test(newPassword) || !/[0-9]/.test(newPassword)) {
+                showToast('Password must be at least 8 characters and contain letters and numbers.', 'error');
+                document.getElementById('newPassword').focus();
                 return;
             }
             if (newPassword !== confirmPassword) {
-                showToast('Passwords do not match.', 'error');
+                showToast('New passwords do not match.', 'error');
+                document.getElementById('confirmPassword').focus();
                 return;
             }
+            setPwdBusy(true);
             try {
-                const me = await api.getMe();
-                if (me && me.id) {
-                    await api.updatePassword(me.id, newPassword);
-                    showToast('Password updated successfully!', 'success');
-                    document.getElementById('passwordForm').reset();
+                let cached = api.getUser() || {};
+                let targetId = cached.id;
+                if (!targetId) {
+                    const me = await api.getMe();
+                    if (me && me.id) { targetId = me.id; cached = { ...cached, ...me }; }
+                    else { throw new Error('Could not load your account.'); }
                 }
+                await api.updatePassword(targetId, newPassword, currentPassword);
+                showToast('Password updated successfully!', 'success');
+                document.getElementById('passwordForm').reset();
             } catch (error) {
-                showToast(error.message || 'Failed to update password.', 'error');
+                const msg = (error && error.message) || 'Failed to update password.';
+                showToast(msg, 'error');
+                if (msg.toLowerCase().includes('current password')) {
+                    document.getElementById('currentPassword').focus();
+                }
+            } finally {
+                setPwdBusy(false);
             }
         });
+
         // Deactivate account
-        document.getElementById('deactivateBtn')?.addEventListener('click', async () => {
+        const deactivateBtn = document.getElementById('deactivateBtn');
+        const deleteBtn = document.getElementById('deleteBtn');
+        function setDangerBusy(btn, busy, busyHtml, idleHtml) {
+            if (!btn) return;
+            btn.disabled = busy;
+            btn.innerHTML = busy ? busyHtml : idleHtml;
+        }
+        deactivateBtn?.addEventListener('click', async () => {
             if (!confirm('Deactivate your account? You will no longer be able to log in. Contact support to reactivate.')) return;
+            setDangerBusy(deactivateBtn, true, '<i class="fas fa-spinner fa-spin"></i> Deactivating…', '<i class="fas fa-pause-circle"></i> Deactivate Account');
             try {
                 await api.deactivateAccount();
                 showToast('Account deactivated.', 'success');
                 setTimeout(() => { api.logout(); }, 1200);
             } catch (error) {
-                showToast(error.message || 'Failed to deactivate.', 'error');
+                const msg = (error && error.message) || 'Failed to deactivate.';
+                showToast(msg, 'error');
+                setDangerBusy(deactivateBtn, false, '', '<i class="fas fa-pause-circle"></i> Deactivate Account');
             }
         });
+
         // Delete account permanently
-        document.getElementById('deleteBtn')?.addEventListener('click', async () => {
+        deleteBtn?.addEventListener('click', async () => {
             if (!confirm('Delete your account PERMANENTLY? This removes all data and CANNOT be undone.')) return;
             if (!confirm('Final warning: this action is irreversible. Continue?')) return;
+            setDangerBusy(deleteBtn, true, '<i class="fas fa-spinner fa-spin"></i> Deleting…', '<i class="fas fa-trash"></i> Delete Account Permanently');
             try {
                 await api.deleteAccount();
                 showToast('Account permanently deleted.', 'success');
                 setTimeout(() => { api.logout(); }, 1200);
             } catch (error) {
-                showToast(error.message || 'Failed to delete account.', 'error');
+                const msg = (error && error.message) || 'Failed to delete account.';
+                showToast(msg, 'error');
+                setDangerBusy(deleteBtn, false, '', '<i class="fas fa-trash"></i> Delete Account Permanently');
             }
         });
     </script>

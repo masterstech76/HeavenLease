@@ -74,15 +74,15 @@ class HeavenLeaseAPI {
             });
 
             // Handle auth failures — redirect to login. 401 is returned by the backend
-            // for missing/invalid/expired tokens; 403 is also treated as a session
-            // failure on the account/profile endpoints so a stale session never leaves
-            // profile/save flows silently broken.
+            // for missing/invalid/expired tokens. A 403 on /api/auth/me can also mean a
+            // stale session, but 403 responses on other /api/users endpoints are real
+            // permission/validation errors (e.g. "you can only change your own password"),
+            // so those must NOT force a logout.
             if (response.status === 401) {
                 this.logout();
                 throw new Error('Session expired. Please login again.');
             }
-            if (response.status === 403
-                    && (path === '/api/auth/me' || path.startsWith('/api/users'))) {
+            if (response.status === 403 && path === '/api/auth/me') {
                 this.logout();
                 throw new Error('Session expired. Please login again.');
             }
@@ -296,8 +296,22 @@ class HeavenLeaseAPI {
         return this.request('POST', `/api/users/${id}/avatar`, formData, true);
     }
 
-    async updatePassword(id, password) {
-        return this.request('PATCH', `/api/users/${id}/password`, { password });
+    // Resolve a server-relative media URL (e.g. "/uploads/avatars/x.png") to a
+    // fully-qualified one when the API base differs from the frontend origin
+    // (same-origin deploys get the URL back unchanged). Avoids the classic
+    // "avatar uploaded but broken image" bug on split-origin setups.
+    resolveMedia(url) {
+        if (!url) return url;
+        if (this.baseUrl && (url.startsWith('/uploads') || url.startsWith('/assets'))) {
+            return this.baseUrl + url;
+        }
+        return url;
+    }
+
+    async updatePassword(id, password, currentPassword) {
+        const body = { password };
+        if (currentPassword) body.currentPassword = currentPassword;
+        return this.request('PATCH', `/api/users/${id}/password`, body);
     }
 
     async verifyUser(id) {

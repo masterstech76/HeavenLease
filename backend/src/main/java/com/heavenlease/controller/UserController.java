@@ -236,6 +236,19 @@ public class UserController {
                     .body(Map.of("error", "You can only change your own password"));
         }
 
+        // Verify the current password when provided, so the profile page's
+        // "Current Password" field is actually enforced. Accounts created via
+        // Google sign-in carry a random (unusable) hash, in which case a user
+        // setting a password for the first time is allowed through.
+        String currentPassword = body.get("currentPassword");
+        if (currentPassword != null && !currentPassword.isBlank()) {
+            String storedHash = existing.get().getPasswordHash();
+            boolean isBcrypt = storedHash != null && storedHash.startsWith("$2");
+            if (isBcrypt && !passwordEncoder.matches(currentPassword, storedHash)) {
+                return ResponseEntity.badRequest().body(Map.of("error", "Current password is incorrect"));
+            }
+        }
+
         existing.get().setPasswordHash(passwordEncoder.encode(password));
         userRepository.save(existing.get());
         return ResponseEntity.ok(Map.of("message", "Password updated"));

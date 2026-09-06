@@ -13,6 +13,10 @@ details.md
 
 # Backend build artifacts
 backend/target/
+# Stale Eclipse/Java-language-server duplicate project (has its own .project,
+# .settings and a full copy of src) — confused the Maven importer into flagging
+# "Project configuration is not up-to-date with pom.xml". Never commit it.
+backend/bin/
 *.class
 *.jar
 *.war

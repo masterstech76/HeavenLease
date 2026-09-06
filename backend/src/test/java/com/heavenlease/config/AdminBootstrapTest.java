@@ -19,7 +19,7 @@ import com.heavenlease.repository.UserRepository;
  * AdminBootstrap must NEVER create an admin with a blank, weak, or
  * known-default password (e.g. the old docker-compose "ChangeMe123!").
  */
-@SuppressWarnings({"unused", "null"}) // JUnit lifecycle + mock-null-typed matchers
+@SuppressWarnings({"unused", "null"})
 class AdminBootstrapTest {
 
     private UserRepository userRepository;

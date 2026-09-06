@@ -34,7 +34,7 @@ import com.heavenlease.service.ReCaptchaService;
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "null"})
 class AuthControllerTest {
 
     @Autowired
@@ -97,7 +97,6 @@ class AuthControllerTest {
     }
 
     @Test
-    @SuppressWarnings("null")
     void signup_shouldCreateUser() throws Exception {
         when(userRepository.existsByEmail("new@example.com")).thenReturn(false);
         when(passwordEncoder.encode(anyString())).thenReturn("encodedPassword");

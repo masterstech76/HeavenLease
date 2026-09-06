@@ -124,7 +124,7 @@
                         <h3>How to Choose the Right Neighbourhood</h3>
                         <p>Consider commute time, safety, amenities, and community vibe when choosing where to live.</p>
                         <span class="blog-meta">Aug 15, 2026 · 5 min read</span>
-                        <a href="blog-detail?slug=how-to-choose-the-right-neighbourhood" class="btn btn-primary" style="margin-top:12px;display:inline-block;">Read More <i class="fas fa-arrow-right"></i></a>
+                        <a href="how-to-choose-the-right-neighbourhood" class="btn btn-primary" style="margin-top:12px;display:inline-block;">Read More <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
                 <div class="blog-card">
@@ -134,7 +134,7 @@
                         <h3>Understanding Escrow Protection</h3>
                         <p>Learn how escrow keeps your security deposit safe until you move in and verify the property.</p>
                         <span class="blog-meta">Aug 10, 2026 · 4 min read</span>
-                        <a href="blog-detail?slug=understanding-escrow-protection" class="btn btn-primary" style="margin-top:12px;display:inline-block;">Read More <i class="fas fa-arrow-right"></i></a>
+                        <a href="understanding-escrow-protection" class="btn btn-primary" style="margin-top:12px;display:inline-block;">Read More <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
                 <div class="blog-card">
@@ -144,7 +144,7 @@
                         <h3>Maximizing Your Rental Income</h3>
                         <p>Tips on pricing your property right and attracting quality tenants.</p>
                         <span class="blog-meta">Aug 5, 2026 · 6 min read</span>
-                        <a href="blog-detail?slug=maximizing-your-rental-income" class="btn btn-primary" style="margin-top:12px;display:inline-block;">Read More <i class="fas fa-arrow-right"></i></a>
+                        <a href="maximizing-your-rental-income" class="btn btn-primary" style="margin-top:12px;display:inline-block;">Read More <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
                 <div class="blog-card">
@@ -154,7 +154,7 @@
                         <h3>The Ultimate Moving Checklist</h3>
                         <p>A comprehensive checklist to make your move smooth and stress-free.</p>
                         <span class="blog-meta">Jul 28, 2026 · 7 min read</span>
-                        <a href="blog-detail?slug=the-ultimate-moving-checklist" class="btn btn-primary" style="margin-top:12px;display:inline-block;">Read More <i class="fas fa-arrow-right"></i></a>
+                        <a href="the-ultimate-moving-checklist" class="btn btn-primary" style="margin-top:12px;display:inline-block;">Read More <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
                 <div class="blog-card">
@@ -164,7 +164,7 @@
                         <h3>Finding Pet-Friendly Rentals</h3>
                         <p>How to find homes that welcome your furry friends without extra fees.</p>
                         <span class="blog-meta">Jul 20, 2026 · 5 min read</span>
-                        <a href="blog-detail?slug=finding-pet-friendly-rentals" class="btn btn-primary" style="margin-top:12px;display:inline-block;">Read More <i class="fas fa-arrow-right"></i></a>
+                        <a href="finding-pet-friendly-rentals" class="btn btn-primary" style="margin-top:12px;display:inline-block;">Read More <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
                 <div class="blog-card">
@@ -174,7 +174,7 @@
                         <h3>Why Sunlight Matters in a Home</h3>
                         <p>Natural light affects mood, health, and energy bills. Here's what to look for.</p>
                         <span class="blog-meta">Jul 12, 2026 · 4 min read</span>
-                        <a href="blog-detail?slug=why-sunlight-matters-in-a-home" class="btn btn-primary" style="margin-top:12px;display:inline-block;">Read More <i class="fas fa-arrow-right"></i></a>
+                        <a href="why-sunlight-matters-in-a-home" class="btn btn-primary" style="margin-top:12px;display:inline-block;">Read More <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
             </div>
@@ -185,6 +185,10 @@
     <div class="modal-overlay" id="blogModal">
         <div class="modal">
             <h3><i class="fas fa-feather-alt"></i> Add New Blog</h3>
+            <div class="form-group">
+                <label>Slug (used in the article URL)</label>
+                <input type="text" id="blogSlug" placeholder="e.g. how-to-choose-the-right-neighbourhood">
+            </div>
             <div class="form-group">
                 <label>Title</label>
                 <input type="text" id="blogTitle" placeholder="Enter blog title">
@@ -198,6 +202,10 @@
             <div class="form-group">
                 <label>Summary</label>
                 <textarea id="blogSummary" placeholder="A short 1-2 sentence summary"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Full Article Body</label>
+                <textarea id="blogBody" placeholder="Write the full article here. Use blank lines between paragraphs. You can include simple # headings and - bullet lists." style="min-height:220px;"></textarea>
             </div>
             <div class="form-group">
                 <label>Icon (choose a Font Awesome icon, e.g. fa-home)</label>
@@ -293,6 +301,8 @@
 
         function blogCard(b) {
             const icon = (b.icon && b.icon.trim()) ? b.icon.trim() : 'fa-file-lines';
+            const slug = (b.slug && b.slug.trim()) ? b.slug.trim() : ('blog-' + Date.now());
+            const id = ('blog-' + (b.slug || b.title || Date.now())).toLowerCase().replace(/[^a-z0-9]+/g, '-');
             return '<div class="blog-card">' +
                 '<div class="blog-image"><i class="fas ' + icon + '"></i></div>' +
                 '<div class="blog-body">' +
@@ -300,6 +310,7 @@
                     '<h3>' + (b.title || 'Untitled') + '</h3>' +
                     '<p>' + (b.summary || '') + '</p>' +
                     '<span class="blog-meta">' + (b.date || 'Recently') + ' · New post</span>' +
+                    '<a href="blog-detail?slug=' + encodeURIComponent(slug) + '" class="btn btn-primary" style="margin-top:12px;display:inline-block;">Read More <i class="fas fa-arrow-right"></i></a>' +
                 '</div>' +
             '</div>';
         }
@@ -321,17 +332,25 @@
             const title = document.getElementById('blogTitle').value.trim();
             const tag = document.getElementById('blogTag').value;
             const summary = document.getElementById('blogSummary').value.trim();
+            const body = document.getElementById('blogBody').value.trim();
             const icon = document.getElementById('blogIcon').value.trim();
+            let slug = document.getElementById('blogSlug').value.trim().toLowerCase();
             if (!title) { showToast('Please enter a blog title.', 'error'); return; }
+            // Auto-generate a slug from the title when none is given.
+            if (!slug) {
+                slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+            }
 
             const date = new Date().toLocaleDateString('en-IN', { month: 'short', day: 'numeric', year: 'numeric' });
             const blogs = loadUserBlogs();
-            blogs.push({ title: title, tag: tag || 'Blog', summary: summary || 'A new HeavenLease blog post.', icon: icon, date: date });
+            blogs.push({ slug: slug, title: title, tag: tag || 'Blog', summary: summary || 'A new HeavenLease blog post.', body: body || '', icon: icon, date: date });
             localStorage.setItem(BLOG_KEY, JSON.stringify(blogs));
 
             grid.insertAdjacentHTML('beforeend', blogCard(blogs[blogs.length - 1]));
             document.getElementById('blogTitle').value = '';
+            document.getElementById('blogSlug').value = '';
             document.getElementById('blogSummary').value = '';
+            document.getElementById('blogBody').value = '';
             document.getElementById('blogIcon').value = '';
             modal.classList.remove('show');
             showToast('Blog published successfully! 🎉', 'success');

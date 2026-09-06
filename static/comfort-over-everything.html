@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="styles.css?v=20260909a">
-    <link rel="stylesheet" href="feature-panel.css?v=20260902a">
+    
     <style>
         .page-header { background: var(--gradient-soft); padding: 140px 0 60px; text-align: center; position: relative; overflow: hidden; }
         .page-header h1 { font-family: var(--font-heading); font-size: 42px; font-weight: 700; color: var(--dark); margin-bottom: 14px; }
@@ -25,6 +25,16 @@
         .content-block ul li i { color: var(--secondary); font-size: 13px; margin-top: 3px; }
         .cta-section { padding: 60px 0; }
         @media (max-width: 768px) { .page-header { padding: 120px 0 44px; } .page-header h1 { font-size: 32px; } .content-block h2 { font-size: 21px; } }
+            .stat-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-top: 22px; }
+        .stat-card { background:#fff; border:1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 20px; text-align:center; }
+        .stat-card .num { font-size: 26px; font-weight:800; color: var(--primary); font-family: var(--font-heading); }
+        .stat-card .lbl { font-size: 13px; color: var(--gray-500); margin-top: 4px; line-height: 1.4; }
+        .help-strip { background:#f8fafc; border:1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 24px; }
+        .help-strip textarea { width:100%; min-height:110px; border:1px solid var(--gray-200); border-radius: var(--radius-md); padding: 12px 14px; font-size:14px; font-family:inherit; resize:vertical; box-sizing:border-box; }
+        .help-strip textarea:focus { outline:none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79,70,229,.1); }
+        .help-strip .btn { margin-top: 12px; }
+        .help-strip input:focus { outline:none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79,70,229,.1); }
+        @media (max-width: 768px) { .stat-row { grid-template-columns: 1fr; } }
     </style></head><body>    <nav class="navbar" id="navbar">
         <div class="nav-container">
             <a href="/" class="logo">
@@ -109,9 +119,27 @@
         </div>
     </section>
 
-    <section class="content-section" style="padding-top:0;">
-        <div class="container">
-            <div id="featurePanel"></div>
+    <section class='content-section' style='padding-top:24px;'>
+        <div class='container'>
+            <div class='content-block'>
+                <h2><i class='fas fa-chart-simple'></i> Comfort is measurable</h2>
+                <p>Rental platforms usually show you four walls and a rent figure. We believe the daily experience - how much light you get, how noisy the street is, how long your commute actually takes, whether your pet is welcome - decides whether a house becomes a home.</p>
+                <p>Our Comfort Scores quantify exactly those things for every listing: sunlight, quietness, commute and pet-friendliness. You compare homes on the dimensions that affect your happiness, not just on square feet and rent.</p>
+                <div class='stat-row'><div class='stat-card'><div class='num'>4</div><div class='lbl'>Comfort dimensions scored</div></div><div class='stat-card'><div class='num'>1</div><div class='lbl'>Tap comparison</div></div><div class='stat-card'><div class='num'>0</div><div class='lbl'>Guesswork in choosing</div></div></div>
+            </div>
+            <div class='content-block'>
+                <h2><i class='fas fa-comment-dots'></i> Ask us anything</h2>
+                <p>Want help understanding a comfort score or finding a home that matches your lifestyle? Write to us in plain text and we will help by email.</p>
+                <div class='help-strip'>
+                    <textarea id='helpMessage' placeholder='Type your message in plain text - no file upload needed.'></textarea>
+                    <input type='text' id='helpEmail' placeholder='Your email (optional)' style='width:100%;max-width:360px;margin-top:10px;padding:12px 14px;border:1px solid var(--gray-200);border-radius:var(--radius-md);font-size:14px;font-family:inherit;box-sizing:border-box;'>
+                    <div>
+                        <button type='button' class='btn btn-primary help-send' onclick='sendHelpMessage()'><i class='fas fa-paper-plane'></i> Send Message</button>
+                        <button type='button' class='btn btn-ghost help-clear' onclick='clearHelpMessage()'><i class='fas fa-eraser'></i> Clear</button>
+                    </div>
+                    <p class='help-note' id='helpNote' style='font-size:12px;color:var(--gray-400);margin-top:10px;'>Messages go to our support team by email. Prefer email? Write to support@heavenlease.in</p>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -136,7 +164,7 @@
 
     <script src="api.js?v=20260913a"></script>
     <script src="script.js?v=20260913a"></script>
-    <script src="feature-panel.js?v=20260902a"></script>
+    
     <script>
         const navbar = document.getElementById('navbar');
         const hamburger = document.getElementById('hamburger');
@@ -149,6 +177,29 @@
         if (hamburger) hamburger.addEventListener('click', () => { hamburger.classList.toggle('active'); navLinks.classList.toggle('active'); });
         document.querySelectorAll('.nav-link').forEach(link => link.addEventListener('click', () => { hamburger.classList.remove('active'); navLinks.classList.remove('active'); }));
         backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    </script>
+    <script>
+        function clearHelpMessage() {
+            document.getElementById('helpMessage').value = '';
+            document.getElementById('helpEmail').value = '';
+            const note = document.getElementById('helpNote');
+            if (note) note.textContent = 'Messages go to our support team by email. Prefer email? Write to support@heavenlease.in';
+        }
+        function sendHelpMessage() {
+            const msg = (document.getElementById('helpMessage').value || '').trim();
+            const email = (document.getElementById('helpEmail').value || '').trim();
+            const note = document.getElementById('helpNote');
+            if (!msg) {
+                if (note) note.textContent = 'Please type a short message first.';
+                return;
+            }
+            const subject = encodeURIComponent('HeavenLease page enquiry');
+            const body = encodeURIComponent(msg + (email ? '\n\nReply to: ' + email : ''));
+            window.location.href = 'mailto:support@heavenlease.in?subject=' + subject + '&body=' + body;
+            setTimeout(function () {
+                if (note) note.textContent = 'Opening your email app to send the message - thank you!';
+            }, 400);
+        }
     </script>
 </body>
 </html>

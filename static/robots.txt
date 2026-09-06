@@ -5,5 +5,13 @@ Disallow: /admin-dashboard.html
 Disallow: /messages.html
 Disallow: /payment.html
 Disallow: /api/
+# Error + maintenance pages must never be indexed.
+Disallow: /401.html
+Disallow: /403.html
+Disallow: /404.html
+Disallow: /500.html
+Disallow: /502.html
+Disallow: /503.html
+Disallow: /maintenance.html
 
 Sitemap: https://heavenlease.in/sitemap.xml

@@ -30,7 +30,7 @@ import com.heavenlease.security.CurrentUserDetails;
  * A user must ONLY ever see documents they own (or that are linked to
  * their own properties) — never every user's PII documents.
  */
-@SuppressWarnings({"unused", "null"}) // JUnit lifecycle + mock-null-typed matchers
+@SuppressWarnings({"unused", "null"})
 class DocumentControllerTest {
 
     private DocumentUploadRepository documentRepository;

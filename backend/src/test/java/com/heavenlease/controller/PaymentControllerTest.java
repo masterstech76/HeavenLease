@@ -32,7 +32,7 @@ import com.heavenlease.service.PaymentGatewayService.OrderResult;
  * server-side (a client can never self-grant a plan) and that
  * signature failures fail closed.
  */
-@SuppressWarnings({"unused", "null"}) // JUnit lifecycle + null-typed response casts
+@SuppressWarnings({"unused", "null"})
 class PaymentControllerTest {
 
     private PaymentRepository paymentRepository;

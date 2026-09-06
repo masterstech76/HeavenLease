@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
  * JWT secret hardening: the app must refuse to boot with the known
  * dev/test fallback secrets (a token signed with them is forgeable).
  */
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "null"})
 class JwtServiceTest {
 
     @Test

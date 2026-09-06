@@ -29,7 +29,7 @@ import com.heavenlease.service.DynamoDBService;
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "null"})
 class PropertyControllerTest {
 
     @Autowired
@@ -65,7 +65,6 @@ class PropertyControllerTest {
     }
 
     @Test
-    @SuppressWarnings("null")
     void getAllProperties_shouldReturnPage() throws Exception {
         List<Property> propertyList = Arrays.asList(testProperty);
         Page<Property> properties = new PageImpl<>(propertyList);

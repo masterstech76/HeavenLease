@@ -15,6 +15,7 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
  */
 @Configuration
 @EnableWebSocketMessageBroker
+@SuppressWarnings("null")
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Value("${app.cors.allowed-origins:https://heavenlease.in,https://www.heavenlease.in}")
@@ -29,7 +30,6 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     }
 
     @Override
-    @SuppressWarnings("null") // allowedOrigins.split is @NonNull; JDT null-analysis can't prove it
     public void registerStompEndpoints(@NonNull StompEndpointRegistry registry) {
         // WebSocket endpoint for browsers. Plain WS (no SockJS) so the
         // lightweight frontend client using `new WebSocket()` works directly.
