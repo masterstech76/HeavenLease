@@ -552,5 +552,6 @@
 
 ---
 
-_Total: 21 + 5 + 17 + 9 + 10 + 11 + 7 + 3 + 4 + 7 + 3 = 97 HTML pages._
+_Total: 21 + 5 + 17 + 9 + 10 + 11 + 7 + 3 + 4 + 7 + 3 = 97 HTML pages (original tally)._
+_Current repo: **109 HTML pages** in `static/` — newer Screening/Verify/Owner-Tools, error-page and redirect pages are covered in `flow.md`, `README.md` and the page list in this file._
 _Flows & journey maps: see `flow.md`._
