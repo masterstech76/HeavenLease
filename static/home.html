@@ -165,39 +165,25 @@
             .hub-category > h2 { font-size: 16px; }
         }
     .htier { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-        .hcard { position: relative; overflow: hidden; border-radius: 20px; padding: 26px 24px; min-height: 170px; display: flex; flex-direction: column; justify-content: flex-end; color: #fff; text-decoration: none; box-shadow: 0 18px 40px rgba(15,23,42,0.18); transition: transform .2s ease, box-shadow .2s ease; box-sizing: border-box; }
+        .hcard { position: relative; overflow: hidden; border-radius: 20px; min-height: 210px; display: block; color: #fff; text-decoration: none; box-shadow: 0 18px 40px rgba(15,23,42,0.18); transition: transform .2s ease, box-shadow .2s ease; }
         .hcard:hover { transform: translateY(-4px); box-shadow: 0 26px 50px rgba(15,23,42,0.26); }
         .hcard.t1 { background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%); }
         .hcard.t1b { background: linear-gradient(135deg, #0F172A 0%, #1E1B4B 100%); }
         .hcard.t1c { background: linear-gradient(135deg, #059669 0%, #10B981 100%); }
         .hcard.t2 { background: linear-gradient(135deg, #334155 0%, #1E293B 100%); }
-        .hcard.t3 { background: linear-gradient(135deg, #64748B 0%, #334155 100%); min-height: 130px; }
+        .hcard.t3 { background: linear-gradient(135deg, #64748B 0%, #334155 100%); }
+        .hcard .hcard-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; z-index: 0; }
+        .hcard .hcard-overlay { content: ""; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(15,23,42,0.10) 0%, rgba(30,27,75,0.86) 100%); z-index: 1; }
+        .hcard .hcard-body { position: relative; z-index: 2; padding: 26px 24px; min-height: 210px; display: flex; flex-direction: column; justify-content: flex-end; box-sizing: border-box; }
         .hcard .hc-icon { width: 46px; height: 46px; border-radius: 12px; background: rgba(255,255,255,0.18); display: flex; align-items: center; justify-content: center; font-size: 18px; margin-bottom: 12px; }
         .hcard h3 { font-size: 17px; font-weight: 700; margin: 0 0 4px; color: #fff; }
-        .hcard p { font-size: 12.5px; color: rgba(255,255,255,0.85); line-height: 1.55; margin: 0 0 14px; }
+        .hcard p { font-size: 12.5px; color: rgba(255,255,255,0.9); line-height: 1.55; margin: 0 0 14px; }
         .hcard .hc-cta { font-size: 12.5px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
-        /* ===== CTA BOX BACKGROUND IMAGES (photo + dark gradient overlay, as before) ===== */
-        .hcard { background-size: cover; background-position: center; background-repeat: no-repeat; }
-        .hcard::after { content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
-            background: linear-gradient(135deg, rgba(15,23,42,0.10) 0%, rgba(30,27,75,0.86) 100%); }
-        .hcard > * { position: relative; z-index: 1; }
-        .hcard[href="properties"] { background-image: url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=900&q=80'); }
-        .hcard[href="verify-account"] { background-image: url('https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=900&q=80'); }
-        .hcard[href="trust-and-safety-first"] { background-image: url('https://images.unsplash.com/photo-1553456558-aff63285bdd1?w=900&q=80'); }
-        .hcard[href="list-property"] { background-image: url('https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=900&q=80'); }
-        .hcard[href="properties-management"] { background-image: url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=900&q=80'); }
-        .hcard[href="owner-verify"] { background-image: url('https://images.unsplash.com/photo-1556155092-490a1ba16284?w=900&q=80'); }
-        .hcard[href="payment"] { background-image: url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=900&q=80'); }
-        .hcard[href="lease-management"] { background-image: url('https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=900&q=80'); }
-        .hcard[href="maintenance-requests"] { background-image: url('https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=900&q=80'); }
-        .hcard[href="buy-a-home"] { background-image: url('https://images.unsplash.com/photo-1560184897-ae75f418493e?w=900&q=80'); }
-        .hcard[href="sell-your-home"] { background-image: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=900&q=80'); }
-        .hcard[href="messages"] { background-image: url('https://images.unsplash.com/photo-1516387938699-a93567ec168e?w=900&q=80'); }
         .htierlink { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
         .hlink { background: rgba(255,255,255,0.6); border: 1px solid var(--gray-200); border-radius: 14px; padding: 12px 16px; font-size: 13px; font-weight: 600; color: var(--gray-600); text-decoration: none; display: flex; align-items: center; gap: 10px; transition: var(--transition); }
         .hlink:hover { border-color: var(--primary); color: var(--primary); transform: translateY(-2px); box-shadow: var(--shadow-sm); }
         @media (max-width: 900px) { .htier, .htierlink { grid-template-columns: repeat(2,1fr); } }
-        @media (max-width: 640px) { .htier, .htierlink { grid-template-columns: 1fr; } }
+        @media (max-width: 640px) { .htier, .htierlink { grid-template-columns: 1fr; } .hcard, .hcard .hcard-body { min-height: 180px; } }
     </style>
 </head>
 <body>
@@ -255,36 +241,42 @@
             <div class="hub-category" data-role="both">
                 <h2><i class="fas fa-bolt"></i> Get Started</h2>
                 <div class="htier">
-                    <a href="properties" class="hcard t1"><div class="hc-icon"><i class="fas fa-building"></i></div><h3>Browse Properties</h3><p>Search rental homes by budget, comfort score and location.</p><span class="hc-cta">Open Browse <i class="fas fa-arrow-right"></i></span></a>
-                    <a href="verify-account" class="hcard t1b"><div class="hc-icon"><i class="fas fa-user-check"></i></div><h3>Verify Your Account</h3><p>Complete email &amp; phone verification to book tours and apply faster.</p><span class="hc-cta">Verify Now <i class="fas fa-arrow-right"></i></span></a>
-                    <a href="trust-and-safety-first" class="hcard t1c"><div class="hc-icon"><i class="fas fa-shield-halved"></i></div><h3>Trust &amp; Safety</h3><p>Verified owners, protected deposits and escrow-secured payments.</p><span class="hc-cta">Read More <i class="fas fa-arrow-right"></i></span></a>
+                    <a href="properties" class="hcard t1"><img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=900&q=80" alt="Browse Properties" class="hcard-img"><div class="hcard-overlay"></div><div class="hcard-body"><div class="hc-icon"><i class="fas fa-building"></i></div><h3>Browse Properties</h3><p>Search rental homes by budget, comfort score and location.</p><span class="hc-cta">Open Browse <i class="fas fa-arrow-right"></i></span></div></a>
+                    <a href="verify-account" class="hcard t1b"><img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=900&q=80" alt="Verify Your Account" class="hcard-img"><div class="hcard-overlay"></div><div class="hcard-body"><div class="hc-icon"><i class="fas fa-user-check"></i></div><h3>Verify Your Account</h3><p>Complete email &amp; phone verification to book tours and apply faster.</p><span class="hc-cta">Verify Now <i class="fas fa-arrow-right"></i></span></div></a>
+                    <a href="trust-and-safety-first" class="hcard t1c"><img src="https://images.unsplash.com/photo-1553456558-aff63285bdd1?w=900&q=80" alt="Trust and Safety" class="hcard-img"><div class="hcard-overlay"></div><div class="hcard-body"><div class="hc-icon"><i class="fas fa-shield-halved"></i></div><h3>Trust &amp; Safety</h3><p>Verified owners, protected deposits and escrow-secured payments.</p><span class="hc-cta">Read More <i class="fas fa-arrow-right"></i></span></div></a>
                 </div>
             </div>
 
             <div class="hub-category" data-role="owner">
                 <h2><i class="fas fa-key"></i> Owner Actions</h2>
                 <div class="htier">
-                    <a href="list-property" class="hcard t1"><div class="hc-icon"><i class="fas fa-plus"></i></div><h3>List Your Property</h3><p>Publish your listing in minutes and reach verified tenants.</p><span class="hc-cta">Start Listing <i class="fas fa-arrow-right"></i></span></a>
-                    <a href="properties-management" class="hcard t1b"><div class="hc-icon"><i class="fas fa-house-circle-check"></i></div><h3>Manage Properties</h3><p>Update, edit or archive your live listings anytime.</p><span class="hc-cta">Manage Listings <i class="fas fa-arrow-right"></i></span></a>
-                    <a href="owner-verify" class="hcard t1c"><div class="hc-icon"><i class="fas fa-id-card"></i></div><h3>Owner Verification</h3><p>Get the Verified Owner badge with document checks.</p><span class="hc-cta">Get Verified <i class="fas fa-arrow-right"></i></span></a>
+                    <a href="list-property" class="hcard t1"><img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=900&q=80" alt="List Your Property" class="hcard-img"><div class="hcard-overlay"></div><div class="hcard-body"><div class="hc-icon"><i class="fas fa-plus"></i></div><h3>List Your Property</h3><p>Publish your listing in minutes and reach verified tenants.</p><span class="hc-cta">Start Listing <i class="fas fa-arrow-right"></i></span></div></a>
+                    <a href="properties-management" class="hcard t1b"><img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=900&q=80" alt="Manage Properties" class="hcard-img"><div class="hcard-overlay"></div><div class="hcard-body"><div class="hc-icon"><i class="fas fa-house-circle-check"></i></div><h3>Manage Properties</h3><p>Update, edit or archive your live listings anytime.</p><span class="hc-cta">Manage Listings <i class="fas fa-arrow-right"></i></span></div></a>
+                    <a href="owner-verify" class="hcard t1c"><img src="https://images.unsplash.com/photo-1556155092-490a1ba16284?w=900&q=80" alt="Owner Verification" class="hcard-img"><div class="hcard-overlay"></div><div class="hcard-body"><div class="hc-icon"><i class="fas fa-id-card"></i></div><h3>Owner Verification</h3><p>Get the Verified Owner badge with document checks.</p><span class="hc-cta">Get Verified <i class="fas fa-arrow-right"></i></span></div></a>
                 </div>
             </div>
 
             <div class="hub-category" data-role="both">
                 <h2><i class="fas fa-wand-magic-sparkles"></i> Stay On Top</h2>
                 <div class="htier">
-                    <a href="payment" class="hcard t2"><div class="hc-icon"><i class="fas fa-credit-card"></i></div><h3>Access Pass</h3><p>Unlock owner contact details and premium features.</p><span class="hc-cta">View Plans <i class="fas fa-arrow-right"></i></span></a>
-                    <a href="lease-management" class="hcard t2"><div class="hc-icon"><i class="fas fa-file-contract"></i></div><h3>Manage Leases</h3><p>Track lease terms, renewals and signed agreements.</p><span class="hc-cta">Open Leases <i class="fas fa-arrow-right"></i></span></a>
-                    <a href="maintenance-requests" class="hcard t2"><div class="hc-icon"><i class="fas fa-screwdriver-wrench"></i></div><h3>Maintenance</h3><p>Raise or review maintenance requests and track status.</p><span class="hc-cta">Maintenance <i class="fas fa-arrow-right"></i></span></a>
+                    <a href="payment" class="hcard t2"><img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=900&q=80" alt="Access Pass" class="hcard-img"><div class="hcard-overlay"></div><div class="hcard-body"><div class="hc-icon"><i class="fas fa-credit-card"></i></div><h3>Access Pass</h3><p>Unlock owner contact details and premium features.</p><span class="hc-cta">View Plans <i class="fas fa-arrow-right"></i></span></div></a>
+                    <a href="lease-management" class="hcard t2"><img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=900&q=80" alt="Manage Leases" class="hcard-img"><div class="hcard-overlay"></div><div class="hcard-body"><div class="hc-icon"><i class="fas fa-file-contract"></i></div><h3>Manage Leases</h3><p>Track lease terms, renewals and signed agreements.</p><span class="hc-cta">Open Leases <i class="fas fa-arrow-right"></i></span></div></a>
+                    <a href="maintenance-requests" class="hcard t2"><img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=900&q=80" alt="Maintenance" class="hcard-img"><div class="hcard-overlay"></div><div class="hcard-body"><div class="hc-icon"><i class="fas fa-screwdriver-wrench"></i></div><h3>Maintenance</h3><p>Raise or review maintenance requests and track status.</p><span class="hc-cta">Maintenance <i class="fas fa-arrow-right"></i></span></div></a>
+                    <a href="map" class="hcard t2"><img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?w=900&q=80" alt="Property Map" class="hcard-img"><div class="hcard-overlay"></div><div class="hcard-body"><div class="hc-icon"><i class="fas fa-map-location-dot"></i></div><h3>Property Map</h3><p>Explore homes around your favourite neighbourhood.</p><span class="hc-cta">Open Map <i class="fas fa-arrow-right"></i></span></div></a>
+                    <a href="saved-properties" class="hcard t2"><img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=900&q=80" alt="Saved Properties" class="hcard-img"><div class="hcard-overlay"></div><div class="hcard-body"><div class="hc-icon"><i class="fas fa-heart"></i></div><h3>Saved Properties</h3><p>Your shortlisted homes, all in one place.</p><span class="hc-cta">View Saved <i class="fas fa-arrow-right"></i></span></div></a>
+                    <a href="notifications" class="hcard t2"><img src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=900&q=80" alt="Notifications" class="hcard-img"><div class="hcard-overlay"></div><div class="hcard-body"><div class="hc-icon"><i class="fas fa-bell"></i></div><h3>Notifications</h3><p>Stay updated on tours, leases and payments.</p><span class="hc-cta">Open Inbox <i class="fas fa-arrow-right"></i></span></div></a>
                 </div>
             </div>
 
             <div class="hub-category" data-role="both">
                 <h2><i class="fas fa-compass"></i> Explore More</h2>
                 <div class="htier">
-                    <a href="buy-a-home" class="hcard t3"><div class="hc-icon"><i class="fas fa-house-signal"></i></div><h3>Buy a Home</h3><p>Browse verified homes for sale.</p><span class="hc-cta">Open <i class="fas fa-arrow-right"></i></span></a>
-                    <a href="sell-your-home" class="hcard t3"><div class="hc-icon"><i class="fas fa-tag"></i></div><h3>Sell Your Home</h3><p>List your property to buyers.</p><span class="hc-cta">Open <i class="fas fa-arrow-right"></i></span></a>
-                    <a href="messages" class="hcard t3"><div class="hc-icon"><i class="fas fa-comments"></i></div><h3>Messages</h3><p>Chat in real time with owners and tenants.</p><span class="hc-cta">Open <i class="fas fa-arrow-right"></i></span></a>
+                    <a href="buy-a-home" class="hcard t3"><img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=900&q=80" alt="Buy a Home" class="hcard-img"><div class="hcard-overlay"></div><div class="hcard-body"><div class="hc-icon"><i class="fas fa-house-signal"></i></div><h3>Buy a Home</h3><p>Browse verified homes for sale.</p><span class="hc-cta">Open <i class="fas fa-arrow-right"></i></span></div></a>
+                    <a href="sell-your-home" class="hcard t3"><img src="https://images.unsplash.com/photo-1560184897-ae75f418493e?w=900&q=80" alt="Sell Your Home" class="hcard-img"><div class="hcard-overlay"></div><div class="hcard-body"><div class="hc-icon"><i class="fas fa-tag"></i></div><h3>Sell Your Home</h3><p>List your property to buyers.</p><span class="hc-cta">Open <i class="fas fa-arrow-right"></i></span></div></a>
+                    <a href="messages" class="hcard t3"><img src="https://images.unsplash.com/photo-1516387938699-a93567ec168e?w=900&q=80" alt="Messages" class="hcard-img"><div class="hcard-overlay"></div><div class="hcard-body"><div class="hc-icon"><i class="fas fa-comments"></i></div><h3>Messages</h3><p>Chat in real time with owners and tenants.</p><span class="hc-cta">Open <i class="fas fa-arrow-right"></i></span></div></a>
+                    <a href="comfort-scores" class="hcard t3"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=900&q=80" alt="Comfort Scores" class="hcard-img"><div class="hcard-overlay"></div><div class="hcard-body"><div class="hc-icon"><i class="fas fa-gauge-high"></i></div><h3>Comfort Scores</h3><p>Quietness, sunlight and commute - rated.</p><span class="hc-cta">Open <i class="fas fa-arrow-right"></i></span></div></a>
+                    <a href="tour-booking" class="hcard t3"><img src="https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?w=900&q=80" alt="Book a Tour" class="hcard-img"><div class="hcard-overlay"></div><div class="hcard-body"><div class="hc-icon"><i class="fas fa-calendar-check"></i></div><h3>Book a Tour</h3><p>Schedule a visit to a property you like.</p><span class="hc-cta">Open <i class="fas fa-arrow-right"></i></span></div></a>
+                    <a href="transaction-history" class="hcard t3"><img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=900&q=80" alt="My Transactions" class="hcard-img"><div class="hcard-overlay"></div><div class="hcard-body"><div class="hc-icon"><i class="fas fa-receipt"></i></div><h3>My Transactions</h3><p>Payments, receipts and escrow deposits.</p><span class="hc-cta">Open <i class="fas fa-arrow-right"></i></span></div></a>
                 </div>
             </div>
 
@@ -295,7 +287,9 @@
                     <a href="about" class="hlink"><i class="fas fa-building"></i> About Us</a>
                     <a href="blog" class="hlink"><i class="fas fa-newspaper"></i> Blog</a>
                     <a href="faq" class="hlink"><i class="fas fa-circle-question"></i> FAQ</a>
+                    <a href="helper" class="hlink"><i class="fas fa-life-ring"></i> Help Center</a>
                     <a href="contact" class="hlink"><i class="fas fa-envelope"></i> Contact &amp; Support</a>
+                    <a href="press" class="hlink"><i class="fas fa-bullhorn"></i> Press</a>
                     <a href="careers" class="hlink"><i class="fas fa-briefcase"></i> Careers</a>
                 </div>
             </div>
