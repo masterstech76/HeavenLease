@@ -66,13 +66,13 @@
         </div>
     </section>
 
-    <section class="page-section">
-        <div class="container">
-            <div class="section-head"><h2>Everything you need</h2></div>
-            <div class="feature-grid">
-                    <div class="feature-card"><div class="fc-icon"><i class="fas fa-table-list"></i></div><h3>Categories</h3><p>Payments, leases, messages and tours.</p></div>
-                    <div class="feature-card"><div class="fc-icon"><i class="fas fa-comment-dots"></i></div><h3>Channels</h3><p>Email, SMS and in-app.</p></div>
-                    <div class="feature-card"><div class="fc-icon"><i class="fas fa-envelope-open-text"></i></div><h3>Digest</h3><p>Daily or instant summaries.</p></div>
+    <section class="page-section" style="padding-top:20px;">
+        <div class="container" style="max-width: 820px;">
+            <div class="section-head" style="text-align:center;margin-bottom:24px;"><h2>Notification Preferences</h2></div>
+            <div id="prefWrap" style="background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-xl);padding:24px 28px;box-shadow:var(--shadow-sm);"></div>
+            <div class="section-head" style="text-align:center;margin:34px 0 20px;"><h2>Your Recent Notifications</h2></div>
+            <div id="notifyWrap">
+                <p style="text-align:center;color:var(--gray-400);padding:30px 0;"><i class="fas fa-spinner fa-spin"></i> Loading…</p>
             </div>
         </div>
     </section>
@@ -96,12 +96,45 @@
     <script src="script.js?v=20260913a"></script>
     <script>
         (function() {
-            const user = api.getUser();
-            if (user && user.role) {
-                const r = (user.role || '').toLowerCase();
-                const link = document.getElementById('myProfileLink');
-                if (link) link.href = (r === 'owner' || r === 'verified_owner') ? 'edit-profile' : 'edit-profile';
+            'use strict';
+            const prefs=[['Payments & Access Pass',true],['Messages & chats',true],['Tours & bookings',true],['Leases & renewals',true],['Maintenance updates',true],['New listings & deals',false]];
+            const KEY='heavenlease_notify_prefs';
+            let saved={};
+            try{saved=JSON.parse(localStorage.getItem(KEY)||'{}');}catch(e){}
+            function renderPrefs(){
+                const wrap=document.getElementById('prefWrap');
+                wrap.innerHTML=prefs.map(function(p){
+                    const on=saved[p[0]]!==undefined?saved[p[0]]:p[1];
+                    return '<label style="display:flex;justify-content:space-between;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--gray-100);cursor:pointer;font-size:15px;color:var(--gray-600);">'
+                        +'<span>'+api.escapeHtml(p[0])+'</span>'
+                        +'<input type="checkbox" data-name="'+api.escapeHtml(p[0])+'" '+(on?'checked':'')+' style="width:20px;height:20px;accent-color:var(--primary);"></label>';
+                }).join('')
+                +'<div style="padding-top:18px;text-align:right;"><button class="btn btn-primary" onclick="savePrefs()" style="display:inline-flex;gap:8px;"><i class="fas fa-floppy-disk"></i> Save Preferences</button></div>';
+                wrap.querySelectorAll('input[type=checkbox]').forEach(function(cb){
+                    cb.addEventListener('change',function(){saved[this.dataset.name]=this.checked;});
+                });
             }
+            window.savePrefs=function(){
+                localStorage.setItem(KEY,JSON.stringify(saved));
+                showToast('Notification preferences saved.','success');
+            };
+            async function loadNotifications(){
+                const wrap=document.getElementById('notifyWrap');
+                try{
+                    let list=await api.getNotifications();
+                    if(!Array.isArray(list))list=[];
+                    if(list.length===0){wrap.innerHTML='<div style="text-align:center;padding:40px;color:var(--gray-500);">No notifications yet. <a href="notifications">Open notifications</a></div>';return;}
+                    wrap.innerHTML=list.slice(0,5).map(function(n){
+                        return '<div style="background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:14px 20px;margin-bottom:10px;display:flex;gap:12px;align-items:flex-start;">'
+                            +'<i class="fas fa-bell" style="color:var(--primary);margin-top:2px;"></i>'
+                            +'<div><strong style="color:var(--dark);font-size:14px;">'+api.escapeHtml(n.title||'Update')+'</strong>'
+                            +(n.message?'<div style="font-size:13px;color:var(--gray-500);margin-top:2px;">'+api.escapeHtml(n.message)+'</div>':'')
+                            +'</div></div>';
+                    }).join('');
+                }catch(e){wrap.innerHTML='<div style="text-align:center;padding:40px;color:var(--gray-500);">'+api.escapeHtml(e.message||'Could not load notifications.')+'</div>';}
+            }
+            renderPrefs();
+            loadNotifications();
         })();
     </script>
 </body>

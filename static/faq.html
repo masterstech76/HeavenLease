@@ -66,13 +66,16 @@
         </div>
     </section>
 
-    <section class="page-section">
-        <div class="container">
-            <div class="section-head"><h2>Everything you need</h2></div>
-            <div class="feature-grid">
-                    <div class="feature-card"><div class="fc-icon"><i class="fas fa-user"></i></div><h3>Tenants</h3><p>Renting, deposits and leases.</p></div>
-                    <div class="feature-card"><div class="fc-icon"><i class="fas fa-house"></i></div><h3>Owners</h3><p>Listing, screening and rent.</p></div>
-                    <div class="feature-card"><div class="fc-icon"><i class="fas fa-credit-card"></i></div><h3>Payments</h3><p>Access Pass and billing.</p></div>
+    <section class="page-section" style="padding-top:20px;">
+        <div class="container" style="max-width: 820px;">
+            <div style="max-width:520px;margin:0 auto 34px;">
+                <input id="faqSearch" type="text" placeholder="Search questions..." style="width:100%;padding:14px 18px;border:1px solid var(--gray-200);border-radius:var(--radius-xl);font-size:15px;box-shadow:var(--shadow-sm);">
+            </div>
+            <div id="faqList"></div>
+            <div class="feature-grid" style="margin-top:40px;">
+                <div class="feature-card"><div class="fc-icon"><i class="fas fa-user"></i></div><h3>Tenants</h3><p>Renting, deposits and escrow.</p></div>
+                <div class="feature-card"><div class="fc-icon"><i class="fas fa-house"></i></div><h3>Owners</h3><p>Listing, screening and rent.</p></div>
+                <div class="feature-card"><div class="fc-icon"><i class="fas fa-credit-card"></i></div><h3>Payments</h3><p>Access Pass and billing.</p></div>
             </div>
         </div>
     </section>
@@ -96,12 +99,32 @@
     <script src="script.js?v=20260913a"></script>
     <script>
         (function() {
-            const user = api.getUser();
-            if (user && user.role) {
-                const r = (user.role || '').toLowerCase();
-                const link = document.getElementById('myProfileLink');
-                if (link) link.href = (r === 'owner' || r === 'verified_owner') ? 'edit-profile' : 'edit-profile';
+            'use strict';
+            const FAQS=[
+                ['How do I find a rental?','Browse <a href="properties">properties</a>, filter by location, budget and comfort scores, then request a tour or contact the owner directly.'],
+                ['What is the Access Pass?','The Access Pass is a paid subscription that unlocks owner contact details and premium features via <a href="payment">Payments</a>. It is verified server-side after payment.'],
+                ['How are security deposits protected?','Deposits paid through <a href="escrow-policy">escrow</a> are held securely until you move in and verify the property condition, then released to the owner.'],
+                ['How do I list my property?','As an owner, go to <a href="list-property">List Your Property</a>, fill in the details, and publish. Manage it anytime from <a href="properties-management">Properties Management</a>.'],
+                ['Do I need to pay a broker?','No. HeavenLease is broker-free — tenants and owners connect directly, saving up to one month of rent in brokerage.'],
+                ['How are owners verified?','Owners complete identity verification via the <a href="owner-verify">owner verification</a> flow. Verified owners get a badge on their listings.'],
+                ['Can I talk to the owner before visiting?','Yes — use in-app <a href="messages">messages</a> to chat, or request a tour. Your phone number stays private until you choose to share it.'],
+                ['What payments are accepted?','Razorpay powers UPI, cards and net-banking for Access Pass, upgrades and escrow deposits.'],
+                ['How do maintenance requests work?','Tenants raise a request from <a href="maintenance-request">Maintenance</a>; owners see it in their queue and can start, complete or cancel it. Status updates arrive as notifications.'],
+                ['How do I contact support?','Open a <a href="support-tickets">support ticket</a> or use the <a href="contact">contact</a> page. Our team reviews reports and helps with payments, verification and disputes.']
+            ];
+            const list=document.getElementById('faqList');
+            function render(filter){
+                const f=(filter||'').toLowerCase().trim();
+                const items=FAQS.filter(function(q){return !f||q[0].toLowerCase().includes(f)||q[1].toLowerCase().includes(f);});
+                if(items.length===0){list.innerHTML='<div style="text-align:center;padding:40px;color:var(--gray-500);">No matching questions. Open a <a href="support-tickets">support ticket</a> instead.</div>';return;}
+                list.innerHTML=items.map(function(q){
+                    return '<details style="background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:18px 22px;margin-bottom:10px;box-shadow:var(--shadow-sm);">'
+                        +'<summary style="cursor:pointer;font-weight:600;color:var(--dark);font-size:15px;">'+api.escapeHtml(q[0])+'</summary>'
+                        +'<p style="color:var(--gray-500);line-height:1.7;margin:12px 0 0;">'+q[1]+'</p></details>';
+                }).join('');
             }
+            document.getElementById('faqSearch').addEventListener('input',function(){render(this.value);});
+            render();
         })();
     </script>
 </body>

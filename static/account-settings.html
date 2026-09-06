@@ -66,13 +66,16 @@
         </div>
     </section>
 
-    <section class="page-section">
-        <div class="container">
-            <div class="section-head"><h2>Everything you need</h2></div>
-            <div class="feature-grid">
-                    <div class="feature-card"><div class="fc-icon"><i class="fas fa-user-pen"></i></div><h3>Profile</h3><p>Name, phone and contact info.</p></div>
-                    <div class="feature-card"><div class="fc-icon"><i class="fas fa-globe"></i></div><h3>Preferences</h3><p>Language, currency and defaults.</p></div>
-                    <div class="feature-card"><div class="fc-icon"><i class="fas fa-envelope"></i></div><h3>Account</h3><p>Email, saved info and region.</p></div>
+    <section class="page-section" style="padding-top:20px;">
+        <div class="container" style="max-width: 820px;">
+            <div class="section-head" style="text-align:center;margin-bottom:24px;"><h2>Your Account</h2></div>
+            <div id="acctWrap">
+                <p style="text-align:center;color:var(--gray-400);padding:40px 0;"><i class="fas fa-spinner fa-spin"></i> Loading account…</p>
+            </div>
+            <div class="feature-grid" style="margin-top:30px;">
+                <div class="feature-card"><div class="fc-icon"><i class="fas fa-user-pen"></i></div><h3>Profile</h3><p>Name, phone, photo and bio.</p><a href="edit-profile" class="btn btn-sm btn-secondary" style="margin-top:12px;display:inline-flex;gap:6px;"><i class="fas fa-pen"></i> Edit Profile</a></div>
+                <div class="feature-card"><div class="fc-icon"><i class="fas fa-shield-halved"></i></div><h3>Security</h3><p>Password and 2FA settings.</p><a href="security-settings" class="btn btn-sm btn-secondary" style="margin-top:12px;display:inline-flex;gap:6px;"><i class="fas fa-key"></i> Security</a></div>
+                <div class="feature-card"><div class="fc-icon"><i class="fas fa-bell"></i></div><h3>Notifications</h3><p>Choose what you hear about.</p><a href="notification-settings" class="btn btn-sm btn-secondary" style="margin-top:12px;display:inline-flex;gap:6px;"><i class="fas fa-bell"></i> Preferences</a></div>
             </div>
         </div>
     </section>
@@ -96,12 +99,28 @@
     <script src="script.js?v=20260913a"></script>
     <script>
         (function() {
-            const user = api.getUser();
-            if (user && user.role) {
-                const r = (user.role || '').toLowerCase();
-                const link = document.getElementById('myProfileLink');
-                if (link) link.href = (r === 'owner' || r === 'verified_owner') ? 'edit-profile' : 'edit-profile';
+            'use strict';
+            async function loadAccount(){
+                const wrap=document.getElementById('acctWrap');
+                try{
+                    const me=await api.getMe();
+                    if(!me||!me.id){wrap.innerHTML='<div style="text-align:center;padding:40px;color:var(--gray-500);">Please <a href="login">log in</a> to view your account.</div>';return;}
+                    const role=(me.role||'').replace(/_/g,' ').toLowerCase();
+                    wrap.innerHTML='<div style="background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-xl);padding:28px 30px;box-shadow:var(--shadow-sm);display:flex;gap:22px;flex-wrap:wrap;align-items:center;">'
+                        +'<div style="width:84px;height:84px;border-radius:50%;background:var(--gradient);color:#fff;display:flex;align-items:center;justify-content:center;font-size:34px;flex-shrink:0;">'+api.escapeHtml(((me.fullName||me.username||'U').charAt(0)).toUpperCase())+'</div>'
+                        +'<div style="flex:1;min-width:220px;">'
+                        +'<h3 style="margin:0 0 6px;color:var(--dark);">'+api.escapeHtml(me.fullName||me.username||'HeavenLease User')+'</h3>'
+                        +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 20px;font-size:14px;color:var(--gray-500);margin-top:8px;">'
+                        +'<span><i class="fas fa-envelope" style="width:16px;color:var(--primary);"></i> '+api.escapeHtml(me.email||'—')+'</span>'
+                        +'<span><i class="fas fa-phone" style="width:16px;color:var(--primary);"></i> '+api.escapeHtml(me.phone||'—')+'</span>'
+                        +'<span><i class="fas fa-user-tag" style="width:16px;color:var(--primary);"></i> '+api.escapeHtml(role)+'</span>'
+                        +'<span><i class="fas fa-id-badge" style="width:16px;color:var(--primary);"></i> '+(me.verified?'Verified':'Not verified')+'</span>'
+                        +'</div></div>'
+                        +'<a href="edit-profile" class="btn btn-secondary" style="display:inline-flex;gap:8px;"><i class="fas fa-user-pen"></i> Edit Profile</a>'
+                        +'</div>';
+                }catch(e){wrap.innerHTML='<div style="text-align:center;padding:40px;color:var(--gray-500);">'+api.escapeHtml(e.message||'Could not load account.')+'</div>';}
             }
+            loadAccount();
         })();
     </script>
 </body>
