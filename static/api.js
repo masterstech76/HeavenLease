@@ -678,10 +678,7 @@ const OWNER_PAGES = [
     'edit-property',
     'properties-management',
     'owner-applications',
-    'tenant-management',
-    'lease-management',
-    'lease-details',
-    'maintenance-requests'
+    'tenant-management'
 ];
 
 // Pages that are TENANT-facing. An OWNER/VERIFIED_OWNER account is redirected
@@ -691,10 +688,7 @@ const TENANT_PAGES = [
     'rental-application',
     'application-status',
     'application-history',
-    'maintenance-request',
-    'documents',
-    'account-settings',
-    'payment-methods'
+    'maintenance-request'
 ];
 
 // Pages that require ADMIN role

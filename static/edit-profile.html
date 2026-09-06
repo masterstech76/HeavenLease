@@ -330,8 +330,7 @@
                 const website = document.getElementById('website').value.trim();
                 const gender = document.getElementById('gender').value;
                 const saved = await api.updateUser(targetId, { fullName: name, phone, username, bio, website, gender });
-                // Write the server-returned profile (authoritative) into the session
-                // cache so the dashboard shows updated values immediately.
+                // Update the cached session so the dashboard shows new details instantly.
                 api.setUser({
                     ...cached,
                     id: saved.id || targetId,
@@ -346,10 +345,10 @@
                     gender: saved.gender || '',
                     verified: saved.verified != null ? saved.verified : cached.verified
                 });
-                // Re-render the header so the new details show immediately, and stay on
-                // the page (no forced redirect) so the user sees the success state.
-                applyProfile(api.getUser());
+                // Instagram-style flow: brief success toast then INSTANTLY close the
+                // edit page and return to the dashboard profile view.
                 showToast('Profile updated successfully!', 'success');
+                setTimeout(function () { window.location.href = 'dashboard'; }, 350);
             } catch (error) {
                 const msg = (error && error.message) || 'Failed to update profile.';
                 showToast(msg, 'error');
