@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="lp">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -363,8 +363,31 @@
             .lp-head h2 { font-size: 28px; }
         }
         .hero-search .field select { appearance: none; -webkit-appearance: none; }
+
+        /* ===== LANDING-PAGE OVERRIDES (neutralise shared styles.css) ===== */
+        /* styles.css loads first and paints a full-viewport white body::before overlay
+           (85% white) to keep text readable on its light pages. That overlay washes
+           out this dark landing page. Give our hero/footer their own stacking
+           contexts (position/z-index) so they paint ABOVE the overlay, and clear the
+           page-level background so it never fights the hero gradient. */
+        html.lp {
+            background: #0b1020;
+        }
+        body.lp {
+            background: #0b1020;
+            background-image: none;
+        }
+        body.lp::before {
+            content: none;
+        }
+        .hero-lp, .cta-dark, .foot-lp {
+            position: relative;
+            z-index: 1;
+            isolation: isolate;
+            background-clip: padding-box;
+        }
     </style>
-<body>
+<body class="lp">
     <nav id="navbar">
         <div class="nav-inner">
             <a class="nav-brand" href="/">
