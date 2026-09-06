@@ -66,13 +66,11 @@
         </div>
     </section>
 
-    <section class="page-section">
-        <div class="container">
-            <div class="section-head"><h2>Everything you need</h2></div>
-            <div class="feature-grid">
-                    <div class="feature-card"><div class="fc-icon"><i class="fas fa-table"></i></div><h3>Terms & Dates</h3><p>Rent, deposit, start, end and notice.</p></div>
-                    <div class="feature-card"><div class="fc-icon"><i class="fas fa-id-badge"></i></div><h3>Parties</h3><p>Owner and tenant verified details.</p></div>
-                    <div class="feature-card"><div class="fc-icon"><i class="fas fa-print"></i></div><h3>Documents</h3><p>Signed copy and addenda.</p></div>
+    <section class="page-section" style="padding-top:20px;">
+        <div class="container" style="max-width: 860px;">
+            <div class="section-head" style="text-align:center;margin-bottom:24px;"><h2>Lease Agreement</h2></div>
+            <div id="leaseWrap">
+                <p style="text-align:center;color:var(--gray-400);padding:40px 0;"><i class="fas fa-spinner fa-spin"></i> Loading lease…</p>
             </div>
         </div>
     </section>
@@ -96,12 +94,40 @@
     <script src="script.js?v=20260913a"></script>
     <script>
         (function() {
-            const user = api.getUser();
-            if (user && user.role) {
-                const r = (user.role || '').toLowerCase();
-                const link = document.getElementById('myProfileLink');
-                if (link) link.href = (r === 'owner' || r === 'verified_owner') ? 'edit-profile' : 'edit-profile';
+            'use strict';
+            const wrap=document.getElementById('leaseWrap');
+            function badge(s){const m={'active':['status-completed','Active'],'pending':['status-pending','Pending'],'completed':['status-inactive','Completed'],'terminated':['status-inactive','Terminated'],'expired':['status-inactive','Expired']};const x=m[(s||'').toLowerCase()]||['status-inactive',s||'—'];return '<span class="status '+x[0]+'">'+api.escapeHtml(x[1])+'</span>';}
+            function fmt(s){if(!s)return '—';const d=new Date(s);return isNaN(d)?s:d.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});}
+            function money(n){return '₹'+Math.round(Number(n)||0).toLocaleString('en-IN');}
+
+            async function loadLease(){
+                const q=new URLSearchParams(window.location.search);
+                const id=q.get('id');
+                if(!id){wrap.innerHTML='<div style="text-align:center;padding:40px;color:var(--gray-500);">No lease selected. <a href="lease-management">View all leases</a>.</div>';return;}
+                try{
+                    const l=await api.getLease(Number(id));
+                    if(!l||!l.id){wrap.innerHTML='<div style="text-align:center;padding:40px;color:var(--gray-500);">Lease not found.</div>';return;}
+                    const rows=[
+                        ['Property',l.propertyTitle||('#'+l.propertyId)],
+                        ['Tenant',l.tenantName||('#'+l.tenantId)],
+                        ['Owner',l.ownerName||('#'+l.ownerId)],
+                        ['Start Date',fmt(l.startDate)],
+                        ['End Date',fmt(l.endDate)],
+                        ['Monthly Rent',money(l.monthlyRent)],
+                        ['Deposit',money(l.deposit)],
+                        ['Tenant Signature',l.signatureTenant?'Signed':'Pending'],
+                        ['Owner Signature',l.signatureOwner?'Signed':'Pending']
+                    ];
+                    wrap.innerHTML='<div style="background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-xl);padding:28px 30px;box-shadow:var(--shadow-sm);">'
+                        +'<div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:18px;"><h3 style="margin:0;color:var(--dark);">'+api.escapeHtml(l.propertyTitle||('Lease #'+l.id))+'</h3>'+badge(l.status)+'</div>'
+                        +rows.map(function(r){return '<div style="display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--gray-100);font-size:14px;"><span style="color:var(--gray-500);">'+r[0]+'</span><strong style="color:var(--dark);">'+api.escapeHtml(r[1]||'—')+'</strong></div>';}).join('')
+                        +'<div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap;">'
+                        +'<a href="lease-signing" class="btn btn-primary" style="display:inline-flex;gap:8px;"><i class="fas fa-file-signature"></i> Related: Sign a Lease</a>'
+                        +'<a href="lease-management" class="btn btn-secondary" style="display:inline-flex;gap:8px;"><i class="fas fa-arrow-left"></i> All Leases</a>'
+                        +'</div></div>';
+                }catch(e){wrap.innerHTML='<div style="text-align:center;padding:40px;color:var(--gray-500);">'+api.escapeHtml(e.message||'Could not load lease.')+'</div>';}
             }
+            loadLease();
         })();
     </script>
 </body>

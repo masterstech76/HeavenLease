@@ -66,13 +66,11 @@
         </div>
     </section>
 
-    <section class="page-section">
-        <div class="container">
-            <div class="section-head"><h2>Everything you need</h2></div>
-            <div class="feature-grid">
-                    <div class="feature-card"><div class="fc-icon"><i class="fas fa-inbox"></i></div><h3>Open</h3><p>Active conversations.</p></div>
-                    <div class="feature-card"><div class="fc-icon"><i class="fas fa-check"></i></div><h3>Resolved</h3><p>Closed and solved.</p></div>
-                    <div class="feature-card"><div class="fc-icon"><i class="fas fa-plus"></i></div><h3>New</h3><p>Start a new request.</p></div>
+    <section class="page-section" style="padding-top:20px;">
+        <div class="container" style="max-width: 900px;">
+            <div class="section-head" style="text-align:center;margin-bottom:24px;"><h2>Your Support Tickets</h2></div>
+            <div id="ticketWrap">
+                <p style="text-align:center;color:var(--gray-400);padding:40px 0;"><i class="fas fa-spinner fa-spin"></i> Loading tickets…</p>
             </div>
         </div>
     </section>
@@ -96,12 +94,28 @@
     <script src="script.js?v=20260913a"></script>
     <script>
         (function() {
-            const user = api.getUser();
-            if (user && user.role) {
-                const r = (user.role || '').toLowerCase();
-                const link = document.getElementById('myProfileLink');
-                if (link) link.href = (r === 'owner' || r === 'verified_owner') ? 'edit-profile' : 'edit-profile';
+            'use strict';
+            const wrap=document.getElementById('ticketWrap');
+            function badge(s){const m={'OPEN':['status-pending','Open'],'IN_PROGRESS':['status-active','In Progress'],'RESOLVED':['status-completed','Resolved'],'CLOSED':['status-inactive','Closed']};const x=m[(s||'').toUpperCase()]||['status-pending',s||'—'];return '<span class="status '+x[0]+'">'+api.escapeHtml(x[1])+'</span>';}
+            function fmt(s){if(!s)return '—';const d=new Date(s);return isNaN(d)?s:d.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});}
+            async function loadTickets(){
+                try{
+                    let list=await api.getMyTickets();
+                    if(!Array.isArray(list))list=[];
+                    if(list.length===0){wrap.innerHTML='<div style="text-align:center;padding:60px 20px;background:var(--white);border:2px dashed var(--gray-200);border-radius:var(--radius-xl);">'
+                        +'<i class="fas fa-headset" style="font-size:56px;color:var(--gray-300);"></i>'
+                        +'<h3 style="margin:16px 0 6px;color:var(--dark);">No tickets yet</h3>'
+                        +'<p style="color:var(--gray-500);margin-bottom:20px;">Need help? Open a ticket and we will get back to you.</p>'
+                        +'<a href="support-ticket-detail" class="btn btn-primary" style="display:inline-flex;gap:8px;"><i class="fas fa-plus"></i> Open a Ticket</a></div>';return;}
+                    wrap.innerHTML=list.map(function(t){
+                        return '<a href="support-ticket-detail?id='+t.id+'" style="text-decoration:none;color:inherit;background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:16px 20px;margin-bottom:10px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:center;box-shadow:var(--shadow-sm);">'
+                            +'<div><strong style="color:var(--dark);">'+api.escapeHtml(t.subject||('Ticket #'+t.id))+'</strong> '+badge(t.status)
+                            +'<div style="font-size:12px;color:var(--gray-400);margin-top:4px;">'+api.escapeHtml(t.pageKey||'support')+' · '+fmt(t.createdAt)+'</div></div>'
+                            +'<i class="fas fa-chevron-right" style="color:var(--gray-400);"></i></a>';
+                    }).join('');
+                }catch(e){wrap.innerHTML='<div style="text-align:center;padding:40px;color:var(--gray-500);">'+api.escapeHtml(e.message||'Could not load tickets.')+'</div>';}
             }
+            loadTickets();
         })();
     </script>
 </body>

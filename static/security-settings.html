@@ -66,13 +66,28 @@
         </div>
     </section>
 
-    <section class="page-section">
-        <div class="container">
-            <div class="section-head"><h2>Everything you need</h2></div>
-            <div class="feature-grid">
-                    <div class="feature-card"><div class="fc-icon"><i class="fas fa-key"></i></div><h3>Password</h3><p>Change and strengthen your password.</p></div>
-                    <div class="feature-card"><div class="fc-icon"><i class="fas fa-mobile-screen"></i></div><h3>Two-Factor</h3><p>Add an extra login step.</p></div>
-                    <div class="feature-card"><div class="fc-icon"><i class="fas fa-laptop"></i></div><h3>Devices</h3><p>Manage active sessions.</p></div>
+    <section class="page-section" style="padding-top:20px;">
+        <div class="container" style="max-width: 720px;">
+            <div class="section-head" style="text-align:center;margin-bottom:24px;"><h2>Change Password</h2></div>
+            <form id="pwdForm" style="background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-xl);padding:28px 30px;box-shadow:var(--shadow-sm);">
+                <div class="form-group" style="margin-bottom:16px;">
+                    <label style="display:block;font-size:13px;font-weight:600;color:var(--gray-600);margin-bottom:6px;">Current Password</label>
+                    <input id="pwdCurrent" type="password" required autocomplete="current-password" style="width:100%;padding:12px 16px;border:1px solid var(--gray-200);border-radius:var(--radius-md);font-size:14px;">
+                </div>
+                <div class="form-group" style="margin-bottom:16px;">
+                    <label style="display:block;font-size:13px;font-weight:600;color:var(--gray-600);margin-bottom:6px;">New Password (min 8 chars, letters + numbers)</label>
+                    <input id="pwdNew" type="password" required autocomplete="new-password" style="width:100%;padding:12px 16px;border:1px solid var(--gray-200);border-radius:var(--radius-md);font-size:14px;">
+                </div>
+                <div class="form-group" style="margin-bottom:20px;">
+                    <label style="display:block;font-size:13px;font-weight:600;color:var(--gray-600);margin-bottom:6px;">Confirm New Password</label>
+                    <input id="pwdConfirm" type="password" required autocomplete="new-password" style="width:100%;padding:12px 16px;border:1px solid var(--gray-200);border-radius:var(--radius-md);font-size:14px;">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:100%;display:inline-flex;justify-content:center;gap:8px;"><i class="fas fa-key"></i> Update Password</button>
+            </form>
+            <div class="feature-grid" style="margin-top:30px;">
+                <div class="feature-card"><div class="fc-icon"><i class="fas fa-shield-halved"></i></div><h3>2FA & Devices</h3><p>Phone OTP login doubles as two-factor when enabled.</p></div>
+                <div class="feature-card"><div class="fc-icon"><i class="fas fa-lock"></i></div><h3>Automatic Logout</h3><p>Sessions expire after 24 hours for your safety.</p></div>
+                <div class="feature-card"><div class="fc-icon"><i class="fas fa-triangle-exclamation"></i></div><h3>Deactivate</h3><p>Suspend or delete your account from Profile settings.</p></div>
             </div>
         </div>
     </section>
@@ -96,11 +111,26 @@
     <script src="script.js?v=20260913a"></script>
     <script>
         (function() {
-            const user = api.getUser();
-            if (user && user.role) {
-                const r = (user.role || '').toLowerCase();
-                const link = document.getElementById('myProfileLink');
-                if (link) link.href = (r === 'owner' || r === 'verified_owner') ? 'edit-profile' : 'edit-profile';
+            'use strict';
+            const form = document.getElementById('pwdForm');
+            if(form){
+                form.addEventListener('submit',async function(ev){
+                    ev.preventDefault();
+                    try{
+                        const cur=document.getElementById('pwdCurrent').value;
+                        const nw=document.getElementById('pwdNew').value;
+                        const conf=document.getElementById('pwdConfirm').value;
+                        if(nw.length<8||!/[A-Za-z]/.test(nw)||!/[0-9]/.test(nw)){showToast('Password must be min 8 chars with letters and numbers.','error');return;}
+                        if(nw!==conf){showToast('Passwords do not match.','error');return;}
+                        let cached=api.getUser()||{};
+                        let id=cached.id;
+                        if(!id){const me=await api.getMe();if(me&&me.id){id=me.id;cached={...cached,...me};}}
+                        if(!id){showToast('Could not identify your account.','error');return;}
+                        await api.updatePassword(id,nw,cur);
+                        showToast('Password updated successfully!','success');
+                        form.reset();
+                    }catch(e){showToast(e.message||'Password update failed.','error');}
+                });
             }
         })();
     </script>

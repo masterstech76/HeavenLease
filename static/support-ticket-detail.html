@@ -66,14 +66,21 @@
         </div>
     </section>
 
-    <section class="page-section">
-        <div class="container">
-            <div class="section-head"><h2>Everything you need</h2></div>
-            <div class="feature-grid">
-                    <div class="feature-card"><div class="fc-icon"><i class="fas fa-clock"></i></div><h3>Timeline</h3><p>Every reply with a time.</p></div>
-                    <div class="feature-card"><div class="fc-icon"><i class="fas fa-reply"></i></div><h3>Reply</h3><p>Continue the conversation.</p></div>
-                    <div class="feature-card"><div class="fc-icon"><i class="fas fa-check-double"></i></div><h3>Close</h3><p>Mark as resolved.</p></div>
-            </div>
+    <section class="page-section" style="padding-top:20px;">
+        <div class="container" style="max-width: 760px;">
+            <div class="section-head" style="text-align:center;margin-bottom:24px;"><h2>Open a Support Ticket</h2></div>
+            <form id="ticketForm" style="background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-xl);padding:28px 30px;box-shadow:var(--shadow-sm);">
+                <div class="form-group" style="margin-bottom:16px;">
+                    <label style="display:block;font-size:13px;font-weight:600;color:var(--gray-600);margin-bottom:6px;">Subject</label>
+                    <input id="tSubject" type="text" required maxlength="200" placeholder="Brief summary of your issue" style="width:100%;padding:12px 16px;border:1px solid var(--gray-200);border-radius:var(--radius-md);font-size:14px;">
+                </div>
+                <div class="form-group" style="margin-bottom:20px;">
+                    <label style="display:block;font-size:13px;font-weight:600;color:var(--gray-600);margin-bottom:6px;">Message</label>
+                    <textarea id="tMessage" rows="4" required maxlength="2000" placeholder="Describe the issue in detail" style="width:100%;padding:12px 16px;border:1px solid var(--gray-200);border-radius:var(--radius-md);font-size:14px;font-family:inherit;"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:100%;display:inline-flex;justify-content:center;gap:8px;"><i class="fas fa-paper-plane"></i> Submit Ticket</button>
+            </form>
+            <div id="ticketView" style="margin-top:28px;"></div>
         </div>
     </section>
 
@@ -96,12 +103,41 @@
     <script src="script.js?v=20260913a"></script>
     <script>
         (function() {
-            const user = api.getUser();
-            if (user && user.role) {
-                const r = (user.role || '').toLowerCase();
-                const link = document.getElementById('myProfileLink');
-                if (link) link.href = (r === 'owner' || r === 'verified_owner') ? 'edit-profile' : 'edit-profile';
+            'use strict';
+            const form=document.getElementById('ticketForm');
+            const view=document.getElementById('ticketView');
+            function badge(s){const m={'OPEN':['status-pending','Open'],'IN_PROGRESS':['status-active','In Progress'],'RESOLVED':['status-completed','Resolved'],'CLOSED':['status-inactive','Closed']};const x=m[(s||'').toUpperCase()]||['status-pending',s||'—'];return '<span class="status '+x[0]+'">'+api.escapeHtml(x[1])+'</span>';}
+            function fmt(s){if(!s)return '—';const d=new Date(s);return isNaN(d)?s:d.toLocaleString('en-IN');}
+            if(form){
+                form.addEventListener('submit',async function(ev){
+                    ev.preventDefault();
+                    try{
+                        const subject=document.getElementById('tSubject').value;
+                        const message=document.getElementById('tMessage').value;
+                        await api.createTicket('support',subject,message);
+                        showToast('Ticket submitted! Our team will respond shortly.','success');
+                        form.reset();
+                        loadView();
+                    }catch(e){showToast(e.message||'Ticket submission failed.','error');}
+                });
             }
+            async function loadView(){
+                const q=new URLSearchParams(window.location.search);
+                const id=q.get('id');
+                if(!id){view.innerHTML='';return;}
+                try{
+                    let list=await api.getMyTickets();
+                    if(!Array.isArray(list))list=[];
+                    const t=list.find(function(x){return String(x.id)===String(id);});
+                    if(!t){view.innerHTML='<div style="text-align:center;padding:30px;color:var(--gray-500);">Ticket not found.</div>';return;}
+                    view.innerHTML='<div style="background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:24px 28px;box-shadow:var(--shadow-sm);">'
+                        +'<div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;"><h3 style="margin:0;color:var(--dark);">'+api.escapeHtml(t.subject||('Ticket #'+t.id))+'</h3>'+badge(t.status)+'</div>'
+                        +'<div style="font-size:12px;color:var(--gray-400);margin:6px 0 16px;">Ticket #'+t.id+' · '+api.escapeHtml(t.pageKey||'support')+' · '+fmt(t.createdAt)+'</div>'
+                        +'<p style="color:var(--gray-600);line-height:1.6;white-space:pre-wrap;margin:0;">'+api.escapeHtml(t.message||'')+'</p>'
+                        +'</div>';
+                }catch(e){view.innerHTML='<div style="text-align:center;padding:30px;color:var(--gray-500);">'+api.escapeHtml(e.message||'Could not load ticket.')+'</div>';}
+            }
+            loadView();
         })();
     </script>
 </body>
