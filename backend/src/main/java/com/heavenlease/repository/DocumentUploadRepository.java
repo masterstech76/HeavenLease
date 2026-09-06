@@ -12,6 +12,7 @@ import java.util.List;
 public interface DocumentUploadRepository extends JpaRepository<DocumentUpload, Long> {
     List<DocumentUpload> findByUserId(Long userId);
     List<DocumentUpload> findByPageKey(String pageKey);
+    List<DocumentUpload> findByPageKeyIn(Collection<String> pageKeys);
     List<DocumentUpload> findByUserIdAndPageKey(Long userId, String pageKey);
     List<DocumentUpload> findByStatus(String status);
     List<DocumentUpload> findByPageKeyAndStatus(String pageKey, String status);

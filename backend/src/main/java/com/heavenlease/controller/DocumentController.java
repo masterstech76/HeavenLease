@@ -59,6 +59,18 @@ public class DocumentController {
             "lease_signing", "owner_resources", "buy_sell"
     );
 
+    /**
+     * Screening/verification page keys whose documents are meant to be reviewed
+     * by a verified owner or an admin (tenant identity, employment, credit,
+     * background, rental-history and tenant-screening submissions). These are
+     * routed into the owner's review queue even though they are not linked to a
+     * specific property — that is the core tenant-screening workflow.
+     */
+    private static final java.util.Set<String> VERIFICATION_PAGE_KEYS = java.util.Set.of(
+            "tenant_screening", "background_check", "credit_report", "identity",
+            "employment", "rental_history"
+    );
+
     private final DocumentUploadRepository documentRepository;
     private final UserRepository userRepository;
     private final PropertyRepository propertyRepository;
@@ -210,6 +222,19 @@ public class DocumentController {
             if (!owned.isEmpty()) {
                 List<Long> ownedIds = owned.stream().map(Property::getId).toList();
                 docs.addAll(documentRepository.findByPropertyIdIn(ownedIds));
+            }
+            // Tenant-screening documents (identity, employment, credit, background,
+            // rental history, tenant screening) belong in the owner's/reviewer's
+            // queue even when not linked to a specific property — this is the core
+            // verification workflow. Owners/admins may review them but never see
+            // arbitrary non-screening uploads from other users.
+            List<DocumentUpload> verificationDocs =
+                    documentRepository.findByPageKeyIn(VERIFICATION_PAGE_KEYS);
+            // Only PENDING screening submissions arrive in the review queue, so a
+            // reviewer sees actionable items first; already-reviewed docs remain
+            // visible so the reviewer keeps an audit trail.
+            for (DocumentUpload doc : verificationDocs) {
+                if (!docs.contains(doc) && !doc.getUserId().equals(userId)) docs.add(doc);
             }
             // The owner's own uploads are always visible to them.
             documentRepository.findByUserId(userId).forEach(doc -> {

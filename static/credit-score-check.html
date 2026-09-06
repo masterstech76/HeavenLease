@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="styles.css?v=20260909a">
     <link rel="stylesheet" href="feature-panel.css?v=20260902a">
+    <link rel="stylesheet" href="verification-panel.css?v=20260913a">
     <style>
         .page-header { background: var(--gradient-soft); padding: 140px 0 60px; text-align: center; position: relative; overflow: hidden; }
         .page-header h1 { font-family: var(--font-heading); font-size: 42px; font-weight: 700; color: var(--dark); margin-bottom: 14px; }
@@ -129,6 +130,15 @@
     </section>
 
     <section class="content-section" style="padding-top:0;">
+        <div class="container" style="max-width:900px;">
+            <div id="verificationPanel" data-page-key="credit_report"
+                data-title="Credit Score Check — Submit Documents"
+                data-hint="With your consent, owners check credit and payment history. Upload your PAN card and a recent bank statement (optional) so the owner or admin can complete the soft check. Documents are stored securely and your PAN is masked. Track the real verification status here."
+                data-doc-types="PAN Card|Bank Statement|Consent Form"></div>
+        </div>
+    </section>
+
+    <section class="content-section" style="padding-top:0;">
         <div class="container">
             <div class="content-block">
                 <h2><i class='fas fa-comment-dots'></i> Ask us anything</h2>
@@ -169,6 +179,7 @@
 
     <script src="api.js?v=20260913a"></script>
     <script src="script.js?v=20260913a"></script>
+    <script src="verification-panel.js?v=20260913a"></script>
     <script>
         function clearHelpMessage() {
             var msg = document.getElementById('helpMessage'); if (msg) msg.value = '';

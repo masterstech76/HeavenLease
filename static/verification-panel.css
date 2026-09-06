@@ -1,0 +1,67 @@
+/* ============================================================
+   HeavenLease — Real Document Verification Panel
+   Upload → PENDING → owner/admin VERIFY/REJECT → notify
+   Shared across the tenant-screening & verification pages.
+   ============================================================ */
+
+#verificationPanel {
+    background: var(--white, #fff);
+    border: 1px solid var(--gray-200, #e5e7eb);
+    border-radius: 18px;
+    box-shadow: 0 8px 30px rgba(15, 23, 42, 0.08);
+    overflow: hidden;
+    margin: 8px 0 4px;
+}
+
+.vp-header {
+    padding: 18px 22px;
+    border-bottom: 1px solid var(--gray-200, #e5e7eb);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    background: linear-gradient(135deg, rgba(79,70,229,.07), rgba(16,185,129,.05));
+}
+.vp-header h3 { margin: 0; font-family: var(--font-heading, Georgia, serif); font-size: 19px; color: var(--dark, #0f172a); display: flex; align-items: center; gap: 10px; }
+.vp-header h3 i { color: var(--primary, #4f46e5); }
+.vp-badge { font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 999px; }
+.vp-badge.verified { background: #D1FAE5; color: #047857; }
+.vp-badge.pending { background: #FEF3C7; color: #B45309; }
+.vp-badge.rejected { background: #FEE2E2; color: #B91C1C; }
+
+.vp-body { padding: 22px; }
+.vp-hint { font-size: 13px; color: var(--gray-500, #64748b); line-height: 1.6; margin: 0 0 18px; }
+
+.vp-upload { display: grid; grid-template-columns: 1fr; gap: 12px; background: var(--gray-50, #f8fafc); border: 1px dashed var(--gray-300, #cbd5e1); border-radius: 14px; padding: 18px; margin-bottom: 22px; }
+.vp-upload-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; align-items: center; }
+.vp-upload-row input, .vp-upload-row select {
+    width: 100%; padding: 11px 14px; border: 1px solid var(--gray-200, #e5e7eb); border-radius: 10px;
+    font-size: 14px; font-family: inherit; box-sizing: border-box; background: #fff; color: var(--text-main, #0f172a);
+}
+.vp-upload-row input:focus, .vp-upload-row select:focus { outline: none; border-color: var(--primary, #4f46e5); box-shadow: 0 0 0 3px rgba(79,70,229,.12); }
+.vp-upload .btn { justify-self: end; white-space: nowrap; }
+
+.vp-section-title { font-size: 14px; font-weight: 700; color: var(--dark, #0f172a); margin: 20px 0 12px; display: flex; align-items: center; gap: 8px; }
+.vp-section-title i { color: var(--primary, #4f46e5); }
+
+.vp-list { display: flex; flex-direction: column; gap: 0; }
+.vp-item { display: flex; justify-content: space-between; gap: 14px; align-items: center; flex-wrap: wrap; padding: 14px 4px; border-bottom: 1px solid var(--gray-100, #f1f5f9); }
+.vp-item:last-child { border-bottom: none; }
+.vp-item .vp-file { min-width: 0; }
+.vp-item .vp-file strong { font-size: 14px; color: var(--dark, #0f172a); display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 260px; }
+.vp-item .vp-file small { font-size: 12px; color: var(--gray-400, #94a3b8); display: block; margin-top: 2px; }
+.vp-item .vp-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.vp-note { font-size: 12px; color: var(--gray-500, #64748b); margin-top: 4px; font-style: italic; }
+.vp-empty { text-align: center; padding: 26px 12px; color: var(--gray-400, #94a3b8); font-size: 13px; }
+.vp-empty i { display: block; font-size: 30px; margin-bottom: 8px; opacity: .6; }
+
+.vp-login-cta { text-align: center; padding: 30px 20px; color: var(--gray-500, #64748b); font-size: 14px; }
+.vp-login-cta a { color: var(--primary, #4f46e5); font-weight: 600; }
+
+@media (max-width: 640px) {
+    .vp-upload-row { grid-template-columns: 1fr; }
+    .vp-upload .btn { justify-self: stretch; }
+    .vp-item { flex-direction: column; align-items: flex-start; }
+    .vp-item .vp-actions { width: 100%; }
+    .vp-item .vp-actions .btn { flex: 1; justify-content: center; }
+}

@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="styles.css?v=20260909a">
     <link rel="stylesheet" href="feature-panel.css?v=20260902a">
+    <link rel="stylesheet" href="verification-panel.css?v=20260913a">
     <style>
         .page-header { background: var(--gradient-soft); padding: 140px 0 80px; text-align: center; position: relative; overflow: hidden; }
         .page-header h1 { font-family: var(--font-heading); font-size: 48px; font-weight: 700; color: var(--dark); margin-bottom: 16px; }
@@ -139,6 +140,15 @@
     </section>
 
     <section class="content-section" style="padding-top:0;">
+        <div class="container" style="max-width:900px;">
+            <div id="verificationPanel" data-page-key="tenant_screening"
+                data-title="Tenant Screening — Submit Documents"
+                data-hint="Owners ask for proof of identity, employment, credit and rental history before approving a tenancy. Upload your documents here — each one is stored securely, masked where needed (Aadhaar/PAN), and reviewed by the property owner or an admin. You will see the real status change to VERIFIED or REJECTED here and in your notifications."
+                data-doc-types="Identity Document|Employment Proof|Income / Salary Slip|Credit Report|Previous Landlord Reference"></div>
+        </div>
+    </section>
+
+    <section class="content-section" style="padding-top:0;">
         <div class="container">
             <div class="content-block">
                 <h2><i class='fas fa-comment-dots'></i> Ask us anything</h2>
@@ -178,6 +188,7 @@
 
     <script src="api.js?v=20260913a"></script>
     <script src="script.js?v=20260913a"></script>
+    <script src="verification-panel.js?v=20260913a"></script>
     <script>
         function clearHelpMessage() {
             var msg = document.getElementById('helpMessage'); if (msg) msg.value = '';
