@@ -66,13 +66,12 @@
         </div>
     </section>
 
-    <section class="page-section">
-        <div class="container">
-            <div class="section-head"><h2>Everything you need</h2></div>
-            <div class="feature-grid">
-                    <div class="feature-card"><div class="fc-icon"><i class="fas fa-filter-circle-dollar"></i></div><h3>Saved Filters</h3><p>Your preferred searches, ready to re-run.</p></div>
-                    <div class="feature-card"><div class="fc-icon"><i class="fas fa-bell"></i></div><h3>Alerts</h3><p>Hear about new matching properties.</p></div>
-                    <div class="feature-card"><div class="fc-icon"><i class="fas fa-gear"></i></div><h3>Manage</h3><p>Rename or delete searches.</p></div>
+    <section class="page-section" style="padding-top:20px;">
+        <div class="container" style="max-width: 900px;">
+            <div class="section-head" style="text-align:center;margin-bottom:24px;"><h2>Saved Properties & Searches</h2></div>
+            <p style="text-align:center;color:var(--gray-500);font-size:14px;margin:-14px 0 26px;">Your saved properties (favorites) are listed here so you can quickly re-open them.</p>
+            <div id="savedWrap">
+                <p style="text-align:center;color:var(--gray-400);padding:40px 0;"><i class="fas fa-spinner fa-spin"></i> Loading saved properties…</p>
             </div>
         </div>
     </section>
@@ -96,12 +95,42 @@
     <script src="script.js?v=20260913a"></script>
     <script>
         (function() {
-            const user = api.getUser();
-            if (user && user.role) {
-                const r = (user.role || '').toLowerCase();
-                const link = document.getElementById('myProfileLink');
-                if (link) link.href = (r === 'owner' || r === 'verified_owner') ? 'edit-profile' : 'edit-profile';
+            'use strict';
+            const wrap = document.getElementById('savedWrap');
+            function money(n){return '₹'+Math.round(Number(n)||0).toLocaleString('en-IN');}
+
+            async function loadSaved(){
+                try{
+                    if(!api.isAuthenticated()){wrap.innerHTML='<div style="text-align:center;padding:40px;color:var(--gray-500);">Please <a href="login">log in</a> to view your saved properties.</div>';return;}
+                    let favs = await api.getFavorites();
+                    if(!Array.isArray(favs))favs=[];
+                    if(favs.length===0){wrap.innerHTML='<div style="text-align:center;padding:60px 20px;background:var(--white);border:2px dashed var(--gray-200);border-radius:var(--radius-xl);">'
+                        +'<i class="fas fa-bookmark" style="font-size:56px;color:var(--gray-300);"></i>'
+                        +'<h3 style="margin:16px 0 6px;color:var(--dark);">Nothing saved yet</h3>'
+                        +'<p style="color:var(--gray-500);margin-bottom:20px;">Save properties you like and they will show up here.</p>'
+                        +'<a href="properties" class="btn btn-primary" style="display:inline-flex;gap:8px;"><i class="fas fa-building"></i> Browse Properties</a></div>';return;}
+                    const cards=[];
+                    for(const f of favs){
+                        try{
+                            const p=await api.getProperty(f.propertyId);
+                            if(!p||!p.id)continue;
+                            cards.push('<div style="background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:16px 20px;margin-bottom:10px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:center;box-shadow:var(--shadow-sm);">'
+                                +'<div><strong style="color:var(--dark);">'+api.escapeHtml(p.title||('Property #'+p.id))+'</strong>'
+                                +'<div style="font-size:12px;color:var(--gray-400);margin-top:4px;">'+api.escapeHtml([p.locality,p.city].filter(Boolean).join(', '))+' · '+money(p.rentAmount||p.price)+'/mo</div></div>'
+                                +'<div style="display:flex;gap:8px;align-items:center;">'
+                                +'<a class="btn btn-sm btn-secondary" href="property-detail?id='+p.id+'"><i class="fas fa-eye"></i> View</a>'
+                                +'<button class="btn btn-sm btn-danger" onclick="unsave('+f.id+')"><i class="fas fa-heart-broken"></i> Remove</button>'
+                                +'</div></div>');
+                        }catch(e){/* skip */}
+                    }
+                    wrap.innerHTML=cards.join('')||'<div style="text-align:center;padding:40px;color:var(--gray-500);">Could not load saved properties.</div>';
+                }catch(e){wrap.innerHTML='<div style="text-align:center;padding:40px;color:var(--gray-500);">'+api.escapeHtml(e.message||'Could not load saved properties.')+'</div>';}
             }
+            window.unsave=async function(id){
+                try{await api.removeFavorite(id);showToast('Removed from saved.','success');loadSaved();}
+                catch(e){showToast(e.message||'Remove failed.','error');}
+            };
+            loadSaved();
         })();
     </script>
 </body>

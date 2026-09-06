@@ -66,13 +66,20 @@
         </div>
     </section>
 
-    <section class="page-section">
-        <div class="container">
-            <div class="section-head"><h2>Everything you need</h2></div>
-            <div class="feature-grid">
-                    <div class="feature-card"><div class="fc-icon"><i class="fas fa-credit-card"></i></div><h3>Cards</h3><p>Add, remove or set a default card.</p></div>
-                    <div class="feature-card"><div class="fc-icon"><i class="fas fa-mobile-screen-button"></i></div><h3>UPI</h3><p>Link a UPI id for quick checkout.</p></div>
-                    <div class="feature-card"><div class="fc-icon"><i class="fas fa-file-invoice-dollar"></i></div><h3>Billing</h3><p>Receipts and billing details.</p></div>
+    <section class="page-section" style="padding-top:20px;">
+        <div class="container" style="max-width: 900px;">
+            <div class="section-head" style="text-align:center;margin-bottom:24px;"><h2>Subscription & Payment Methods</h2></div>
+            <div id="subWrap" style="margin-bottom:20px;">
+                <p style="text-align:center;color:var(--gray-400);padding:30px 0;"><i class="fas fa-spinner fa-spin"></i> Loading…</p>
+            </div>
+            <div class="feature-grid" style="margin-bottom:26px;">
+                <div class="feature-card"><div class="fc-icon"><i class="fas fa-credit-card"></i></div><h3>UPI</h3><p>Pay instantly at checkout with any UPI app.</p></div>
+                <div class="feature-card"><div class="fc-icon"><i class="fas fa-mobile-screen-button"></i></div><h3>Cards</h3><p>Visa, Mastercard, RuPay & net-banking.</p></div>
+                <div class="feature-card"><div class="fc-icon"><i class="fas fa-file-invoice-dollar"></i></div><h3>Receipts</h3><p>Printable invoices in transaction history.</p></div>
+            </div>
+            <div class="section-head" style="text-align:center;margin:30px 0 20px;"><h2>Recent Payments</h2></div>
+            <div id="payWrap">
+                <p style="text-align:center;color:var(--gray-400);padding:20px 0;"><i class="fas fa-spinner fa-spin"></i> Loading…</p>
             </div>
         </div>
     </section>
@@ -96,12 +103,42 @@
     <script src="script.js?v=20260913a"></script>
     <script>
         (function() {
-            const user = api.getUser();
-            if (user && user.role) {
-                const r = (user.role || '').toLowerCase();
-                const link = document.getElementById('myProfileLink');
-                if (link) link.href = (r === 'owner' || r === 'verified_owner') ? 'edit-profile' : 'edit-profile';
+            'use strict';
+            const subWrap = document.getElementById('subWrap');
+            const payWrap = document.getElementById('payWrap');
+            function money(n){return '₹'+Math.round(Number(n)||0).toLocaleString('en-IN');}
+            function fmt(s){if(!s)return '—';const d=new Date(s);return isNaN(d)?s:d.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});}
+
+            async function loadSub(){
+                try{
+                    const sub = await api.getSubscription();
+                    const active = !!(sub&&sub.active);
+                    subWrap.innerHTML='<div style="background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-xl);padding:24px 28px;box-shadow:var(--shadow-sm);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center;">'
+                        +'<div><strong style="color:var(--dark);font-size:18px;">Access Pass</strong> '
+                        +'<span class="status '+(active?'status-completed':'status-inactive')+'">'+(active?'ACTIVE':'INACTIVE')+'</span>'
+                        +'<div style="font-size:13px;color:var(--gray-500);margin-top:6px;">'
+                        +(active?('Valid until '+fmt(sub.expiresAt)+((sub.amount)?(' · Paid '+money(sub.amount)):'')):'No active subscription. Upgrade to contact owners and unlock property details.')
+                        +'</div></div>'
+                        +'<a href="payment" class="btn btn-primary" style="display:inline-flex;gap:8px;"><i class="fas fa-credit-card"></i> '+(active?'Manage':'Get Access Pass')+'</a>'
+                        +'</div>';
+                }catch(e){subWrap.innerHTML='<div style="text-align:center;padding:30px;color:var(--gray-500);">'+api.escapeHtml(e.message||'Could not load subscription.')+'</div>';}
             }
+            async function loadPayments(){
+                try{
+                    let list=await api.getMyPayments();
+                    if(!Array.isArray(list))list=[];
+                    if(list.length===0){payWrap.innerHTML='<div style="text-align:center;padding:30px;color:var(--gray-500);">No payments yet.</div>';return;}
+                    payWrap.innerHTML=list.map(function(p){
+                        return '<div style="background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:14px 20px;margin-bottom:10px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;">'
+                            +'<div><strong style="color:var(--dark);">'+money(p.amount)+'</strong> <span class="status '+((p.status==='completed')?'status-completed':'status-pending')+'">'+api.escapeHtml((p.status||'paid').toUpperCase())+'</span>'
+                            +'<div style="font-size:12px;color:var(--gray-400);margin-top:4px;">'+api.escapeHtml(p.paymentType||'ONLINE')+' · '+fmt(p.createdAt)+'</div></div>'
+                            +'<a class="btn btn-sm btn-secondary" href="transaction-history"><i class="fas fa-receipt"></i> Receipts</a>'
+                            +'</div>';
+                    }).join('');
+                }catch(e){payWrap.innerHTML='<div style="text-align:center;padding:30px;color:var(--gray-500);">'+api.escapeHtml(e.message||'Could not load payments.')+'</div>';}
+            }
+            loadSub();
+            loadPayments();
         })();
     </script>
 </body>

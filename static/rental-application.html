@@ -66,14 +66,31 @@
         </div>
     </section>
 
-    <section class="page-section">
-        <div class="container">
-            <div class="section-head"><h2>Everything you need</h2></div>
-            <div class="feature-grid">
-                    <div class="feature-card"><div class="fc-icon"><i class="fas fa-address-card"></i></div><h3>Your Details</h3><p>Contact and employment info.</p></div>
-                    <div class="feature-card"><div class="fc-icon"><i class="fas fa-user-check"></i></div><h3>Screening</h3><p>Identity, income and history checks.</p></div>
-                    <div class="feature-card"><div class="fc-icon"><i class="fas fa-paper-plane"></i></div><h3>Submit</h3><p>Send your application instantly.</p></div>
-            </div>
+    <section class="page-section" style="padding-top:20px;">
+        <div class="container" style="max-width: 760px;">
+            <div class="section-head" style="text-align:center;margin-bottom:24px;"><h2>Apply to Rent</h2></div>
+            <form id="appForm" style="background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-xl);padding:28px 30px;box-shadow:var(--shadow-sm);">
+                <div class="form-group" style="margin-bottom:16px;">
+                    <label style="display:block;font-size:13px;font-weight:600;color:var(--gray-600);margin-bottom:6px;">Property ID</label>
+                    <input id="propId" type="number" required placeholder="e.g. 12 (from the property URL)" style="width:100%;padding:12px 16px;border:1px solid var(--gray-200);border-radius:var(--radius-md);font-size:14px;">
+                    <div id="propPreview" style="display:none;margin-top:10px;padding:12px 16px;background:var(--gray-50);border-radius:var(--radius-md);font-size:13px;color:var(--gray-600);"></div>
+                </div>
+                <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+                    <div class="form-group">
+                        <label style="display:block;font-size:13px;font-weight:600;color:var(--gray-600);margin-bottom:6px;">Tour Date</label>
+                        <input id="tourDate" type="date" required style="width:100%;padding:12px 16px;border:1px solid var(--gray-200);border-radius:var(--radius-md);font-size:14px;">
+                    </div>
+                    <div class="form-group">
+                        <label style="display:block;font-size:13px;font-weight:600;color:var(--gray-600);margin-bottom:6px;">Tour Time</label>
+                        <input id="tourTime" type="time" required style="width:100%;padding:12px 16px;border:1px solid var(--gray-200);border-radius:var(--radius-md);font-size:14px;">
+                    </div>
+                </div>
+                <div class="form-group" style="margin-bottom:16px;">
+                    <label style="display:block;font-size:13px;font-weight:600;color:var(--gray-600);margin-bottom:6px;">Message to Owner (optional)</label>
+                    <textarea id="appMsg" rows="3" placeholder="Tell the owner about yourself..." style="width:100%;padding:12px 16px;border:1px solid var(--gray-200);border-radius:var(--radius-md);font-size:14px;font-family:inherit;"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:100%;display:inline-flex;justify-content:center;gap:8px;"><i class="fas fa-paper-plane"></i> Submit Application</button>
+            </form>
         </div>
     </section>
 
@@ -96,11 +113,52 @@
     <script src="script.js?v=20260913a"></script>
     <script>
         (function() {
+            'use strict';
             const user = api.getUser();
-            if (user && user.role) {
-                const r = (user.role || '').toLowerCase();
-                const link = document.getElementById('myProfileLink');
-                if (link) link.href = (r === 'owner' || r === 'verified_owner') ? 'edit-profile' : 'edit-profile';
+            const form = document.getElementById('appForm');
+            const propPreview = document.getElementById('propPreview');
+
+            async function previewProp(){
+                const el = document.getElementById('propId');
+                const id = Number(el.value||0);
+                if(!id){propPreview.style.display='none';return;}
+                try{
+                    const p = await api.getProperty(id);
+                    if(p&&p.id){propPreview.style.display='block';propPreview.innerHTML='<strong>'+api.escapeHtml(p.title||('Property #'+p.id))+'</strong> · '+(p.rentAmount?('₹'+Number(p.rentAmount).toLocaleString('en-IN')+'/mo'):'')+' · '+api.escapeHtml((p.locality||'')+' '+(p.city||''));}
+                    else{propPreview.style.display='block';propPreview.innerHTML='<span style="color:#dc2626;">Property not found.</span>';}
+                }catch(e){propPreview.style.display='block';propPreview.innerHTML='<span style="color:#dc2626;">'+api.escapeHtml(e.message||'Could not load property.')+'</span>';}
+            }
+            let debounceTimer;
+            document.getElementById('propId').addEventListener('input',function(){clearTimeout(debounceTimer);debounceTimer=setTimeout(previewProp,400);});
+
+            if(form&&user&&user.id){
+                // Prefill property id from ?property=
+                const q = new URLSearchParams(window.location.search);
+                const pid = q.get('property')||q.get('id');
+                if(pid){document.getElementById('propId').value=pid;previewProp();}
+                form.addEventListener('submit',async function(ev){
+                    ev.preventDefault();
+                    try{
+                        const p = await api.getProperty(Number(document.getElementById('propId').value));
+                        if(!p||!p.id){showToast('Property not found. Please check the Property ID.','error');return;}
+                        const payload = {
+                            propertyId: p.id,
+                            tenantId: user.id,
+                            ownerId: p.ownerId,
+                            tourDate: document.getElementById('tourDate').value,
+                            tourTime: document.getElementById('tourTime').value,
+                            message: document.getElementById('appMsg').value,
+                            tenantName: user.fullName||user.name||'',
+                            tenantPhone: user.phone||'',
+                            propertyTitle: p.title
+                        };
+                        await api.createBooking(payload);
+                        showToast('Application submitted! The owner will review it.','success');
+                        setTimeout(function(){window.location.href='application-status';},1200);
+                    }catch(e){showToast(e.message||'Submission failed.','error');}
+                });
+            }else if(form){
+                form.innerHTML='<div style="text-align:center;padding:40px;color:var(--gray-500);">Please <a href="login">log in</a> to apply for a property.</div>';
             }
         })();
     </script>
