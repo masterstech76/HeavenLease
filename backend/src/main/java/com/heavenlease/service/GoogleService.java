@@ -12,7 +12,7 @@ public class GoogleService {
 
     private static final String TOKEN_INFO_URL = "https://oauth2.googleapis.com/tokeninfo";
 
-    @Value("${app.google.client-id}")
+    @Value("${app.google.client-id:}")
     private String clientId;
 
     private final RestTemplate restTemplate;

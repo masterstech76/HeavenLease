@@ -32,7 +32,6 @@ server:
 
 app:
   upload-dir: ${UPLOAD_DIR:./uploads}
-  seed-demo: ${SEED_DEMO:false}
   # RDS IAM token signing region (may differ from aws.region if RDS and
   # DynamoDB/SES/SNS live in different AWS regions).
   rds-iam-region: ${RDS_REGION:${AWS_REGION:ap-south-1}}

@@ -66,13 +66,11 @@
         </div>
     </section>
 
-    <section class="page-section">
-        <div class="container">
-            <div class="section-head"><h2>Everything you need</h2></div>
-            <div class="feature-grid">
-                    <div class="feature-card"><div class="fc-icon"><i class="fas fa-flag"></i></div><h3>Status</h3><p>Submitted, reviewed, approved.</p></div>
-                    <div class="feature-card"><div class="fc-icon"><i class="fas fa-timeline"></i></div><h3>Timeline</h3><p>Every step with a date.</p></div>
-                    <div class="feature-card"><div class="fc-icon"><i class="fas fa-forward"></i></div><h3>Next Steps</h3><p>What happens next.</p></div>
+    <section class="page-section" style="padding-top:20px;">
+        <div class="container" style="max-width: 860px;">
+            <div class="section-head" style="text-align:center;margin-bottom:28px;"><h2>Application Status</h2></div>
+            <div id="statusWrap">
+                <p style="text-align:center;color:var(--gray-400);padding:40px 0;"><i class="fas fa-spinner fa-spin"></i> Loading…</p>
             </div>
         </div>
     </section>
@@ -96,12 +94,48 @@
     <script src="script.js?v=20260913a"></script>
     <script>
         (function() {
+            'use strict';
             const user = api.getUser();
-            if (user && user.role) {
-                const r = (user.role || '').toLowerCase();
-                const link = document.getElementById('myProfileLink');
-                if (link) link.href = (r === 'owner' || r === 'verified_owner') ? 'edit-profile' : 'edit-profile';
+            function badge(s){const m={'pending':['status-pending','Pending'],'confirmed':['status-active','Confirmed'],'approved':['status-active','Approved'],'declined':['status-inactive','Declined'],'cancelled':['status-inactive','Cancelled'],'completed':['status-completed','Completed']};const x=m[(s||'').toLowerCase()]||['status-inactive',s||'—'];return '<span class="status '+x[0]+'">'+api.escapeHtml(x[1])+'</span>';}
+            function fmtDate(s){if(!s)return '—';const d=new Date(s);return isNaN(d)?s:d;}
+            const ORDER=['pending','confirmed','declined','cancelled','completed'];
+            const STEPS=[['pending','Submitted','Your request has been sent to the owner.'],['confirmed','Approved','The owner approved this request.'],['declined','Declined','The owner declined this request.'],['completed','Completed','This request has been completed.']];
+            const wrap=document.getElementById('statusWrap');
+            function card(b){
+                const cur=(b.status||'pending').toLowerCase();
+                const tl=STEPS.map(function(s){
+                    const done=(ORDER.indexOf(s[0])<=ORDER.indexOf(cur))&&cur!=='declined'&&cur!=='cancelled';
+                    return '<div style="display:flex;gap:16px;align-items:flex-start;padding:14px 0;border-bottom:1px solid var(--gray-100);">'
+                        +'<div style="width:36px;height:36px;border-radius:50%;background:'+(done?'var(--gradient)':'var(--gray-200)')+';color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;">'
+                        +(done?'<i class="fas fa-check"></i>':'<i class="fas fa-circle"></i>')+'</div>'
+                        +'<div><strong style="color:var(--dark);">'+s[1]+'</strong><div style="font-size:13px;color:var(--gray-500);margin-top:2px;">'+s[2]+'</div></div></div>';
+                }).join('');
+                wrap.innerHTML='<div style="background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-xl);padding:28px 30px;box-shadow:var(--shadow-sm);">'
+                    +'<div style="display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:center;margin-bottom:8px;">'
+                    +'<h3 style="color:var(--dark);margin:0;">'+api.escapeHtml(b.propertyTitle||('Property #'+b.propertyId))+'</h3>'+badge(b.status)+'</div>'
+                    +'<div style="font-size:13px;color:var(--gray-500);margin-bottom:20px;">Tour: '+api.escapeHtml(fmtDate(b.tourDate))+' · '+api.escapeHtml(b.tourTime||'')+' · <a href="application-history">View all</a></div>'
+                    +tl+'</div>';
             }
+            async function loadStatus(){
+                try{
+                    const params=new URLSearchParams(window.location.search);
+                    const id=params.get('id');
+                    if(!user||!user.id){wrap.innerHTML='<div style="text-align:center;padding:40px;color:var(--gray-500);">Please log in to track your application.</div>';return;}
+                    if(id){const b=await api.getBooking(Number(id));card(b);return;}
+                    let list=await api.getBookingsByTenant(user.id).catch(function(){return[];});
+                    if(!Array.isArray(list))list=[];
+                    if(list.length===0){wrap.innerHTML='<div style="text-align:center;padding:60px 20px;background:var(--white);border:2px dashed var(--gray-200);border-radius:var(--radius-xl);">'
+                        +'<i class="fas fa-hourglass-half" style="font-size:56px;color:var(--gray-300);"></i>'
+                        +'<h3 style="margin:16px 0 6px;color:var(--dark);">No applications found</h3>'
+                        +'<p style="color:var(--gray-500);margin-bottom:20px;">Apply to a property first and its status will appear here.</p>'
+                        +'<a href="properties" class="btn btn-primary" style="display:inline-flex;gap:8px;"><i class="fas fa-building"></i> Browse Properties</a></div>';return;}
+                    wrap.innerHTML=list.map(function(b){return '<a href="application-status?id='+b.id+'" style="text-decoration:none;color:inherit;background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:18px 22px;margin-bottom:12px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:center;box-shadow:var(--shadow-sm);">'
+                        +'<div><strong style="color:var(--dark);">'+api.escapeHtml(b.propertyTitle||('Property #'+b.propertyId))+'</strong> '+badge(b.status)
+                        +'<div style="font-size:12px;color:var(--gray-400);margin-top:6px;">Tour: '+api.escapeHtml(fmtDate(b.tourDate))+' · '+api.escapeHtml(b.tourTime||'')+'</div></div>'
+                        +'<i class="fas fa-chevron-right" style="color:var(--gray-400);"></i></a>';}).join('');
+                }catch(e){wrap.innerHTML='<div style="text-align:center;padding:40px;color:var(--gray-500);">'+api.escapeHtml(e.message||'Could not load status.')+'</div>';}
+            }
+            loadStatus();
         })();
     </script>
 </body>

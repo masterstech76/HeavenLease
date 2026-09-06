@@ -66,7 +66,6 @@ services:
       - RAZORPAY_KEY_SECRET=${RAZORPAY_KEY_SECRET:-}
       - OTP_FROM_EMAIL=${OTP_FROM_EMAIL:-no-reply@heavenlease.in}
       - UPLOAD_DIR=/app/uploads
-      - SEED_DEMO=false
       - RATE_LIMIT_ENABLED=true
       - RATE_LIMIT_MAX_PER_MINUTE=20
     networks:

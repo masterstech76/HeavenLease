@@ -66,13 +66,11 @@
         </div>
     </section>
 
-    <section class="page-section">
-        <div class="container">
-            <div class="section-head"><h2>Everything you need</h2></div>
-            <div class="feature-grid">
-                    <div class="feature-card"><div class="fc-icon"><i class="fas fa-inbox"></i></div><h3>Past Applications</h3><p>Everything you have applied to.</p></div>
-                    <div class="feature-card"><div class="fc-icon"><i class="fas fa-thumbs-up"></i></div><h3>Outcome</h3><p>Approved, declined or pending.</p></div>
-                    <div class="feature-card"><div class="fc-icon"><i class="fas fa-rotate-right"></i></div><h3>Repeat Apply</h3><p>Quickly re-apply with saved info.</p></div>
+    <section class="page-section" style="padding-top:20px;">
+        <div class="container" style="max-width: 980px;">
+            <div class="section-head" style="text-align:center;margin-bottom:28px;"><h2>Your Application History</h2></div>
+            <div id="historyWrap">
+                <p style="text-align:center;color:var(--gray-400);padding:40px 0;"><i class="fas fa-spinner fa-spin"></i> Loading history…</p>
             </div>
         </div>
     </section>
@@ -96,12 +94,55 @@
     <script src="script.js?v=20260913a"></script>
     <script>
         (function() {
+            'use strict';
             const user = api.getUser();
-            if (user && user.role) {
-                const r = (user.role || '').toLowerCase();
-                const link = document.getElementById('myProfileLink');
-                if (link) link.href = (r === 'owner' || r === 'verified_owner') ? 'edit-profile' : 'edit-profile';
+
+            function badge(s) {
+                const map = { 'pending': ['status-pending','Pending'], 'confirmed': ['status-active','Confirmed'],
+                              'approved': ['status-active','Approved'], 'declined': ['status-inactive','Declined'],
+                              'cancelled': ['status-inactive','Cancelled'], 'completed': ['status-inactive','Completed'],
+                              'active': ['status-completed','Active'], 'terminated': ['status-inactive','Terminated'] };
+                const m = map[(s||'').toLowerCase()] || ['status-inactive', s || '—'];
+                return '<span class="status ' + m[0] + '">' + api.escapeHtml(m[1]) + '</span>';
             }
+            function fmtDate(s) { if (!s) return '—'; const d = new Date(s); return isNaN(d) ? s : d; }
+
+            async function loadHistory() {
+                const wrap = document.getElementById('historyWrap');
+                try {
+                    if (!user || !user.id) { wrap.innerHTML = '<div style="text-align:center;padding:40px;color:var(--gray-500);">Please log in to view your history.</div>'; return; }
+                    let bookings = await api.getBookingsByTenant(user.id).catch(() => []);
+                    let leases = await api.getLeasesByTenant(user.id).catch(() => []);
+                    if (!Array.isArray(bookings)) bookings = [];
+                    if (!Array.isArray(leases)) leases = [];
+                    if (bookings.length === 0 && leases.length === 0) {
+                        wrap.innerHTML = '<div style="text-align:center;padding:60px 20px;background:var(--white);border:2px dashed var(--gray-200);border-radius:var(--radius-xl);">'
+                            + '<i class="fas fa-clock-rotate-left" style="font-size:56px;color:var(--gray-300);"></i>'
+                            + '<h3 style="margin:16px 0 6px;color:var(--dark);">No applications yet</h3>'
+                            + '<p style="color:var(--gray-500);margin-bottom:20px;">Tour requests and leases you have created will appear here.</p>'
+                            + '<a href="properties" class="btn btn-primary" style="display:inline-flex;gap:8px;"><i class="fas fa-building"></i> Browse Properties</a></div>';
+                        return;
+                    }
+                    const rows = [];
+                    bookings.forEach(b => {
+                        rows.push('<div style="background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:18px 22px;margin-bottom:12px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:center;box-shadow:var(--shadow-sm);">'
+                            + '<div><strong style="color:var(--dark);">' + api.escapeHtml(b.propertyTitle || ('Property #' + b.propertyId)) + '</strong> ' + badge(b.status)
+                            + '<div style="font-size:12px;color:var(--gray-400);margin-top:6px;">Tour request · ' + api.escapeHtml(fmtDate(b.tourDate)) + ' · ' + api.escapeHtml(b.tourTime || '') + '</div></div>'
+                            + '<a class="btn btn-sm btn-secondary" href="application-status?id=' + b.id + '"><i class="fas fa-hourglass-half"></i> Track</a></div>');
+                    });
+                    leases.forEach(l => {
+                        rows.push('<div style="background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:18px 22px;margin-bottom:12px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:center;box-shadow:var(--shadow-sm);">'
+                            + '<div><strong style="color:var(--dark);">Lease · ' + api.escapeHtml(l.propertyTitle || ('#' + l.id)) + '</strong> ' + badge(l.status)
+                            + '<div style="font-size:12px;color:var(--gray-400);margin-top:6px;">Owner: ' + api.escapeHtml(l.ownerName || ('#' + l.ownerId)) + '</div></div>'
+                            + '<a class="btn btn-sm btn-secondary" href="lease-details?id=' + l.id + '"><i class="fas fa-file-contract"></i> Lease</a></div>');
+                    });
+                    wrap.innerHTML = rows.join('');
+                } catch (e) {
+                    wrap.innerHTML = '<div style="text-align:center;padding:40px;color:var(--gray-500);">' + api.escapeHtml(e.message || 'Could not load history.') + '</div>';
+                }
+            }
+
+            loadHistory();
         })();
     </script>
 </body>

@@ -66,13 +66,11 @@
         </div>
     </section>
 
-    <section class="page-section">
-        <div class="container">
-            <div class="section-head"><h2>Everything you need</h2></div>
-            <div class="feature-grid">
-                    <div class="feature-card"><div class="fc-icon"><i class="fas fa-circle-check"></i></div><h3>Active Leases</h3><p>Current agreements at a glance.</p></div>
-                    <div class="feature-card"><div class="fc-icon"><i class="fas fa-calendar"></i></div><h3>Upcoming Renewals</h3><p>Renewals and expiries on the horizon.</p></div>
-                    <div class="feature-card"><div class="fc-icon"><i class="fas fa-folder-open"></i></div><h3>Agreements</h3><p>Signed documents, stored safely.</p></div>
+    <section class="page-section" style="padding-top:20px;">
+        <div class="container" style="max-width: 980px;">
+            <div class="section-head" style="text-align:center;margin-bottom:28px;"><h2>All Leases</h2></div>
+            <div id="leaseWrap">
+                <p style="text-align:center;color:var(--gray-400);padding:40px 0;"><i class="fas fa-spinner fa-spin"></i> Loading leases…</p>
             </div>
         </div>
     </section>
@@ -96,12 +94,65 @@
     <script src="script.js?v=20260913a"></script>
     <script>
         (function() {
+            'use strict';
             const user = api.getUser();
-            if (user && user.role) {
-                const r = (user.role || '').toLowerCase();
-                const link = document.getElementById('myProfileLink');
-                if (link) link.href = (r === 'owner' || r === 'verified_owner') ? 'edit-profile' : 'edit-profile';
+
+            function badge(s) {
+                const map = { 'active': ['status-completed','Active'], 'pending': ['status-pending','Pending'],
+                              'completed': ['status-inactive','Completed'], 'terminated': ['status-inactive','Terminated'],
+                              'expired': ['status-inactive','Expired'] };
+                const m = map[(s||'').toLowerCase()] || ['status-inactive', s || '—'];
+                return '<span class="status ' + m[0] + '">' + api.escapeHtml(m[1]) + '</span>';
             }
+            function fmtDate(s) { if (!s) return '—'; const d = new Date(s); return isNaN(d) ? s : d.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}); }
+            function money(n) { return '₹' + Math.round(Number(n)||0).toLocaleString('en-IN'); }
+
+            async function loadLeases() {
+                const wrap = document.getElementById('leaseWrap');
+                try {
+                    const role = ((user && user.role) || '').toLowerCase();
+                    let list = [];
+                    if (role === 'admin') list = await api.getLeases();
+                    else if (role === 'owner' || role === 'verified_owner') list = await api.getLeasesByOwner(user.id);
+                    else list = await api.getLeasesByTenant(user.id);
+                    if (!Array.isArray(list)) list = [];
+                    if (list.length === 0) {
+                        wrap.innerHTML = '<div style="text-align:center;padding:60px 20px;background:var(--white);border:2px dashed var(--gray-200);border-radius:var(--radius-xl);">'
+                            + '<i class="fas fa-file-contract" style="font-size:56px;color:var(--gray-300);"></i>'
+                            + '<h3 style="margin:16px 0 6px;color:var(--dark);">No leases yet</h3>'
+                            + '<p style="color:var(--gray-500);margin-bottom:20px;">Leases created by owners appear here with status and key dates.</p>'
+                            + '<a href="lease-signing" class="btn btn-primary" style="display:inline-flex;gap:8px;"><i class="fas fa-file-signature"></i> Start a Lease</a></div>';
+                        return;
+                    }
+                    wrap.innerHTML = list.map(l => {
+                        const isOwner = user && (user.role === 'OWNER' || user.role === 'VERIFIED_OWNER' || user.role === 'ADMIN');
+                        const actBtn = isOwner
+                            ? '<button class="btn btn-sm btn-secondary" onclick="leaseAction(' + l.id + ',\'completed\')"><i class="fas fa-check"></i> Complete</button>'
+                            : '';
+                        return '<div style="background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:18px 22px;margin-bottom:12px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:center;box-shadow:var(--shadow-sm);">'
+                            + '<div><strong style="color:var(--dark);">' + api.escapeHtml(l.propertyTitle || ('Lease #' + l.id)) + '</strong> ' + badge(l.status)
+                            + '<div style="font-size:12px;color:var(--gray-400);margin-top:6px;">Tenant: ' + api.escapeHtml(l.tenantName || ('#' + l.tenantId))
+                            + ' · Rent: ' + money(l.monthlyRent) + ' · Deposit: ' + money(l.deposit)
+                            + '</div><div style="font-size:12px;color:var(--gray-400);margin-top:4px;">' + fmtDate(l.startDate) + ' → ' + fmtDate(l.endDate) + '</div></div>'
+                            + '<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">'
+                            + '<a class="btn btn-sm btn-secondary" href="lease-details?id=' + l.id + '"><i class="fas fa-eye"></i> View</a>'
+                            + actBtn
+                            + '</div></div>';
+                    }).join('');
+                } catch (e) {
+                    wrap.innerHTML = '<div style="text-align:center;padding:40px;color:var(--gray-500);">' + api.escapeHtml(e.message || 'Could not load leases.') + '</div>';
+                }
+            }
+
+            window.leaseAction = async function(id, status) {
+                try {
+                    await api.updateLeaseStatus(id, status);
+                    showToast('Lease updated.', 'success');
+                    loadLeases();
+                } catch (e) { showToast(e.message || 'Action failed.', 'error'); }
+            };
+
+            loadLeases();
         })();
     </script>
 </body>

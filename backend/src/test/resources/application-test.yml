@@ -17,7 +17,9 @@ app:
     secret: HeavenLease-test-secret-key-2026-xyz9abc7def
     expiration-ms: 86400000
   encryption-key: HeavenLease-test-encryption-key-2026-abcdefghij
-  seed-demo: false
+  google:
+    client-id: test-client-id.apps.googleusercontent.com
+    client-secret: test-client-secret
   rate-limit:
     enabled: false
     max-requests-per-minute: 100
