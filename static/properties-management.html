@@ -66,13 +66,11 @@
         </div>
     </section>
 
-    <section class="page-section">
-        <div class="container">
-            <div class="section-head"><h2>Everything you need</h2></div>
-            <div class="feature-grid">
-                    <div class="feature-card"><div class="fc-icon"><i class="fas fa-list-check"></i></div><h3>All Listings</h3><p>Active, pending and archived properties.</p></div>
-                    <div class="feature-card"><div class="fc-icon"><i class="fas fa-file-lines"></i></div><h3>Applications</h3><p>Review interested tenants.</p></div>
-                    <div class="feature-card"><div class="fc-icon"><i class="fas fa-chart-line"></i></div><h3>Insights</h3><p>Views, saves and inquiry stats.</p></div>
+    <section class="page-section" style="padding-top:20px;">
+        <div class="container" style="max-width: 980px;">
+            <div class="section-head" style="text-align:center;margin-bottom:28px;"><h2>All Your Listings</h2></div>
+            <div id="propsWrap">
+                <p style="text-align:center;color:var(--gray-400);padding:40px 0;"><i class="fas fa-spinner fa-spin"></i> Loading properties…</p>
             </div>
         </div>
     </section>
@@ -96,12 +94,45 @@
     <script src="script.js?v=20260913a"></script>
     <script>
         (function() {
+            'use strict';
             const user = api.getUser();
-            if (user && user.role) {
-                const r = (user.role || '').toLowerCase();
-                const link = document.getElementById('myProfileLink');
-                if (link) link.href = (r === 'owner' || r === 'verified_owner') ? 'edit-profile' : 'edit-profile';
+            function badge(s){const m={'active':['status-completed','Active'],'pending':['status-pending','Pending'],'draft':['status-pending','Draft'],'archived':['status-inactive','Archived'],'inactive':['status-inactive','Inactive']};const x=m[(s||'').toLowerCase()]||['status-inactive',s||'—'];return '<span class="status '+x[0]+'">'+api.escapeHtml(x[1])+'</span>';}
+            function money(n){return '₹'+Math.round(Number(n)||0).toLocaleString('en-IN');}
+
+            async function loadProps(){
+                const wrap=document.getElementById('propsWrap');
+                try{
+                    if(!user||!user.id){wrap.innerHTML='<div style="text-align:center;padding:40px;color:var(--gray-500);">Please log in as an owner to manage properties.</div>';return;}
+                    const role=((user.role)||'').toLowerCase();
+                    let list=[];
+                    if(role==='admin')list=await api.getProperties(0,200);
+                    else if(role==='owner'||role==='verified_owner')list=await api.getPropertiesByOwner(user.id);
+                    else list=[];
+                    if(!Array.isArray(list))list=[];
+                    if(list.length===0){wrap.innerHTML='<div style="text-align:center;padding:60px 20px;background:var(--white);border:2px dashed var(--gray-200);border-radius:var(--radius-xl);">'
+                        +'<i class="fas fa-house-circle-check" style="font-size:56px;color:var(--gray-300);"></i>'
+                        +'<h3 style="margin:16px 0 6px;color:var(--dark);">No properties listed yet</h3>'
+                        +'<p style="color:var(--gray-500);margin-bottom:20px;">List your first property and manage it from here.</p>'
+                        +'<a href="list-property" class="btn btn-primary" style="display:inline-flex;gap:8px;"><i class="fas fa-key"></i> List Your Property</a></div>';return;}
+                    wrap.innerHTML=list.map(function(p){
+                        return '<div style="background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:18px 22px;margin-bottom:12px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:center;box-shadow:var(--shadow-sm);">'
+                            +'<div><strong style="color:var(--dark);">'+api.escapeHtml(p.title||('Property #'+p.id))+'</strong> '+badge(p.status||'active')
+                            +'<div style="font-size:12px;color:var(--gray-400);margin-top:6px;">'+api.escapeHtml([p.locality,p.city].filter(Boolean).join(', '))+' · '+money(p.rentAmount||p.price)+'/mo · '+api.escapeHtml(p.bhk||'')+' BHK</div>'
+                            +'<div style="font-size:12px;color:var(--gray-400);margin-top:4px;">Views: '+(p.viewCount||0)+'</div></div>'
+                            +'<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">'
+                            +'<a class="btn btn-sm btn-secondary" href="edit-property?id='+p.id+'"><i class="fas fa-pen-to-square"></i> Edit</a>'
+                            +'<a class="btn btn-sm btn-secondary" href="property-detail?id='+p.id+'"><i class="fas fa-eye"></i> View</a>'
+                            +'<button class="btn btn-sm btn-danger" onclick="deleteProp('+p.id+')"><i class="fas fa-trash"></i> Delete</button>'
+                            +'</div></div>';
+                    }).join('');
+                }catch(e){wrap.innerHTML='<div style="text-align:center;padding:40px;color:var(--gray-500);">'+api.escapeHtml(e.message||'Could not load properties.')+'</div>';}
             }
+            window.deleteProp=async function(id){
+                if(!confirm('Delete this property permanently?'))return;
+                try{await api.deleteProperty(id);showToast('Property deleted.','success');loadProps();}
+                catch(e){showToast(e.message||'Delete failed.','error');}
+            };
+            loadProps();
         })();
     </script>
 </body>

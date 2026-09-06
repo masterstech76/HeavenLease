@@ -66,13 +66,11 @@
         </div>
     </section>
 
-    <section class="page-section">
-        <div class="container">
-            <div class="section-head"><h2>Everything you need</h2></div>
-            <div class="feature-grid">
-                    <div class="feature-card"><div class="fc-icon"><i class="fas fa-user-check"></i></div><h3>Active Tenants</h3><p>View tenants in each property.</p></div>
-                    <div class="feature-card"><div class="fc-icon"><i class="fas fa-file-signature"></i></div><h3>Lease Status</h3><p>Current and upcoming leases.</p></div>
-                    <div class="feature-card"><div class="fc-icon"><i class="fas fa-gear"></i></div><h3>Actions</h3><p>Renew, notice or documents.</p></div>
+    <section class="page-section" style="padding-top:20px;">
+        <div class="container" style="max-width: 980px;">
+            <div class="section-head" style="text-align:center;margin-bottom:28px;"><h2>Your Tenants & Leases</h2></div>
+            <div id="tenantWrap">
+                <p style="text-align:center;color:var(--gray-400);padding:40px 0;"><i class="fas fa-spinner fa-spin"></i> Loading tenants…</p>
             </div>
         </div>
     </section>
@@ -96,12 +94,40 @@
     <script src="script.js?v=20260913a"></script>
     <script>
         (function() {
+            'use strict';
             const user = api.getUser();
-            if (user && user.role) {
-                const r = (user.role || '').toLowerCase();
-                const link = document.getElementById('myProfileLink');
-                if (link) link.href = (r === 'owner' || r === 'verified_owner') ? 'edit-profile' : 'edit-profile';
+            function badge(s){const m={'active':['status-completed','Active'],'pending':['status-pending','Pending'],'completed':['status-inactive','Completed'],'terminated':['status-inactive','Terminated'],'expired':['status-inactive','Expired']};const x=m[(s||'').toLowerCase()]||['status-inactive',s||'—'];return '<span class="status '+x[0]+'">'+api.escapeHtml(x[1])+'</span>';}
+            function fmtDate(s){if(!s)return '—';const d=new Date(s);return isNaN(d)?s:d;}
+            function money(n){return '₹'+Math.round(Number(n)||0).toLocaleString('en-IN');}
+
+            async function loadTenants(){
+                const wrap=document.getElementById('tenantWrap');
+                try{
+                    if(!user||!user.id){wrap.innerHTML='<div style="text-align:center;padding:40px;color:var(--gray-500);">Please log in as an owner to manage tenants.</div>';return;}
+                    const role=((user.role)||'').toLowerCase();
+                    let list=[];
+                    if(role==='admin')list=await api.getLeases();
+                    else if(role==='owner'||role==='verified_owner')list=await api.getLeasesByOwner(user.id);
+                    else list=[];
+                    if(!Array.isArray(list))list=[];
+                    if(list.length===0){wrap.innerHTML='<div style="text-align:center;padding:60px 20px;background:var(--white);border:2px dashed var(--gray-200);border-radius:var(--radius-xl);">'
+                        +'<i class="fas fa-users" style="font-size:56px;color:var(--gray-300);"></i>'
+                        +'<h3 style="margin:16px 0 6px;color:var(--dark);">No tenants yet</h3>'
+                        +'<p style="color:var(--gray-500);margin-bottom:20px;">When tenants sign leases on your properties, they appear here.</p>'
+                        +'<a href="lease-signing" class="btn btn-primary" style="display:inline-flex;gap:8px;"><i class="fas fa-file-signature"></i> Create a Lease</a></div>';return;}
+                    wrap.innerHTML=list.map(function(l){
+                        return '<div style="background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:18px 22px;margin-bottom:12px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:center;box-shadow:var(--shadow-sm);">'
+                            +'<div><strong style="color:var(--dark);"><i class="fas fa-user" style="color:var(--primary);margin-right:6px;"></i>'+api.escapeHtml(l.tenantName||('Tenant #'+l.tenantId))+'</strong> '+badge(l.status)
+                            +'<div style="font-size:12px;color:var(--gray-400);margin-top:6px;">'+api.escapeHtml(l.propertyTitle||('Property #'+l.propertyId))+' · '+money(l.monthlyRent)+'/mo · Deposit '+money(l.deposit)+'</div>'
+                            +'<div style="font-size:12px;color:var(--gray-400);margin-top:4px;">'+fmtDate(l.startDate)+' → '+fmtDate(l.endDate)+'</div></div>'
+                            +'<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">'
+                            +'<a class="btn btn-sm btn-secondary" href="lease-management"><i class="fas fa-file-contract"></i> Leases</a>'
+                            +'<a class="btn btn-sm btn-secondary" href="messages"><i class="fas fa-comments"></i> Message</a>'
+                            +'</div></div>';
+                    }).join('');
+                }catch(e){wrap.innerHTML='<div style="text-align:center;padding:40px;color:var(--gray-500);">'+api.escapeHtml(e.message||'Could not load tenants.')+'</div>';}
             }
+            loadTenants();
         })();
     </script>
 </body>
