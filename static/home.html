@@ -151,8 +151,18 @@
         @media (max-width: 768px) {
             .main-hero { padding: 120px 0 40px; }
             .main-hero h1 { font-size: 32px; }
+            .main-hero p { font-size: 15px; }
+            .main-hero .hero-cta { flex-direction: column; align-items: stretch; max-width: 340px; margin: 0 auto 26px; }
+            .main-hero .hero-cta .btn, .main-hero .hero-cta .btn-ghost { width: 100%; justify-content: center; }
+            .search-widget-box { border-radius: var(--radius-lg); }
             .hub-section { padding: 32px 0 48px; }
             .hub-grid { grid-template-columns: 1fr; gap: 18px; }
+        }
+        @media (max-width: 480px) {
+            .main-hero { padding: 108px 0 32px; }
+            .main-hero h1 { font-size: 27px; }
+            .main-hero .hero-badge { font-size: 12px; padding: 7px 12px; }
+            .hub-category > h2 { font-size: 16px; }
         }
     .htier { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
         .hcard { position: relative; overflow: hidden; border-radius: 20px; padding: 26px 24px; min-height: 170px; display: flex; flex-direction: column; justify-content: flex-end; color: #fff; text-decoration: none; box-shadow: 0 18px 40px rgba(15,23,42,0.18); transition: transform .2s ease, box-shadow .2s ease; box-sizing: border-box; }
@@ -166,6 +176,23 @@
         .hcard h3 { font-size: 17px; font-weight: 700; margin: 0 0 4px; color: #fff; }
         .hcard p { font-size: 12.5px; color: rgba(255,255,255,0.85); line-height: 1.55; margin: 0 0 14px; }
         .hcard .hc-cta { font-size: 12.5px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
+        /* ===== CTA BOX BACKGROUND IMAGES (photo + dark gradient overlay, as before) ===== */
+        .hcard { background-size: cover; background-position: center; background-repeat: no-repeat; }
+        .hcard::after { content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+            background: linear-gradient(135deg, rgba(15,23,42,0.10) 0%, rgba(30,27,75,0.86) 100%); }
+        .hcard > * { position: relative; z-index: 1; }
+        .hcard[href="properties"] { background-image: url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=900&q=80'); }
+        .hcard[href="verify-account"] { background-image: url('https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=900&q=80'); }
+        .hcard[href="trust-and-safety-first"] { background-image: url('https://images.unsplash.com/photo-1553456558-aff63285bdd1?w=900&q=80'); }
+        .hcard[href="list-property"] { background-image: url('https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=900&q=80'); }
+        .hcard[href="properties-management"] { background-image: url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=900&q=80'); }
+        .hcard[href="owner-verify"] { background-image: url('https://images.unsplash.com/photo-1556155092-490a1ba16284?w=900&q=80'); }
+        .hcard[href="payment"] { background-image: url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=900&q=80'); }
+        .hcard[href="lease-management"] { background-image: url('https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=900&q=80'); }
+        .hcard[href="maintenance-requests"] { background-image: url('https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=900&q=80'); }
+        .hcard[href="buy-a-home"] { background-image: url('https://images.unsplash.com/photo-1560184897-ae75f418493e?w=900&q=80'); }
+        .hcard[href="sell-your-home"] { background-image: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=900&q=80'); }
+        .hcard[href="upgrade-plan"] { background-image: url('https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=900&q=80'); }
         .htierlink { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
         .hlink { background: rgba(255,255,255,0.6); border: 1px solid var(--gray-200); border-radius: 14px; padding: 12px 16px; font-size: 13px; font-weight: 600; color: var(--gray-600); text-decoration: none; display: flex; align-items: center; gap: 10px; transition: var(--transition); }
         .hlink:hover { border-color: var(--primary); color: var(--primary); transform: translateY(-2px); box-shadow: var(--shadow-sm); }

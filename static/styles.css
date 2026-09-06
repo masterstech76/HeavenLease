@@ -2825,3 +2825,45 @@ textarea:focus-visible {
     border: 1px solid var(--gray-200);
 }
 
+/* ============ GLOBAL MOBILE RESPONSIVE UX/UI ============
+   Targets inline-styled multi-column row grids on the wired
+   app pages (lease/payment/docs/etc). Inline grid-template-columns
+   override stylesheet rules, so we use !important to force stacking
+   on phones and safe 2-col on small tablets.                   */
+@media (max-width: 640px) {
+    .form-row {
+        grid-template-columns: 1fr !important;
+        display: grid !important;
+    }
+    /* Any inline grid that renders 2/3 columns (cards, scores, toggles) */
+    div[style*="grid-template-columns"] {
+        grid-template-columns: 1fr !important;
+    }
+    /* Full-width cards, buttons, modal actions */
+    .btn-block, .btn-lg { width: 100%; }
+    .modal-actions, .cta-banner .btn { width: 100%; }
+    .page-cta .btn { width: 100%; }
+    /* Comfortable tap targets */
+    .hcard { min-height: 150px; padding: 22px 20px; }
+    .hlink { padding: 14px 16px; font-size: 14px; }
+    .btn, .btn-sm, .btn-lg, input, select, textarea, button { min-height: 44px; }
+    /* Status pills + cards wrap instead of overflowing */
+    .status { white-space: nowrap; }
+}
+
+@media (min-width: 641px) and (max-width: 900px) {
+    .form-row {
+        grid-template-columns: 1fr 1fr !important;
+    }
+    div[style*="grid-template-columns:1fr 1fr 1fr"],
+    div[style*="grid-template-columns: repeat(3"] {
+        grid-template-columns: 1fr 1fr !important;
+    }
+}
+
+/* Overflow safety nets everywhere */
+img, iframe, svg, table, pre, .map-container, video {
+    max-width: 100%;
+}
+.page-section, .page-cta, .hub-section { overflow-x: hidden; }
+

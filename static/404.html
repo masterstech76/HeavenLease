@@ -110,6 +110,14 @@
         }
         .btn-outline-error:hover { border-color: #fff; background: rgba(255, 255, 255, 0.1); }
         .error-footer { margin-top: 60px; font-size: 12px; color: rgba(255, 255, 255, 0.4); }
+        @media (max-width: 480px) {
+            .error-code { font-size: 64px; }
+            .error-title { font-size: 22px; }
+            .error-brand .logo-text { font-size: 24px; }
+            .error-actions { flex-direction: column; width: 100%; max-width: 300px; margin: 0 auto; }
+            .btn-primary-error, .btn-outline-error { width: 100%; justify-content: center; padding: 14px 20px; }
+            .error-footer { margin-top: 40px; }
+        }
     </style>
 </head>
 <body>
