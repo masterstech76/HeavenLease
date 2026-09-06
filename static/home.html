@@ -262,7 +262,7 @@
                     <a href="tenant-screening" class="hcard t1"><img src="https://images.unsplash.com/photo-1556155092-490a1ba16284?w=900&q=80" alt="Tenant Screening" class="hcard-img"><div class="hcard-overlay"></div><div class="hcard-body"><div class="hc-icon"><i class="fas fa-user-shield"></i></div><h3>Tenant Screening</h3><p>Verify identity, employment and credit before approving.</p><span class="hc-cta">Screen Tenant <i class="fas fa-arrow-right"></i></span></div></a>
                     <a href="background-check" class="hcard t1b"><img src="https://images.unsplash.com/photo-1614741118887-7a4ee193a5fa?w=900&q=80" alt="Background Check" class="hcard-img"><div class="hcard-overlay"></div><div class="hcard-body"><div class="hc-icon"><i class="fas fa-magnifying-glass"></i></div><h3>Background Check</h3><p>Run a clean, respectful background check on applicants.</p><span class="hc-cta">Run Check <i class="fas fa-arrow-right"></i></span></div></a>
                     <a href="credit-score-check" class="hcard t1c"><img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=900&q=80" alt="Credit Score Check" class="hcard-img"><div class="hcard-overlay"></div><div class="hcard-body"><div class="hc-icon"><i class="fas fa-chart-line"></i></div><h3>Credit Score</h3><p>Check a tenant's credit and payment track record.</p><span class="hc-cta">Check Score <i class="fas fa-arrow-right"></i></span></div></a>
-                    <a href="identity-verification" class="hcard t1"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=900&q=80" alt="Identity Verification" class="hcard-img"><div class="hcard-overlay"></div><div class="hcard-body"><div class="hc-icon"><i class="fas fa-id-badge"></i></div><h3>Identity Verification</h3><p>Confirm who you are renting to with government IDs.</p><span class="hc-cta">Verify ID <i class="fas fa-arrow-right"></i></span></div></a>
+                    <a href="identity-verification" class="hcard t1"><img src="identity-verify.jpg" alt="Identity Verification" class="hcard-img"><div class="hcard-overlay"></div><div class="hcard-body"><div class="hc-icon"><i class="fas fa-id-badge"></i></div><h3>Identity Verification</h3><p>Confirm who you are renting to with government IDs.</p><span class="hc-cta">Verify ID <i class="fas fa-arrow-right"></i></span></div></a>
                     <a href="employment-verification" class="hcard t1b"><img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=900&q=80" alt="Employment Verification" class="hcard-img"><div class="hcard-overlay"></div><div class="hcard-body"><div class="hc-icon"><i class="fas fa-briefcase"></i></div><h3>Employment Check</h3><p>Confirm income and job stability before signing.</p><span class="hc-cta">Verify Job <i class="fas fa-arrow-right"></i></span></div></a>
                     <a href="rental-history" class="hcard t1c"><img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=900&q=80" alt="Rental History" class="hcard-img"><div class="hcard-overlay"></div><div class="hcard-body"><div class="hc-icon"><i class="fas fa-clock-rotate-left"></i></div><h3>Rental History</h3><p>Review past tenancy behaviour and references.</p><span class="hc-cta">View History <i class="fas fa-arrow-right"></i></span></div></a>
                 </div>
@@ -444,136 +444,6 @@
             </div>
         </div>
     </footer>
-<script src="api.js?v=20260913a"></script>
-    <script src="script.js?v=20260913a"></script>
-    <script>
-    (function() {
-        // Auth guard — redirect to login if not authenticated.
-        if (!api.isAuthenticated()) {
-            window.location.href = 'login';
-            return;
-        }
-        const user = api.getUser() || {};
 
-        // ===== ROLE-AWARE HUB: hide owner tools from tenants and tenant
-        // browsing tools from owners. "both" categories stay visible for everyone.
-        (function filterHubByRole() {
-            const role = (user.role || '').toUpperCase();
-            const isOwner = role === 'OWNER' || role === 'VERIFIED_OWNER';
-            const isAdmin = role === 'ADMIN';
-            document.querySelectorAll('.hub-category[data-role]').forEach(cat => {
-                const need = cat.getAttribute('data-role');
-                const visible = isAdmin
-                    || need === 'both'
-                    || (need === 'owner' && isOwner)
-                    || (need === 'tenant' && !isOwner);
-                if (!visible) cat.style.display = 'none';
-            });
-            // Only owners should see the "List Your Property" hero button.
-            const heroListBtn = document.querySelector('.hero-cta a[href="list-property"]');
-            if (heroListBtn && !isOwner) heroListBtn.style.display = 'none';
-        })();
-
-        // Role-aware "My Dashboard" card: tenants land on dashboard, everyone else on dashboard.
-        const myDashboardCard = document.getElementById('myDashboardCard');
-        if (myDashboardCard) {
-            myDashboardCard.addEventListener('click', (e) => {
-                e.preventDefault();
-                const role = (user.role || '').toUpperCase();
-                // "My Dashboard" always opens the single unified dashboard page.
-                const target = 'dashboard';
-                window.location.href = target;
-            });
-        }
-
-        const name = user.fullName || user.name || '';
-        const initial = (name.trim().charAt(0) || 'U').toUpperCase();
-
-        // Role-aware "My Profile & Settings" link (single profile option, no duplicates)
-        const profileLink = document.getElementById('myProfileLink');
-        if (profileLink) {
-            const role = (user.role || '').toLowerCase();
-            profileLink.href = role === 'owner' ? 'edit-profile' : 'edit-profile';
-        }
-
-        if (name) {
-            const el = document.getElementById('navUserName');
-            const icon = document.getElementById('navAvatarIcon');
-            if (el) el.textContent = name.split(' ').slice(0, 2).join(' ');
-            if (icon) icon.className = 'fas fa-user-circle';
-        }
-        const avatar = document.querySelector('#profileBtn .user-avatar');
-        if (avatar && name) avatar.textContent = initial;
-        if (avatar && !name) avatar.innerHTML = '<i class="fas fa-user"></i>';
-
-        const welcome = document.getElementById('welcomeMsg');
-        if (welcome) {
-            const role = (user.role || '').toLowerCase();
-            const base = name ? 'Hi ' + name.split(' ')[0] + ' — ' : 'Welcome — ';
-            welcome.textContent = role === 'owner'
-                ? base + 'manage your listings, rents and tenants right from here.'
-                : base + 'find your perfect home and track your applications here.';
-        }
-
-        // ===== TYPE SEARCH =====
-        const searchBox = document.getElementById('searchBox');
-
-        // Parse a natural-language query into filter params
-        function parseQueryToParams(q) {
-            q = (q || '').toLowerCase();
-            const params = {};
-            // BHK: "2 bhk", "3bhk"
-            const bhkMatch = q.match(/(\d)\s*bhk/);
-            if (bhkMatch) params.bhk = bhkMatch[1];
-            // Budget: "under 30000" / "30,000" → pick a band
-            const budgetMatch = q.match(/under\s*₹?([\d,]+)/);
-            if (budgetMatch) {
-                const amt = parseInt(budgetMatch[1].replace(/,/g, ''), 10);
-                if (amt <= 10000) params.budget = '10000';
-                else if (amt <= 20000) params.budget = '20000';
-                else if (amt <= 30000) params.budget = '30000';
-                else if (amt <= 50000) params.budget = '50000';
-                else params.budget = '100000';
-            }
-            // Location: last few words — try to pull a known city
-            const cities = ['bengaluru','bangalore','hyderabad','pune','mumbai','delhi','noida','gurgaon','gurugram','kolkata','chennai','goa','jaipur','lucknow','ahmedabad'];
-            for (const c of cities) {
-                if (q.includes(c)) { params.location = (c === 'bangalore' ? 'bengaluru' : c); break; }
-            }
-            // If location not found, use the remaining words after budget/BHK as a locality hint
-            if (!params.location) {
-                const cleaned = q.replace(/\d+\s*bhk/,'').replace(/under\s*₹?[\d,]+/,'').replace(/rent|properties|in|for|homes?/g,'').trim();
-                if (cleaned && cleaned.length < 24) params.location = cleaned;
-            }
-            // Type: buy vs rent
-            if (q.includes('buy') || q.includes('sale')) params.type = q.includes('buy') ? 'buy' : 'sale';
-            return params;
-        }
-
-        function goSearch(q) {
-            const params = parseQueryToParams(q);
-            const qs = new URLSearchParams();
-            if (params.location) qs.set('location', params.location);
-            if (params.budget) qs.set('budget', params.budget);
-            if (params.bhk) qs.set('bhk', params.bhk);
-            if (params.type) qs.set('type', params.type);
-            const target = 'properties' + (qs.toString() ? '?' + qs.toString() : '');
-            window.location.href = target;
-        }
-
-        if (searchBox) {
-            searchBox.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    const v = searchBox.value.trim();
-                    if (!v) { window.location.href = 'properties'; return; }
-                    goSearch(v);
-                }
-            });
-        }
-
-
-    })();
-    </script>
 </body>
 </html>
