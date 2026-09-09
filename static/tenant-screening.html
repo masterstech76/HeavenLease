@@ -7,44 +7,619 @@
     <title>Tenant Screening — HeavenLease</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
     <link rel="stylesheet" href="styles.css?v=20260909a">
     <link rel="stylesheet" href="feature-panel.css?v=20260902a">
     <link rel="stylesheet" href="verification-panel.css?v=20260913a">
     <style>
-        .page-header { background: var(--gradient-soft); padding: 140px 0 80px; text-align: center; position: relative; overflow: hidden; }
-        .page-header h1 { font-family: var(--font-heading); font-size: 48px; font-weight: 700; color: var(--dark); margin-bottom: 16px; }
-        .page-header p { font-size: 18px; color: var(--gray-500); max-width: 600px; margin: 0 auto; }
-        .page-header .breadcrumb { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 16px; font-size: 14px; color: var(--gray-500); }
-        .page-header .breadcrumb a { color: var(--primary); }
-        .page-header .breadcrumb i { font-size: 12px; color: var(--gray-400); }
-        .content-section { padding: 80px 0; }
-        .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
-        .feature-card { background: var(--white); border-radius: var(--radius-lg); padding: 32px; border: 1px solid var(--gray-200); transition: var(--transition); }
-        .feature-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
-        .feature-icon { width: 56px; height: 56px; background: var(--gradient-soft); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 22px; color: var(--primary); margin-bottom: 20px; }
-        .feature-card h3 { font-size: 18px; font-weight: 600; color: var(--dark); margin-bottom: 12px; }
-        .feature-card p { font-size: 14px; color: var(--gray-500); line-height: 1.7; }
-        .cta-section { padding: 60px 0; }
-        @media (max-width: 1024px) { .feature-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 768px) { .page-header { padding: 120px 0 50px; } .page-header h1 { font-size: 36px; } .feature-grid { grid-template-columns: 1fr; } }
+        :root {
+            --hl-navy: #182033;
+            --hl-navy-2: #0b3045;
+            --hl-sky: #5b5ce2;
+            --hl-sky-2: #3aa7d1;
+            --hl-sky-soft: #e8f8fd;
+            --hl-ink: #182033;
+            --hl-muted: #687386;
+            --hl-line: #e4e7ee;
+            --hl-shadow: 0 22px 65px rgba(14, 63, 84, .11);
+        }
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            margin: 0;
+            color: var(--hl-ink);
+            font-family: "Inter", sans-serif;
+            background:
+                linear-gradient(rgba(239,250,253,.94), rgba(229,246,251,.97)),
+                url("https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=2200&q=85")
+                center / cover fixed no-repeat;
+        }
+        a { text-decoration: none; }
+        /* ---------- PREMIUM NAVBAR ---------- */
+        .navbar {
+            position: relative !important;
+            top: 0 !important;
+            z-index: 1000;
+            min-height: 82px;
+            background:
+                linear-gradient(90deg, rgba(3,17,28,.98), rgba(7,39,56,.87)),
+                url("https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=2200&q=85")
+                center / cover no-repeat !important;
+            border-bottom: 1px solid rgba(255,255,255,.11);
+            box-shadow: 0 12px 35px rgba(0,18,30,.22);
+        }
+        .nav-container {
+            width: min(1180px, calc(100% - 40px)) !important;
+            min-height: 82px;
+            margin: auto !important;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+        .navbar .logo {
+            display: inline-flex !important;
+            align-items: center;
+            gap: 11px;
+            color: #fff !important;
+        }
+        .navbar .logo-icon {
+            width: 46px !important;
+            height: 46px !important;
+            display: grid !important;
+            place-items: center;
+            border-radius: 14px !important;
+            background: linear-gradient(145deg, #d9f7ff, #72cbed) !important;
+            color: #182033 !important;
+            box-shadow: 0 9px 28px rgba(87,201,239,.22);
+        }
+        .navbar .logo-text {
+            color: #fff !important;
+            font-family: "Playfair Display", serif !important;
+            font-size: 27px !important;
+            font-weight: 700 !important;
+        }
+        .navbar .logo-text span { color: var(--hl-sky) !important; }
+        .nav-actions { display: flex; align-items: center; }
+        .user-menu { position: relative; }
+        .user-menu-trigger {
+            min-height: 46px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 5px 12px 5px 6px;
+            border: 1px solid rgba(255,255,255,.15);
+            border-radius: 999px;
+            background: rgba(255,255,255,.08);
+            color: #fff;
+            cursor: pointer;
+            backdrop-filter: blur(12px);
+        }
+        .user-avatar {
+            width: 35px;
+            height: 35px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            color: var(--hl-sky);
+            background: rgba(139,220,248,.15);
+            border: 1px solid rgba(139,220,248,.32);
+        }
+        #navUserName {
+            font-size: 13px;
+            font-weight: 700;
+        }
+        .user-menu-trigger > .fa-chevron-down {
+            font-size: 10px;
+            color: rgba(255,255,255,.62);
+        }
+        .user-dropdown {
+            right: 0 !important;
+            top: calc(100% + 10px) !important;
+            width: 258px;
+            max-height: min(75vh, 620px);
+            overflow-y: auto;
+            padding: 8px;
+            border: 1px solid rgba(255,255,255,.13);
+            border-radius: 17px;
+            background: rgba(5,24,38,.98) !important;
+            box-shadow: 0 22px 55px rgba(0,0,0,.30);
+            backdrop-filter: blur(18px);
+        }
+        .user-dropdown a {
+            display: flex !important;
+            align-items: center;
+            gap: 11px;
+            padding: 10px 11px;
+            border-radius: 9px;
+            color: rgba(255,255,255,.82) !important;
+            font-size: 12px;
+            line-height: 1.35;
+        }
+        .user-dropdown a:hover {
+            color: #fff !important;
+            background: rgba(139,220,248,.10);
+        }
+        .user-dropdown a i {
+            width: 18px;
+            flex: 0 0 18px;
+            color: var(--hl-sky);
+            text-align: center;
+        }
+        .user-dropdown .dropdown-divider {
+            height: 1px;
+            margin: 7px 5px;
+            background: rgba(255,255,255,.09);
+        }
+        /* ---------- HERO ---------- */
+        .screening-hero {
+            position: relative;
+            min-height: 475px;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            background:
+                linear-gradient(90deg, rgba(3,20,31,.95) 0%, rgba(6,37,51,.82) 47%, rgba(7,38,52,.42) 100%),
+                url("https://images.unsplash.com/photo-1560185009-dddeb820c7b7?auto=format&fit=crop&w=2200&q=85")
+                center / cover no-repeat;
+        }
+        .screening-hero::after {
+            content: "";
+            position: absolute;
+            inset: auto 0 0;
+            height: 120px;
+            background: linear-gradient(transparent, rgba(229,246,251,.95));
+            pointer-events: none;
+        }
+        .hero-inner {
+            position: relative;
+            z-index: 1;
+            width: min(1180px, calc(100% - 40px));
+            margin: auto;
+            padding: 70px 0 90px;
+        }
+        .hero-copy { max-width: 770px; }
+        .hero-kicker {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 18px;
+            padding: 8px 13px;
+            border: 1px solid rgba(139,220,248,.28);
+            border-radius: 999px;
+            background: rgba(139,220,248,.10);
+            color: #bdefff;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .13em;
+            text-transform: uppercase;
+            backdrop-filter: blur(10px);
+        }
+        .hero-title {
+            margin: 0 0 17px;
+            color: #fff;
+            font-family: "Playfair Display", serif;
+            font-size: clamp(44px, 6vw, 68px);
+            line-height: 1.03;
+            letter-spacing: -1.3px;
+        }
+        .hero-title span { color: var(--hl-sky); }
+        .hero-description {
+            max-width: 670px;
+            margin: 0;
+            color: rgba(255,255,255,.78);
+            font-size: 16px;
+            line-height: 1.75;
+        }
+        .hero-points {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 9px;
+            margin-top: 25px;
+        }
+        .hero-point {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 12px;
+            border: 1px solid rgba(255,255,255,.12);
+            border-radius: 999px;
+            background: rgba(255,255,255,.07);
+            color: rgba(255,255,255,.74);
+            font-size: 11px;
+            backdrop-filter: blur(10px);
+        }
+        .hero-point i { color: var(--hl-sky); }
+        /* ---------- MAIN ---------- */
+        .content-section {
+            position: relative;
+            padding: 76px 0;
+        }
+        .content-section::before {
+            content: "";
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            width: 260px;
+            height: 260px;
+            border-radius: 50%;
+            transform: translateX(-50%);
+            background: rgba(139,220,248,.13);
+            filter: blur(12px);
+            pointer-events: none;
+        }
+        .container {
+            position: relative;
+            z-index: 1;
+        }
+        .screening-container {
+            width: min(1120px, calc(100% - 40px));
+            margin: auto;
+        }
+        .section-header {
+            max-width: 730px;
+            margin: 0 auto 36px;
+            text-align: center;
+        }
+        .section-tag {
+            display: inline-flex !important;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 11px;
+            color: var(--hl-sky-2) !important;
+            font-size: 10px !important;
+            font-weight: 800 !important;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+        }
+        .section-header h2 {
+            margin: 0 0 12px;
+            color: var(--hl-navy);
+            font-family: "Playfair Display", serif;
+            font-size: clamp(29px, 4vw, 39px);
+            line-height: 1.15;
+        }
+        .section-header p {
+            margin: 0;
+            color: var(--hl-muted);
+            font-size: 14px;
+            line-height: 1.75;
+        }
+        .feature-grid {
+            display: grid !important;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px !important;
+        }
+        .feature-card {
+            min-height: 235px;
+            position: relative;
+            display: flex !important;
+            flex-direction: column;
+            padding: 25px !important;
+            border: 1px solid rgba(255,255,255,.90) !important;
+            border-radius: 20px !important;
+            background: rgba(255,255,255,.94) !important;
+            box-shadow: 0 12px 34px rgba(17,67,88,.07);
+            overflow: hidden;
+            transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+        }
+        .feature-card::after {
+            content: "";
+            position: absolute;
+            width: 105px;
+            height: 105px;
+            right: -40px;
+            bottom: -45px;
+            border-radius: 50%;
+            background: rgba(139,220,248,.13);
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(58,167,209,.30) !important;
+            box-shadow: var(--hl-shadow);
+        }
+        .feature-icon {
+            width: 48px !important;
+            height: 48px !important;
+            display: grid !important;
+            place-items: center;
+            margin-bottom: 18px !important;
+            border-radius: 14px !important;
+            color: var(--hl-sky-2) !important;
+            background: var(--hl-sky-soft) !important;
+            font-size: 19px !important;
+        }
+        .feature-card h3 {
+            margin: 0 0 9px !important;
+            color: var(--hl-navy) !important;
+            font-size: 16px !important;
+            font-weight: 700 !important;
+        }
+        .feature-card p {
+            margin: 0 !important;
+            color: var(--hl-muted) !important;
+            font-size: 13px !important;
+            line-height: 1.7 !important;
+        }
+        .feature-card .go {
+            position: relative;
+            z-index: 2;
+            margin-top: auto !important;
+            padding-top: 17px;
+            color: var(--hl-sky-2) !important;
+            font-size: 12px !important;
+        }
+        /* ---------- VERIFICATION PANEL AREA ---------- */
+        .verification-section {
+            padding-top: 0;
+        }
+        .verification-shell {
+            width: min(940px, calc(100% - 40px));
+            margin: auto;
+        }
+        .panel-heading {
+            margin-bottom: 18px;
+            text-align: center;
+        }
+        .panel-heading .mini-label {
+            color: var(--hl-sky-2);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+        }
+        .panel-heading h2 {
+            margin: 7px 0 0;
+            color: var(--hl-navy);
+            font-family: "Playfair Display", serif;
+            font-size: 30px;
+        }
+        #verificationPanel {
+            border-radius: 22px;
+            overflow: hidden;
+        }
+        /* ---------- HELP ---------- */
+        .help-section {
+            padding-top: 15px;
+        }
+        .help-card {
+            width: min(900px, calc(100% - 40px));
+            margin: auto;
+            padding: 31px;
+            border: 1px solid rgba(255,255,255,.9);
+            border-radius: 22px;
+            background: rgba(255,255,255,.94);
+            box-shadow: var(--hl-shadow);
+        }
+        .help-heading {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-bottom: 18px;
+        }
+        .help-icon {
+            width: 45px;
+            height: 45px;
+            flex: 0 0 45px;
+            display: grid;
+            place-items: center;
+            border-radius: 13px;
+            color: var(--hl-sky-2);
+            background: var(--hl-sky-soft);
+        }
+        .help-heading h2 {
+            margin: 0 0 5px;
+            color: var(--hl-navy);
+            font-family: "Playfair Display", serif;
+            font-size: 25px;
+        }
+        .help-heading p {
+            margin: 0;
+            color: var(--hl-muted);
+            font-size: 13px;
+            line-height: 1.65;
+        }
+        .help-form textarea,
+        .help-form input {
+            width: 100%;
+            border: 1px solid rgba(16,43,58,.13);
+            border-radius: 13px;
+            background: #f8fcfe;
+            color: var(--hl-ink);
+            font: inherit;
+            outline: none;
+            transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+        }
+        .help-form textarea {
+            min-height: 130px;
+            resize: vertical;
+            padding: 14px;
+            line-height: 1.6;
+        }
+        .help-form input {
+            max-width: 360px;
+            margin-top: 10px;
+            padding: 12px 14px;
+            font-size: 13px;
+        }
+        .help-form textarea:focus,
+        .help-form input:focus {
+            border-color: rgba(58,167,209,.60);
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(139,220,248,.16);
+        }
+        .help-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 9px;
+            margin-top: 13px;
+        }
+        .help-actions .btn {
+            border-radius: 11px;
+        }
+        .help-note {
+            margin: 10px 0 0 !important;
+            color: #91a0a9 !important;
+            font-size: 11px !important;
+            line-height: 1.6 !important;
+        }
+        /* ---------- FOOTER ---------- */
+        .footer {
+            background: #06131f !important;
+            color: rgba(255,255,255,.62) !important;
+            border-top: 1px solid rgba(255,255,255,.08);
+        }
+        .footer .container {
+            width: min(1180px, calc(100% - 40px));
+            margin: auto;
+        }
+        .footer-grid {
+            padding: 43px 0 28px !important;
+        }
+        .footer .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: #fff !important;
+        }
+        .footer .logo-icon {
+            width: 40px !important;
+            height: 40px !important;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            background: linear-gradient(145deg, #d9f7ff, #72cbed) !important;
+            color: #182033 !important;
+        }
+        .footer .logo-text {
+            color: #fff !important;
+            font-family: "Playfair Display", serif !important;
+            font-size: 23px !important;
+            font-weight: 700;
+        }
+        .footer .logo-text span { color: var(--hl-sky) !important; }
+        .footer-brand p {
+            color: rgba(255,255,255,.53) !important;
+            font-size: 12px !important;
+            line-height: 1.7;
+        }
+        .footer-bottom {
+            min-height: 55px;
+            border-top: 1px solid rgba(255,255,255,.08);
+        }
+        .footer-bottom p {
+            margin: 0;
+            color: rgba(255,255,255,.46);
+            font-size: 11px;
+        }
+        .footer-bottom .fa-heart { color: var(--hl-sky); }
+        /* ---------- BACK TO TOP ---------- */
+        .back-to-top {
+            position: fixed;
+            right: 24px;
+            bottom: 24px;
+            z-index: 900;
+            width: 45px;
+            height: 45px;
+            display: grid;
+            place-items: center;
+            border: 1px solid rgba(255,255,255,.78);
+            border-radius: 13px;
+            background: rgba(7,26,41,.93);
+            color: #fff;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            box-shadow: 0 12px 28px rgba(4,23,35,.22);
+            transition: .22s ease;
+        }
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .back-to-top:hover {
+            background: var(--hl-navy-2);
+            transform: translateY(-2px);
+        }
+        @media (max-width: 1024px) {
+            .feature-grid { grid-template-columns: repeat(2, 1fr) !important; }
+        }
+        @media (max-width: 768px) {
+            body { background-attachment: scroll; }
+            .nav-container,
+            .hero-inner,
+            .screening-container,
+            .verification-shell,
+            .help-card,
+            .footer .container {
+                width: calc(100% - 28px) !important;
+            }
+            .navbar,
+            .nav-container { min-height: 72px; }
+            .navbar .logo-icon {
+                width: 42px !important;
+                height: 42px !important;
+            }
+            .navbar .logo-text { font-size: 24px !important; }
+            #navUserName { display: none; }
+            .screening-hero { min-height: 410px; }
+            .hero-inner { padding: 55px 0 75px; }
+            .hero-title { font-size: 44px; }
+            .hero-description {
+                font-size: 14px;
+                line-height: 1.7;
+            }
+            .content-section {
+                padding: 55px 0;
+            }
+            .feature-grid { grid-template-columns: 1fr !important; }
+            .feature-card { min-height: 210px; }
+            .help-card { padding: 24px 20px; }
+        }
+        @media (max-width: 480px) {
+            .user-dropdown {
+                position: fixed !important;
+                right: 14px !important;
+                top: 68px !important;
+                width: calc(100vw - 28px);
+            }
+            .hero-title { font-size: 39px; }
+            .hero-points {
+                display: grid;
+                grid-template-columns: 1fr;
+            }
+            .hero-point { width: fit-content; }
+            .panel-heading h2 { font-size: 26px; }
+            .back-to-top {
+                right: 15px;
+                bottom: 15px;
+            }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            .feature-card,
+            .back-to-top { transition: none; }
+        }
     </style>
 </head>
 <body>
     <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <a href="/" class="logo">
-                <div class="logo-icon"><i class="fas fa-home"></i></div>
+            <a href="/" class="logo" aria-label="HeavenLease home">
+                <div class="logo-icon"><i class="fas fa-home" aria-hidden="true"></i></div>
                 <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
-            
             <div class="nav-actions">
-                                <div class="user-menu" id="userMenu">
-                    <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu">
-                        <span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span>
+                <div class="user-menu" id="userMenu">
+                    <button type="button" class="user-menu-trigger" id="profileBtn" aria-label="Account menu" aria-haspopup="true">
+                        <span class="user-avatar">
+                            <i class="fas fa-user" id="navAvatarIcon" aria-hidden="true"></i>
+                        </span>
                         <span id="navUserName">Account</span>
-                        <i class="fas fa-chevron-down"></i>
+                        <i class="fas fa-chevron-down" aria-hidden="true"></i>
                     </button>
                     <div class="user-dropdown" id="profileDropdown">
                         <a href="home" id="mainHomeLink"><i class="fas fa-home"></i> Main Home</a>
@@ -68,178 +643,180 @@
                         <a href="how-it-works"><i class="fas fa-circle-question"></i> How It Works</a>
                         <a href="about"><i class="fas fa-building"></i> About Us</a>
                         <a href="blog"><i class="fas fa-newspaper"></i> Blog</a>
-<a href="comfort-scores"><i class="fas fa-chart-simple"></i> Type &amp; Voice Search</a>
-                                                <a href="contact"><i class="fas fa-envelope"></i> Contact &amp; Support</a>
+                        <a href="comfort-scores"><i class="fas fa-chart-simple"></i> Type &amp; Voice Search</a>
+                        <a href="contact"><i class="fas fa-envelope"></i> Contact &amp; Support</a>
                         <div class="dropdown-divider"></div>
                         <a href="login" id="signInLink" class="hide-when-auth"><i class="fas fa-arrow-right-to-bracket"></i> Sign In</a>
                         <a href="#" id="logoutLink" class="logout-link hide-when-guest"><i class="fas fa-sign-out-alt"></i> Logout</a>
                     </div>
                 </div>
-</div>
+            </div>
         </div>
     </nav>
-
-    <section class="page-header">
-        <div class="container">
-            <h1>Tenant <span class="gradient-text">Screening</span></h1>
-            <p>Get pre-screened, verified tenants for your property. No more guesswork.</p>
-            <div class="breadcrumb">
-                <a href="/">Home</a>
-                <i class="fas fa-chevron-right"></i>
-                <span>Tenant Screening</span>
-            </div>
-        </div>
-    </section>
-
-    <section class="content-section">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">For Owners</span>
-                <h2>Verified Tenants, <span class="gradient-text">Zero Risk</span></h2>
-                <p>Every tenant on HeavenLease goes through comprehensive verification before they can contact you.</p>
-            </div>
-                                    <div class="feature-grid">
-                <a href="identity-verification" class="feature-card" style="text-decoration:none;color:inherit;display:block;">
-                    <div class="feature-icon"><i class="fas fa-id-card"></i></div>
-                    <h3>Identity Verification</h3>
-                    <p>Government ID verification ensures every tenant is who they claim to be.</p>
-                    <span class="go" style="margin-top:10px;display:inline-flex;align-items:center;gap:6px;color:var(--primary);font-size:13px;font-weight:600;">Learn more <i class="fas fa-arrow-right"></i></span>
-                </a>
-                <a href="credit-score-check" class="feature-card" style="text-decoration:none;color:inherit;display:block;">
-                    <div class="feature-icon"><i class="fas fa-credit-card"></i></div>
-                    <h3>Credit Score Check</h3>
-                    <p>We check credit history to ensure tenants have a track record of financial responsibility.</p>
-                    <span class="go" style="margin-top:10px;display:inline-flex;align-items:center;gap:6px;color:var(--primary);font-size:13px;font-weight:600;">Learn more <i class="fas fa-arrow-right"></i></span>
-                </a>
-                <a href="rental-history" class="feature-card" style="text-decoration:none;color:inherit;display:block;">
-                    <div class="feature-icon"><i class="fas fa-history"></i></div>
-                    <h3>Rental History</h3>
-                    <p>Previous rental history and landlord references are verified for reliability.</p>
-                    <span class="go" style="margin-top:10px;display:inline-flex;align-items:center;gap:6px;color:var(--primary);font-size:13px;font-weight:600;">Learn more <i class="fas fa-arrow-right"></i></span>
-                </a>
-                <a href="employment-verification" class="feature-card" style="text-decoration:none;color:inherit;display:block;">
-                    <div class="feature-icon"><i class="fas fa-briefcase"></i></div>
-                    <h3>Employment Verification</h3>
-                    <p>We verify employment and income to ensure tenants can afford the rent.</p>
-                    <span class="go" style="margin-top:10px;display:inline-flex;align-items:center;gap:6px;color:var(--primary);font-size:13px;font-weight:600;">Learn more <i class="fas fa-arrow-right"></i></span>
-                </a>
-                <a href="background-check" class="feature-card" style="text-decoration:none;color:inherit;display:block;">
-                    <div class="feature-icon"><i class="fas fa-shield-halved"></i></div>
-                    <h3>Background Check</h3>
-                    <p>Comprehensive background checks for safety and peace of mind.</p>
-                    <span class="go" style="margin-top:10px;display:inline-flex;align-items:center;gap:6px;color:var(--primary);font-size:13px;font-weight:600;">Learn more <i class="fas fa-arrow-right"></i></span>
-                </a>
-                <a href="tenant-ratings" class="feature-card" style="text-decoration:none;color:inherit;display:block;">
-                    <div class="feature-icon"><i class="fas fa-star"></i></div>
-                    <h3>Tenant Ratings</h3>
-                    <p>Previous landlords rate tenants, giving you insight into their reliability.</p>
-                    <span class="go" style="margin-top:10px;display:inline-flex;align-items:center;gap:6px;color:var(--primary);font-size:13px;font-weight:600;">Learn more <i class="fas fa-arrow-right"></i></span>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <section class="content-section" style="padding-top:0;">
-        <div class="container" style="max-width:900px;">
-            <div id="verificationPanel" data-page-key="tenant_screening"
-                data-title="Tenant Screening — Submit Documents"
-                data-hint="Owners ask for proof of identity, employment, credit and rental history before approving a tenancy. Upload your documents here — each one is stored securely, masked where needed (Aadhaar/PAN), and reviewed by the property owner or an admin. You will see the real status change to VERIFIED or REJECTED here and in your notifications."
-                data-doc-types="Identity Document|Employment Proof|Income / Salary Slip|Credit Report|Previous Landlord Reference"></div>
-        </div>
-    </section>
-
-    <section class="content-section" style="padding-top:0;">
-        <div class="container">
-            <div class="content-block">
-                <h2><i class='fas fa-comment-dots'></i> Ask us anything</h2>
-                <p>Not sure what this means for your situation? Ask us in plain text and our team will clarify by email.</p>
-                <div class='help-strip'>
-                    <textarea id='helpMessage' placeholder='Type your message in plain text - no file upload needed.'></textarea>
-                    <input type='text' id='helpEmail' placeholder='Your email (optional)' style='width:100%;max-width:360px;margin-top:10px;padding:12px 14px;border:1px solid var(--gray-200);border-radius:var(--radius-md);font-size:14px;font-family:inherit;box-sizing:border-box;'>
-                    <div>
-                        <button type='button' class='btn btn-primary help-send' onclick='sendHelpMessage()'><i class='fas fa-paper-plane'></i> Send Message</button>
-                        <button type='button' class='btn btn-ghost help-clear' onclick='clearHelpMessage()'><i class='fas fa-eraser'></i> Clear</button>
-                    </div>
-                    <p class='help-note' id='helpNote' style='font-size:12px;color:var(--gray-400);margin-top:10px;'>Messages go to our support team by email. Prefer email? Write to support@heavenlease.in</p>
+    <header class="screening-hero">
+        <div class="hero-inner">
+            <div class="hero-copy">
+                <div class="hero-kicker">
+                    <i class="fas fa-shield-halved" aria-hidden="true"></i>
+                    For property owners
+                </div>
+                <h1 class="hero-title">
+                    Tenant <span>Screening</span>
+                </h1>
+                <p class="hero-description">
+                    Get pre-screened, verified tenants for your property. No more guesswork.
+                </p>
+                <div class="hero-points">
+                    <span class="hero-point"><i class="fas fa-id-card"></i> Identity</span>
+                    <span class="hero-point"><i class="fas fa-credit-card"></i> Credit</span>
+                    <span class="hero-point"><i class="fas fa-briefcase"></i> Employment</span>
+                    <span class="hero-point"><i class="fas fa-star"></i> Rental ratings</span>
                 </div>
             </div>
         </div>
-    </section>
-
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-grid" style="grid-template-columns: 1fr; text-align: center;">
-                <div class="footer-brand">
-                    <a href="/" class="logo">
-                        <div class="logo-icon"><i class="fas fa-home"></i></div>
-                        <span class="logo-text">Heaven<span>Lease</span></span>
+    </header>
+    <main>
+        <section class="content-section">
+            <div class="screening-container">
+                <div class="section-header">
+                    <span class="section-tag">For Owners</span>
+                    <h2>Verified Tenants, <span class="gradient-text">Zero Risk</span></h2>
+                    <p>
+                        Every tenant on HeavenLease goes through comprehensive verification before they can contact you.
+                    </p>
+                </div>
+                <div class="feature-grid">
+                    <a href="identity-verification" class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-id-card"></i></div>
+                        <h3>Identity Verification</h3>
+                        <p>Government ID verification ensures every tenant is who they claim to be.</p>
+                        <span class="go">Learn more <i class="fas fa-arrow-right"></i></span>
                     </a>
-                    <p style="margin: 10px auto; max-width: 300px;">Simple steps to your perfect stay. Direct owner rentals with zero broker fees and comfort-first search.</p></div>
+                    <a href="credit-score-check" class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-credit-card"></i></div>
+                        <h3>Credit Score Check</h3>
+                        <p>We check credit history to ensure tenants have a track record of financial responsibility.</p>
+                        <span class="go">Learn more <i class="fas fa-arrow-right"></i></span>
+                    </a>
+                    <a href="rental-history" class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-history"></i></div>
+                        <h3>Rental History</h3>
+                        <p>Previous rental history and landlord references are verified for reliability.</p>
+                        <span class="go">Learn more <i class="fas fa-arrow-right"></i></span>
+                    </a>
+                    <a href="employment-verification" class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-briefcase"></i></div>
+                        <h3>Employment Verification</h3>
+                        <p>We verify employment and income to ensure tenants can afford the rent.</p>
+                        <span class="go">Learn more <i class="fas fa-arrow-right"></i></span>
+                    </a>
+                    <a href="background-check" class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-shield-halved"></i></div>
+                        <h3>Background Check</h3>
+                        <p>Comprehensive background checks for safety and peace of mind.</p>
+                        <span class="go">Learn more <i class="fas fa-arrow-right"></i></span>
+                    </a>
+                    <a href="tenant-ratings" class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-star"></i></div>
+                        <h3>Tenant Ratings</h3>
+                        <p>Previous landlords rate tenants, giving you insight into their reliability.</p>
+                        <span class="go">Learn more <i class="fas fa-arrow-right"></i></span>
+                    </a>
+                </div>
             </div>
-            <div class="footer-bottom" style="justify-content: center;">
-                <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
+        </section>
+        <section class="content-section verification-section">
+            <div class="verification-shell">
+                <div class="panel-heading">
+                    <div class="mini-label">Verification centre</div>
+                    <h2>Submit Your Documents</h2>
+                </div>
+                <div id="verificationPanel"
+                    data-page-key="tenant_screening"
+                    data-title="Tenant Screening — Submit Documents"
+                    data-hint="Owners ask for proof of identity, employment, credit and rental history before approving a tenancy. Upload your documents here — each one is stored securely, masked where needed (Aadhaar/PAN), and reviewed by the property owner or an admin. You will see the real status change to VERIFIED or REJECTED here and in your notifications."
+                    data-doc-types="Identity Document|Employment Proof|Income / Salary Slip|Credit Report|Previous Landlord Reference"></div>
             </div>
+        </section>
+        <section class="content-section help-section">
+            <div class="help-card">
+                <div class="help-heading">
+                    <div class="help-icon" aria-hidden="true">
+                        <i class="fas fa-comment-dots"></i>
+                    </div>
+                    <div>
+                        <h2>Ask us anything</h2>
+                        <p>Not sure what this means for your situation? Ask us in plain text and our team will clarify by email.</p>
+                    </div>
+                </div>
+                <div class="help-form">
+                    <textarea id="helpMessage" placeholder="Type your message in plain text — no file upload needed." aria-label="Your message"></textarea>
+                    <input
+                        type="text"
+                        id="helpEmail"
+                        placeholder="Your email (optional)"
+                        aria-label="Your email (optional)"
+                    >
+                    <div class="help-actions">
+                        <button type="button" class="btn btn-primary help-send" onclick="sendHelpMessage()">
+                            <i class="fas fa-paper-plane"></i> Send Message
+                        </button>
+                        <button type="button" class="btn btn-ghost help-clear" onclick="clearHelpMessage()">
+                            <i class="fas fa-eraser"></i> Clear
+                        </button>
+                    </div>
+                    <p class="help-note" id="helpNote">
+                        Messages go to our support team by email. Prefer email? Write to support@heavenlease.in
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer class="footer">
+<div class="container">
+    <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
+        <div class="footer-brand">
+            <a href="home" class="logo">
+                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <span class="logo-text">Heaven<span>Lease</span></span>
+            </a>
+            <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>
         </div>
-    </footer>
-
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Explore</strong>
+            <a href="properties" style="color:inherit;text-decoration:none;">Find a Home</a>
+            <a href="map" style="color:inherit;text-decoration:none;">Property Map</a>
+            <a href="how-it-works" style="color:inherit;text-decoration:none;">How It Works</a>
+            <a href="about" style="color:inherit;text-decoration:none;">About Us</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Company</strong>
+            <a href="careers" style="color:inherit;text-decoration:none;">Careers</a>
+            <a href="press" style="color:inherit;text-decoration:none;">Press</a>
+            <a href="blog" style="color:inherit;text-decoration:none;">Blog</a>
+            <a href="contact" style="color:inherit;text-decoration:none;">Contact</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">For Owners</strong>
+            <a href="list-property" style="color:inherit;text-decoration:none;">List Your Property</a>
+            <a href="properties-management" style="color:inherit;text-decoration:none;">Owner Dashboard</a>
+            <a href="payment" style="color:inherit;text-decoration:none;">Pricing &amp; Upgrade</a>
+            <a href="owner-resources" style="color:inherit;text-decoration:none;">Owner Resources</a>
+        </div>
+    </div>
+    <div class="footer-bottom" style="justify-content:center;margin-top:28px;">
+        <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
+    </div>
+</div>
+</footer>
     <button class="back-to-top" id="backToTop" aria-label="Back to top">
-        <i class="fas fa-arrow-up"></i>
+        <i class="fas fa-arrow-up" aria-hidden="true"></i>
     </button>
-
-    <script src="api.js?v=20260913a"></script>
-    <script src="script.js?v=20260913a"></script>
-    <script src="verification-panel.js?v=20260913a"></script>
-    <script>
-        function clearHelpMessage() {
-            var msg = document.getElementById('helpMessage'); if (msg) msg.value = '';
-            var em = document.getElementById('helpEmail'); if (em) em.value = '';
-            var note = document.getElementById('helpNote');
-            if (note) note.textContent = 'Messages go to our support team by email. Prefer email? Write to support@heavenlease.in';
-        }
-        function sendHelpMessage() {
-            var msgEl = document.getElementById('helpMessage');
-            var msg = (msgEl && msgEl.value || '').trim();
-            var em = document.getElementById('helpEmail');
-            var email = (em && em.value || '').trim();
-            var note = document.getElementById('helpNote');
-            if (!msg) { if (note) note.textContent = 'Please type a short message first.'; return; }
-            var subject = encodeURIComponent('HeavenLease page enquiry');
-            var body = encodeURIComponent(msg + (email ? '\n\nReply to: ' + email : ''));
-            window.location.href = 'mailto:support@heavenlease.in?subject=' + subject + '&body=' + body;
-            setTimeout(function () { if (note) note.textContent = 'Opening your email app to send the message - thank you!'; }, 400);
-        }
-    </script>
-    <script>
-        const navbar = document.getElementById('navbar');
-        const hamburger = document.getElementById('hamburger');
-        const navLinks = document.getElementById('navLinks');
-        const backToTop = document.getElementById('backToTop');
-
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) navbar.classList.add('scrolled');
-            else navbar.classList.remove('scrolled');
-            if (window.scrollY > 500) backToTop.classList.add('visible');
-            else backToTop.classList.remove('visible');
-        });
-
-        if (hamburger) hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            navLinks.classList.toggle('active');
-        });
-
-        if (hamburger && navLinks) {
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.addEventListener('click', () => {
-                    hamburger.classList.remove('active');
-                    navLinks.classList.remove('active');
-                });
-            });
-        }
-
-        backToTop.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-    </script>
+    <script src="js/api.js?v=20260913a"></script>
+    <script src="js/core.js?v=20260913a"></script>
+    <script src="js/verification-panel.js?v=20260913a"></script>
+    
+    
+<script src="js/pages/tenant-screening.js?v=20260913a"></script>
 </body>
 </html>
-

@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
     <link rel="stylesheet" href="styles.css?v=20260909a">
     <style>
         .page-header { background: var(--gradient-soft); padding: 140px 0 80px; text-align: center; position: relative; overflow: hidden; }
@@ -27,6 +27,243 @@
         .contact-press { padding: 60px 0; background: var(--gray-50); text-align: center; }
         @media (max-width: 768px) { .page-header { padding: 120px 0 50px; } .page-header h1 { font-size: 36px; } .press-grid { grid-template-columns: 1fr; } }
     </style>
+<style>
+:root{
+    --sky-950:#073b5c;
+    --sky-900:#075985;
+    --sky-800:#0369a1;
+    --sky-700:#5b5ce2;
+    --sky-600:#0ea5e9;
+    --sky-500:#38bdf8;
+    --sky-300:#eef0ff;
+    --sky-200:#eef0ff;
+    --sky-100:#e0f2fe;
+    --sky-50:#f0f9ff;
+    --white:#ffffff;
+    --text:#123047;
+    --muted:#687386;
+}
+body{
+    background:
+        radial-gradient(circle at 12% 18%, rgba(125,211,252,.34), transparent 30%),
+        radial-gradient(circle at 88% 55%, rgba(186,230,253,.42), transparent 34%),
+        linear-gradient(180deg,#f0f9ff 0%,#ffffff 46%,#eaf7ff 100%);
+    color:var(--text);
+}
+.navbar{
+    background:
+        linear-gradient(135deg,rgba(3,105,161,.94),rgba(7,89,133,.90)),
+        url('https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1800&q=85') center/cover;
+    border-bottom:1px solid rgba(186,230,253,.45);
+    box-shadow:0 8px 30px rgba(3,105,161,.16);
+}
+.navbar.scrolled{
+    background:
+        linear-gradient(135deg,rgba(3,105,161,.98),rgba(7,89,133,.98)),
+        url('https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1800&q=85') center/cover;
+}
+.logo-icon{
+    background:linear-gradient(135deg,var(--sky-500),var(--sky-700)) !important;
+    box-shadow:0 8px 20px rgba(14,165,233,.28);
+}
+.logo-text{color:#fff !important;}
+.logo-text span{color:#eef0ff !important;}
+.user-menu-trigger{
+    background:rgba(255,255,255,.12) !important;
+    border:1px solid rgba(255,255,255,.28) !important;
+    backdrop-filter:blur(12px);
+    color:#fff !important;
+}
+.user-avatar{
+    background:rgba(255,255,255,.18) !important;
+    color:#fff !important;
+}
+.user-dropdown{
+    background:#fff !important;
+    border:1px solid #eef0ff !important;
+    box-shadow:0 20px 50px rgba(3,105,161,.20) !important;
+}
+.user-dropdown a:hover{
+    background:#e0f2fe !important;
+    color:#0369a1 !important;
+}
+.page-header{
+    padding:145px 0 90px;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+    isolation:isolate;
+    background:
+        linear-gradient(135deg,rgba(224,242,254,.90),rgba(186,230,253,.72)),
+        url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1900&q=85') center/cover;
+}
+.page-header::before{
+    content:"";
+    position:absolute;
+    width:520px;height:520px;
+    border-radius:50%;
+    right:-180px;top:-260px;
+    background:rgba(56,189,248,.24);
+    filter:blur(5px);
+    z-index:-1;
+}
+.page-header::after{
+    content:"";
+    position:absolute;
+    width:380px;height:380px;
+    border-radius:50%;
+    left:-150px;bottom:-230px;
+    background:rgba(125,211,252,.30);
+    z-index:-1;
+}
+.page-header h1{
+    font-family:var(--font-heading);
+    font-size:clamp(38px,5vw,60px);
+    color:#073b5c;
+    text-shadow:0 2px 18px rgba(255,255,255,.65);
+}
+.page-header p{
+    color:#31556d;
+    max-width:650px;
+}
+.page-header .breadcrumb{
+    color:#527187;
+}
+.page-header .breadcrumb a{
+    color:#5b5ce2;
+    font-weight:600;
+}
+.gradient-text{
+    background:linear-gradient(135deg,#5b5ce2,#38bdf8);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent !important;
+}
+.press-section{
+    padding:90px 0;
+    background:
+        linear-gradient(180deg,rgba(240,249,255,.95),rgba(255,255,255,.98)),
+        url('https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1900&q=80') center/cover;
+}
+.section-tag{
+    color:#5b5ce2 !important;
+    background:rgba(224,242,254,.88) !important;
+    border:1px solid #eef0ff !important;
+}
+.section-header h2{
+    color:#073b5c;
+}
+.press-grid{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:26px;
+}
+.press-card{
+    position:relative;
+    overflow:hidden;
+    background:rgba(255,255,255,.88) !important;
+    border:1px solid rgba(125,211,252,.58) !important;
+    border-radius:24px !important;
+    padding:34px !important;
+    box-shadow:0 14px 38px rgba(3,105,161,.09);
+    backdrop-filter:blur(10px);
+    transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;
+}
+.press-card::before{
+    content:"";
+    position:absolute;
+    inset:0 auto auto 0;
+    width:100%;
+    height:4px;
+    background:linear-gradient(90deg,#5b5ce2,#38bdf8,#eef0ff);
+}
+.press-card:hover{
+    transform:translateY(-7px);
+    box-shadow:0 24px 55px rgba(3,105,161,.16);
+    border-color:#eef0ff !important;
+}
+.press-card h3{
+    color:#073b5c !important;
+    font-size:20px !important;
+}
+.press-card p{
+    color:#527187 !important;
+    line-height:1.8 !important;
+}
+.press-date{
+    color:#5b5ce2 !important;
+    font-weight:700;
+    letter-spacing:.03em;
+}
+.contact-press{
+    padding:78px 0;
+    text-align:center;
+    background:
+        linear-gradient(135deg,#075985,#5b5ce2 55%,#0ea5e9);
+    color:#fff;
+    position:relative;
+    overflow:hidden;
+}
+.contact-press::before{
+    content:"";
+    position:absolute;
+    width:480px;height:480px;
+    border-radius:50%;
+    right:-180px;top:-300px;
+    background:rgba(255,255,255,.10);
+}
+.contact-press::after{
+    content:"";
+    position:absolute;
+    width:320px;height:320px;
+    border-radius:50%;
+    left:-150px;bottom:-230px;
+    background:rgba(125,211,252,.13);
+}
+.contact-press h2,
+.contact-press p{
+    position:relative;
+    z-index:1;
+}
+.contact-press h2{
+    color:#fff !important;
+}
+.contact-press .gradient-text{
+    background:linear-gradient(135deg,#fff,#eef0ff);
+    -webkit-background-clip:text;
+    background-clip:text;
+}
+.contact-press p{
+    color:#e0f2fe !important;
+}
+.contact-press a{
+    color:#fff !important;
+    font-weight:700;
+    text-decoration:underline;
+    text-underline-offset:4px;
+}
+.footer{
+    background:#052f49 !important;
+    color:#eef0ff !important;
+    border-top:1px solid rgba(125,211,252,.18);
+}
+.footer .logo-text{color:#fff !important;}
+.footer .logo-text span{color:#eef0ff !important;}
+.footer p{color:#b8d3e4 !important;}
+.footer-bottom{
+    border-top-color:rgba(186,230,253,.14) !important;
+}
+.back-to-top{
+    background:linear-gradient(135deg,#5b5ce2,#0ea5e9) !important;
+    box-shadow:0 10px 28px rgba(3,105,161,.25);
+}
+@media (max-width:768px){
+    .page-header{padding:125px 0 65px;}
+    .press-section{padding:65px 0;}
+    .press-grid{grid-template-columns:1fr;gap:20px;}
+    .press-card{padding:28px !important;}
+}
+</style>
 </head>
 <body>
     <nav class="navbar" id="navbar">
@@ -75,7 +312,6 @@
 </div>
         </div>
     </nav>
-
     <section class="page-header">
         <div class="container">
             <h1>Press <span class="gradient-text">Center</span></h1>
@@ -87,7 +323,6 @@
             </div>
         </div>
     </section>
-
     <section class="press-section">
         <div class="container">
             <div class="section-header">
@@ -118,64 +353,55 @@
             </div>
         </div>
     </section>
-
     <section class="contact-press">
         <div class="container">
             <h2>Media <span class="gradient-text">Inquiries</span></h2>
             <p>For press and media inquiries, please contact us at <a href="mailto:press@heavenlease.in" style="color: var(--primary);">press@heavenlease.in</a></p>
         </div>
     </section>
-
     <footer class="footer">
-        <div class="container">
-            <div class="footer-grid" style="grid-template-columns: 1fr; text-align: center;">
-                <div class="footer-brand">
-                    <a href="/" class="logo">
-                        <div class="logo-icon"><i class="fas fa-home"></i></div>
-                        <span class="logo-text">Heaven<span>Lease</span></span>
-                    </a>
-                    <p style="margin: 10px auto; max-width: 300px;">Simple steps to your perfect stay. Direct owner rentals with zero broker fees and comfort-first search.</p></div>
-            </div>
-            <div class="footer-bottom" style="justify-content: center;">
-                <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
-            </div>
+<div class="container">
+    <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
+        <div class="footer-brand">
+            <a href="home" class="logo">
+                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <span class="logo-text">Heaven<span>Lease</span></span>
+            </a>
+            <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>
         </div>
-    </footer>
-
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Explore</strong>
+            <a href="properties" style="color:inherit;text-decoration:none;">Find a Home</a>
+            <a href="map" style="color:inherit;text-decoration:none;">Property Map</a>
+            <a href="how-it-works" style="color:inherit;text-decoration:none;">How It Works</a>
+            <a href="about" style="color:inherit;text-decoration:none;">About Us</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Company</strong>
+            <a href="careers" style="color:inherit;text-decoration:none;">Careers</a>
+            <a href="press" style="color:inherit;text-decoration:none;">Press</a>
+            <a href="blog" style="color:inherit;text-decoration:none;">Blog</a>
+            <a href="contact" style="color:inherit;text-decoration:none;">Contact</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">For Owners</strong>
+            <a href="list-property" style="color:inherit;text-decoration:none;">List Your Property</a>
+            <a href="properties-management" style="color:inherit;text-decoration:none;">Owner Dashboard</a>
+            <a href="payment" style="color:inherit;text-decoration:none;">Pricing &amp; Upgrade</a>
+            <a href="owner-resources" style="color:inherit;text-decoration:none;">Owner Resources</a>
+        </div>
+    </div>
+    <div class="footer-bottom" style="justify-content:center;margin-top:28px;">
+        <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
+    </div>
+</div>
+</footer>
     <button class="back-to-top" id="backToTop" aria-label="Back to top">
         <i class="fas fa-arrow-up"></i>
     </button>
-
-    <script src="api.js?v=20260913a"></script>
-    <script src="script.js?v=20260913a"></script>
-    <script>
-        // Note: navbar, hamburger, navLinks, backToTop are already declared in script.js
-
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) navbar.classList.add('scrolled');
-            else navbar.classList.remove('scrolled');
-            if (window.scrollY > 500) backToTop.classList.add('visible');
-            else backToTop.classList.remove('visible');
-        });
-
-        if (hamburger) hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            navLinks.classList.toggle('active');
-        });
-
-        if (hamburger && navLinks) {
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.addEventListener('click', () => {
-                    hamburger.classList.remove('active');
-                    navLinks.classList.remove('active');
-                });
-            });
-        }
-
-        backToTop.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-    </script>
+    <script src="js/api.js?v=20260913a"></script>
+    <script src="js/core.js?v=20260913a"></script>
+    
+<script src="js/pages/press.js?v=20260913a"></script>
 </body>
 </html>
-

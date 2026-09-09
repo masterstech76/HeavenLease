@@ -1,293 +1,300 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Verify your identity as a property owner on HeavenLease - upload documents to get verified.">
-    <title>Owner Verification — HeavenLease</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="styles.css?v=20260909a">
-    <style>
-        .verify-page { min-height: 100vh; background: var(--gray-50); padding-top: 72px; }
-        .verify-container { max-width: 720px; margin: 0 auto; padding: 40px 24px; }
-        .verify-header { text-align: center; margin-bottom: 32px; }
-        .verify-header .icon-wrap {
-            width: 64px; height: 64px; background: var(--gradient); border-radius: 50%;
-            display: inline-flex; align-items: center; justify-content: center; color: var(--white);
-            font-size: 26px; margin-bottom: 16px; box-shadow: var(--shadow-primary);
-        }
-        .verify-header h1 { font-family: var(--font-heading); font-size: 28px; font-weight: 700; color: var(--dark); margin-bottom: 8px; }
-        .verify-header p { font-size: 14px; color: var(--gray-500); max-width: 480px; margin: 0 auto; line-height: 1.6; }
-        .verify-card { background: var(--white); border-radius: var(--radius-lg); padding: 32px; border: 1px solid var(--gray-200); margin-bottom: 24px; }
-        .verify-card h2 { font-size: 18px; font-weight: 600; color: var(--dark); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
-        .verify-card h2 i { color: var(--primary); }
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; font-size: 13px; font-weight: 600; color: var(--gray-600); margin-bottom: 8px; }
-        .form-group input, .form-group select {
-            width: 100%; padding: 12px 16px; border: 1px solid var(--gray-200); border-radius: var(--radius-md);
-            background: var(--gray-50); font-size: 14px; color: var(--gray-700); transition: var(--transition);
-        }
-        .form-group input:focus, .form-group select:focus {
-            outline: none; border-color: var(--primary); background: var(--white); box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
-        }
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-        .upload-area {
-            border: 2px dashed var(--gray-300); border-radius: var(--radius-md); padding: 30px; text-align: center;
-            cursor: pointer; transition: var(--transition); background: var(--gray-50);
-        }
-        .upload-area:hover { border-color: var(--primary); background: var(--primary-light); }
-        .upload-area i { font-size: 32px; color: var(--primary); display: block; margin-bottom: 8px; }
-        .upload-area p { font-size: 14px; color: var(--gray-600); font-weight: 500; }
-        .upload-area span { font-size: 12px; color: var(--gray-400); }
-        .upload-success {
-            display: none; padding: 12px; background: #D1FAE5; border-radius: var(--radius-md);
-            color: var(--secondary-dark); font-size: 13px; font-weight: 600; margin-top: 10px; align-items: center; gap: 8px;
-        }
-        .upload-success.show { display: flex; }
-        .btn-verify { width: 100%; padding: 14px; font-size: 15px; }
-        .status-banner {
-            border-radius: var(--radius-md); padding: 16px; margin-bottom: 24px; display: flex; align-items: center; gap: 12px; font-size: 14px;
-        }
-        .status-pending { background: #FEF3C7; color: #B45309; }
-        .status-verified { background: #D1FAE5; color: var(--secondary-dark); }
-        @media (max-width: 768px) { .form-row { grid-template-columns: 1fr; } }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Verify your identity as a property owner on HeavenLease - upload documents to get verified.">
+<title>Owner Verification — HeavenLease</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
+<link rel="stylesheet" href="styles.css?v=20260909a">
+<style>
+:root{
+ --ink:#182033;--muted:#687386;--line:#e4e7ee;--primary:#5b5ce2;
+ --primary2:#5b5ce2;--green:#18a878;--dark:#182033;--soft:#f6f7fb;
+ --radius:22px;--shadow:0 22px 60px rgba(15,23,42,.11);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+ margin:0;font-family:Inter,sans-serif;color:var(--ink);
+ background:
+ linear-gradient(rgba(243,247,250,.93),rgba(248,250,252,.97)),
+ url('https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=2200&q=85') center/cover fixed
+}
+.container{width:min(1180px,calc(100% - 40px));margin:auto}
+/* Image-backed navbar */
+.navbar{
+ position:fixed;inset:0 0 auto;z-index:1000;
+ background:
+ linear-gradient(90deg,rgba(3,9,20,.97),rgba(9,27,44,.78)),
+ url('https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=2200&q=88') center/cover;
+ border-bottom:1px solid rgba(255,255,255,.14);
+ box-shadow:0 8px 30px rgba(2,6,23,.18)
+}
+.nav-container{width:min(1180px,calc(100% - 40px));min-height:78px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.navbar .logo{display:flex;align-items:center;gap:11px;color:#fff;text-decoration:none}
+.logo-icon{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(135deg,#5b5ce2,#10b981);color:#fff;box-shadow:0 10px 25px rgba(79,70,229,.3)}
+.logo-text{font:700 28px 'Playfair Display',serif;letter-spacing:-.4px}.navbar .logo-text{color:#fff}.logo-text span{color:#aeb1ff}
+.nav-actions{display:flex;align-items:center}.user-menu{position:relative}
+.user-menu-trigger{
+ min-height:46px;padding:5px 12px 5px 6px;border:1px solid rgba(255,255,255,.16);border-radius:999px;
+ background:rgba(255,255,255,.09);color:#fff;display:flex;align-items:center;gap:9px;font:600 13px Inter;
+ cursor:pointer;backdrop-filter:blur(10px)
+}
+.user-avatar{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.15)}
+.user-menu-trigger>i{font-size:10px;color:rgba(255,255,255,.65)}
+.user-dropdown{
+ position:absolute;right:0;top:calc(100% + 10px);width:285px;max-height:70vh;overflow:auto;padding:8px;
+ background:#fff;border:1px solid #e4e7ee;border-radius:16px;box-shadow:0 24px 60px rgba(15,23,42,.22);display:none
+}
+.user-menu:hover .user-dropdown,.user-menu:focus-within .user-dropdown{display:block}
+.user-dropdown a{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;color:#3a4354;text-decoration:none;font-size:12px;font-weight:600}
+.user-dropdown a:hover{background:#eef0f5;color:var(--primary)}
+.user-dropdown a i{width:18px;text-align:center;color:#687386}
+.dropdown-divider{height:1px;background:#e4e7ee;margin:7px 4px}
+.logout-link{color:#b91c1c!important}.logout-link i{color:#b91c1c!important}
+/* Verification hero */
+.verify-page{
+ min-height:100vh;padding:142px 0 80px;position:relative;overflow:hidden;
+ background:
+ linear-gradient(90deg,rgba(5,14,27,.96),rgba(8,28,47,.76) 58%,rgba(8,20,35,.45)),
+ url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=2200&q=88') center/cover;
+ color:#fff
+}
+.verify-shell{width:min(1060px,calc(100% - 40px));margin:auto}
+.verify-intro{display:grid;grid-template-columns:1fr .82fr;gap:50px;align-items:end;margin-bottom:38px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid rgba(255,255,255,.2);border-radius:999px;background:rgba(255,255,255,.09);color:#eef0ff;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+.verify-intro h1{font:700 clamp(42px,5vw,61px)/1.06 'Playfair Display',serif;letter-spacing:-1.4px;margin:19px 0 14px}
+.verify-intro h1 span{color:#aeb1ff}
+.verify-intro p{max-width:650px;color:rgba(255,255,255,.72);font-size:15px;line-height:1.8;margin:0}
+.trust-panel{padding:25px;border:1px solid rgba(255,255,255,.17);border-radius:22px;background:rgba(255,255,255,.09);backdrop-filter:blur(14px)}
+.trust-icon{width:50px;height:50px;border-radius:15px;display:grid;place-items:center;background:rgba(129,140,248,.2);color:#eef0ff;margin-bottom:15px}
+.trust-panel h3{font:600 23px 'Playfair Display',serif;margin:0 0 7px}.trust-panel p{font-size:11px;line-height:1.7;color:rgba(255,255,255,.62);margin:0}
+.trust-points{display:grid;gap:9px;margin-top:16px}.trust-points div{display:flex;gap:8px;color:rgba(255,255,255,.72);font-size:11px}.trust-points i{color:#a7f3d0;margin-top:2px}
+/* Main form */
+.verify-layout{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
+.status-banner{
+ grid-column:1/-1;border-radius:16px;padding:15px 18px;display:flex;align-items:center;gap:11px;
+ font-size:12px;font-weight:500;background:#fff7df;color:#9a5a00;border:1px solid #f3ddb0;box-shadow:0 10px 28px rgba(0,0,0,.08)
+}
+.status-banner i{font-size:16px}
+.verify-card{background:rgba(255,255,255,.97);border:1px solid rgba(255,255,255,.55);border-radius:22px;padding:28px;color:var(--ink);box-shadow:var(--shadow)}
+.verify-card h2{font:600 24px 'Playfair Display',serif;margin:0 0 22px;display:flex;align-items:center;gap:10px}
+.verify-card h2 i{font-size:17px;color:var(--primary)}
+.form-group{margin-bottom:18px}.form-group:last-child{margin-bottom:0}
+.form-group label{display:block;font-size:11px;font-weight:800;letter-spacing:.02em;color:#525c6e;margin-bottom:7px}
+.form-group input,.form-group select{
+ width:100%;height:48px;padding:0 14px;border:1px solid #d8e0e9;border-radius:12px;background:#f7f8fc;
+ font:13px Inter;color:var(--ink);transition:.2s;outline:none
+}
+.form-group input:focus,.form-group select:focus{border-color:#5b5ce2;background:#fff;box-shadow:0 0 0 4px rgba(99,102,241,.1)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.upload-area{
+ border:2px dashed #ccd6e1;border-radius:16px;padding:26px 18px;text-align:center;cursor:pointer;
+ transition:.2s;background:#f7f8fc
+}
+.upload-area:hover{border-color:var(--primary);background:#f1f3ff;transform:translateY(-1px)}
+.upload-area i{font-size:28px;color:var(--primary);display:block;margin-bottom:9px}
+.upload-area p{font-size:13px;color:#3a4354;font-weight:700;margin:0 0 5px}.upload-area span{font-size:10px;color:#9aa3b2}
+.upload-success{
+ display:none;padding:11px 12px;background:#ecfdf5;border:1px solid #bbf7d0;border-radius:12px;color:#047857;
+ font-size:11px;font-weight:700;margin-top:9px;align-items:center;gap:8px
+}
+.upload-success.show{display:flex}
+.documents-card{grid-column:1/-1}
+.document-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.document-box{padding:17px;border:1px solid #e5eaf0;border-radius:16px;background:#fbfcfe}
+.document-box .form-group{margin:0}.document-box label{min-height:32px}
+.submit-wrap{grid-column:1/-1}
+.btn-verify{
+ width:100%;min-height:54px;padding:0 18px;border:0;border-radius:13px;background:#182033;color:#fff;
+ font:800 13px Inter;cursor:pointer;box-shadow:0 16px 35px rgba(15,23,42,.18);transition:.2s
+}
+.btn-verify:hover{background:#26364e;transform:translateY(-1px)}.btn-verify:disabled{opacity:.65;cursor:not-allowed;transform:none}
+.security-note{display:flex;justify-content:center;align-items:center;gap:7px;color:rgba(255,255,255,.5);font-size:10px;margin-top:12px}
+.security-note i{color:#a7f3d0}
+/* Next step */
+.page-cta{padding:0 0 80px;background:transparent}
+.cta-banner{
+ width:min(1060px,calc(100% - 40px));margin:auto;padding:42px 28px;text-align:center;border-radius:25px;
+ background:#091321;color:#fff;box-shadow:0 25px 65px rgba(15,23,42,.2)
+}
+.cta-banner h2{font:600 35px 'Playfair Display',serif;margin:0 0 8px}.cta-banner p{font-size:13px;color:rgba(255,255,255,.58);margin:0 0 22px}
+.cta-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.cta-banner .btn{min-height:47px;padding:0 18px;border-radius:11px;display:inline-flex;align-items:center;gap:8px;text-decoration:none;font:700 12px Inter;background:#fff;color:#182033}
+.cta-banner .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,.18);color:#fff}
+@media(max-width:850px){
+ .verify-intro{grid-template-columns:1fr}.verify-layout{grid-template-columns:1fr}.documents-card,.submit-wrap{grid-column:auto}.document-grid{grid-template-columns:1fr}
+}
+@media(max-width:620px){
+ .container,.nav-container,.verify-shell,.cta-banner{width:calc(100% - 28px)}
+ .nav-container{min-height:70px}.navbar .logo-text{font-size:25px}.navbar .logo-icon{width:40px;height:40px}#navUserName{display:none}
+ .verify-page{padding:125px 0 55px}.verify-intro h1{font-size:43px}.verify-intro p{font-size:13px}
+ .verify-card{padding:21px}.form-row{grid-template-columns:1fr}.status-banner{align-items:flex-start}
+ .page-cta{padding-bottom:55px}.cta-banner{padding:32px 18px}.cta-banner h2{font-size:31px}
+}
+</style>
 </head>
 <body>
-    <nav class="navbar" id="navbar">
-        <div class="nav-container">
+<nav class="navbar" id="navbar">
+ <div class="nav-container">
+  <a href="home" class="logo">
+   <div class="logo-icon"><i class="fas fa-home"></i></div>
+   <span class="logo-text">Heaven<span>Lease</span></span>
+  </a>
+  <div class="nav-actions">
+   <div class="user-menu" id="userMenu">
+    <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu">
+     <span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span>
+     <span id="navUserName">Account</span><i class="fas fa-chevron-down"></i>
+    </button>
+    <div class="user-dropdown" id="profileDropdown">
+     <a href="home" id="mainHomeLink"><i class="fas fa-home"></i> Main Home</a>
+     <a href="edit-profile" id="myProfileLink"><i class="fas fa-user"></i> My Profile &amp; Settings</a>
+     <a href="payment"><i class="fas fa-credit-card"></i> Access Pass</a><div class="dropdown-divider"></div>
+     <a href="properties"><i class="fas fa-building"></i> Browse Properties</a><a href="map"><i class="fas fa-map-location-dot"></i> Property Map</a>
+     <a href="comfort-scores"><i class="fas fa-gauge-high"></i> Comfort Scores</a><a href="saved-properties"><i class="fas fa-heart"></i> Saved Properties</a>
+     <a href="list-property"><i class="fas fa-key"></i> List Your Property</a><a href="tenant-screening"><i class="fas fa-user-check"></i> Tenant Screening</a>
+     <a href="owner-resources"><i class="fas fa-toolbox"></i> Owner Resources</a><a href="buy-sell"><i class="fas fa-tag"></i> Buy / Sell</a>
+     <a href="possession"><i class="fas fa-key"></i> Possession &amp; Handover</a><a href="lease-signing"><i class="fas fa-file-signature"></i> Leases &amp; Signing</a>
+     <a href="tour-booking"><i class="fas fa-calendar-check"></i> Tour Bookings</a><a href="messages"><i class="fas fa-comments"></i> Messages</a>
+     <a href="notifications"><i class="fas fa-bell"></i> Notifications</a><div class="dropdown-divider"></div>
+     <a href="how-it-works"><i class="fas fa-circle-question"></i> How It Works</a><a href="about"><i class="fas fa-building"></i> About Us</a>
+     <a href="blog"><i class="fas fa-newspaper"></i> Blog</a><a href="comfort-scores"><i class="fas fa-chart-simple"></i> Type &amp; Voice Search</a>
+     <a href="contact"><i class="fas fa-envelope"></i> Contact &amp; Support</a><div class="dropdown-divider"></div>
+     <a href="login" id="signInLink" class="hide-when-auth"><i class="fas fa-arrow-right-to-bracket"></i> Sign In</a>
+     <a href="#" id="logoutLink" class="logout-link hide-when-guest"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+   </div>
+  </div>
+ </div>
+</nav>
+<main>
+<section class="verify-page">
+ <div class="verify-shell">
+  <div class="verify-intro">
+   <div>
+    <div class="eyebrow"><i class="fas fa-shield-halved"></i> Owner verification</div>
+    <h1>Build trust as a <span>Verified Owner</span></h1>
+    <p>Verify your identity to earn the <strong>Verified Owner</strong> badge. This builds trust with tenants and increases your listing's visibility.</p>
+   </div>
+   <aside class="trust-panel">
+    <div class="trust-icon"><i class="fas fa-lock"></i></div>
+    <h3>Verification made clear.</h3>
+    <p>Complete your details and provide the requested proof so your owner application can be reviewed.</p>
+    <div class="trust-points">
+     <div><i class="fas fa-check"></i><span>Personal details</span></div>
+     <div><i class="fas fa-check"></i><span>Government ID proof</span></div>
+     <div><i class="fas fa-check"></i><span>Ownership proof</span></div>
+    </div>
+   </aside>
+  </div>
+  <div class="verify-layout">
+   <div class="status-banner status-pending" id="statusBanner">
+    <i class="fas fa-clock"></i>
+    <span>Your verification is <strong>pending review</strong>. We typically approve within 24-48 hours.</span>
+   </div>
+   <div class="verify-card">
+    <h2><i class="fas fa-user"></i> Personal Details</h2>
+    <form id="verifyForm">
+     <div class="form-row">
+      <div class="form-group"><label for="fullName">Full Name</label><input type="text" id="fullName" placeholder="As per government ID" required></div>
+      <div class="form-group"><label for="phone">Phone Number</label><input type="tel" id="phone" placeholder="+91 XXXXX XXXXX" required></div>
+     </div>
+     <div class="form-group"><label for="email">Email Address</label><input type="email" id="email" placeholder="you@example.com" required></div>
+     <div class="form-group"><label for="propertyAddress">Property Address</label><input type="text" id="propertyAddress" placeholder="Full address of the property you own" required></div>
+    </form>
+   </div>
+   <div class="verify-card">
+    <h2><i class="fas fa-file-shield"></i> Verification Checklist</h2>
+    <p style="margin:-10px 0 18px;color:#687386;font-size:12px;line-height:1.65;">Upload both documents requested below. Accepted formats are PDF, JPG or PNG, with a maximum file size of 5MB.</p>
+    <div class="document-grid">
+     <div class="document-box">
+      <div class="form-group">
+       <label>Government ID Proof (Aadhaar/Passport/Driving License)</label>
+       <div class="upload-area" id="idUploadArea" onclick="document.getElementById('idFile').click()">
+        <i class="fas fa-cloud-arrow-up"></i><p>Click to upload ID proof</p><span>PDF, JPG or PNG · Max 5MB</span>
+       </div>
+       <input type="file" id="idFile" accept=".pdf,.jpg,.png,.jpeg" style="display:none;" onchange="handleIdUpload(this)">
+       <div class="upload-success" id="idSuccess"><i class="fas fa-check-circle"></i><span id="idFileName"></span></div>
+      </div>
+     </div>
+     <div class="document-box">
+      <div class="form-group">
+       <label>Ownership Proof (Deed / Property Tax Receipt / Utility Bill)</label>
+       <div class="upload-area" id="ownUploadArea" onclick="document.getElementById('ownFile').click()">
+        <i class="fas fa-file-lines"></i><p>Click to upload ownership proof</p><span>PDF, JPG or PNG · Max 5MB</span>
+       </div>
+       <input type="file" id="ownFile" accept=".pdf,.jpg,.png,.jpeg" style="display:none;" onchange="handleOwnUpload(this)">
+       <div class="upload-success" id="ownSuccess"><i class="fas fa-check-circle"></i><span id="ownFileName"></span></div>
+      </div>
+     </div>
+    </div>
+   </div>
+   <div class="submit-wrap">
+    <button class="btn btn-primary btn-lg btn-verify" id="submitVerify" onclick="submitVerification()">
+     <i class="fas fa-paper-plane"></i> Submit for Verification
+    </button>
+    <div class="security-note"><i class="fas fa-lock"></i><span>Review your details before submitting your owner application.</span></div>
+   </div>
+  </div>
+ </div>
+</section>
+<section class="page-cta">
+ <div class="container">
+  <div class="cta-banner">
+   <h2>Next Step</h2>
+   <p>Verification submitted — set up and manage your owner profile.</p>
+   <div class="cta-actions">
+    <a href="edit-profile" class="btn btn-lg"><i class="fas fa-user-circle"></i> Open Owner Profile</a>
+    <a href="dashboard" class="btn btn-lg ghost"><i class="fas fa-gauge-high"></i> My Dashboard</a>
+   </div>
+  </div>
+ </div>
+</section>
+</main>
+<script src="js/api.js?v=20260913a"></script>
+<script src="js/core.js?v=20260913a"></script>
+<script src="js/pages/owner-verify.js?v=20260913a"></script>
+<footer class="footer">
+<div class="container">
+    <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
+        <div class="footer-brand">
             <a href="home" class="logo">
                 <div class="logo-icon"><i class="fas fa-home"></i></div>
                 <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
-            
-            <div class="nav-actions">
-                
-                                <div class="user-menu" id="userMenu">
-                    <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu">
-                        <span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span>
-                        <span id="navUserName">Account</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </button>
-                    <div class="user-dropdown" id="profileDropdown">
-                        <a href="home" id="mainHomeLink"><i class="fas fa-home"></i> Main Home</a>
-                        <a href="edit-profile" id="myProfileLink"><i class="fas fa-user"></i> My Profile &amp; Settings</a>
-                        <a href="payment"><i class="fas fa-credit-card"></i> Access Pass</a>
-                        <div class="dropdown-divider"></div>
-                        <a href="properties"><i class="fas fa-building"></i> Browse Properties</a>
-                        <a href="map"><i class="fas fa-map-location-dot"></i> Property Map</a>
-                        <a href="comfort-scores"><i class="fas fa-gauge-high"></i> Comfort Scores</a>
-                        <a href="saved-properties"><i class="fas fa-heart"></i> Saved Properties</a>
-                        <a href="list-property"><i class="fas fa-key"></i> List Your Property</a>
-                        <a href="tenant-screening"><i class="fas fa-user-check"></i> Tenant Screening</a>
-                        <a href="owner-resources"><i class="fas fa-toolbox"></i> Owner Resources</a>
-                        <a href="buy-sell"><i class="fas fa-tag"></i> Buy / Sell</a>
-                        <a href="possession"><i class="fas fa-key"></i> Possession &amp; Handover</a>
-                        <a href="lease-signing"><i class="fas fa-file-signature"></i> Leases &amp; Signing</a>
-                        <a href="tour-booking"><i class="fas fa-calendar-check"></i> Tour Bookings</a>
-                        <a href="messages"><i class="fas fa-comments"></i> Messages</a>
-                        <a href="notifications"><i class="fas fa-bell"></i> Notifications</a>
-                        <div class="dropdown-divider"></div>
-                        <a href="how-it-works"><i class="fas fa-circle-question"></i> How It Works</a>
-                        <a href="about"><i class="fas fa-building"></i> About Us</a>
-                        <a href="blog"><i class="fas fa-newspaper"></i> Blog</a>
-<a href="comfort-scores"><i class="fas fa-chart-simple"></i> Type &amp; Voice Search</a>
-                                                <a href="contact"><i class="fas fa-envelope"></i> Contact &amp; Support</a>
-                        <div class="dropdown-divider"></div>
-                        <a href="login" id="signInLink" class="hide-when-auth"><i class="fas fa-arrow-right-to-bracket"></i> Sign In</a>
-                        <a href="#" id="logoutLink" class="logout-link hide-when-guest"><i class="fas fa-sign-out-alt"></i> Logout</a>
-                    </div>
-                </div>
-</div>
+            <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>
         </div>
-    </nav>
-
-    <div class="verify-page">
-        <div class="verify-container">
-            <div class="verify-header">
-                <div class="icon-wrap"><i class="fas fa-shield-halved"></i></div>
-                <h1>Owner Verification</h1>
-                <p>Verify your identity to earn the <strong>Verified Owner</strong> badge. This builds trust with tenants and increases your listing's visibility.</p>
-            </div>
-
-            <!-- Status banner -->
-            <div class="status-banner status-pending" id="statusBanner">
-                <i class="fas fa-clock"></i>
-                <span>Your verification is <strong>pending review</strong>. We typically approve within 24-48 hours.</span>
-            </div>
-
-            <div class="verify-card">
-                <h2><i class="fas fa-user"></i> Personal Details</h2>
-                <form id="verifyForm">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Full Name</label>
-                            <input type="text" id="fullName" placeholder="As per government ID" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Phone Number</label>
-                            <input type="tel" id="phone" placeholder="+91 XXXXX XXXXX" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Email Address</label>
-                        <input type="email" id="email" placeholder="you@example.com" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Property Address</label>
-                        <input type="text" id="propertyAddress" placeholder="Full address of the property you own" required>
-                    </div>
-                </form>
-            </div>
-
-            <div class="verify-card">
-                <h2><i class="fas fa-file-shield"></i> Documents</h2>
-                <div class="form-group">
-                    <label>Government ID Proof (Aadhaar/Passport/Driving License)</label>
-                    <div class="upload-area" id="idUploadArea" onclick="document.getElementById('idFile').click()">
-                        <i class="fas fa-cloud-arrow-up"></i>
-                        <p>Click to upload ID proof</p>
-                        <span>PDF, JPG or PNG · Max 5MB</span>
-                    </div>
-                    <input type="file" id="idFile" accept=".pdf,.jpg,.png,.jpeg" style="display:none;" onchange="handleIdUpload(this)">
-                    <div class="upload-success" id="idSuccess"><i class="fas fa-check-circle"></i> <span id="idFileName"></span></div>
-                </div>
-
-                <div class="form-group">
-                    <label>Ownership Proof (Deed / Property Tax Receipt / Utility Bill)</label>
-                    <div class="upload-area" id="ownUploadArea" onclick="document.getElementById('ownFile').click()">
-                        <i class="fas fa-file-lines"></i>
-                        <p>Click to upload ownership proof</p>
-                        <span>PDF, JPG or PNG · Max 5MB</span>
-                    </div>
-                    <input type="file" id="ownFile" accept=".pdf,.jpg,.png,.jpeg" style="display:none;" onchange="handleOwnUpload(this)">
-                    <div class="upload-success" id="ownSuccess"><i class="fas fa-check-circle"></i> <span id="ownFileName"></span></div>
-                </div>
-            </div>
-
-            <button class="btn btn-primary btn-lg btn-verify" id="submitVerify" onclick="submitVerification()">
-                <i class="fas fa-paper-plane"></i> Submit for Verification
-            </button>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Explore</strong>
+            <a href="properties" style="color:inherit;text-decoration:none;">Find a Home</a>
+            <a href="map" style="color:inherit;text-decoration:none;">Property Map</a>
+            <a href="how-it-works" style="color:inherit;text-decoration:none;">How It Works</a>
+            <a href="about" style="color:inherit;text-decoration:none;">About Us</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Company</strong>
+            <a href="careers" style="color:inherit;text-decoration:none;">Careers</a>
+            <a href="press" style="color:inherit;text-decoration:none;">Press</a>
+            <a href="blog" style="color:inherit;text-decoration:none;">Blog</a>
+            <a href="contact" style="color:inherit;text-decoration:none;">Contact</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">For Owners</strong>
+            <a href="list-property" style="color:inherit;text-decoration:none;">List Your Property</a>
+            <a href="properties-management" style="color:inherit;text-decoration:none;">Owner Dashboard</a>
+            <a href="payment" style="color:inherit;text-decoration:none;">Pricing &amp; Upgrade</a>
+            <a href="owner-resources" style="color:inherit;text-decoration:none;">Owner Resources</a>
         </div>
     </div>
-
-    <script src="api.js?v=20260913a"></script>
-    <script src="script.js?v=20260913a"></script>
-    <script>
-        // Navbar
-        const navbar = document.getElementById('navbar');
-        const hamburger = document.getElementById('hamburger');
-        const navLinks = document.getElementById('navLinks');
-
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) navbar.classList.add('scrolled');
-            else navbar.classList.remove('scrolled');
-        });
-
-        if (hamburger) hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            navLinks.classList.toggle('active');
-        });
-
-        if (hamburger && navLinks) {
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.addEventListener('click', () => {
-                hamburger.classList.remove('active');
-                navLinks.classList.remove('active');
-                });
-            });
-        }
-
-        // Prefill user data
-        const user = api.getUser();
-        if (user) {
-            document.getElementById('fullName').value = user.name || '';
-            document.getElementById('email').value = user.email || '';
-        }
-
-        function handleIdUpload(input) {
-            if (input.files.length > 0) {
-                const file = input.files[0];
-                document.getElementById('idFileName').textContent = 'Uploaded: ' + file.name + ' (' + (file.size / 1024).toFixed(1) + ' KB)';
-                document.getElementById('idSuccess').classList.add('show');
-                document.getElementById('idUploadArea').style.opacity = '0.5';
-                document.getElementById('idUploadArea').style.pointerEvents = 'none';
-            }
-        }
-        window.handleIdUpload = handleIdUpload;
-
-        function handleOwnUpload(input) {
-            if (input.files.length > 0) {
-                const file = input.files[0];
-                document.getElementById('ownFileName').textContent = 'Uploaded: ' + file.name + ' (' + (file.size / 1024).toFixed(1) + ' KB)';
-                document.getElementById('ownSuccess').classList.add('show');
-                document.getElementById('ownUploadArea').style.opacity = '0.5';
-                document.getElementById('ownUploadArea').style.pointerEvents = 'none';
-            }
-        }
-        window.handleOwnUpload = handleOwnUpload;
-
-        window.submitVerification = async function() {
-            const fullName = document.getElementById('fullName').value.trim();
-            const phone = document.getElementById('phone').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const propertyAddress = document.getElementById('propertyAddress').value.trim();
-            const hasId = document.getElementById('idFile').files.length > 0;
-            const hasOwn = document.getElementById('ownFile').files.length > 0;
-
-            if (!fullName || !phone || !email || !propertyAddress) {
-                showToast('Please fill in all personal details.', 'error');
-                return;
-            }
-            if (!hasId || !hasOwn) {
-                showToast('Please upload both ID proof and ownership proof.', 'error');
-                return;
-            }
-
-            const btn = document.getElementById('submitVerify');
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
-
-            try {
-                // REAL: save to the backend owner-application (admin reviews it).
-                const application = {
-                    fullName,
-                    email,
-                    phone,
-                    propertyAddress,
-                    ownershipProofUrl: 'id:' + (document.getElementById('idFile').files[0] ? document.getElementById('idFile').files[0].name : ''),
-                    status: 'pending'
-                };
-                await api.createOwnerApplication(application);
-
-                showToast('Verification submitted! Our team will review within 24-48 hours.', 'success');
-                setTimeout(() => {
-                    window.location.href = 'dashboard';
-                }, 1500);
-            } catch (error) {
-                showToast(error.message || 'Failed to submit verification. Please try again.', 'error');
-            } finally {
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit for Verification';
-            }
-        };
-    </script>
-
-    <section class="page-cta">
-        <div class="container">
-            <div class="cta-banner">
-                <h2>Next Step</h2>
-                <p>Verification submitted — set up and manage your owner profile.</p>
-                <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
-                    <a href="edit-profile" class="btn btn-lg"><i class="fas fa-user-circle"></i> Open Owner Profile</a>
-                    <a href="dashboard" class="btn btn-lg ghost"><i class="fas fa-gauge-high"></i> My Dashboard</a>
-                </div>
-            </div>
-        </div>
-    </section>
+    <div class="footer-bottom" style="justify-content:center;margin-top:28px;">
+        <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
+    </div>
+</div>
+</footer>
 </body>
 </html>
-

@@ -8,7 +8,7 @@ owners manage listings, applications, leases, rent, maintenance and escrow — a
 | Layer | Technology |
 |---|---|
 | Backend | Spring Boot 3.3.2 · Java 17 · Maven |
-| Frontend | 110+ static HTML pages · shared styles.css / script.js / api.js |
+| Frontend | 107 static HTML pages · one shared `styles.css` · all JS under `static/js/` (`js/api.js` = 109-method API client, `js/core.js` = shared UI, 93 `js/pages/*.js` page modules — zero inline scripts) |
 | Database | PostgreSQL (AWS RDS, production) · H2 in-memory (tests) · DynamoDB (counters) |
 | Auth | JWT + BCrypt · Email OTP (AWS SES) · Phone OTP · Google login · reCAPTCHA v3 · rate limiting |
 | Payments | Razorpay (UPI / cards / netbanking) · server-side signature verification · escrow · invoices |

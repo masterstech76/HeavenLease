@@ -1,109 +1,153 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Government ID verification for tenants on HeavenLease. Confirm who your tenant really is before signing a lease.">
-    <title>Identity Verification — HeavenLease</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="styles.css?v=20260909a">
-    <link rel="stylesheet" href="feature-panel.css?v=20260902a">
-    <link rel="stylesheet" href="verification-panel.css?v=20260913a">
-    <style>
-        .page-header { background: var(--gradient-soft); padding: 140px 0 60px; text-align: center; position: relative; overflow: hidden; }
-        .page-header h1 { font-family: var(--font-heading); font-size: 42px; font-weight: 700; color: var(--dark); margin-bottom: 14px; }
-        .page-header p { font-size: 17px; color: var(--gray-500); max-width: 640px; margin: 0 auto; }
-        .page-header .breadcrumb { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 16px; font-size: 14px; color: var(--gray-500); }
-        .page-header .breadcrumb a { color: var(--primary); }
-        .page-header .breadcrumb i { font-size: 12px; color: var(--gray-400); }
-        .content-section { padding: 72px 0; }
-        .content-block { max-width: 860px; margin: 0 auto 40px; }
-        .content-block h2 { font-family: var(--font-heading); font-size: 28px; font-weight: 700; color: var(--dark); margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
-        .content-block h2 i { color: var(--primary); font-size: 22px; }
-        .content-block p { font-size: 15px; color: var(--gray-500); line-height: 1.8; margin-bottom: 12px; }
-        .content-block ul { margin: 12px 0 16px; }
-        .content-block ul li { font-size: 14px; color: var(--gray-600); padding: 6px 0; display: flex; align-items: flex-start; gap: 10px; }
-        .content-block ul li i { color: var(--secondary); font-size: 13px; margin-top: 3px; }
-        .info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 1000px; margin: 0 auto 40px; }
-        .info-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 24px; transition: var(--transition); }
-        .info-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--primary); }
-        .info-card .icon { width: 48px; height: 48px; background: var(--gradient-soft); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 20px; color: var(--primary); margin-bottom: 14px; }
-        .info-card h3 { font-size: 16px; font-weight: 600; color: var(--dark); margin-bottom: 8px; }
-        .info-card p { font-size: 13px; color: var(--gray-500); line-height: 1.6; }
-        .cta-section { padding: 60px 0; }
-        .faq-item { max-width: 860px; margin: 0 auto 14px; background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 22px 26px; }
-        .faq-item h3 { font-size: 16px; font-weight: 600; color: var(--dark); margin-bottom: 8px; }
-        .faq-item p { font-size: 14px; color: var(--gray-500); line-height: 1.7; }
-        @media (max-width: 900px) { .info-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 768px) { .page-header { padding: 120px 0 44px; } .page-header h1 { font-size: 32px; } .info-grid { grid-template-columns: 1fr; } .content-block h2 { font-size: 22px; } }
-    </style></head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Government ID verification for tenants on HeavenLease.">
+<title>Identity Verification — HeavenLease</title>
+<link rel="stylesheet" href="styles.css?v=20260909a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
+<style>
+:root {
+ --ink:#182033;--muted:#687386;--green:#18a878;--green2:#18a878;
+ --paper:#ffffff;--white:#ffffff;--dark:#182033;--line:#e4e7ee;
+ --soft:#f6f7fb;--shadow:0 22px 65px rgba(10,34,22,.12);
+ --serif:"Playfair Display",Georgia,serif;--sans:"DM Sans",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:var(--sans);color:var(--ink);background:var(--paper);line-height:1.65}
+a{text-decoration:none;color:inherit}
+.container{width:min(1160px,calc(100% - 36px));margin:auto}
+/* Separate photographic navbar/header */
+.navbar{position:fixed;top:0;left:0;right:0;z-index:1000;padding:12px 0;transition:.3s}
+.navbar::before{content:"";position:absolute;inset:0;z-index:-1;background:
+linear-gradient(90deg,rgba(7,27,18,.96),rgba(19,62,43,.82)),
+url("https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=2200&q=85") center/cover}
+.navbar.scrolled{padding:6px 0}
+.nav-inner{height:62px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.logo{display:flex;align-items:center;gap:10px;color:#fff;font-weight:700}
+.logo-icon{width:42px;height:42px;border-radius:13px;background:#fff;color:var(--green);display:grid;place-items:center}
+.logo-text{font-size:21px}.logo-text span{color:#b2e3c6}
+.nav-right{position:relative}
+.account-btn{display:flex;align-items:center;gap:8px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.1);color:#fff;border-radius:999px;padding:7px 12px;cursor:pointer}
+.avatar{width:32px;height:32px;border-radius:50%;background:#deefe5;color:var(--green);display:grid;place-items:center}
+.dropdown{position:absolute;right:0;top:53px;width:285px;max-height:70vh;overflow:auto;background:#fff;border:1px solid var(--line);border-radius:17px;padding:7px;box-shadow:var(--shadow);opacity:0;visibility:hidden;transform:translateY(-8px);transition:.2s}
+.dropdown.open{opacity:1;visibility:visible;transform:none}
+.dropdown a{display:flex;align-items:center;gap:10px;padding:10px 11px;border-radius:9px;font-size:13px;color:#35423a}
+.dropdown a:hover{background:var(--soft);color:var(--green)}
+.dropdown i{width:17px;text-align:center;color:var(--green)}
+/* Body background + dedicated hero */
+.page{padding:135px 0 90px;position:relative;overflow:hidden}
+.page::before{content:"";position:absolute;inset:0;z-index:-2;background:
+linear-gradient(rgba(243,247,244,.83),rgba(243,247,244,.97)),
+url("https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=2200&q=85") center/cover fixed}
+.hero{position:relative;overflow:hidden;min-height:410px;border-radius:30px;padding:50px;display:flex;align-items:flex-end;color:#fff;box-shadow:var(--shadow);background:
+linear-gradient(180deg,rgba(5,28,17,.12),rgba(5,29,18,.88)),
+url("https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1800&q=88") center/cover}
+.hero-content{max-width:760px;position:relative;z-index:1}
+.eyebrow{display:inline-block;padding:7px 12px;border-radius:999px;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.25);font-size:11px;text-transform:uppercase;letter-spacing:.12em;font-weight:700}
+.hero h1{font-family:var(--serif);font-size:clamp(40px,6vw,66px);line-height:1.05;letter-spacing:-1.5px;margin:17px 0 14px}
+.hero h1 span{color:#b7e4c8}
+.hero p{max-width:670px;margin:0;color:rgba(255,255,255,.84);font-size:17px}
+.breadcrumb{display:flex;gap:8px;align-items:center;margin-top:18px;font-size:12px;color:rgba(255,255,255,.68)}
+.breadcrumb a{color:#bce5cb}
+/* Information content */
+.content{margin-top:25px;background:rgba(255,255,255,.97);border:1px solid var(--line);border-radius:27px;padding:45px 55px;box-shadow:0 12px 45px rgba(20,42,29,.07)}
+.content-block{padding:0 0 30px;margin:0 0 30px;border-bottom:1px solid #e7eee9}
+.content-block:last-child{border-bottom:0;margin-bottom:0;padding-bottom:0}
+.content-block h2{font-family:var(--serif);font-size:28px;line-height:1.2;margin:0 0 12px;display:flex;align-items:center;gap:11px}
+.content-block h2 i{font-family:var(--sans);font-size:19px;color:var(--green);width:37px;height:37px;border-radius:11px;background:var(--soft);display:grid;place-items:center}
+.content-block p{font-size:15px;color:var(--muted);line-height:1.9;margin:0 0 12px}
+.content-block ul{padding-left:22px;color:var(--muted)}
+.content-block li{margin:8px 0}
+/* Verification panel: functional local demo */
+.verify{margin-top:25px;background:#0f2117;color:#fff;border-radius:26px;padding:34px;box-shadow:var(--shadow)}
+.verify-head{display:flex;align-items:center;gap:15px;margin-bottom:23px}
+.verify-icon{width:52px;height:52px;border-radius:15px;background:#204e38;display:grid;place-items:center;color:#bce7cc}
+.verify h2{font-family:var(--serif);font-size:28px;margin:0}
+.verify-sub{color:#9eb3a7;font-size:13px;margin:3px 0 0}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.field{display:grid;gap:7px}
+.field.full{grid-column:1/-1}
+.field label{font-size:12px;color:#b5c7bd;font-weight:600}
+.field input,.field select{width:100%;border:1px solid #395545;background:#152b20;color:#fff;border-radius:11px;padding:12px;font:inherit;outline:0}
+.field input:focus,.field select:focus{border-color:#86c7a1}
+.mask-note{font-size:11px;color:#8ea69a;margin:0}
+.verify-actions{display:flex;gap:10px;align-items:center;margin-top:18px;flex-wrap:wrap}
+.verify button{border:0;border-radius:11px;padding:11px 16px;font-weight:700;cursor:pointer}
+.submit{background:#bde5cb;color:#113d29}.reset{background:#20372b;color:#c7d6ce}
+.status{margin-top:18px;padding:13px 15px;border-radius:11px;background:#172f23;color:#b9cec2;font-size:13px;display:none}
+.status.show{display:block}
+/* Help */
+.help{margin-top:25px;padding:30px;border-radius:23px;background:#e8f1eb;border:1px solid #d6e3da}
+.help h2{font-family:var(--serif);font-size:27px;margin:0 0 7px}
+.help p{color:var(--muted);font-size:14px;margin:0 0 15px}
+.help textarea,.help input{width:100%;padding:13px 14px;border:1px solid #d3dfd7;border-radius:11px;font:inherit;background:#fff;outline:0}
+.help textarea{min-height:105px;resize:vertical}
+.help-row{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap}
+.help-row button{border:0;border-radius:10px;padding:11px 15px;font-weight:700;cursor:pointer}
+.help-send{background:var(--green);color:#fff}.help-clear{background:#fff;border:1px solid var(--line)!important}
+.note{font-size:11px!important;color:#829088!important;margin-top:9px!important}
+/* Opaque footer */
+.footer{background:#0b1711;color:#dce8e0;padding:60px 0 0;border-top:1px solid #27382e}
+.footer-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:35px;padding-bottom:45px}
+.footer h4{font-size:14px;color:#fff;margin:0 0 12px}
+.footer a,.footer p{font-size:13px;color:#92a59a}
+.footer a{display:block;margin:8px 0}.footer a:hover{color:#bce5cc}
+.footer-bottom{border-top:1px solid #26372d;padding:18px 0;color:#809288;font-size:12px}
+.back{position:fixed;right:20px;bottom:20px;width:45px;height:45px;border:0;border-radius:50%;background:var(--green);color:#fff;box-shadow:0 10px 30px rgba(0,0,0,.18);opacity:0;transform:translateY(10px);pointer-events:none;transition:.25s;cursor:pointer;z-index:900}
+.back.show{opacity:1;transform:none;pointer-events:auto}
+@media(max-width:800px){
+ .content{padding:32px 24px}.form-grid{grid-template-columns:1fr}
+ .field.full{grid-column:auto}.footer-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:560px){
+ .container{width:calc(100% - 24px)}.page{padding-top:108px;padding-bottom:55px}
+ .hero{min-height:430px;padding:29px 23px;border-radius:23px}
+ .hero h1{font-size:40px}.content{border-radius:21px;padding:28px 20px}
+ .verify{padding:25px 20px}.footer-grid{grid-template-columns:1fr}
+ .account-label,.account-btn>i{display:none}
+}
+</style>
+</head>
 <body>
-    <nav class="navbar" id="navbar">
-        <div class="nav-container">
-            <a href="/" class="logo">
-                <div class="logo-icon"><i class="fas fa-home"></i></div>
-                <span class="logo-text">Heaven<span>Lease</span></span>
-            </a>
-            
-            <div class="nav-actions">
-                                <div class="user-menu" id="userMenu">
-                    <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu">
-                        <span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span>
-                        <span id="navUserName">Account</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </button>
-                    <div class="user-dropdown" id="profileDropdown">
-                        <a href="home" id="mainHomeLink"><i class="fas fa-home"></i> Main Home</a>
-                        <a href="edit-profile" id="myProfileLink"><i class="fas fa-user"></i> My Profile &amp; Settings</a>
-                        <a href="payment"><i class="fas fa-credit-card"></i> Access Pass</a>
-                        <div class="dropdown-divider"></div>
-                        <a href="properties"><i class="fas fa-building"></i> Browse Properties</a>
-                        <a href="map"><i class="fas fa-map-location-dot"></i> Property Map</a>
-                        <a href="comfort-scores"><i class="fas fa-gauge-high"></i> Comfort Scores</a>
-                        <a href="saved-properties"><i class="fas fa-heart"></i> Saved Properties</a>
-                        <a href="list-property"><i class="fas fa-key"></i> List Your Property</a>
-                        <a href="tenant-screening"><i class="fas fa-user-check"></i> Tenant Screening</a>
-                        <a href="owner-resources"><i class="fas fa-toolbox"></i> Owner Resources</a>
-                        <a href="buy-sell"><i class="fas fa-tag"></i> Buy / Sell</a>
-                        <a href="possession"><i class="fas fa-key"></i> Possession &amp; Handover</a>
-                        <a href="lease-signing"><i class="fas fa-file-signature"></i> Leases &amp; Signing</a>
-                        <a href="tour-booking"><i class="fas fa-calendar-check"></i> Tour Bookings</a>
-                        <a href="messages"><i class="fas fa-comments"></i> Messages</a>
-                        <a href="notifications"><i class="fas fa-bell"></i> Notifications</a>
-                        <div class="dropdown-divider"></div>
-                        <a href="how-it-works"><i class="fas fa-circle-question"></i> How It Works</a>
-                        <a href="about"><i class="fas fa-building"></i> About Us</a>
-                        <a href="blog"><i class="fas fa-newspaper"></i> Blog</a>
-<a href="comfort-scores"><i class="fas fa-chart-simple"></i> Type &amp; Voice Search</a>
-                                                <a href="contact"><i class="fas fa-envelope"></i> Contact &amp; Support</a>
-                        <div class="dropdown-divider"></div>
-                        <a href="login" id="signInLink" class="hide-when-auth"><i class="fas fa-arrow-right-to-bracket"></i> Sign In</a>
-                        <a href="#" id="logoutLink" class="logout-link hide-when-guest"><i class="fas fa-sign-out-alt"></i> Logout</a>
-                    </div>
-                </div>
-
-                
-            </div>
-        </div>
-    </nav>
-    <section class="page-header">
-        <div class="container">
-            <h1>Identity <span class="gradient-text">Verification</span></h1>
-            <p>Every tenant is verified against government-issued ID before they can contact you or book a tour.</p>
-            <div class="breadcrumb">
-                <a href="/">Home</a>
-                <i class="fas fa-chevron-right"></i>
-                <span>Tenant Screening · Identity Verification</span>
-            </div>
-        </div>
-    </section>
-
-    <section class="content-section">
-        <div class="container">
-                        <div class="content-block">
+<nav class="navbar" id="navbar">
+ <div class="container nav-inner">
+  <a class="logo" href="/"><span class="logo-icon"><i class="fas fa-home"></i></span><span class="logo-text">Heaven<span>Lease</span></span></a>
+  <div class="nav-right">
+   <button class="account-btn" id="accountBtn" aria-expanded="false"><span class="avatar"><i class="fas fa-user"></i></span><span class="account-label">Account</span><i class="fas fa-chevron-down"></i></button>
+   <div class="dropdown" id="accountDropdown">
+    <a href="home"><i class="fas fa-home"></i>Main Home</a>
+    <a href="edit-profile"><i class="fas fa-user"></i>My Profile &amp; Settings</a>
+    <a href="payment"><i class="fas fa-credit-card"></i>Access Pass</a>
+    <a href="properties"><i class="fas fa-building"></i>Browse Properties</a>
+    <a href="map"><i class="fas fa-map-location-dot"></i>Property Map</a>
+    <a href="saved-properties"><i class="fas fa-heart"></i>Saved Properties</a>
+    <a href="tenant-screening"><i class="fas fa-user-check"></i>Tenant Screening</a>
+    <a href="messages"><i class="fas fa-comments"></i>Messages</a>
+    <a href="notifications"><i class="fas fa-bell"></i>Notifications</a>
+    <a href="contact"><i class="fas fa-envelope"></i>Contact &amp; Support</a>
+    <a href="login"><i class="fas fa-arrow-right-to-bracket"></i>Sign In</a>
+   </div>
+  </div>
+ </div>
+</nav>
+<main class="page">
+ <div class="container">
+  <header class="hero">
+   <div class="hero-content">
+    <span class="eyebrow">Tenant screening · Identity</span>
+    <h1>Identity <span>Verification</span></h1>
+    <p>Every tenant is verified against government-issued ID before they can contact you or book a tour.</p>
+    <div class="breadcrumb"><a href="/">Home</a><i class="fas fa-chevron-right"></i><span>Tenant Screening · Identity Verification</span></div>
+   </div>
+  </header>
+  <section class="content">
+<div class="content-block">
                 <h2><i class="fas fa-id-card"></i> What is Identity Verification?</h2>
                 <p>Identity verification confirms that a prospective tenant is exactly who they claim to be before any rental agreement is signed. On HeavenLease, every tenant who wants to contact you or book a tour has already submitted a government-issued ID, and we check that document against secure public and private records.</p>
             <p>This is the first and most important line of defence. Rental fraud almost always starts with a fake or borrowed identity, so we verify every applicant up front rather than after a problem appears.</p>
@@ -127,110 +171,71 @@
             <p>It also protects genuine tenants — honest applicants benefit because owners are far more willing to rent to someone whose identity is already verified.</p>
                 
             </div>
+  </section>
+  <section class="verify" aria-labelledby="verifyTitle">
+   <div class="verify-head">
+    <div class="verify-icon"><i class="fas fa-file-shield"></i></div>
+    <div><h2 id="verifyTitle">Submit Verification</h2><p class="verify-sub">Local demo form — connect the submit action to your verification API.</p></div>
+   </div>
+   <div class="form-grid">
+    <div class="field"><label for="docType">Document type</label>
+     <select id="docType"><option>Aadhaar (masked)</option><option>Passport</option><option>Driving Licence</option><option>Voter ID</option></select>
+    </div>
+    <div class="field"><label for="docName">Name on document</label><input id="docName" autocomplete="name" placeholder="Enter your full name"></div>
+    <div class="field full"><label for="docNumber">Document number</label><input id="docNumber" placeholder="Enter document number"><p class="mask-note">For production, validate and mask sensitive identifiers before storage. Do not put unprotected ID data into client-side logs.</p></div>
+   </div>
+   <div class="verify-actions"><button class="submit" id="verifyBtn"><i class="fas fa-shield-halved"></i> Start Verification</button><button class="reset" id="resetBtn">Clear</button></div>
+   <div class="status" id="verifyStatus"></div>
+  </section>
+  <section class="help">
+   <h2>Ask us anything</h2>
+   <p>Not sure what this means for your situation? Ask us in plain text and our team will clarify by email.</p>
+   <textarea id="helpMessage" placeholder="Type your message in plain text — no file upload needed."></textarea>
+   <input id="helpEmail" type="email" placeholder="Your email (optional)" style="margin-top:10px;max-width:380px">
+   <div class="help-row"><button class="help-send" id="helpSend"><i class="fas fa-paper-plane"></i> Send Message</button><button class="help-clear" id="helpClear"><i class="fas fa-eraser"></i> Clear</button></div>
+   <p class="note" id="helpNote">Messages open your email app. Prefer email? Write to support@heavenlease.in</p>
+  </section>
+ </div>
+</main>
+<footer class="footer">
+<div class="container">
+    <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
+        <div class="footer-brand">
+            <a href="home" class="logo">
+                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <span class="logo-text">Heaven<span>Lease</span></span>
+            </a>
+            <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>
         </div>
-    </section>
-
-    <section class="content-section" style="padding-top:0;">
-        <div class="container" style="max-width:900px;">
-            <div id="verificationPanel" data-page-key="identity"
-                data-title="Identity Verification — Submit Documents"
-                data-hint="Confirm who you are with a government ID. Aadhaar numbers you type are masked before storage. A verified owner or admin reviews your ID and updates the status here — PENDING, VERIFIED or REJECTED — plus a notification."
-                data-doc-types="Aadhaar (masked)|Passport|Driving Licence|Voter ID"></div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Explore</strong>
+            <a href="properties" style="color:inherit;text-decoration:none;">Find a Home</a>
+            <a href="map" style="color:inherit;text-decoration:none;">Property Map</a>
+            <a href="how-it-works" style="color:inherit;text-decoration:none;">How It Works</a>
+            <a href="about" style="color:inherit;text-decoration:none;">About Us</a>
         </div>
-    </section>
-
-    <section class="content-section" style="padding-top:0;">
-        <div class="container">
-            <div class="content-block">
-                <h2><i class='fas fa-comment-dots'></i> Ask us anything</h2>
-                <p>Not sure what this means for your situation? Ask us in plain text and our team will clarify by email.</p>
-                <div class='help-strip'>
-                    <textarea id='helpMessage' placeholder='Type your message in plain text - no file upload needed.'></textarea>
-                    <input type='text' id='helpEmail' placeholder='Your email (optional)' style='width:100%;max-width:360px;margin-top:10px;padding:12px 14px;border:1px solid var(--gray-200);border-radius:var(--radius-md);font-size:14px;font-family:inherit;box-sizing:border-box;'>
-                    <div>
-                        <button type='button' class='btn btn-primary help-send' onclick='sendHelpMessage()'><i class='fas fa-paper-plane'></i> Send Message</button>
-                        <button type='button' class='btn btn-ghost help-clear' onclick='clearHelpMessage()'><i class='fas fa-eraser'></i> Clear</button>
-                    </div>
-                    <p class='help-note' id='helpNote' style='font-size:12px;color:var(--gray-400);margin-top:10px;'>Messages go to our support team by email. Prefer email? Write to support@heavenlease.in</p>
-                </div>
-            </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Company</strong>
+            <a href="careers" style="color:inherit;text-decoration:none;">Careers</a>
+            <a href="press" style="color:inherit;text-decoration:none;">Press</a>
+            <a href="blog" style="color:inherit;text-decoration:none;">Blog</a>
+            <a href="contact" style="color:inherit;text-decoration:none;">Contact</a>
         </div>
-    </section>
-
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-grid" style="grid-template-columns: 1fr; text-align: center;">
-                <div class="footer-brand">
-                    <a href="/" class="logo">
-                        <div class="logo-icon"><i class="fas fa-home"></i></div>
-                        <span class="logo-text">Heaven<span>Lease</span></span>
-                    </a>
-                    <p style="margin: 10px auto; max-width: 300px;">Simple steps to your perfect stay. Direct owner rentals with zero broker fees and comfort-first search.</p>
-                </div>
-            </div>
-            <div class="footer-bottom" style="justify-content: center;">
-                <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
-            </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">For Owners</strong>
+            <a href="list-property" style="color:inherit;text-decoration:none;">List Your Property</a>
+            <a href="properties-management" style="color:inherit;text-decoration:none;">Owner Dashboard</a>
+            <a href="payment" style="color:inherit;text-decoration:none;">Pricing &amp; Upgrade</a>
+            <a href="owner-resources" style="color:inherit;text-decoration:none;">Owner Resources</a>
         </div>
-    </footer>
+    </div>
+    <div class="footer-bottom" style="justify-content:center;margin-top:28px;">
+        <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
+    </div>
+</div>
+</footer>
+<button class="back" id="back" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
 
-    <button class="back-to-top" id="backToTop" aria-label="Back to top">
-        <i class="fas fa-arrow-up"></i>
-    </button>
-
-    <script src="api.js?v=20260913a"></script>
-    <script src="script.js?v=20260913a"></script>
-    <script src="verification-panel.js?v=20260913a"></script>
-    <script>
-        function clearHelpMessage() {
-            var msg = document.getElementById('helpMessage'); if (msg) msg.value = '';
-            var em = document.getElementById('helpEmail'); if (em) em.value = '';
-            var note = document.getElementById('helpNote');
-            if (note) note.textContent = 'Messages go to our support team by email. Prefer email? Write to support@heavenlease.in';
-        }
-        function sendHelpMessage() {
-            var msgEl = document.getElementById('helpMessage');
-            var msg = (msgEl && msgEl.value || '').trim();
-            var em = document.getElementById('helpEmail');
-            var email = (em && em.value || '').trim();
-            var note = document.getElementById('helpNote');
-            if (!msg) { if (note) note.textContent = 'Please type a short message first.'; return; }
-            var subject = encodeURIComponent('HeavenLease page enquiry');
-            var body = encodeURIComponent(msg + (email ? '\n\nReply to: ' + email : ''));
-            window.location.href = 'mailto:support@heavenlease.in?subject=' + subject + '&body=' + body;
-            setTimeout(function () { if (note) note.textContent = 'Opening your email app to send the message - thank you!'; }, 400);
-        }
-    </script>
-    <script>
-        const navbar = document.getElementById('navbar');
-        const hamburger = document.getElementById('hamburger');
-        const navLinks = document.getElementById('navLinks');
-        const backToTop = document.getElementById('backToTop');
-
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) navbar.classList.add('scrolled');
-            else navbar.classList.remove('scrolled');
-            if (window.scrollY > 500) backToTop.classList.add('visible');
-            else backToTop.classList.remove('visible');
-        });
-
-        if (hamburger) hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            navLinks.classList.toggle('active');
-        });
-
-        if (hamburger && navLinks) {
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.addEventListener('click', () => {
-                    hamburger.classList.remove('active');
-                    navLinks.classList.remove('active');
-                });
-            });
-        }
-
-        backToTop.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-    </script>
+<script src="js/pages/identity-verification.js?v=20260913a"></script>
 </body>
 </html>

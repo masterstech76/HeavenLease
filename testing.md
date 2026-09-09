@@ -8,7 +8,7 @@
 
 | Area | Summary |
 |---|---|
-| Frontend | 110 static HTML pages in `static/` + shared `styles.css`, `script.js` + `api.js` helpers (every app page wired to the live API) |
+| Frontend | 107 static HTML pages in `static/` · single shared `styles.css` · all JS under `static/js/` (`js/api.js` 109-method API client, `js/core.js` shared UI, 93 `js/pages/*.js` modules; zero inline `<script>` on any page) |
 | Backend | Spring Boot 3.3.2 (Java 17, Maven) — 20 REST controllers, 14 services, 82 Java source files |
 | Database | AWS RDS PostgreSQL (prod, no local DB) · H2 in-memory (tests) · DynamoDB (counters) |
 | Auth | JWT + BCrypt · email OTP (SES) · self-hosted phone OTP · Google login · reCAPTCHA · login rate-limits |
@@ -138,7 +138,7 @@
 #### pricing.html — Pricing
 1. Transparent pricing: Tenant Access from ₹299, Owner Plus from ₹299, pay-as-you-go services.
 2. Plan/feature comparison for tenants and owners.
-3. CTA into signup and upgrade-plan.
+3. CTA into signup and payment (Access/upgrade).
 
 #### speed-and-simplicity.html — Speed and Simplicity
 1. "Rent faster" pitch — days, not weeks, from search to move-in.
@@ -331,7 +331,7 @@
 #### owner-dashboard.html — Owner Dashboard
 1. Listing visibility and subscription status at a glance.
 2. Applications, messages and maintenance queue entry points.
-3. upgrade-plan CTA when Access Pass is needed.
+3. Payment/upgrade CTA when Access Pass is needed.
 
 #### tenant-dashboard.html — Tenant Dashboard
 1. Saved properties, applications and tour bookings.
@@ -491,10 +491,10 @@
 2. Printable invoice/receipt (Print → Save PDF).
 3. Renewal/expiry status per subscription.
 
-#### upgrade-plan.html — Upgrade Plan
-1. Owner Plus upgrade: boosted listings, analytics and more.
-2. Plan comparison + price summary.
-3. CTA into payment.html checkout.
+#### payment.html — Pricing & Upgrade (consolidated)
+1. Access Pass + Owner Plus upgrade, plan comparison and price summary all in one checkout.
+2. Razorpay checkout with server-side signature verification (fail-closed).
+3. Success unlocks plan access + stores the receipt (`upgrade-plan.html` was consolidated here; every in-app link points to payment).
 
 ### J. Maintenance, support & report pages (7)
 
@@ -553,5 +553,5 @@
 ---
 
 _Total: 21 + 5 + 17 + 9 + 10 + 11 + 7 + 3 + 4 + 7 + 3 = 97 HTML pages (original tally)._
-_Current repo: **109 HTML pages** in `static/` — newer Screening/Verify/Owner-Tools, error-page and redirect pages are covered in `flow.md`, `README.md` and the page list in this file._
+_Current repo: **107 HTML pages** in `static/` — rebuild Phases A–G complete: all inline JS externalized to `static/js/pages/*.js`, single shared `styles.css`, core JS at `js/api.js` + `js/core.js`, demo data only under `static/demo/` (delete to go fully live). Error/redirect/marketing pages covered in `flow.md` + `README.md`._
 _Flows & journey maps: see `flow.md`._

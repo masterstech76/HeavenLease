@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
     <link rel="stylesheet" href="styles.css?v=20260909a">
     <style>
         .page-header { background: rgba(255,255,255,0.45); backdrop-filter: blur(6px); padding: 140px 0 70px; text-align: center; position: relative; overflow: hidden; }
@@ -33,6 +33,123 @@
         .cta-banner .btn.ghost { background: transparent; border: 1px solid #fff; color: #fff; }
         @media (max-width: 900px) { .feature-grid { grid-template-columns: 1fr; } }
         @media (max-width: 768px) { .page-header { padding: 120px 0 50px; } .page-header h1 { font-size: 34px; } }
+        /* HeavenLease premium redesign */
+        :root{
+            --hl-ink:#182033; --hl-muted:#687386; --hl-line:#e4e7ee;
+            --hl-gold:#5b5ce2; --hl-deep:#091713;
+        }
+        html{scroll-behavior:smooth}
+        body{
+            background:
+              linear-gradient(180deg,rgba(247,244,238,.96),rgba(250,248,244,.96)),
+              url("https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=2200&q=80") center/cover fixed;
+        }
+        .navbar{
+            background:
+              linear-gradient(90deg,rgba(5,17,14,.96),rgba(9,28,22,.82)),
+              url("https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=2200&q=80") center/cover!important;
+            border-bottom:1px solid rgba(255,255,255,.12)!important;
+            box-shadow:0 12px 35px rgba(0,0,0,.20);
+            backdrop-filter:blur(14px);
+        }
+        .navbar.scrolled{background:linear-gradient(90deg,rgba(4,14,12,.99),rgba(7,22,18,.97)),url("https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=2200&q=80") center/cover!important}
+        .navbar .logo-text{color:#fff}
+        .navbar .logo-text span{color:#dfb36b}
+        .navbar .logo-icon{background:linear-gradient(135deg,#d9ae67,#93672f);color:#fff;box-shadow:0 8px 22px rgba(0,0,0,.25)}
+        .user-menu-trigger{
+            color:#fff!important;background:rgba(255,255,255,.09)!important;
+            border:1px solid rgba(255,255,255,.16)!important;border-radius:999px!important;
+            backdrop-filter:blur(10px)
+        }
+        .user-avatar{background:rgba(255,255,255,.14)!important;color:#fff!important}
+        .user-dropdown{border-radius:16px!important;box-shadow:0 25px 65px rgba(0,0,0,.24)!important;overflow:auto;max-height:75vh}
+        .page-header{
+            min-height:440px;padding:148px 0 78px!important;
+            display:flex;align-items:center;position:relative;color:#fff;
+            background:
+              linear-gradient(90deg,rgba(6,21,17,.92),rgba(6,21,17,.63) 52%,rgba(6,21,17,.32)),
+              url("https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=2200&q=85") center/cover!important;
+            text-align:left!important;
+        }
+        .page-header::after{
+            content:"";position:absolute;inset:auto 0 0;height:115px;
+            background:linear-gradient(transparent,rgba(250,248,244,.98));pointer-events:none
+        }
+        .page-header .container{position:relative;z-index:2;max-width:980px}
+        .page-header .ph-icon{
+            margin:0 0 18px!important;width:58px!important;height:58px!important;border-radius:16px!important;
+            background:rgba(255,255,255,.12)!important;border:1px solid rgba(255,255,255,.24);
+            box-shadow:none!important;backdrop-filter:blur(12px)
+        }
+        .page-header h1{
+            font-family:"Playfair Display",serif!important;font-size:clamp(43px,6vw,68px)!important;
+            line-height:1.02;color:#fff!important;letter-spacing:-.04em;margin-bottom:14px!important
+        }
+        .page-header h1 .gradient-text{color:#e1b66f;background:none;-webkit-text-fill-color:initial}
+        .page-header p{font-size:18px!important;line-height:1.75;color:rgba(255,255,255,.84)!important;max-width:690px!important;margin:0!important}
+        .page-header .breadcrumb{justify-content:flex-start!important;color:rgba(255,255,255,.7)!important;margin-top:22px!important}
+        .page-header .breadcrumb a{color:#e1b66f!important}
+        .page-header .breadcrumb i{color:rgba(255,255,255,.45)!important}
+        .page-section{padding:32px 0 88px!important;position:relative;z-index:3}
+        .page-section .container{max-width:1100px!important}
+        .page-section .section-head{text-align:left!important;margin:0 auto 22px!important;max-width:820px}
+        .page-section .section-head h2{
+            font-family:"Playfair Display",serif!important;font-size:34px!important;letter-spacing:-.025em
+        }
+        #appForm{
+            background:rgba(255,255,255,.97)!important;border:1px solid var(--hl-line)!important;
+            border-radius:24px!important;padding:34px!important;
+            box-shadow:0 24px 70px rgba(24,38,32,.12)!important
+        }
+        #appForm label{font-size:12px!important;font-weight:800!important;letter-spacing:.04em;text-transform:uppercase;color:#46534e!important}
+        #appForm input,#appForm textarea{
+            width:100%!important;padding:14px 15px!important;border:1px solid #d9ded9!important;
+            border-radius:12px!important;background:#fff!important;color:var(--hl-ink)!important;
+            font:inherit!important;font-size:14px!important;outline:none;transition:.2s ease
+        }
+        #appForm input:focus,#appForm textarea:focus{border-color:#b88846!important;box-shadow:0 0 0 4px rgba(184,136,70,.13)}
+        #propPreview{background:#f5f7f4!important;border:1px solid #e3e7e3!important;border-radius:12px!important}
+        #appForm .btn-primary{
+            min-height:52px!important;border:0!important;border-radius:13px!important;
+            background:linear-gradient(135deg,#bd8a43,#8d642e)!important;
+            box-shadow:0 12px 25px rgba(141,100,46,.20);font-weight:800
+        }
+        .page-cta{padding:0 0 88px!important}
+        .cta-banner{
+            position:relative;overflow:hidden;border-radius:25px!important;padding:48px 38px!important;
+            text-align:left!important;color:#fff;
+            background:
+              linear-gradient(90deg,rgba(7,25,20,.96),rgba(7,25,20,.72)),
+              url("https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1900&q=85") center/cover!important
+        }
+        .cta-banner h2{font-family:"Playfair Display",serif!important;font-size:32px!important}
+        .cta-banner p{color:rgba(255,255,255,.75)!important}
+        .cta-banner>div{justify-content:flex-start!important}
+        .cta-banner .btn{border-radius:11px!important}
+        .cta-banner .btn.ghost{background:transparent!important;color:#fff!important;border:1px solid rgba(255,255,255,.5)!important}
+        .footer{
+            background:#091713!important;opacity:1!important;
+            border-top:1px solid rgba(255,255,255,.08)!important
+        }
+        .footer .logo-text{color:#fff}.footer .logo-text span{color:#d9ad67}
+        .footer .logo-icon{background:linear-gradient(135deg,#c89a52,#8d642e);color:#fff}
+        .footer p{color:#aab6b0}
+        @media(max-width:768px){
+            .page-header{min-height:410px;padding:126px 0 70px!important}
+            .page-header .container{text-align:left}
+            .page-header h1{font-size:44px!important}
+            .page-header p{font-size:16px!important}
+            .page-header .breadcrumb{font-size:12px!important}
+            #appForm{padding:22px!important;border-radius:20px!important}
+            #appForm .form-row{grid-template-columns:1fr!important}
+            .cta-banner{padding:30px 22px!important}
+            .cta-banner>div{justify-content:flex-start!important}
+        }
+        @media(max-width:480px){
+            .page-header h1{font-size:38px!important}
+            .page-header .breadcrumb{flex-wrap:wrap}
+        }
+        @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
     </style>
 </head>
 <body>
@@ -65,7 +182,6 @@
             <p>Apply to rent a property with verified information.</p>
         </div>
     </section>
-
     <section class="page-section" style="padding-top:20px;">
         <div class="container" style="max-width: 760px;">
             <div class="section-head" style="text-align:center;margin-bottom:24px;"><h2>Apply to Rent</h2></div>
@@ -93,7 +209,6 @@
             </form>
         </div>
     </section>
-
     <section class="page-cta">
         <div class="container">
             <div class="cta-banner">
@@ -103,64 +218,49 @@
                     <a href="application-status" class="btn btn-lg"><i class="fas fa-hourglass-half"></i> Check Application Status</a>
                     <a href="application-history" class="btn btn-lg"><i class="fas fa-clock-rotate-left"></i> Application History</a>
                     <a href="dashboard" class="btn btn-lg"><i class="fas fa-gauge-high"></i> My Dashboard</a>
-                    <a href="dashboard" class="btn btn-lg ghost"><i class="fas fa-gauge-high"></i> My Dashboard</a>
                 </div>
             </div>
         </div>
     </section>
-
-<script src="api.js?v=20260913a"></script>
-    <script src="script.js?v=20260913a"></script>
-    <script>
-        (function() {
-            'use strict';
-            const user = api.getUser();
-            const form = document.getElementById('appForm');
-            const propPreview = document.getElementById('propPreview');
-
-            async function previewProp(){
-                const el = document.getElementById('propId');
-                const id = Number(el.value||0);
-                if(!id){propPreview.style.display='none';return;}
-                try{
-                    const p = await api.getProperty(id);
-                    if(p&&p.id){propPreview.style.display='block';propPreview.innerHTML='<strong>'+api.escapeHtml(p.title||('Property #'+p.id))+'</strong> · '+(p.rentAmount?('₹'+Number(p.rentAmount).toLocaleString('en-IN')+'/mo'):'')+' · '+api.escapeHtml((p.locality||'')+' '+(p.city||''));}
-                    else{propPreview.style.display='block';propPreview.innerHTML='<span style="color:#dc2626;">Property not found.</span>';}
-                }catch(e){propPreview.style.display='block';propPreview.innerHTML='<span style="color:#dc2626;">'+api.escapeHtml(e.message||'Could not load property.')+'</span>';}
-            }
-            let debounceTimer;
-            document.getElementById('propId').addEventListener('input',function(){clearTimeout(debounceTimer);debounceTimer=setTimeout(previewProp,400);});
-
-            if(form&&user&&user.id){
-                // Prefill property id from ?property=
-                const q = new URLSearchParams(window.location.search);
-                const pid = q.get('property')||q.get('id');
-                if(pid){document.getElementById('propId').value=pid;previewProp();}
-                form.addEventListener('submit',async function(ev){
-                    ev.preventDefault();
-                    try{
-                        const p = await api.getProperty(Number(document.getElementById('propId').value));
-                        if(!p||!p.id){showToast('Property not found. Please check the Property ID.','error');return;}
-                        const payload = {
-                            propertyId: p.id,
-                            tenantId: user.id,
-                            ownerId: p.ownerId,
-                            tourDate: document.getElementById('tourDate').value,
-                            tourTime: document.getElementById('tourTime').value,
-                            message: document.getElementById('appMsg').value,
-                            tenantName: user.fullName||user.name||'',
-                            tenantPhone: user.phone||'',
-                            propertyTitle: p.title
-                        };
-                        await api.createBooking(payload);
-                        showToast('Application submitted! The owner will review it.','success');
-                        setTimeout(function(){window.location.href='application-status';},1200);
-                    }catch(e){showToast(e.message||'Submission failed.','error');}
-                });
-            }else if(form){
-                form.innerHTML='<div style="text-align:center;padding:40px;color:var(--gray-500);">Please <a href="login">log in</a> to apply for a property.</div>';
-            }
-        })();
-    </script>
+<script src="js/api.js?v=20260913a"></script>
+    <script src="js/core.js?v=20260913a"></script>
+    <script src="js/pages/rental.js?v=20260913a"></script>
+<footer class="footer">
+<div class="container">
+    <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
+        <div class="footer-brand">
+            <a href="home" class="logo">
+                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <span class="logo-text">Heaven<span>Lease</span></span>
+            </a>
+            <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Explore</strong>
+            <a href="properties" style="color:inherit;text-decoration:none;">Find a Home</a>
+            <a href="map" style="color:inherit;text-decoration:none;">Property Map</a>
+            <a href="how-it-works" style="color:inherit;text-decoration:none;">How It Works</a>
+            <a href="about" style="color:inherit;text-decoration:none;">About Us</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Company</strong>
+            <a href="careers" style="color:inherit;text-decoration:none;">Careers</a>
+            <a href="press" style="color:inherit;text-decoration:none;">Press</a>
+            <a href="blog" style="color:inherit;text-decoration:none;">Blog</a>
+            <a href="contact" style="color:inherit;text-decoration:none;">Contact</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">For Owners</strong>
+            <a href="list-property" style="color:inherit;text-decoration:none;">List Your Property</a>
+            <a href="properties-management" style="color:inherit;text-decoration:none;">Owner Dashboard</a>
+            <a href="payment" style="color:inherit;text-decoration:none;">Pricing &amp; Upgrade</a>
+            <a href="owner-resources" style="color:inherit;text-decoration:none;">Owner Resources</a>
+        </div>
+    </div>
+    <div class="footer-bottom" style="justify-content:center;margin-top:28px;">
+        <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
+    </div>
+</div>
+</footer>
 </body>
 </html>

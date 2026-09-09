@@ -1,52 +1,416 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="robots" content="noindex, nofollow">
-    <title>HeavenLease &mdash; Redirecting&hellip;</title>
-    <meta http-equiv="refresh" content="0; url=messages">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Inter', sans-serif; min-height: 100vh;
-            background: linear-gradient(rgba(15,23,42,0.88), rgba(30,27,75,0.85)),
-                        url('bg-home.jpg') center/cover fixed no-repeat;
-            display: flex; align-items: center; justify-content: center; padding: 24px; overflow-x: hidden; }
-        .brand { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 26px; }
-        .brand .logo-icon { width: 52px; height: 52px; background: linear-gradient(135deg, #4F46E5, #10B981);
-            border-radius: 14px; display: flex; align-items: center; justify-content: center; color: #fff;
-            font-size: 24px; box-shadow: 0 8px 24px rgba(79,70,229,.35); }
-        .brand .logo-text { font-family: 'Playfair Display', serif; font-size: 30px; font-weight: 700; color: #fff; }
-        .brand .logo-text span { color: #818CF8; }
-        .card { max-width: 420px; width: 100%; background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255,255,255,0.14); border-radius: 20px; padding: 34px 30px; text-align: center;
-            box-shadow: 0 24px 60px rgba(15,23,42,.35); }
-        .spinner { width: 42px; height: 42px; margin: 0 auto 18px; border: 4px solid rgba(255,255,255,.22);
-            border-top-color: #818CF8; border-radius: 50%; animation: spin .8s linear infinite; }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        h1 { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 8px; }
-        p { font-size: 14px; color: rgba(255,255,255,.72); line-height: 1.6; }
-        .link { display: inline-block; margin-top: 18px; color: #A5B4FC; font-size: 13px; }
-        @media (max-width: 480px) { .card { padding: 24px 20px; } h1 { font-size: 17px; } }
-    </style>
-    <script>window.location.replace('messages');</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>HeavenLease — Messages</title>
+<link rel="stylesheet" href="styles.css?v=20260909a">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --primary:#5b5ce2;
+  --primary-dark:#4445c5;
+  --green:#18a878;
+  --ink:#182033;
+  --muted:#687386;
+  --line:#e4e7ee;
+  --surface:#ffffff;
+  --soft:#f6f7fb;
+}
+body{
+  font-family:Inter,sans-serif;
+  color:var(--ink);
+  min-height:100vh;
+  background:
+    linear-gradient(rgba(246,247,251,.94),rgba(246,247,251,.94)),
+    url('https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=2000&q=80') center/cover fixed;
+}
+
+/* Header uses its own background image and is NOT transparent */
+.site-header{
+  background:
+    linear-gradient(90deg,rgba(15,23,42,.97),rgba(49,46,129,.94)),
+    url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1800&q=80') center/cover;
+  color:#fff;
+  box-shadow:0 5px 25px rgba(15,23,42,.16);
+}
+.nav{
+  width:min(1180px,calc(100% - 32px));
+  height:76px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none;color:#fff}
+.logo{
+  width:44px;height:44px;border-radius:13px;
+  display:grid;place-items:center;
+  background:linear-gradient(135deg,#5b5ce2,#10b981);
+  box-shadow:0 8px 22px rgba(79,70,229,.35);
+  font-size:19px;
+}
+.brand-name{font:700 25px 'Playfair Display',serif}
+.brand-name span{color:#aeb1ff}
+.nav-links{display:flex;align-items:center;gap:8px}
+.nav-links a{
+  color:#dbe4ff;text-decoration:none;padding:10px 14px;border-radius:9px;
+  font-size:14px;font-weight:600;
+}
+.nav-links a:hover,.nav-links a.active{background:rgba(255,255,255,.12);color:#fff}
+.user{
+  display:flex;align-items:center;gap:10px;
+  padding-left:12px;border-left:1px solid rgba(255,255,255,.16)
+}
+.avatar{width:38px;height:38px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,.5)}
+.user small{display:block;color:#bfc9e4;font-size:11px}
+.user strong{font-size:13px}
+
+main{width:min(1180px,calc(100% - 32px));margin:30px auto 42px}
+.page-heading{display:flex;align-items:end;justify-content:space-between;margin-bottom:20px;gap:20px}
+.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:var(--primary);font-weight:800}
+h1{font-size:30px;margin-top:5px}
+.subtitle{color:var(--muted);font-size:14px;margin-top:6px}
+.compose{
+  border:0;background:var(--primary);color:#fff;border-radius:10px;
+  padding:12px 17px;font-weight:700;cursor:pointer;
+  box-shadow:0 8px 18px rgba(79,70,229,.2)
+}
+.compose:hover{background:var(--primary-dark)}
+
+.messages-shell{
+  height:650px;background:#fff;border:1px solid var(--line);border-radius:18px;
+  overflow:hidden;display:grid;grid-template-columns:340px 1fr;
+  box-shadow:0 18px 45px rgba(30,41,59,.09)
+}
+.inbox{border-right:1px solid var(--line);display:flex;flex-direction:column;min-width:0}
+.inbox-top{padding:18px;border-bottom:1px solid var(--line)}
+.search{
+  width:100%;border:1px solid var(--line);background:var(--soft);
+  border-radius:10px;padding:11px 12px 11px 38px;outline:none;font:14px Inter;
+}
+.search-wrap{position:relative}
+.search-wrap i{position:absolute;left:13px;top:12px;color:#98a1b2;font-size:14px}
+.filters{display:flex;gap:7px;margin-top:12px}
+.filter{
+  border:1px solid var(--line);background:#fff;color:#657085;border-radius:8px;
+  padding:7px 10px;font-size:11px;font-weight:700;cursor:pointer
+}
+.filter.active{background:#eef0ff;color:var(--primary);border-color:#dfe2ff}
+.thread-list{overflow:auto}
+.thread{
+  display:flex;gap:12px;padding:15px 17px;border-bottom:1px solid #f0f1f5;
+  cursor:pointer;transition:.15s
+}
+.thread:hover{background:#fafaff}
+.thread.selected{background:#eef0ff;border-left:3px solid var(--primary);padding-left:14px}
+.thread-avatar{width:44px;height:44px;border-radius:50%;object-fit:cover;flex:none}
+.thread-info{min-width:0;flex:1}
+.thread-row{display:flex;justify-content:space-between;gap:8px}
+.thread-name{font-size:13px;font-weight:800}
+.thread-time{font-size:10px;color:#9aa2b1;white-space:nowrap}
+.thread-property{font-size:11px;color:var(--primary);font-weight:600;margin-top:3px}
+.thread-preview{font-size:11px;color:#7b8494;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:5px}
+.badge{background:var(--primary);color:#fff;border-radius:20px;padding:2px 6px;font-size:9px}
+
+.chat{display:flex;flex-direction:column;min-width:0}
+.chat-head{
+  min-height:76px;padding:14px 20px;border-bottom:1px solid var(--line);
+  display:flex;align-items:center;justify-content:space-between;gap:15px
+}
+.contact{display:flex;align-items:center;gap:11px}
+.contact-avatar{width:45px;height:45px;border-radius:50%;object-fit:cover}
+.contact-name{font-size:14px;font-weight:800}
+.online{font-size:11px;color:#10a37f;margin-top:3px}
+.chat-actions{display:flex;gap:7px}
+.icon-btn{
+  width:37px;height:37px;border:1px solid var(--line);background:#fff;border-radius:9px;
+  color:#657085;cursor:pointer
+}
+.icon-btn:hover{background:var(--soft);color:var(--primary)}
+.conversation{
+  flex:1;overflow:auto;padding:25px 25px 15px;
+  background:
+    linear-gradient(rgba(250,251,253,.96),rgba(250,251,253,.96)),
+    url('https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1600&q=80') center/cover;
+}
+.date{text-align:center;margin-bottom:18px}
+.date span{background:#e9ebf1;color:#7d8594;border-radius:20px;padding:6px 11px;font-size:10px;font-weight:700}
+.message{display:flex;margin:13px 0;max-width:78%}
+.message.incoming{margin-right:auto}
+.message.outgoing{margin-left:auto;justify-content:flex-end}
+.bubble{
+  padding:11px 14px;border-radius:14px;background:#fff;border:1px solid var(--line);
+  box-shadow:0 4px 12px rgba(30,41,59,.04);font-size:13px;line-height:1.55
+}
+.outgoing .bubble{background:var(--primary);color:#fff;border-color:var(--primary);border-bottom-right-radius:4px}
+.incoming .bubble{border-bottom-left-radius:4px}
+.meta{font-size:9px;color:#9aa2b1;margin-top:4px}
+.outgoing .meta{text-align:right}
+.property-card{
+  display:flex;gap:12px;margin:18px 0;padding:10px;background:#fff;border:1px solid var(--line);
+  border-radius:12px;max-width:410px
+}
+.property-card img{width:80px;height:62px;object-fit:cover;border-radius:8px}
+.property-card strong{font-size:12px;display:block;margin-bottom:5px}
+.property-card span{font-size:11px;color:#7a8391}
+.property-card b{font-size:11px;color:var(--primary);display:block;margin-top:5px}
+.composer{
+  padding:14px 18px;border-top:1px solid var(--line);background:#fff;
+  display:flex;align-items:end;gap:9px
+}
+.message-input{
+  flex:1;min-height:42px;max-height:120px;resize:none;border:1px solid var(--line);
+  border-radius:11px;padding:11px 13px;font:13px Inter;outline:none
+}
+.message-input:focus{border-color:#aeb1ff;box-shadow:0 0 0 3px #eef0ff}
+.send{
+  width:43px;height:43px;border:0;border-radius:11px;background:var(--primary);
+  color:#fff;cursor:pointer
+}
+.attach{background:#fff;border:1px solid var(--line);color:#687286;width:43px;height:43px;border-radius:11px;cursor:pointer}
+.empty{padding:30px;text-align:center;color:#9aa2b1;font-size:13px}
+
+footer{
+  background:#182033;color:#d4d8e2;padding:32px 16px;
+  border-top:4px solid var(--primary)
+}
+.footer-inner{width:min(1180px,100%);margin:auto;display:flex;justify-content:space-between;gap:25px;align-items:center}
+.footer-brand{font:700 20px 'Playfair Display',serif;color:#fff}
+.footer-brand span{color:#5b5ce2}
+footer p{font-size:11px;color:#9aa3b2;margin-top:5px}
+.footer-links{display:flex;gap:18px}
+.footer-links a{color:#d4d8e2;text-decoration:none;font-size:12px}
+.footer-links a:hover{color:#fff}
+
+.toast{
+  position:fixed;right:20px;bottom:20px;background:#182033;color:#fff;
+  padding:12px 15px;border-radius:10px;font-size:12px;box-shadow:0 12px 30px rgba(0,0,0,.2);
+  transform:translateY(20px);opacity:0;pointer-events:none;transition:.25s
+}
+.toast.show{transform:none;opacity:1}
+
+@media(max-width:800px){
+  .nav-links{display:none}
+  .messages-shell{grid-template-columns:1fr;height:auto}
+  .inbox{border-right:0;border-bottom:1px solid var(--line)}
+  .thread-list{max-height:290px}
+  .chat{height:570px}
+  .user small,.user strong{display:none}
+}
+@media(max-width:520px){
+  main,.nav{width:min(100% - 20px,1180px)}
+  main{margin-top:20px}
+  .page-heading{align-items:flex-start;flex-direction:column}
+  h1{font-size:25px}
+  .compose{width:100%}
+  .messages-shell{border-radius:13px}
+  .conversation{padding:18px 12px}
+  .message{max-width:90%}
+  .chat-head{padding:12px}
+  .composer{padding:10px}
+  .footer-inner{flex-direction:column;align-items:flex-start}
+}
+</style>
 </head>
+
 <body>
-    <div style="width:100%;max-width:460px;text-align:center;position:relative;z-index:1;">
-        <div class="brand">
-            <div class="logo-icon"><i class="fas fa-home"></i></div>
-            <span class="logo-text">Heaven<span>Lease</span></span>
+<header class="site-header">
+  <nav class="nav">
+    <a class="brand" href="index.html">
+      <span class="logo"><i class="fas fa-house"></i></span>
+      <span class="brand-name">Heaven<span>Lease</span></span>
+    </a>
+
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="properties">Properties</a>
+      <a href="messages" class="active">Messages</a>
+      <a href="dashboard">Bookings</a>
+    </div>
+
+    <div class="user">
+      <img class="avatar" src="https://i.pravatar.cc/100?img=12" alt="User">
+      <div><small>Signed in as</small><strong>Alex Morgan</strong></div>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <section class="page-heading">
+    <div>
+      <div class="eyebrow">HeavenLease inbox</div>
+      <h1>Messages</h1>
+      <p class="subtitle">Chat with property owners and manage your rental conversations.</p>
+    </div>
+    <button class="compose" id="newConversation"><i class="fas fa-pen"></i> New conversation</button>
+  </section>
+
+  <section class="messages-shell">
+    <aside class="inbox">
+      <div class="inbox-top">
+        <div class="search-wrap">
+          <i class="fas fa-search"></i>
+          <input id="search" class="search" type="search" placeholder="Search conversations...">
         </div>
-        <div class="card">
-            <div class="spinner"></div>
-            <h1>Taking you to Messages&hellip;</h1>
-            <p>If you are not redirected automatically, tap the link below.</p>
-            <a class="link" href="messages">Continue to Messages &rarr;</a>
+        <div class="filters">
+          <button class="filter active" data-filter="all">All</button>
+          <button class="filter" data-filter="unread">Unread</button>
+          <button class="filter" data-filter="owner">Owners</button>
+        </div>
+      </div>
+
+      <div class="thread-list" id="threadList">
+        <div class="thread selected" data-name="sophia" data-type="owner" data-unread="1">
+          <img class="thread-avatar" src="https://i.pravatar.cc/100?img=47" alt="">
+          <div class="thread-info">
+            <div class="thread-row"><span class="thread-name">Sophia Bennett</span><span class="thread-time">10:42 AM</span></div>
+            <div class="thread-property">Maple Heights Apartment</div>
+            <div class="thread-preview">The apartment is available from October 1. <span class="badge">2</span></div>
+          </div>
+        </div>
+
+        <div class="thread" data-name="daniel" data-type="owner" data-unread="0">
+          <img class="thread-avatar" src="https://i.pravatar.cc/100?img=11" alt="">
+          <div class="thread-info">
+            <div class="thread-row"><span class="thread-name">Daniel Carter</span><span class="thread-time">Yesterday</span></div>
+            <div class="thread-property">Riverside Villa</div>
+            <div class="thread-preview">Thanks, I'll send the lease details shortly.</div>
+          </div>
+        </div>
+
+        <div class="thread" data-name="emma" data-type="owner" data-unread="0">
+          <img class="thread-avatar" src="https://i.pravatar.cc/100?img=32" alt="">
+          <div class="thread-info">
+            <div class="thread-row"><span class="thread-name">Emma Wilson</span><span class="thread-time">Mon</span></div>
+            <div class="thread-property">Greenview Residence</div>
+            <div class="thread-preview">Would Saturday at 3 PM work for a viewing?</div>
+          </div>
+        </div>
+
+        <div class="thread" data-name="heavenlease support" data-type="support" data-unread="0">
+          <img class="thread-avatar" src="https://i.pravatar.cc/100?img=68" alt="">
+          <div class="thread-info">
+            <div class="thread-row"><span class="thread-name">HeavenLease Support</span><span class="thread-time">Sun</span></div>
+            <div class="thread-property">Support request</div>
+            <div class="thread-preview">Your verification has been completed.</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <section class="chat">
+      <div class="chat-head">
+        <div class="contact">
+          <img class="contact-avatar" src="https://i.pravatar.cc/100?img=47" alt="Sophia Bennett">
+          <div><div class="contact-name">Sophia Bennett</div><div class="online"><i class="fas fa-circle" style="font-size:7px"></i> Online now</div></div>
+        </div>
+        <div class="chat-actions">
+          <button class="icon-btn" title="View property"><i class="fas fa-house"></i></button>
+          <button class="icon-btn" title="More"><i class="fas fa-ellipsis"></i></button>
+        </div>
+      </div>
+
+      <div class="conversation" id="conversation">
+        <div class="date"><span>Today</span></div>
+
+        <div class="message incoming">
+          <div>
+            <div class="bubble">Hi Alex! Thanks for your interest in the Maple Heights apartment. Are you still looking for a move-in date around October?</div>
+            <div class="meta">10:36 AM</div>
+          </div>
+        </div>
+
+        <div class="message outgoing">
+          <div>
+            <div class="bubble">Yes, October 1 would be perfect. Is the apartment still available?</div>
+            <div class="meta">10:39 AM · Seen</div>
+          </div>
+        </div>
+
+        <div class="message incoming">
+          <div>
+            <div class="bubble">It is! The apartment is available from October 1. I've also attached the listing details here.</div>
+            <div class="meta">10:42 AM</div>
+          </div>
+        </div>
+
+        <div class="property-card">
+          <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=500&q=80" alt="Maple Heights Apartment">
+          <div>
+            <strong>Maple Heights Apartment</strong>
+            <span><i class="fas fa-location-dot"></i> Downtown · 2 bed · 2 bath</span>
+            <b>₹28,000 / month</b>
+          </div>
+        </div>
+
+        <div class="message outgoing">
+          <div>
+            <div class="bubble">Looks great. Could I schedule a viewing this weekend?</div>
+            <div class="meta">10:44 AM · Seen</div>
+          </div>
+        </div>
+      </div>
+
+      <form class="composer" id="composer">
+        <button type="button" class="attach" id="attach" title="Attach file"><i class="fas fa-paperclip"></i></button>
+        <textarea id="messageInput" class="message-input" rows="1" placeholder="Write a message..."></textarea>
+        <button class="send" type="submit" title="Send"><i class="fas fa-paper-plane"></i></button>
+      </form>
+    </section>
+  </section>
+</main>
+
+<footer class="footer">
+<div class="container">
+    <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
+        <div class="footer-brand">
+            <a href="home" class="logo">
+                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <span class="logo-text">Heaven<span>Lease</span></span>
+            </a>
+            <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Explore</strong>
+            <a href="properties" style="color:inherit;text-decoration:none;">Find a Home</a>
+            <a href="map" style="color:inherit;text-decoration:none;">Property Map</a>
+            <a href="how-it-works" style="color:inherit;text-decoration:none;">How It Works</a>
+            <a href="about" style="color:inherit;text-decoration:none;">About Us</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Company</strong>
+            <a href="careers" style="color:inherit;text-decoration:none;">Careers</a>
+            <a href="press" style="color:inherit;text-decoration:none;">Press</a>
+            <a href="blog" style="color:inherit;text-decoration:none;">Blog</a>
+            <a href="contact" style="color:inherit;text-decoration:none;">Contact</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">For Owners</strong>
+            <a href="list-property" style="color:inherit;text-decoration:none;">List Your Property</a>
+            <a href="properties-management" style="color:inherit;text-decoration:none;">Owner Dashboard</a>
+            <a href="payment" style="color:inherit;text-decoration:none;">Pricing &amp; Upgrade</a>
+            <a href="owner-resources" style="color:inherit;text-decoration:none;">Owner Resources</a>
         </div>
     </div>
+    <div class="footer-bottom" style="justify-content:center;margin-top:28px;">
+        <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
+    </div>
+</div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script src="js/api.js?v=20260913a"></script>
+<script src="js/core.js?v=20260913a"></script>
+<script src="js/pages/conversation.js?v=20260913a"></script>
 </body>
 </html>

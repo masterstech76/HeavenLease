@@ -1,142 +1,200 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Track the progress of your application.">
-    <title>Application Status — HeavenLease</title>
-    <link rel="icon" href="favicon.svg" type="image/svg+xml">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="styles.css?v=20260909a">
-    <style>
-        .page-header { background: rgba(255,255,255,0.45); backdrop-filter: blur(6px); padding: 140px 0 70px; text-align: center; position: relative; overflow: hidden; }
-        .page-header h1 { font-family: var(--font-heading); font-size: 46px; font-weight: 700; color: var(--dark); margin-bottom: 12px; }
-        .page-header p { font-size: 17px; color: var(--gray-500); max-width: 640px; margin: 0 auto; }
-        .page-header .ph-icon { width: 68px; height: 68px; border-radius: 18px; background: var(--gradient); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 28px; margin: 0 auto 18px; box-shadow: var(--shadow-primary); }
-        .page-section { padding: 70px 0 90px; }
-        .page-section .section-head { text-align: center; margin-bottom: 44px; }
-        .page-section .section-head h2 { font-family: var(--font-heading); font-size: 30px; font-weight: 700; color: var(--dark); }
-        .feature-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 26px; }
-        .feature-card { background: rgba(255,255,255,0.92); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 28px; transition: var(--transition); box-shadow: var(--shadow-sm); }
-        .feature-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--primary); }
-        .feature-card .fc-icon { width: 52px; height: 52px; border-radius: 14px; background: var(--gradient-soft); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 14px; }
-        .feature-card h3 { font-size: 17px; font-weight: 600; color: var(--dark); margin-bottom: 6px; }
-        .feature-card p { font-size: 14px; color: var(--gray-500); line-height: 1.6; margin: 0; }
-        .page-cta { padding: 0 0 90px; }
-        .cta-banner { background: var(--gradient); border-radius: var(--radius-xl); padding: 44px 32px; text-align: center; color: #fff; }
-        .cta-banner h2 { font-family: var(--font-heading); font-size: 28px; margin-bottom: 8px; }
-        .cta-banner p { opacity: 0.92; margin-bottom: 20px; }
-        .cta-banner .btn { background: #fff; color: var(--primary); font-weight: 600; }
-        .cta-banner .btn.ghost { background: transparent; border: 1px solid #fff; color: #fff; }
-        @media (max-width: 900px) { .feature-grid { grid-template-columns: 1fr; } }
-        @media (max-width: 768px) { .page-header { padding: 120px 0 50px; } .page-header h1 { font-size: 34px; } }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Track the progress of your HeavenLease rental application.">
+<title>Application Status — HeavenLease</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
+<link rel="stylesheet" href="styles.css?v=20260909a">
+<style>
+:root{
+  --ink:#182033;--muted:#687386;--soft:#f6f7fb;--line:#e4e7ee;
+  --primary:#5b5ce2;--primary2:#5b5ce2;--dark:#182033;--white:#ffffff;
+  --green:#18a878;--amber:#f79009;--red:#f04438;
+  --shadow:0 20px 60px rgba(16,24,40,.10);
+  --heading:#182033;
+  --body:#182033;
+}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;color:var(--ink);font-family:var(--body);font-size:14px;background:#fff}
+a{text-decoration:none}.container{width:min(1160px,calc(100% - 40px));margin:auto}
+/* NAV */
+.navbar{position:fixed;z-index:1000;top:0;left:0;right:0;padding:14px 0;transition:.25s}
+.navbar.scrolled{background:rgba(255,255,255,.94);backdrop-filter:blur(18px);box-shadow:0 8px 30px rgba(16,24,40,.08)}
+.nav-container{width:min(1160px,calc(100% - 40px));margin:auto;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:10px;color:var(--ink);font-weight:800;font-size:19px}
+.logo-icon{width:40px;height:40px;border-radius:13px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,var(--primary),var(--primary2));box-shadow:0 8px 24px rgba(91,92,226,.25)}
+.logo-text span{color:var(--primary)}
+.nav-links{display:flex;gap:25px;align-items:center}.nav-links a{color:#525c6e;font-size:13px;font-weight:600}.nav-links a:hover{color:var(--primary)}
+.nav-actions{display:flex;align-items:center}.user-menu{position:relative}
+.user-menu-trigger{border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 12px;display:flex;align-items:center;gap:8px;font:600 12px var(--body);cursor:pointer;color:var(--ink)}
+.user-avatar{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:#eef0ff;color:var(--primary);font-weight:800}
+.user-dropdown{position:absolute;right:0;top:48px;width:245px;background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:8px;display:none}
+.user-dropdown.open{display:block}.user-dropdown a{display:flex;gap:10px;padding:11px 12px;border-radius:10px;color:#3a4354;font-size:12px}
+.user-dropdown a:hover{background:var(--soft)}.dropdown-divider{height:1px;background:var(--line);margin:7px 0}
+/* HERO */
+.status-hero{padding:142px 0 68px;background:radial-gradient(circle at 8% 12%,rgba(124,58,237,.23),transparent 31%),radial-gradient(circle at 94% 18%,rgba(91,92,226,.21),transparent 28%),linear-gradient(135deg,#182033,#182033 55%,#241b46);color:#fff;overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:55px;align-items:center}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;padding:8px 13px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.08);border-radius:999px;font-size:11px;color:#eef0ff}
+.eyebrow i{color:#6ce9a6}.status-hero h1{font:600 clamp(43px,5.4vw,64px)/1.05 var(--heading);letter-spacing:-1.6px;margin:19px 0 15px}
+.status-hero h1 span{color:#aeb1ff}.status-hero p{font-size:15px;line-height:1.8;color:#9aa3b2;max-width:610px;margin:0}
+.hero-card{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.14);border-radius:24px;padding:22px;backdrop-filter:blur(14px);box-shadow:0 30px 70px rgba(0,0,0,.22)}
+.hero-card-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.hero-card-label{font-size:10px;text-transform:uppercase;letter-spacing:.13em;color:#aeb5c7}
+.hero-status{font-size:10px;font-weight:800;padding:6px 10px;border-radius:999px;background:rgba(108,233,166,.13);color:#8af0b8}
+.hero-card h3{font-size:18px;margin:0 0 5px}.hero-location{color:#b7bdcb;font-size:11px}.hero-location i{color:#aeb1ff}
+.hero-stat-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}.hero-stat{padding:13px;border-radius:14px;background:rgba(255,255,255,.07)}
+.hero-stat span{display:block;color:#9ea7ba;font-size:9px;text-transform:uppercase;margin-bottom:4px}.hero-stat strong{font-size:13px}
+.hero-progress{height:5px;background:rgba(255,255,255,.12);border-radius:99px;margin-top:20px;overflow:hidden}.hero-progress div{height:100%;width:60%;background:linear-gradient(90deg,#8f90ff,#b78cff);border-radius:99px}
+/* CONTENT */
+.status-main{background:#f7f9fc;padding:60px 0 90px}
+.content-head{display:flex;justify-content:space-between;gap:20px;align-items:end;margin-bottom:24px}
+.kicker{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.14em;color:var(--primary);margin-bottom:8px}
+.content-head h2{font:600 34px/1.15 var(--heading);margin:0}.content-head p{margin:0;color:var(--muted);font-size:12px;line-height:1.7;max-width:430px}
+/* STATUS CARD */
+.status-wrap{max-width:920px;margin:0 auto}
+.status-card{background:#fff;border:1px solid var(--line);border-radius:24px;padding:26px;box-shadow:0 7px 25px rgba(16,24,40,.05)}
+.status-card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:15px;padding-bottom:20px;border-bottom:1px solid var(--line)}
+.status-card h3{font-size:19px;margin:0 0 6px}.property-meta{font-size:11px;color:var(--muted)}.property-meta i{color:var(--primary);margin-right:4px}
+.badge{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:7px 11px;font-size:10px;font-weight:800;white-space:nowrap}
+.badge.pending{background:#fff6ed;color:#b54708}.badge.confirmed,.badge.approved{background:#ecfdf3;color:#027a48}
+.badge.declined,.badge.cancelled{background:#fef3f2;color:#b42318}.badge.completed{background:#eef0ff;color:#5146cd}
+.status-overview{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:20px 0;border-bottom:1px solid var(--line)}
+.overview-item{background:#f8f9fc;border-radius:13px;padding:13px}.overview-item span{display:block;font-size:9px;color:#9aa3b2;text-transform:uppercase;margin-bottom:5px}.overview-item strong{font-size:12px}
+.timeline{padding:22px 0 8px}.timeline-step{display:grid;grid-template-columns:36px 1fr;gap:14px;position:relative;padding-bottom:19px}
+.timeline-step:not(:last-child):before{content:"";position:absolute;left:17px;top:34px;bottom:0;width:2px;background:#e7e9ef}
+.timeline-dot{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:#f2f4f7;color:#9aa3b2;border:3px solid #fff;box-shadow:0 0 0 1px #e4e7ec;z-index:1;font-size:10px}
+.timeline-step.done .timeline-dot{background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff;box-shadow:0 0 0 1px var(--primary)}
+.timeline-step.current .timeline-dot{background:#fff;color:var(--primary);box-shadow:0 0 0 2px var(--primary)}
+.timeline-step.done:not(:last-child):before{background:linear-gradient(var(--primary),#c6c8ff)}
+.timeline-step strong{display:block;font-size:12px;margin:2px 0 4px}.timeline-step p{font-size:11px;color:var(--muted);margin:0;line-height:1.6}
+.card-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:5px}.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:10px 14px;border-radius:10px;font-size:11px;font-weight:800;transition:.2s}
+.btn-primary{color:#fff;background:linear-gradient(135deg,var(--primary),var(--primary2));box-shadow:0 8px 20px rgba(91,92,226,.18)}
+.btn-secondary{color:#3a4354;background:#fff;border:1px solid var(--line)}.btn:hover{transform:translateY(-1px)}
+/* EMPTY / ERROR */
+.state-card{background:#fff;border:1px dashed #d0d5dd;border-radius:22px;padding:55px 25px;text-align:center}.state-icon{width:60px;height:60px;border-radius:17px;background:#eef0ff;color:var(--primary);display:grid;place-items:center;font-size:23px;margin:0 auto 15px}.state-card h3{margin:0 0 6px;font-size:17px}.state-card p{margin:0 auto 20px;max-width:470px;color:var(--muted);font-size:12px;line-height:1.7}
+/* HELP / CTA */
+.help-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:30px}.help-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:22px}.help-icon{width:40px;height:40px;border-radius:12px;background:#eef0ff;color:var(--primary);display:grid;place-items:center;margin-bottom:13px}.help-card h3{font-size:14px;margin:0 0 6px}.help-card p{font-size:11px;line-height:1.7;color:var(--muted);margin:0 0 13px}.text-link{color:var(--primary);font-weight:800;font-size:11px}
+.cta{margin-top:30px;border-radius:25px;padding:36px;background:linear-gradient(135deg,#151a31,#30245a);color:#fff;display:flex;justify-content:space-between;align-items:center;gap:20px}
+.cta h2{font:600 29px var(--heading);margin:0 0 6px}.cta p{color:#9aa3b2;font-size:11px;margin:0}.cta .btn{background:#fff;color:#182033;white-space:nowrap}
+/* FOOTER */
+.footer{background:#182033;color:#9aa3b2;padding:50px 0 22px}.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:35px}.footer .logo{color:#fff}.footer p{font-size:11px;line-height:1.8;max-width:300px}.footer h4{color:#fff;font-size:12px;margin:5px 0 14px}.footer a{display:block;color:#9aa3b2;font-size:11px;margin:9px 0}.footer a:hover{color:#fff}.footer-bottom{border-top:1px solid rgba(255,255,255,.08);margin-top:30px;padding-top:18px;font-size:10px;display:flex;justify-content:space-between}
+/* RESPONSIVE */
+@media(max-width:900px){.nav-links{display:none}.hero-grid{grid-template-columns:1fr}.hero-card{max-width:540px}.footer-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:620px){.container,.nav-container{width:calc(100% - 28px)}.status-hero{padding:120px 0 48px}.status-hero h1{font-size:43px}.status-main{padding:40px 0 65px}.content-head{display:block}.content-head p{margin-top:9px}.status-card{padding:19px}.status-card-top{display:block}.status-card-top .badge{margin-top:11px}.status-overview{grid-template-columns:1fr}.card-actions{display:grid;grid-template-columns:1fr 1fr}.help-grid{grid-template-columns:1fr}.cta{display:block;padding:30px}.cta .btn{margin-top:18px}.footer-grid{grid-template-columns:1fr}.footer-bottom{display:block}.footer-bottom span{display:block;margin-top:6px}.user-menu-trigger #navUserName{display:none}}
+</style>
 </head>
 <body>
-    <nav class="navbar" id="navbar">
-        <div class="nav-container">
-            <a href="/" class="logo">
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="home" class="logo"><div class="logo-icon"><i class="fas fa-house"></i></div><span class="logo-text">Heaven<span>Lease</span></span></a>
+    <div class="nav-links">
+      <a href="properties">Find a Home</a>
+      <a href="map">Property Map</a>
+      <a href="application-history">Application History</a>
+      <a href="how-it-works">How It Works</a>
+    </div>
+    <div class="nav-actions">
+      <div class="user-menu" id="userMenu">
+        <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu">
+          <span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span>
+          <span id="navUserName">Account</span><i class="fas fa-chevron-down"></i>
+        </button>
+        <div class="user-dropdown" id="profileDropdown">
+          <a href="home"><i class="fas fa-house"></i> Main Home</a>
+          <a href="dashboard"><i class="fas fa-gauge-high"></i> My Dashboard</a>
+          <a href="edit-profile"><i class="fas fa-user"></i> Profile &amp; Settings</a>
+          <a href="saved-properties"><i class="fas fa-heart"></i> Saved Properties</a>
+          <a href="messages"><i class="fas fa-comments"></i> Messages</a>
+          <div class="dropdown-divider"></div>
+          <a href="contact"><i class="fas fa-life-ring"></i> Contact Support</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+<section class="status-hero">
+  <div class="container hero-grid">
+    <div>
+      <span class="eyebrow"><i class="fas fa-shield-check"></i> Transparent rental journey</span>
+      <h1>Know exactly where <span>you stand.</span></h1>
+      <p>Follow your rental application from submission to approval with a clear view of every step, update and next action.</p>
+    </div>
+    <div class="hero-card">
+      <div class="hero-card-head"><span class="hero-card-label">Current application</span><span class="hero-status"><i class="fas fa-circle-check"></i> On track</span></div>
+      <h3 id="heroProperty">Application Status</h3>
+      <div class="hero-location" id="heroLocation"><i class="fas fa-location-dot"></i> Checking your application...</div>
+      <div class="hero-stat-row">
+        <div class="hero-stat"><span>Current step</span><strong id="heroStep">Application review</strong></div>
+        <div class="hero-stat"><span>Next update</span><strong id="heroNext">Owner review</strong></div>
+      </div>
+      <div class="hero-progress"><div id="heroProgress"></div></div>
+    </div>
+  </div>
+</section>
+<main class="status-main">
+  <div class="container">
+    <div class="content-head">
+      <div><div class="kicker">Live application</div><h2>Application Status</h2></div>
+      <p>Everything important about this rental request, presented as a simple step-by-step journey.</p>
+    </div>
+    <div id="statusWrap" class="status-wrap">
+      <div class="state-card"><div class="state-icon"><i class="fas fa-spinner fa-spin"></i></div><h3>Loading your application</h3><p>We are checking the latest application information.</p></div>
+    </div>
+    <div class="help-grid">
+      <div class="help-card"><div class="help-icon"><i class="fas fa-clock-rotate-left"></i></div><h3>View all applications</h3><p>Compare your previous and current property applications from one place.</p><a class="text-link" href="application-history">Open application history <i class="fas fa-arrow-right"></i></a></div>
+      <div class="help-card"><div class="help-icon"><i class="fas fa-headset"></i></div><h3>Need help?</h3><p>Have a question about an application or what happens next? Our support team can help.</p><a class="text-link" href="contact">Contact HeavenLease <i class="fas fa-arrow-right"></i></a></div>
+    </div>
+    <div class="cta">
+      <div><h2>Ready for your next step?</h2><p>Return to your dashboard or discover another home that fits your plans.</p></div>
+      <a href="dashboard" class="btn"><i class="fas fa-gauge-high"></i> My Dashboard</a>
+    </div>
+  </div>
+</main>
+<footer class="footer">
+<div class="container">
+    <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
+        <div class="footer-brand">
+            <a href="home" class="logo">
                 <div class="logo-icon"><i class="fas fa-home"></i></div>
                 <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
-            <div class="nav-actions">
-                <div class="user-menu" id="userMenu">
-                    <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu">
-                        <span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span>
-                        <span id="navUserName">Account</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </button>
-                    <div class="user-dropdown" id="profileDropdown">
-                        <a href="home" id="mainHomeLink"><i class="fas fa-home"></i> Main Home</a>
-                        <a href="edit-profile" id="myProfileLink"><i class="fas fa-user"></i> My Profile &amp; Settings</a>
-                        <a href="payment"><i class="fas fa-credit-card"></i> Access Pass</a>
-                    </div>
-                </div>
-            </div>
+            <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>
         </div>
-    </nav>
-    <section class="page-header">
-        <div class="container">
-            <div class="ph-icon"><i class="fas fa-hourglass-half"></i></div>
-            <h1>Application Status</h1>
-            <p>See exactly where your application stands.</p>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Explore</strong>
+            <a href="properties" style="color:inherit;text-decoration:none;">Find a Home</a>
+            <a href="map" style="color:inherit;text-decoration:none;">Property Map</a>
+            <a href="how-it-works" style="color:inherit;text-decoration:none;">How It Works</a>
+            <a href="about" style="color:inherit;text-decoration:none;">About Us</a>
         </div>
-    </section>
-
-    <section class="page-section" style="padding-top:20px;">
-        <div class="container" style="max-width: 860px;">
-            <div class="section-head" style="text-align:center;margin-bottom:28px;"><h2>Application Status</h2></div>
-            <div id="statusWrap">
-                <p style="text-align:center;color:var(--gray-400);padding:40px 0;"><i class="fas fa-spinner fa-spin"></i> Loading…</p>
-            </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Company</strong>
+            <a href="careers" style="color:inherit;text-decoration:none;">Careers</a>
+            <a href="press" style="color:inherit;text-decoration:none;">Press</a>
+            <a href="blog" style="color:inherit;text-decoration:none;">Blog</a>
+            <a href="contact" style="color:inherit;text-decoration:none;">Contact</a>
         </div>
-    </section>
-
-    <section class="page-cta">
-        <div class="container">
-            <div class="cta-banner">
-                <h2>Ready to continue?</h2>
-                <p>Head back to your dashboard or browse the next step.</p>
-                                <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
-                    <a href="application-history" class="btn btn-lg"><i class="fas fa-clock-rotate-left"></i> Application History</a>
-                    <a href="rental-application" class="btn btn-lg"><i class="fas fa-file-signature"></i> Open Rental Application</a>
-                    <a href="dashboard" class="btn btn-lg"><i class="fas fa-gauge-high"></i> My Dashboard</a>
-                    <a href="dashboard" class="btn btn-lg ghost"><i class="fas fa-gauge-high"></i> My Dashboard</a>
-                </div>
-            </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">For Owners</strong>
+            <a href="list-property" style="color:inherit;text-decoration:none;">List Your Property</a>
+            <a href="properties-management" style="color:inherit;text-decoration:none;">Owner Dashboard</a>
+            <a href="payment" style="color:inherit;text-decoration:none;">Pricing &amp; Upgrade</a>
+            <a href="owner-resources" style="color:inherit;text-decoration:none;">Owner Resources</a>
         </div>
-    </section>
-
-<script src="api.js?v=20260913a"></script>
-    <script src="script.js?v=20260913a"></script>
-    <script>
-        (function() {
-            'use strict';
-            const user = api.getUser();
-            function badge(s){const m={'pending':['status-pending','Pending'],'confirmed':['status-active','Confirmed'],'approved':['status-active','Approved'],'declined':['status-inactive','Declined'],'cancelled':['status-inactive','Cancelled'],'completed':['status-completed','Completed']};const x=m[(s||'').toLowerCase()]||['status-inactive',s||'—'];return '<span class="status '+x[0]+'">'+api.escapeHtml(x[1])+'</span>';}
-            function fmtDate(s){if(!s)return '—';const d=new Date(s);return isNaN(d)?s:d;}
-            const ORDER=['pending','confirmed','declined','cancelled','completed'];
-            const STEPS=[['pending','Submitted','Your request has been sent to the owner.'],['confirmed','Approved','The owner approved this request.'],['declined','Declined','The owner declined this request.'],['completed','Completed','This request has been completed.']];
-            const wrap=document.getElementById('statusWrap');
-            function card(b){
-                const cur=(b.status||'pending').toLowerCase();
-                const tl=STEPS.map(function(s){
-                    const done=(ORDER.indexOf(s[0])<=ORDER.indexOf(cur))&&cur!=='declined'&&cur!=='cancelled';
-                    return '<div style="display:flex;gap:16px;align-items:flex-start;padding:14px 0;border-bottom:1px solid var(--gray-100);">'
-                        +'<div style="width:36px;height:36px;border-radius:50%;background:'+(done?'var(--gradient)':'var(--gray-200)')+';color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;">'
-                        +(done?'<i class="fas fa-check"></i>':'<i class="fas fa-circle"></i>')+'</div>'
-                        +'<div><strong style="color:var(--dark);">'+s[1]+'</strong><div style="font-size:13px;color:var(--gray-500);margin-top:2px;">'+s[2]+'</div></div></div>';
-                }).join('');
-                wrap.innerHTML='<div style="background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-xl);padding:28px 30px;box-shadow:var(--shadow-sm);">'
-                    +'<div style="display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:center;margin-bottom:8px;">'
-                    +'<h3 style="color:var(--dark);margin:0;">'+api.escapeHtml(b.propertyTitle||('Property #'+b.propertyId))+'</h3>'+badge(b.status)+'</div>'
-                    +'<div style="font-size:13px;color:var(--gray-500);margin-bottom:20px;">Tour: '+api.escapeHtml(fmtDate(b.tourDate))+' · '+api.escapeHtml(b.tourTime||'')+' · <a href="application-history">View all</a></div>'
-                    +tl+'</div>';
-            }
-            async function loadStatus(){
-                try{
-                    const params=new URLSearchParams(window.location.search);
-                    const id=params.get('id');
-                    if(!user||!user.id){wrap.innerHTML='<div style="text-align:center;padding:40px;color:var(--gray-500);">Please log in to track your application.</div>';return;}
-                    if(id){const b=await api.getBooking(Number(id));card(b);return;}
-                    let list=await api.getBookingsByTenant(user.id).catch(function(){return[];});
-                    if(!Array.isArray(list))list=[];
-                    if(list.length===0){wrap.innerHTML='<div style="text-align:center;padding:60px 20px;background:var(--white);border:2px dashed var(--gray-200);border-radius:var(--radius-xl);">'
-                        +'<i class="fas fa-hourglass-half" style="font-size:56px;color:var(--gray-300);"></i>'
-                        +'<h3 style="margin:16px 0 6px;color:var(--dark);">No applications found</h3>'
-                        +'<p style="color:var(--gray-500);margin-bottom:20px;">Apply to a property first and its status will appear here.</p>'
-                        +'<a href="properties" class="btn btn-primary" style="display:inline-flex;gap:8px;"><i class="fas fa-building"></i> Browse Properties</a></div>';return;}
-                    wrap.innerHTML=list.map(function(b){return '<a href="application-status?id='+b.id+'" style="text-decoration:none;color:inherit;background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:18px 22px;margin-bottom:12px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:center;box-shadow:var(--shadow-sm);">'
-                        +'<div><strong style="color:var(--dark);">'+api.escapeHtml(b.propertyTitle||('Property #'+b.propertyId))+'</strong> '+badge(b.status)
-                        +'<div style="font-size:12px;color:var(--gray-400);margin-top:6px;">Tour: '+api.escapeHtml(fmtDate(b.tourDate))+' · '+api.escapeHtml(b.tourTime||'')+'</div></div>'
-                        +'<i class="fas fa-chevron-right" style="color:var(--gray-400);"></i></a>';}).join('');
-                }catch(e){wrap.innerHTML='<div style="text-align:center;padding:40px;color:var(--gray-500);">'+api.escapeHtml(e.message||'Could not load status.')+'</div>';}
-            }
-            loadStatus();
-        })();
-    </script>
+    </div>
+    <div class="footer-bottom" style="justify-content:center;margin-top:28px;">
+        <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
+    </div>
+</div>
+</footer>
+<script src="js/api.js?v=20260913a"></script>
+<script src="js/core.js?v=20260913a"></script>
+<script src="demo/demo-data.js?v=20260913a"></script>
+<script src="js/pages/application-status.js?v=20260913a"></script>
 </body>
 </html>

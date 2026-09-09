@@ -1,361 +1,248 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="HeavenLease blog - articles on renting, property management, and comfort living.">
-    <title>Blog — HeavenLease</title>
-    <link rel="icon" href="favicon.svg" type="image/svg+xml">
-    <link rel="canonical" href="https://heavenlease.in/blog">
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="HeavenLease">
-    <meta property="og:title" content="Blog — HeavenLease">
-    <meta property="og:description" content="HeavenLease blog - articles on renting, property management, and comfort living.">
-    <meta property="og:url" content="https://heavenlease.in/blog">
-    <meta property="og:image" content="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1200&q=80">
-    <meta name="twitter:card" content="summary_large_image">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="styles.css?v=20260909a">
-    <style>
-        .page-header { background: var(--gradient-soft); padding: 140px 0 80px; text-align: center; position: relative; overflow: hidden; }
-        .page-header h1 { font-family: var(--font-heading); font-size: 48px; font-weight: 700; color: var(--dark); margin-bottom: 16px; }
-        .page-header p { font-size: 18px; color: var(--gray-500); max-width: 600px; margin: 0 auto; }
-        .page-header .breadcrumb { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 16px; font-size: 14px; color: var(--gray-500); }
-        .page-header .breadcrumb a { color: var(--primary); }
-        .page-header .breadcrumb i { font-size: 12px; color: var(--gray-400); }
-        .blog-section { padding: 80px 0; }
-        .blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
-        .blog-card { background: var(--white); border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--gray-200); transition: var(--transition); }
-        .blog-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
-        .blog-image { height: 200px; background: var(--gradient-soft); display: flex; align-items: center; justify-content: center; font-size: 48px; color: var(--primary); }
-        .blog-body { padding: 24px; }
-        .blog-tag { font-size: 12px; color: var(--primary); font-weight: 600; text-transform: uppercase; margin-bottom: 8px; }
-        .blog-body h3 { font-size: 18px; font-weight: 600; color: var(--dark); margin-bottom: 12px; }
-        .blog-body p { font-size: 14px; color: var(--gray-500); line-height: 1.7; margin-bottom: 16px; }
-        .blog-meta { font-size: 13px; color: var(--gray-400); }
-        .blog-actions { text-align: center; margin-bottom: 32px; }
-        .modal-overlay { position: fixed; inset: 0; background: rgba(15,23,42,.6); display: none; align-items: center; justify-content: center; z-index: 1500; padding: 20px; }
-        .modal-overlay.show { display: flex; }
-        .modal { background: var(--white); border-radius: var(--radius-xl); padding: 32px; width: 100%; max-width: 560px; max-height: 90vh; overflow-y: auto; box-shadow: var(--shadow-xl); }
-        .modal h3 { font-family: var(--font-heading); font-size: 24px; color: var(--dark); margin-bottom: 20px; }
-        .modal .form-group { margin-bottom: 16px; }
-        .modal label { display: block; font-size: 13px; font-weight: 600; color: var(--gray-600); margin-bottom: 6px; }
-        .modal input, .modal select, .modal textarea { width: 100%; padding: 12px 14px; border: 1px solid var(--gray-200); border-radius: var(--radius-md); font-size: 14px; color: var(--gray-700); }
-        .modal input:focus, .modal select:focus, .modal textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79,70,229,.1); }
-        .modal textarea { resize: vertical; min-height: 80px; }
-        .modal-actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 20px; }
-        @media (max-width: 1024px) { .blog-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 768px) { .page-header { padding: 120px 0 50px; } .page-header h1 { font-size: 36px; } .blog-grid { grid-template-columns: 1fr; } }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="HeavenLease blog - practical guides and stories for better rental experiences.">
+<title>Blog — HeavenLease</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://heavenlease.in/blog">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
+<link rel="stylesheet" href="styles.css?v=20260909a">
+<style>
+:root{
+ --hl-ink:#182033;--hl-muted:#687386;--hl-soft:#f7f8fc;--hl-line:#e4e7ee;
+ --hl-primary:#5b5ce2;--hl-primary-2:#5b5ce2;--hl-dark:#182033;
+ --hl-white:#ffffff;--hl-radius:24px;--hl-shadow:0 20px 60px rgba(16,24,40,.10);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,system-ui,sans-serif;color:var(--hl-ink);background:var(--hl-soft)}
+a{text-decoration:none;color:inherit}
+button,input,select,textarea{font:inherit}
+.container{width:min(1160px,calc(100% - 40px));margin:auto}
+/* Navigation */
+.navbar{position:fixed;inset:0 0 auto;z-index:100;background:transparent;transition:.25s}
+.navbar.scrolled{background:rgba(255,255,255,.88);backdrop-filter:blur(18px);box-shadow:0 1px 0 rgba(16,24,40,.07)}
+.nav-container{width:min(1160px,calc(100% - 40px));height:78px;margin:auto;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:11px;font-weight:800}
+.logo-icon{width:40px;height:40px;border-radius:13px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,var(--hl-primary),var(--hl-primary-2));box-shadow:0 10px 24px rgba(91,92,226,.28)}
+.logo-text{font-size:20px;letter-spacing:-.5px}.logo-text span{color:var(--hl-primary)}
+.nav-actions{display:flex;align-items:center}.user-menu{position:relative}
+.user-menu-trigger{border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.10);color:#fff;border-radius:999px;padding:8px 13px 8px 8px;display:flex;align-items:center;gap:9px;cursor:pointer}
+.navbar.scrolled .user-menu-trigger{background:#fff;color:var(--hl-ink);border-color:var(--hl-line)}
+.user-avatar{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,var(--hl-primary),var(--hl-primary-2));color:#fff;font-size:12px}
+.user-menu-trigger .fa-chevron-down{font-size:10px;opacity:.65}
+.user-dropdown{position:absolute;right:0;top:calc(100% + 10px);width:260px;max-height:70vh;overflow:auto;padding:8px;background:#fff;border:1px solid var(--hl-line);border-radius:16px;box-shadow:var(--hl-shadow);display:none}
+.user-dropdown.open{display:block}.user-dropdown a{display:flex;gap:10px;align-items:center;padding:10px 12px;border-radius:10px;color:var(--hl-ink);font-size:13px}
+.user-dropdown a:hover{background:var(--hl-soft);color:var(--hl-primary)}
+.dropdown-divider{height:1px;background:var(--hl-line);margin:7px 4px}
+/* Hero */
+.blog-hero{position:relative;overflow:hidden;padding:150px 0 86px;background:radial-gradient(circle at 12% 20%,rgba(124,58,237,.42),transparent 30%),radial-gradient(circle at 88% 10%,rgba(91,92,226,.40),transparent 31%),linear-gradient(135deg,#182033,#181d3b 55%,#11152b);color:#fff}
+.blog-hero:before{content:"";position:absolute;width:500px;height:500px;border:1px solid rgba(255,255,255,.07);border-radius:50%;right:-180px;bottom:-280px}
+.blog-hero:after{content:"";position:absolute;width:280px;height:280px;border:1px solid rgba(255,255,255,.06);border-radius:50%;left:-150px;top:100px}
+.hero-grid{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1.15fr) 390px;gap:65px;align-items:center}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;padding:7px 11px;border:1px solid rgba(255,255,255,.15);border-radius:999px;background:rgba(255,255,255,.07);color:#d9dcff;font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+.eyebrow i{font-size:10px;color:#aeb2ff}
+.blog-hero h1{font-family:"Playfair Display",Georgia,serif;font-size:clamp(45px,5.5vw,72px);line-height:1.03;letter-spacing:-1.8px;margin:20px 0 17px}
+.blog-hero h1 span{background:linear-gradient(90deg,#b9baff,#e0c9ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.blog-hero p{max-width:660px;color:rgba(255,255,255,.72);font-size:17px;line-height:1.75;margin:0}
+.hero-actions{display:flex;gap:11px;flex-wrap:wrap;margin-top:27px}
+.hero-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 17px;border-radius:12px;background:#fff;color:var(--hl-ink);font-size:13px;font-weight:700}
+.hero-btn.ghost{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.18)}
+.hero-card{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.14);border-radius:28px;padding:27px;backdrop-filter:blur(14px);box-shadow:0 28px 70px rgba(0,0,0,.24)}
+.hero-card-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px}
+.hero-card-icon{width:50px;height:50px;border-radius:15px;background:rgba(255,255,255,.12);display:grid;place-items:center}
+.hero-card-label{font-size:11px;color:rgba(255,255,255,.48);font-weight:700;letter-spacing:.1em}
+.hero-card h3{font-family:"Playfair Display",Georgia,serif;font-size:28px;margin:0 0 9px}
+.hero-card p{font-size:13px;line-height:1.65;color:rgba(255,255,255,.62)}
+.hero-line{height:1px;background:rgba(255,255,255,.10);margin:22px 0}
+.hero-stat{display:flex;justify-content:space-between;font-size:13px;margin:10px 0}.hero-stat span{color:rgba(255,255,255,.52)}
+/* Content */
+.blog-section{padding:76px 0 100px}
+.section-heading{display:flex;align-items:end;justify-content:space-between;gap:25px;margin-bottom:30px}
+.section-heading h2{font-family:"Playfair Display",Georgia,serif;font-size:38px;line-height:1.1;margin:0 0 7px}
+.section-heading p{color:var(--hl-muted);margin:0;font-size:14px}
+.add-btn{border:0;background:var(--hl-primary);color:#fff;border-radius:12px;padding:12px 17px;font-weight:700;font-size:13px;cursor:pointer;box-shadow:0 10px 24px rgba(91,92,226,.22)}
+.blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.blog-card{background:#fff;border:1px solid var(--hl-line);border-radius:22px;overflow:hidden;transition:.25s;box-shadow:0 8px 25px rgba(16,24,40,.04)}
+.blog-card:hover{transform:translateY(-5px);box-shadow:var(--hl-shadow);border-color:#d9d9f7}
+.blog-image{height:205px;position:relative;display:grid;place-items:center;background:linear-gradient(135deg,#eef0ff,#f8f5ff);color:var(--hl-primary);font-size:42px}
+.blog-image:after{content:"";position:absolute;width:120px;height:120px;border-radius:50%;background:rgba(124,58,237,.08);top:-35px;right:-25px}
+.blog-body{padding:23px}
+.blog-tag{display:inline-flex;padding:6px 9px;border-radius:999px;background:#eef0ff;color:var(--hl-primary);font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
+.blog-body h3{font-family:"Playfair Display",Georgia,serif;font-size:23px;line-height:1.25;margin:14px 0 10px}
+.blog-body p{font-size:13.5px;line-height:1.7;color:var(--hl-muted);margin:0 0 17px}
+.blog-meta{font-size:11.5px;color:#9aa3b2;display:block;margin-bottom:17px}
+.read-link{display:inline-flex;align-items:center;gap:7px;color:var(--hl-primary);font-size:13px;font-weight:800}
+.read-link i{font-size:11px;transition:.2s}.blog-card:hover .read-link i{transform:translateX(3px)}
+/* Empty / modal */
+.empty-state{grid-column:1/-1;text-align:center;background:#fff;border:1px solid var(--hl-line);border-radius:22px;padding:65px 20px;color:var(--hl-muted)}
+.empty-icon{width:66px;height:66px;margin:0 auto 16px;border-radius:19px;background:#eef0ff;color:var(--hl-primary);display:grid;place-items:center;font-size:25px}
+.modal-overlay{position:fixed;inset:0;background:rgba(11,18,32,.62);backdrop-filter:blur(5px);display:none;align-items:center;justify-content:center;z-index:1500;padding:20px}
+.modal-overlay.show{display:flex}.modal{background:#fff;border-radius:24px;padding:30px;width:100%;max-width:580px;max-height:90vh;overflow:auto;box-shadow:0 30px 80px rgba(0,0,0,.25)}
+.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}.modal h3{font-family:"Playfair Display",Georgia,serif;font-size:27px;margin:0}
+.modal-close{border:0;background:#f2f4f7;width:35px;height:35px;border-radius:50%;cursor:pointer;color:#687386}
+.form-group{margin-bottom:15px}.modal label{display:block;font-size:12px;font-weight:700;color:#525c6e;margin-bottom:6px}
+.modal input,.modal select,.modal textarea{width:100%;padding:11px 13px;border:1px solid var(--hl-line);border-radius:11px;font-size:13px;color:var(--hl-ink)}
+.modal input:focus,.modal select:focus,.modal textarea:focus{outline:0;border-color:var(--hl-primary);box-shadow:0 0 0 3px rgba(91,92,226,.1)}
+.modal textarea{resize:vertical;min-height:90px}.modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:20px}
+.modal-btn{border:0;border-radius:11px;padding:11px 16px;font-weight:700;font-size:13px;cursor:pointer}.modal-btn.cancel{background:#f2f4f7;color:#3a4354}.modal-btn.save{background:var(--hl-primary);color:#fff}
+/* CTA + Footer */
+.page-cta{padding:0 0 85px}.cta-banner{position:relative;overflow:hidden;background:linear-gradient(135deg,#182033,#22214a);border-radius:30px;padding:54px 30px;text-align:center;color:#fff}
+.cta-banner:before{content:"";position:absolute;width:320px;height:320px;border-radius:50%;background:rgba(124,58,237,.2);filter:blur(25px);left:-100px;top:-180px}
+.cta-banner>*{position:relative;z-index:1}.cta-banner h2{font-family:"Playfair Display",Georgia,serif;font-size:35px;margin:0 0 9px}.cta-banner p{color:rgba(255,255,255,.66);margin:0 0 22px}
+.cta-buttons{display:flex;justify-content:center;gap:11px;flex-wrap:wrap}.cta-buttons a{padding:12px 17px;border-radius:11px;background:#fff;color:#182033;font-size:13px;font-weight:700}.cta-buttons a.ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.2)}
+.footer{background:var(--hl-dark);color:#fff;padding:60px 0 28px}.footer-grid{display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:40px}.footer-brand p{max-width:320px;color:#9aa3b2;font-size:13px;line-height:1.7}
+.footer h4{font-size:13px;margin:4px 0 15px}.footer a:not(.logo){display:block;color:#9aa3b2;font-size:13px;margin:9px 0}.footer a:not(.logo):hover{color:#fff}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.08);margin-top:38px;padding-top:19px;color:#687386;font-size:12px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.back-top{position:fixed;right:20px;bottom:20px;width:44px;height:44px;border:0;border-radius:50%;display:none;place-items:center;background:var(--hl-primary);color:#fff;cursor:pointer;box-shadow:0 12px 30px rgba(91,92,226,.3);z-index:90}.back-top.show{display:grid}
+@media(max-width:950px){.hero-grid{grid-template-columns:1fr}.hero-card{max-width:500px}.blog-grid{grid-template-columns:repeat(2,1fr)}.footer-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:650px){.container,.nav-container{width:calc(100% - 28px)}.blog-hero{padding:125px 0 60px}.blog-hero h1{font-size:43px}.blog-hero p{font-size:15px}.section-heading{display:block}.add-btn{margin-top:18px}.blog-grid{grid-template-columns:1fr}.blog-section{padding:50px 0 70px}.footer-grid{grid-template-columns:1fr}.footer{padding-top:45px}}
+</style>
 </head>
 <body>
-    <nav class="navbar" id="navbar">
-        <div class="nav-container">
-            <a href="/" class="logo">
+<nav class="navbar" id="navbar">
+ <div class="nav-container">
+  <a href="/" class="logo"><div class="logo-icon"><i class="fas fa-home"></i></div><span class="logo-text">Heaven<span>Lease</span></span></a>
+  <div class="nav-actions">
+   <div class="user-menu">
+    <button class="user-menu-trigger" id="profileBtn" type="button" aria-label="Account menu"><span class="user-avatar"><i class="fas fa-user"></i></span><span id="navUserName">Account</span><i class="fas fa-chevron-down"></i></button>
+    <div class="user-dropdown" id="profileDropdown">
+     <a href="home"><i class="fas fa-home"></i>Main Home</a>
+     <a href="edit-profile"><i class="fas fa-user"></i>My Profile &amp; Settings</a>
+     <a href="payment"><i class="fas fa-credit-card"></i>Access Pass</a>
+     <div class="dropdown-divider"></div>
+     <a href="properties"><i class="fas fa-building"></i>Browse Properties</a>
+     <a href="map"><i class="fas fa-map-location-dot"></i>Property Map</a>
+     <a href="comfort-scores"><i class="fas fa-gauge-high"></i>Comfort Scores</a>
+     <a href="saved-properties"><i class="fas fa-heart"></i>Saved Properties</a>
+     <a href="list-property"><i class="fas fa-key"></i>List Your Property</a>
+     <a href="tenant-screening"><i class="fas fa-user-check"></i>Tenant Screening</a>
+     <a href="owner-resources"><i class="fas fa-toolbox"></i>Owner Resources</a>
+     <a href="buy-sell"><i class="fas fa-tag"></i>Buy / Sell</a>
+     <a href="possession"><i class="fas fa-key"></i>Possession &amp; Handover</a>
+     <a href="lease-signing"><i class="fas fa-file-signature"></i>Leases &amp; Signing</a>
+     <a href="tour-booking"><i class="fas fa-calendar-check"></i>Tour Bookings</a>
+     <a href="messages"><i class="fas fa-comments"></i>Messages</a>
+     <a href="notifications"><i class="fas fa-bell"></i>Notifications</a>
+     <div class="dropdown-divider"></div>
+     <a href="how-it-works"><i class="fas fa-circle-question"></i>How It Works</a>
+     <a href="about"><i class="fas fa-building"></i>About Us</a>
+     <a href="blog"><i class="fas fa-newspaper"></i>Blog</a>
+     <a href="comfort-scores"><i class="fas fa-chart-simple"></i>Type &amp; Voice Search</a>
+     <a href="contact"><i class="fas fa-envelope"></i>Contact &amp; Support</a>
+     <div class="dropdown-divider"></div>
+     <a href="login" class="hide-when-auth"><i class="fas fa-arrow-right-to-bracket"></i>Sign In</a>
+     <a href="#" id="logoutLink" class="logout-link hide-when-guest"><i class="fas fa-sign-out-alt"></i>Logout</a>
+    </div>
+   </div>
+  </div>
+ </div>
+</nav>
+<header class="blog-hero">
+ <div class="container hero-grid">
+  <div>
+   <div class="eyebrow"><i class="fas fa-sparkles"></i>HeavenLease Journal</div>
+   <h1>Ideas for a <span>better rental life.</span></h1>
+   <p>Practical guides, property insights and thoughtful stories to help you find a home, rent with confidence and manage property with clarity.</p>
+   <div class="hero-actions">
+    <a href="#articles" class="hero-btn"><i class="fas fa-book-open"></i>Explore Articles</a>
+    <a href="about" class="hero-btn ghost"><i class="fas fa-arrow-right"></i>About HeavenLease</a>
+   </div>
+  </div>
+  <aside class="hero-card">
+   <div class="hero-card-top"><div class="hero-card-icon"><i class="fas fa-newspaper"></i></div><span class="hero-card-label">THE JOURNAL</span></div>
+   <h3>Useful ideas. Clear decisions.</h3>
+   <p>Short, practical reading for the moments that matter in your rental journey.</p>
+   <div class="hero-line"></div>
+   <div class="hero-stat"><strong>6 featured guides</strong><span>Ready to read</span></div>
+   <div class="hero-stat"><strong>Renting · Owners · Lifestyle</strong><span>Topics</span></div>
+  </aside>
+ </div>
+</header>
+<main id="articles" class="blog-section">
+ <div class="container">
+  <div class="section-heading">
+   <div><h2>Latest from HeavenLease</h2><p>Guides and insights selected for renters and property owners.</p></div>
+   <button class="add-btn" id="addBlogBtn"><i class="fas fa-plus"></i> Add New Blog</button>
+  </div>
+  <div class="blog-grid" id="blogGrid">
+   <article class="blog-card"><div class="blog-image"><i class="fas fa-home"></i></div><div class="blog-body"><span class="blog-tag">Renting Tips</span><h3>How to Choose the Right Neighbourhood</h3><p>Consider commute time, safety, amenities, and community vibe when choosing where to live.</p><span class="blog-meta">Aug 15, 2026 · 5 min read</span><a class="read-link" href="how-to-choose-the-right-neighbourhood">Read article <i class="fas fa-arrow-right"></i></a></div></article>
+   <article class="blog-card"><div class="blog-image"><i class="fas fa-shield-halved"></i></div><div class="blog-body"><span class="blog-tag">Safety</span><h3>Understanding Escrow Protection</h3><p>Learn how escrow keeps your security deposit safe until you move in and verify the property.</p><span class="blog-meta">Aug 10, 2026 · 4 min read</span><a class="read-link" href="understanding-escrow-protection">Read article <i class="fas fa-arrow-right"></i></a></div></article>
+   <article class="blog-card"><div class="blog-image"><i class="fas fa-chart-line"></i></div><div class="blog-body"><span class="blog-tag">For Owners</span><h3>Maximizing Your Rental Income</h3><p>Tips on pricing your property right and attracting quality tenants.</p><span class="blog-meta">Aug 5, 2026 · 6 min read</span><a class="read-link" href="maximizing-your-rental-income">Read article <i class="fas fa-arrow-right"></i></a></div></article>
+   <article class="blog-card"><div class="blog-image"><i class="fas fa-truck-moving"></i></div><div class="blog-body"><span class="blog-tag">Moving</span><h3>The Ultimate Moving Checklist</h3><p>A comprehensive checklist to make your move smooth and stress-free.</p><span class="blog-meta">Jul 28, 2026 · 7 min read</span><a class="read-link" href="the-ultimate-moving-checklist">Read article <i class="fas fa-arrow-right"></i></a></div></article>
+   <article class="blog-card"><div class="blog-image"><i class="fas fa-paw"></i></div><div class="blog-body"><span class="blog-tag">Lifestyle</span><h3>Finding Pet-Friendly Rentals</h3><p>How to find homes that welcome your furry friends without extra fees.</p><span class="blog-meta">Jul 20, 2026 · 5 min read</span><a class="read-link" href="finding-pet-friendly-rentals">Read article <i class="fas fa-arrow-right"></i></a></div></article>
+   <article class="blog-card"><div class="blog-image"><i class="fas fa-sun"></i></div><div class="blog-body"><span class="blog-tag">Comfort</span><h3>Why Sunlight Matters in a Home</h3><p>Natural light affects mood, health, and energy bills. Here's what to look for.</p><span class="blog-meta">Jul 12, 2026 · 4 min read</span><a class="read-link" href="why-sunlight-matters-in-a-home">Read article <i class="fas fa-arrow-right"></i></a></div></article>
+  </div>
+ </div>
+</main>
+<section class="page-cta">
+ <div class="container"><div class="cta-banner">
+  <h2>Better decisions start with better information.</h2>
+  <p>Keep exploring HeavenLease guides or start your search for a better place to live.</p>
+  <div class="cta-buttons">
+   <a href="home"><i class="fas fa-house"></i> Find a Home</a>
+   <a href="how-it-works"><i class="fas fa-circle-question"></i> How It Works</a>
+   <a href="about" class="ghost"><i class="fas fa-building"></i> About Us</a>
+  </div>
+ </div></div>
+</section>
+<div class="modal-overlay" id="blogModal">
+ <div class="modal">
+  <div class="modal-head"><h3><i class="fas fa-feather-pointed"></i> Add New Blog</h3><button class="modal-close" id="closeBlogBtn" type="button"><i class="fas fa-xmark"></i></button></div>
+  <div class="form-group"><label>Slug</label><input id="blogSlug" placeholder="e.g. renting-with-confidence"></div>
+  <div class="form-group"><label>Title</label><input id="blogTitle" placeholder="Enter blog title"></div>
+  <div class="form-group"><label>Category / Tag</label><select id="blogTag"><option>Renting Tips</option><option>Safety</option><option>For Owners</option><option>Moving</option><option>Lifestyle</option><option>Comfort</option><option>Guides</option></select></div>
+  <div class="form-group"><label>Summary</label><textarea id="blogSummary" placeholder="A short 1–2 sentence summary"></textarea></div>
+  <div class="form-group"><label>Full Article Body</label><textarea id="blogBody" style="min-height:200px" placeholder="Blank lines between paragraphs. Use # headings and - bullet lists."></textarea></div>
+  <div class="form-group"><label>Font Awesome Icon</label><input id="blogIcon" placeholder="fa-home"></div>
+  <div class="modal-actions"><button class="modal-btn cancel" id="cancelBlogBtn">Cancel</button><button class="modal-btn save" id="saveBlogBtn"><i class="fas fa-check"></i> Publish</button></div>
+ </div>
+</div>
+<footer class="footer">
+<div class="container">
+    <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
+        <div class="footer-brand">
+            <a href="home" class="logo">
                 <div class="logo-icon"><i class="fas fa-home"></i></div>
                 <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
-            
-            <div class="nav-actions">
-                                <div class="user-menu" id="userMenu">
-                    <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu">
-                        <span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span>
-                        <span id="navUserName">Account</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </button>
-                    <div class="user-dropdown" id="profileDropdown">
-                        <a href="home" id="mainHomeLink"><i class="fas fa-home"></i> Main Home</a>
-                        <a href="edit-profile" id="myProfileLink"><i class="fas fa-user"></i> My Profile &amp; Settings</a>
-                        <a href="payment"><i class="fas fa-credit-card"></i> Access Pass</a>
-                        <div class="dropdown-divider"></div>
-                        <a href="properties"><i class="fas fa-building"></i> Browse Properties</a>
-                        <a href="map"><i class="fas fa-map-location-dot"></i> Property Map</a>
-                        <a href="comfort-scores"><i class="fas fa-gauge-high"></i> Comfort Scores</a>
-                        <a href="saved-properties"><i class="fas fa-heart"></i> Saved Properties</a>
-                        <a href="list-property"><i class="fas fa-key"></i> List Your Property</a>
-                        <a href="tenant-screening"><i class="fas fa-user-check"></i> Tenant Screening</a>
-                        <a href="owner-resources"><i class="fas fa-toolbox"></i> Owner Resources</a>
-                        <a href="buy-sell"><i class="fas fa-tag"></i> Buy / Sell</a>
-                        <a href="possession"><i class="fas fa-key"></i> Possession &amp; Handover</a>
-                        <a href="lease-signing"><i class="fas fa-file-signature"></i> Leases &amp; Signing</a>
-                        <a href="tour-booking"><i class="fas fa-calendar-check"></i> Tour Bookings</a>
-                        <a href="messages"><i class="fas fa-comments"></i> Messages</a>
-                        <a href="notifications"><i class="fas fa-bell"></i> Notifications</a>
-                        <div class="dropdown-divider"></div>
-                        <a href="how-it-works"><i class="fas fa-circle-question"></i> How It Works</a>
-                        <a href="about"><i class="fas fa-building"></i> About Us</a>
-                        <a href="blog"><i class="fas fa-newspaper"></i> Blog</a>
-<a href="comfort-scores"><i class="fas fa-chart-simple"></i> Type &amp; Voice Search</a>
-                                                <a href="contact"><i class="fas fa-envelope"></i> Contact &amp; Support</a>
-                        <div class="dropdown-divider"></div>
-                        <a href="login" id="signInLink" class="hide-when-auth"><i class="fas fa-arrow-right-to-bracket"></i> Sign In</a>
-                        <a href="#" id="logoutLink" class="logout-link hide-when-guest"><i class="fas fa-sign-out-alt"></i> Logout</a>
-                    </div>
-                </div>
-</div>
+            <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>
         </div>
-    </nav>
-
-    <section class="page-header">
-        <div class="container">
-            <h1>HeavenLease <span class="gradient-text">Blog</span></h1>
-            <p>Insights, tips, and guides on renting and property management.</p>
-            <div class="breadcrumb">
-                <a href="/">Home</a>
-                <i class="fas fa-chevron-right"></i>
-                <span>Blog</span>
-            </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Explore</strong>
+            <a href="properties" style="color:inherit;text-decoration:none;">Find a Home</a>
+            <a href="map" style="color:inherit;text-decoration:none;">Property Map</a>
+            <a href="how-it-works" style="color:inherit;text-decoration:none;">How It Works</a>
+            <a href="about" style="color:inherit;text-decoration:none;">About Us</a>
         </div>
-    </section>
-
-    <section class="blog-section">
-        <div class="container">
-            <div class="blog-actions">
-                <button class="btn btn-primary" id="addBlogBtn"><i class="fas fa-plus"></i> Add New Blog</button>
-            </div>
-            <div class="blog-grid" id="blogGrid">
-                <div class="blog-card">
-                    <div class="blog-image"><i class="fas fa-home"></i></div>
-                    <div class="blog-body">
-                        <span class="blog-tag">Renting Tips</span>
-                        <h3>How to Choose the Right Neighbourhood</h3>
-                        <p>Consider commute time, safety, amenities, and community vibe when choosing where to live.</p>
-                        <span class="blog-meta">Aug 15, 2026 · 5 min read</span>
-                        <a href="how-to-choose-the-right-neighbourhood" class="btn btn-primary" style="margin-top:12px;display:inline-block;">Read More <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                </div>
-                <div class="blog-card">
-                    <div class="blog-image"><i class="fas fa-shield-halved"></i></div>
-                    <div class="blog-body">
-                        <span class="blog-tag">Safety</span>
-                        <h3>Understanding Escrow Protection</h3>
-                        <p>Learn how escrow keeps your security deposit safe until you move in and verify the property.</p>
-                        <span class="blog-meta">Aug 10, 2026 · 4 min read</span>
-                        <a href="understanding-escrow-protection" class="btn btn-primary" style="margin-top:12px;display:inline-block;">Read More <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                </div>
-                <div class="blog-card">
-                    <div class="blog-image"><i class="fas fa-chart-line"></i></div>
-                    <div class="blog-body">
-                        <span class="blog-tag">For Owners</span>
-                        <h3>Maximizing Your Rental Income</h3>
-                        <p>Tips on pricing your property right and attracting quality tenants.</p>
-                        <span class="blog-meta">Aug 5, 2026 · 6 min read</span>
-                        <a href="maximizing-your-rental-income" class="btn btn-primary" style="margin-top:12px;display:inline-block;">Read More <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                </div>
-                <div class="blog-card">
-                    <div class="blog-image"><i class="fas fa-truck-moving"></i></div>
-                    <div class="blog-body">
-                        <span class="blog-tag">Moving</span>
-                        <h3>The Ultimate Moving Checklist</h3>
-                        <p>A comprehensive checklist to make your move smooth and stress-free.</p>
-                        <span class="blog-meta">Jul 28, 2026 · 7 min read</span>
-                        <a href="the-ultimate-moving-checklist" class="btn btn-primary" style="margin-top:12px;display:inline-block;">Read More <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                </div>
-                <div class="blog-card">
-                    <div class="blog-image"><i class="fas fa-paw"></i></div>
-                    <div class="blog-body">
-                        <span class="blog-tag">Lifestyle</span>
-                        <h3>Finding Pet-Friendly Rentals</h3>
-                        <p>How to find homes that welcome your furry friends without extra fees.</p>
-                        <span class="blog-meta">Jul 20, 2026 · 5 min read</span>
-                        <a href="finding-pet-friendly-rentals" class="btn btn-primary" style="margin-top:12px;display:inline-block;">Read More <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                </div>
-                <div class="blog-card">
-                    <div class="blog-image"><i class="fas fa-sun"></i></div>
-                    <div class="blog-body">
-                        <span class="blog-tag">Comfort</span>
-                        <h3>Why Sunlight Matters in a Home</h3>
-                        <p>Natural light affects mood, health, and energy bills. Here's what to look for.</p>
-                        <span class="blog-meta">Jul 12, 2026 · 4 min read</span>
-                        <a href="why-sunlight-matters-in-a-home" class="btn btn-primary" style="margin-top:12px;display:inline-block;">Read More <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                </div>
-            </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Company</strong>
+            <a href="careers" style="color:inherit;text-decoration:none;">Careers</a>
+            <a href="press" style="color:inherit;text-decoration:none;">Press</a>
+            <a href="blog" style="color:inherit;text-decoration:none;">Blog</a>
+            <a href="contact" style="color:inherit;text-decoration:none;">Contact</a>
         </div>
-    </section>
-
-    <!-- Add Blog Modal -->
-    <div class="modal-overlay" id="blogModal">
-        <div class="modal">
-            <h3><i class="fas fa-feather-alt"></i> Add New Blog</h3>
-            <div class="form-group">
-                <label>Slug (used in the article URL)</label>
-                <input type="text" id="blogSlug" placeholder="e.g. how-to-choose-the-right-neighbourhood">
-            </div>
-            <div class="form-group">
-                <label>Title</label>
-                <input type="text" id="blogTitle" placeholder="Enter blog title">
-            </div>
-            <div class="form-group">
-                <label>Category / Tag</label>
-                <select id="blogTag">
-                    <option>Renting Tips</option><option>Safety</option><option>For Owners</option><option>Moving</option><option>Lifestyle</option><option>Comfort</option><option>Guides</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Summary</label>
-                <textarea id="blogSummary" placeholder="A short 1-2 sentence summary"></textarea>
-            </div>
-            <div class="form-group">
-                <label>Full Article Body</label>
-                <textarea id="blogBody" placeholder="Write the full article here. Use blank lines between paragraphs. You can include simple # headings and - bullet lists." style="min-height:220px;"></textarea>
-            </div>
-            <div class="form-group">
-                <label>Icon (choose a Font Awesome icon, e.g. fa-home)</label>
-                <input type="text" id="blogIcon" placeholder="fa-home">
-            </div>
-            <div class="modal-actions">
-                <button class="btn btn-ghost" id="cancelBlogBtn">Cancel</button>
-                <button class="btn btn-primary" id="saveBlogBtn"><i class="fas fa-check"></i> Publish</button>
-            </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">For Owners</strong>
+            <a href="list-property" style="color:inherit;text-decoration:none;">List Your Property</a>
+            <a href="properties-management" style="color:inherit;text-decoration:none;">Owner Dashboard</a>
+            <a href="payment" style="color:inherit;text-decoration:none;">Pricing &amp; Upgrade</a>
+            <a href="owner-resources" style="color:inherit;text-decoration:none;">Owner Resources</a>
         </div>
     </div>
-
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-grid" style="grid-template-columns: repeat(3, 1fr); gap: 32px; text-align: left;">
-                <div class="footer-brand">
-                    <a href="/" class="logo">
-                        <div class="logo-icon"><i class="fas fa-home"></i></div>
-                        <span class="logo-text">Heaven<span>Lease</span></span>
-                    </a>
-                    <p style="margin:12px 0 0;max-width:280px;">Simple steps to your perfect stay. Direct owner rentals with zero broker fees and comfort-first search.</p>
-                </div>
-                <div style="display:flex;flex-direction:column;gap:8px;font-size:14px;">
-                    <strong style="margin-bottom:4px;">Company</strong>
-                    <a href="about" style="color:inherit;text-decoration:none;">About Us</a>
-                    <a href="careers" style="color:inherit;text-decoration:none;">Careers</a>
-                    <a href="press" style="color:inherit;text-decoration:none;">Press</a>
-                    <a href="blog" style="color:inherit;text-decoration:none;">Blog</a>
-                    <a href="contact" style="color:inherit;text-decoration:none;">Contact</a>
-                </div>
-                <div style="display:flex;flex-direction:column;gap:8px;font-size:14px;">
-                    <strong style="margin-bottom:4px;">Legal &amp; Resources</strong>
-                    <a href="privacy" style="color:inherit;text-decoration:none;">Privacy Policy</a>
-                    <a href="terms" style="color:inherit;text-decoration:none;">Terms of Service</a>
-                    <a href="cookies" style="color:inherit;text-decoration:none;">Cookie Policy</a>
-                    <a href="rental-laws" style="color:inherit;text-decoration:none;">Rental Laws</a>
-                    <a href="escrow-policy" style="color:inherit;text-decoration:none;">Escrow Policy</a>
-                </div>
-            </div>
-            <div class="footer-bottom" style="justify-content: center;">
-                <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
-            </div>
-        </div>
-    </footer>
-
-    <button class="back-to-top" id="backToTop" aria-label="Back to top">
-        <i class="fas fa-arrow-up"></i>
-    </button>
-
-    <script src="api.js?v=20260913a"></script>
-    <script src="script.js?v=20260913a"></script>
-    <script>
-        // Note: navbar, hamburger, navLinks, backToTop are already declared in script.js
-
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) navbar.classList.add('scrolled');
-            else navbar.classList.remove('scrolled');
-            if (window.scrollY > 500) backToTop.classList.add('visible');
-            else backToTop.classList.remove('visible');
-        });
-
-        if (hamburger) hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            navLinks.classList.toggle('active');
-        });
-
-        if (hamburger && navLinks) {
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.addEventListener('click', () => {
-                    hamburger.classList.remove('active');
-                    navLinks.classList.remove('active');
-                });
-            });
-        }
-
-        backToTop.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-
-        // ===== ADD NEW BLOG (localStorage-persisted) =====
-        const BLOG_KEY = 'heavenlease_blogs';
-        const modal = document.getElementById('blogModal');
-        const addBlogBtn = document.getElementById('addBlogBtn');
-        const cancelBlogBtn = document.getElementById('cancelBlogBtn');
-        const saveBlogBtn = document.getElementById('saveBlogBtn');
-        const grid = document.getElementById('blogGrid');
-
-        function loadUserBlogs() {
-            let blogs = [];
-            try { blogs = JSON.parse(localStorage.getItem(BLOG_KEY) || '[]'); } catch(e) {}
-            return blogs;
-        }
-
-        function blogCard(b) {
-            const icon = (b.icon && b.icon.trim()) ? b.icon.trim() : 'fa-file-lines';
-            const slug = (b.slug && b.slug.trim()) ? b.slug.trim() : ('blog-' + Date.now());
-            const id = ('blog-' + (b.slug || b.title || Date.now())).toLowerCase().replace(/[^a-z0-9]+/g, '-');
-            return '<div class="blog-card">' +
-                '<div class="blog-image"><i class="fas ' + icon + '"></i></div>' +
-                '<div class="blog-body">' +
-                    '<span class="blog-tag">' + (b.tag || 'Blog') + '</span>' +
-                    '<h3>' + (b.title || 'Untitled') + '</h3>' +
-                    '<p>' + (b.summary || '') + '</p>' +
-                    '<span class="blog-meta">' + (b.date || 'Recently') + ' · New post</span>' +
-                    '<a href="blog-detail?slug=' + encodeURIComponent(slug) + '" class="btn btn-primary" style="margin-top:12px;display:inline-block;">Read More <i class="fas fa-arrow-right"></i></a>' +
-                '</div>' +
-            '</div>';
-        }
-
-        // Append user-created blogs after the static ones.
-        loadUserBlogs().forEach(b => { grid.insertAdjacentHTML('beforeend', blogCard(b)); });
-
-        addBlogBtn.addEventListener('click', () => {
-            modal.classList.add('show');
-        });
-        cancelBlogBtn.addEventListener('click', () => {
-            modal.classList.remove('show');
-        });
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) modal.classList.remove('show');
-        });
-
-        saveBlogBtn.addEventListener('click', () => {
-            const title = document.getElementById('blogTitle').value.trim();
-            const tag = document.getElementById('blogTag').value;
-            const summary = document.getElementById('blogSummary').value.trim();
-            const body = document.getElementById('blogBody').value.trim();
-            const icon = document.getElementById('blogIcon').value.trim();
-            let slug = document.getElementById('blogSlug').value.trim().toLowerCase();
-            if (!title) { showToast('Please enter a blog title.', 'error'); return; }
-            // Auto-generate a slug from the title when none is given.
-            if (!slug) {
-                slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
-            }
-
-            const date = new Date().toLocaleDateString('en-IN', { month: 'short', day: 'numeric', year: 'numeric' });
-            const blogs = loadUserBlogs();
-            blogs.push({ slug: slug, title: title, tag: tag || 'Blog', summary: summary || 'A new HeavenLease blog post.', body: body || '', icon: icon, date: date });
-            localStorage.setItem(BLOG_KEY, JSON.stringify(blogs));
-
-            grid.insertAdjacentHTML('beforeend', blogCard(blogs[blogs.length - 1]));
-            document.getElementById('blogTitle').value = '';
-            document.getElementById('blogSlug').value = '';
-            document.getElementById('blogSummary').value = '';
-            document.getElementById('blogBody').value = '';
-            document.getElementById('blogIcon').value = '';
-            modal.classList.remove('show');
-            showToast('Blog published successfully! 🎉', 'success');
-        });
-    </script>
+    <div class="footer-bottom" style="justify-content:center;margin-top:28px;">
+        <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
+    </div>
+</div>
+</footer>
+<button class="back-top" id="backToTop" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
+<script src="js/api.js?v=20260913a"></script>
+<script src="js/core.js?v=20260913a"></script>
+<script src="js/pages/blog.js?v=20260913a"></script>
 </body>
 </html>
-

@@ -1,6 +1,171 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Your Access Pass payment history.">
+<title>Transaction History — HeavenLease</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
+<link rel="stylesheet" href="styles.css?v=20260909a">
+<style>
+:root{
+  --tx-ink:#101827;
+  --tx-muted:#687386;
+  --tx-soft:#f5f7fa;
+  --tx-line:rgba(16,24,40,.10);
+  --tx-primary:#6d5dfc;
+  --tx-primary-dark:#4d3fe0;
+  --tx-shadow:0 22px 60px rgba(16,24,40,.12);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  color:var(--tx-ink);
+  background:
+    linear-gradient(rgba(247,244,239,.91),rgba(247,244,239,.95)),
+    url("https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=2200&q=85") center/cover fixed;
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+body:before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;
+  background:radial-gradient(circle at 15% 15%,rgba(255,255,255,.75),transparent 30%),
+             radial-gradient(circle at 85% 65%,rgba(109,93,252,.07),transparent 28%);
+}
+.navbar{
+  background:
+    linear-gradient(90deg,rgba(9,14,25,.94),rgba(19,27,43,.83)),
+    url("https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=2200&q=85") center/cover;
+  border-bottom:1px solid rgba(255,255,255,.12);
+  box-shadow:0 14px 38px rgba(7,11,20,.18);
+  position:relative;z-index:100;
+}
+.navbar .nav-container{min-height:76px}
+.logo-text{font-family:"Playfair Display",Georgia,serif;letter-spacing:-.02em}
+.logo-icon{box-shadow:0 10px 25px rgba(109,93,252,.28)}
+.user-menu-trigger{color:#fff!important}
+.user-menu-trigger:hover{background:rgba(255,255,255,.10)!important}
+.user-dropdown{box-shadow:0 20px 50px rgba(0,0,0,.25)!important}
+.transaction-hero{
+  min-height:430px;position:relative;display:flex;align-items:flex-end;overflow:hidden;
+  color:#fff;
+}
+.hero-image{
+  position:absolute;inset:0;
+  background:url("https://images.unsplash.com/photo-1554469384-e58fac16e23a?auto=format&fit=crop&w=2200&q=85") center/cover;
+  transform:scale(1.02);
+}
+.hero-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(90deg,rgba(8,13,23,.88) 0%,rgba(10,17,30,.65) 48%,rgba(10,17,30,.28) 100%),
+             linear-gradient(0deg,rgba(7,12,22,.72),transparent 65%);
+}
+.hero-content{position:relative;padding:105px 24px 68px}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:9px;padding:9px 13px;border-radius:999px;
+  background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.20);
+  backdrop-filter:blur(12px);font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+}
+.hero-content h1{
+  font-family:"Playfair Display",Georgia,serif;font-size:clamp(42px,6vw,70px);
+  line-height:1.02;letter-spacing:-.04em;margin:20px 0 14px;color:#fff;
+}
+.hero-content p{font-size:18px;line-height:1.65;max-width:650px;color:rgba(255,255,255,.84);margin:0}
+.hero-meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:25px}
+.hero-meta span{
+  display:inline-flex;align-items:center;gap:8px;padding:10px 13px;border-radius:12px;
+  background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.14);font-size:13px;
+}
+.page-section{padding:78px 0 92px}
+.transaction-container{max-width:940px}
+.section-head{
+  display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:30px;
+}
+.section-head h2{
+  font-family:"Playfair Display",Georgia,serif;font-size:34px;line-height:1.1;margin:6px 0 0;
+  color:var(--tx-ink);letter-spacing:-.025em;
+}
+.section-head.compact{align-items:center;margin-bottom:20px}
+.section-note{max-width:390px;margin:0;color:var(--tx-muted);font-size:13px;line-height:1.65}
+.eyebrow{
+  display:block;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.14em;
+  color:var(--tx-primary);margin-bottom:7px;
+}
+.transactions-list{display:grid;gap:12px}
+.transactions-list>div{
+  background:rgba(255,255,255,.94)!important;border:1px solid var(--tx-line)!important;
+  border-radius:18px!important;padding:22px 24px!important;margin:0!important;
+  box-shadow:0 8px 26px rgba(16,24,40,.06)!important;
+  transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease;
+}
+.transactions-list>div:hover{
+  transform:translateY(-2px);box-shadow:var(--tx-shadow)!important;border-color:rgba(109,93,252,.30)!important;
+}
+.transactions-list strong{font-size:20px!important}
+.transactions-list .status,.escrow-panel .status{
+  display:inline-flex;align-items:center;padding:5px 9px;border-radius:999px;font-size:10px!important;
+  font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+}
+.transactions-list .btn,.escrow-panel .btn{border-radius:10px!important}
+.escrow-panel{
+  margin-top:48px!important;padding-top:42px;border-top:1px solid var(--tx-line);
+}
+#escrowWrap{display:grid;gap:12px}
+#escrowWrap>div{
+  background:rgba(255,255,255,.94)!important;border:1px solid var(--tx-line)!important;
+  border-radius:18px!important;padding:22px 24px!important;margin:0!important;
+  box-shadow:0 8px 26px rgba(16,24,40,.06)!important;
+}
+.invoice-modal{
+  position:fixed!important;inset:0!important;z-index:9999!important;
+  background:rgba(8,13,23,.72)!important;backdrop-filter:blur(10px);
+  align-items:center!important;justify-content:center!important;padding:22px!important;
+}
+.invoice-card{
+  max-height:calc(100vh - 44px);overflow:auto;background:#fff!important;border-radius:24px!important;
+  padding:34px!important;box-shadow:0 30px 100px rgba(0,0,0,.30);color:#182033!important;
+}
+.invoice-card .btn{border-radius:11px!important}
+.page-cta{padding:0 0 94px}
+.cta-banner{
+  position:relative;overflow:hidden;background:
+    linear-gradient(110deg,rgba(20,26,43,.98),rgba(54,46,112,.95)),
+    url("https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1800&q=80") center/cover;
+  border-radius:28px;padding:48px 40px;color:#fff;box-shadow:var(--tx-shadow);
+}
+.cta-banner:after{content:"";position:absolute;width:280px;height:280px;border-radius:50%;right:-90px;top:-130px;background:rgba(255,255,255,.08)}
+.cta-copy{position:relative;z-index:1}
+.cta-banner h2{font-family:"Playfair Display",Georgia,serif;font-size:34px;margin:5px 0 8px}
+.cta-banner p{color:rgba(255,255,255,.75);margin:0}
+.cta-banner>div:last-child{position:relative;z-index:2;margin-top:25px}
+.cta-banner .btn{border-radius:11px!important}
+.cta-banner .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,.45);color:#fff}
+@media(max-width:760px){
+  .hero-content{padding:92px 20px 48px}
+  .page-section{padding:58px 0 70px}
+  .section-head{display:block}
+  .section-note{margin-top:12px}
+  .transactions-list>div,#escrowWrap>div{padding:18px!important}
+  .invoice-card{padding:24px!important}
+  .cta-banner{padding:34px 24px}
+  .cta-banner h2{font-size:28px}
+}
+@media print{
+  body *{visibility:hidden!important}
+  #invoiceModal,#invoiceModal *{visibility:visible!important}
+  #invoiceModal{position:absolute!important;background:#fff!important;inset:0!important;padding:0!important}
+  #invoiceCard{box-shadow:none!important;max-height:none!important;border-radius:0!important}
+  #invoiceCard button{display:none!important}
+}
+</style>
+</head><body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Your Access Pass payment history.">
@@ -9,7 +174,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
     <link rel="stylesheet" href="styles.css?v=20260909a">
     <style>
         .page-header { background: rgba(255,255,255,0.45); backdrop-filter: blur(6px); padding: 140px 0 70px; text-align: center; position: relative; overflow: hidden; }
@@ -58,196 +223,99 @@
             </div>
         </div>
     </nav>
-    <section class="page-header">
-        <div class="container">
-            <div class="ph-icon"><i class="fas fa-receipt"></i></div>
-            <h1>Transaction History</h1>
-            <p>Every Access Pass payment, in one clear timeline.</p>
+<main>
+  
+<section class="transaction-hero">
+  <div class="hero-image" aria-hidden="true"></div>
+  <div class="hero-overlay" aria-hidden="true"></div>
+  <div class="container hero-content">
+    <div class="hero-badge"><i class="fas fa-receipt"></i><span>Payment centre</span></div>
+    <h1>Transaction History</h1>
+    <p>Every Access Pass payment, in one clear timeline.</p>
+    <div class="hero-meta">
+      <span><i class="fas fa-shield-halved"></i> Clear payment records</span>
+      <span><i class="fas fa-file-invoice"></i> Receipts on demand</span>
+    </div>
+  </div>
+</section>
+  <section class="page-section">
+    <div class="container transaction-container">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">Your payment activity</span>
+          <h2>Your Transactions</h2>
         </div>
-    </section>
-
-    <section class="page-section">
-        <div class="container" style="max-width: 860px;">
-            <div class="section-head" style="text-align:center;margin-bottom:28px;"><h2>Your Transactions</h2></div>
-            <div id="txWrap">
+        <p class="section-note">Review payments, transaction references and printable receipts in one place.</p>
+      </div>
+      <div id="txWrap" class="transactions-list">
                 <p style="text-align:center;color:var(--gray-400);padding:40px 0;"><i class="fas fa-spinner fa-spin"></i> Loading transactions…</p>
             </div>
-
             <!-- Escrow tracker: shows deposits you're a tenant or owner on -->
-            <div id="escrowSection" style="margin-top:40px;display:none;">
-                <div class="section-head" style="text-align:center;margin-bottom:20px;"><h2>Escrow Deposits</h2></div>
+            <section id="escrowSection" class="escrow-panel" style="display:none;">
+                <div class="section-head compact"><div><span class="eyebrow">Protected funds</span><h2>Escrow Deposits</h2></div></div>
                 <div id="escrowWrap"></div>
             </div>
         </div>
     </section>
-
-    <!-- Printable invoice modal -->
-    <div id="invoiceModal" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,.6);z-index:999;align-items:center;justify-content:center;padding:24px;">
-        <div id="invoiceCard" style="background:#fff;max-width:520px;width:100%;border-radius:16px;padding:32px;color:#0f172a;font-family:Inter,sans-serif;"></div>
     </div>
-
-    <section class="page-cta">
+  </section>
+  <!-- Printable invoice modal -->
+    <div id="invoiceModal" class="invoice-modal" style="display:none;" role="dialog" aria-modal="true" aria-label="Invoice">
+        <div id="invoiceCard" class="invoice-card"></div>
+    </div>
+  <section class="page-cta">
         <div class="container">
-            <div class="cta-banner">
+            <div class="cta-banner"><div class="cta-copy"><span class="eyebrow">Keep moving</span>
                 <h2>Ready to continue?</h2>
-                <p>Head back to your dashboard or browse the next step.</p>
+                <p>Head back to your dashboard or browse the next step.</p></div>
                                 <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
                     <a href="payment-methods" class="btn btn-lg"><i class="fas fa-wallet"></i> Payment Methods</a>
                     <a href="payment" class="btn btn-lg"><i class="fas fa-credit-card"></i> Access Pass</a>
                     <a href="dashboard" class="btn btn-lg"><i class="fas fa-gauge-high"></i> My Dashboard</a>
-                    <a href="dashboard" class="btn btn-lg ghost"><i class="fas fa-gauge-high"></i> My Dashboard</a>
                 </div>
             </div>
         </div>
     </section>
-
-<script src="api.js?v=20260913a"></script>
-    <script src="script.js?v=20260913a"></script>
-    <script>
-        (function() {
-            const user = api.getUser();
-            if (user && user.role) {
-                const link = document.getElementById('myProfileLink');
-                if (link) link.href = 'edit-profile';
-            }
-
-            const txWrap = document.getElementById('txWrap');
-            const escrowSection = document.getElementById('escrowSection');
-            const escrowWrap = document.getElementById('escrowWrap');
-            const invoiceModal = document.getElementById('invoiceModal');
-            const invoiceCard = document.getElementById('invoiceCard');
-
-            function money(n) {
-                return '₹' + Math.round(Number(n) || 0).toLocaleString('en-IN');
-            }
-            function fmtDate(s) {
-                if (!s) return '';
-                const d = new Date(s);
-                return isNaN(d) ? '' : d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
-            }
-            function escrowBadge(status) {
-                const map = { 'ESCROW_PENDING': ['status-pending','Pending'], 'ESCROW_HELD': ['status-active','Held'], 'ESCROW_RELEASED': ['status-completed','Released'], 'ESCROW_DISPUTED': ['status-pending','Disputed'], 'ESCROW_RESOLVED': ['status-inactive','Resolved'] };
-                const m = map[status] || ['status-inactive', status];
-                return '<span class="status ' + m[0] + '">' + api.escapeHtml(m[1]) + '</span>';
-            }
-
-            async function loadPayments() {
-                try {
-                    let list = await api.getMyPayments().catch(() => []);
-                    if (!Array.isArray(list)) list = [];
-                    list = list.filter(p => (p.paymentType || '') !== 'ESCROW');
-                    if (list.length === 0) {
-                        txWrap.innerHTML = '<div style="text-align:center;padding:60px 20px;background:var(--white);border:2px dashed var(--gray-200);border-radius:var(--radius-xl);">' +
-                            '<i class="fas fa-receipt" style="font-size:56px;color:var(--gray-300);"></i>' +
-                            '<h3 style="margin:16px 0 6px;color:var(--dark);">No payments yet</h3>' +
-                            '<p style="color:var(--gray-500);margin-bottom:20px;">Buy an Access Pass to unlock owner contact details.</p>' +
-                            '<a href="payment" class="btn btn-primary" style="display:inline-flex;gap:8px;"><i class="fas fa-credit-card"></i> Get Access Pass</a>' +
-                            '</div>';
-                        return;
-                    }
-                    txWrap.innerHTML = list.map(p => {
-                        const invoiceBtn = '<button class="btn btn-sm btn-secondary" onclick="showInvoice(' + p.id + ')"><i class="fas fa-file-invoice"></i> Receipt</button>';
-                        return '<div style="background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:18px 22px;margin-bottom:12px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;box-shadow:var(--shadow-sm);">' +
-                            '<div>' +
-                                '<strong style="color:var(--dark);">' + money(p.amount) + '</strong> <span class="status ' + ((p.status==='completed'?'status-completed':'status-pending')) + '">' + api.escapeHtml((p.status||'paid').toUpperCase()) + '</span>' +
-                                '<div style="font-size:12px;color:var(--gray-400);margin-top:6px;">' +
-                                    api.escapeHtml(p.paymentType || 'ONLINE') +
-                                    (p.description ? ' · ' + api.escapeHtml(p.description) : '') +
-                                    ' · ' + api.escapeHtml(fmtDate(p.createdAt)) +
-                                    (p.transactionId ? ' · <i class="fas fa-hashtag"></i> ' + api.escapeHtml(p.transactionId) : '') +
-                                '</div>' +
-                            '</div>' +
-                            '<div style="display:flex;align-items:center;gap:8px;">' + invoiceBtn + '</div>' +
-                        '</div>';
-                    }).join('');
-                } catch (e) {
-                    txWrap.innerHTML = '<p style="text-align:center;color:var(--gray-400);padding:40px 0;">Could not load transactions.</p>';
-                }
-            }
-            async function loadEscrows() {
-                try {
-                    let list = await api.getMyEscrows().catch(() => []);
-                    if (!Array.isArray(list)) list = [];
-                    if (list.length === 0) return;
-                    escrowSection.style.display = 'block';
-                    escrowWrap.innerHTML = list.map(p => {
-                        const isTenant = (user && user.id === p.userId);
-                        const isOwner = (user && user.id === p.ownerId);
-                        const actions = [];
-                        if ((p.status === 'ESCROW_PENDING' || p.status === 'ESCROW_HELD') && (isTenant || isOwner)) {
-                            const party = (isTenant && !p.escrowTenantApproved) ? 'tenant' : ((isOwner && !p.escrowOwnerApproved) ? 'owner' : null);
-                            if (party) actions.push('<button class="btn btn-sm btn-primary" onclick="escrowAction(' + p.id + ',\'release\',\'' + party + '\')"><i class="fas fa-check"></i> Approve Release</button>');
-                        }
-                        if ((p.status === 'ESCROW_PENDING' || p.status === 'ESCROW_HELD') && (isTenant || isOwner)) {
-                            actions.push('<button class="btn btn-sm ghost" onclick="escrowAction(' + p.id + ',\'dispute\')"><i class="fas fa-flag"></i> Dispute</button>');
-                        }
-                        const note = (p.escrowDisputeReason ? ' · <i class="fas fa-quote-left"></i> ' + api.escapeHtml(p.escrowDisputeReason) : (p.escrowResolutionNote ? ' · ' + api.escapeHtml(p.escrowResolutionNote) : ''));
-                        return '<div style="background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:18px 22px;margin-bottom:12px;box-shadow:var(--shadow-sm);">' +
-                            '<div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;">' +
-                                '<div>' +
-                                    '<strong style="color:var(--dark);">' + money(p.amount) + '</strong> ' + escrowBadge(p.status) +
-                                    '<div style="font-size:12px;color:var(--gray-400);margin-top:6px;">' +
-                                        'Security deposit' + (p.description ? ' · ' + api.escapeHtml(p.description) : '') +
-                                        ' · ' + api.escapeHtml(fmtDate(p.createdAt)) + note +
-                                        (p.escrowTenantApproved ? ' · Tenant ✓' : '') + (p.escrowOwnerApproved ? ' · Owner ✓' : '') +
-                                    '</div>' +
-                                '</div>' +
-                                (actions.length ? '<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">' + actions.join('') + '</div>' : '') +
-                            '</div>' +
-                        '</div>';
-                    }).join('');
-                } catch (e) { /* no escrow panel */ }
-            }
-            window.showInvoice = async function(id) {
-                try {
-                    const inv = await api.getInvoice(id);
-                    invoiceCard.innerHTML =
-                        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;">' +
-                            '<div><div style="font-size:22px;font-weight:800;color:#1e1b4b;">Heaven<span style="color:#4F46E5;">Lease</span></div>' +
-                            '<div style="font-size:12px;color:#64748b;">Rental marketplace · India</div></div>' +
-                            '<div style="text-align:right;"><div style="font-weight:700;color:#0f172a;">Invoice</div>' +
-                            '<div style="font-size:12px;color:#64748b;">' + api.escapeHtml(inv.invoiceNumber || '') + '</div></div>' +
-                        '</div>' +
-                        '<hr style="border:none;border-top:1px solid #e2e8f0;margin:0 0 18px;">' +
-                        '<div style="display:flex;justify-content:space-between;font-size:13px;color:#475569;margin-bottom:6px;"><span>Payer</span><strong style="color:#0f172a;">' + api.escapeHtml(inv.payer || '—') + '</strong></div>' +
-                        '<div style="display:flex;justify-content:space-between;font-size:13px;color:#475569;margin-bottom:6px;"><span>Issued</span><span>' + api.escapeHtml(fmtDate(inv.issuedAt)) + '</span></div>' +
-                        '<div style="display:flex;justify-content:space-between;font-size:13px;color:#475569;margin-bottom:6px;"><span>Reference</span><span>' + api.escapeHtml(inv.transactionId || '—') + '</span></div>' +
-                        '<hr style="border:none;border-top:1px solid #e2e8f0;margin:18px 0;">' +
-                        '<div style="display:flex;justify-content:space-between;font-size:13px;color:#475569;margin-bottom:6px;"><span>Description</span><span>' + api.escapeHtml(inv.description || inv.paymentType || '—') + '</span></div>' +
-                        '<div style="display:flex;justify-content:space-between;font-size:13px;color:#475569;margin-bottom:6px;"><span>Status</span><span>' + api.escapeHtml((inv.status||'').toUpperCase()) + '</span></div>' +
-                        '<hr style="border:none;border-top:1px solid #e2e8f0;margin:18px 0;">' +
-                        '<div style="display:flex;justify-content:space-between;align-items:center;font-size:20px;font-weight:800;color:#0f172a;"><span>Total</span><span>' + money(inv.amount) + '</span></div>' +
-                        '<div style="margin-top:24px;display:flex;gap:10px;">' +
-                            '<button class="btn btn-primary" style="flex:1;display:inline-flex;justify-content:center;" onclick="window.print()"><i class="fas fa-print"></i> Print / Save PDF</button>' +
-                            '<button class="btn btn-secondary" style="flex:1;display:inline-flex;justify-content:center;" onclick="closeInvoice()"><i class="fas fa-xmark"></i> Close</button>' +
-                        '</div>';
-                    invoiceModal.style.display = 'flex';
-                } catch (e) {
-                    showToast(e.message || 'Could not load invoice.', 'error');
-                }
-            };
-            window.closeInvoice = function() { invoiceModal.style.display = 'none'; };
-            if (invoiceModal) invoiceModal.addEventListener('click', (e) => { if (e.target === invoiceModal) invoiceModal.style.display = 'none'; });
-
-            window.escrowAction = async function(id, action, party) {
-                try {
-                    if (action === 'dispute') {
-                        const reason = prompt('Reason for dispute:');
-                        if (reason === null) return;
-                        await api.disputeEscrow(id, reason);
-                    } else {
-                        await api.releaseEscrow(id, party);
-                    }
-                    showToast('Escrow updated.', 'success');
-                    loadEscrows();
-                } catch (error) {
-                    showToast(error.message || 'Action failed.', 'error');
-                }
-            };
-
-            loadPayments();
-            loadEscrows();
-        })();
-    </script>
+</main>
+<script src="js/api.js?v=20260913a"></script>
+    <script src="js/core.js?v=20260913a"></script>
+    <script src="js/pages/transaction-history.js?v=20260913a"></script>
+<footer class="footer">
+<div class="container">
+    <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
+        <div class="footer-brand">
+            <a href="home" class="logo">
+                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <span class="logo-text">Heaven<span>Lease</span></span>
+            </a>
+            <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Explore</strong>
+            <a href="properties" style="color:inherit;text-decoration:none;">Find a Home</a>
+            <a href="map" style="color:inherit;text-decoration:none;">Property Map</a>
+            <a href="how-it-works" style="color:inherit;text-decoration:none;">How It Works</a>
+            <a href="about" style="color:inherit;text-decoration:none;">About Us</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Company</strong>
+            <a href="careers" style="color:inherit;text-decoration:none;">Careers</a>
+            <a href="press" style="color:inherit;text-decoration:none;">Press</a>
+            <a href="blog" style="color:inherit;text-decoration:none;">Blog</a>
+            <a href="contact" style="color:inherit;text-decoration:none;">Contact</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">For Owners</strong>
+            <a href="list-property" style="color:inherit;text-decoration:none;">List Your Property</a>
+            <a href="properties-management" style="color:inherit;text-decoration:none;">Owner Dashboard</a>
+            <a href="payment" style="color:inherit;text-decoration:none;">Pricing &amp; Upgrade</a>
+            <a href="owner-resources" style="color:inherit;text-decoration:none;">Owner Resources</a>
+        </div>
+    </div>
+    <div class="footer-bottom" style="justify-content:center;margin-top:28px;">
+        <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
+    </div>
+</div>
+</footer>
 </body>
 </html>

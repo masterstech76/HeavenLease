@@ -7,333 +7,392 @@
     <title>Verify Account — HeavenLease</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
     <link rel="stylesheet" href="styles.css?v=20260909a">
     <style>
+        :root {
+            --v-ink: #142019;
+            --v-muted: #66736c;
+            --v-green: #1f6b4f;
+            --v-green-dark: #174d3a;
+            --v-gold: #d5ae67;
+            --v-line: #e5e9e5;
+            --v-soft: #f5f7f5;
+            --v-error: #c43d3d;
+            --v-success: #198754;
+        }
         * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { min-height: 100%; }
         body {
-            font-family: 'Inter', sans-serif;
             min-height: 100vh;
-            background: linear-gradient(rgba(15,23,42,0.85), rgba(30,27,75,0.82)), url('bg-home.jpg') center/cover fixed no-repeat;
+            font-family: "Inter", sans-serif;
+            color: var(--v-ink);
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 24px;
+            padding: 32px 18px;
             position: relative;
             overflow-x: hidden;
+            background:
+                linear-gradient(120deg, rgba(7,20,14,.91), rgba(14,37,27,.68)),
+                url("https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=2200&q=85")
+                center / cover fixed no-repeat;
         }
         body::before {
-            content: '';
+            content: "";
             position: fixed;
-            top: -200px;
-            right: -200px;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(79, 70, 229, 0.15) 0%, transparent 70%);
-            border-radius: 50%;
-            z-index: 0;
+            inset: 0;
+            background:
+                linear-gradient(90deg, rgba(0,0,0,.28), transparent 50%),
+                linear-gradient(0deg, rgba(5,17,11,.38), transparent 50%);
+            pointer-events: none;
         }
-        body::after {
-            content: '';
-            position: fixed;
-            bottom: -200px;
-            left: -200px;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
-            border-radius: 50%;
-            z-index: 0;
+        .auth-container {
+            width: min(100%, 460px);
+            position: relative;
+            z-index: 1;
         }
-        .auth-container { width: 100%; max-width: 440px; position: relative; z-index: 1; }
         .back-home {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            font-size: 13px;
-            color: rgba(255, 255, 255, 0.7);
+            gap: 8px;
+            margin-bottom: 18px;
+            color: rgba(255,255,255,.82);
             text-decoration: none;
-            margin-bottom: 20px;
-            transition: all 0.2s;
+            font-size: 13px;
+            font-weight: 600;
+            transition: .2s ease;
         }
-        .back-home:hover { color: #fff; }
+        .back-home:hover {
+            color: #fff;
+            transform: translateX(-2px);
+        }
         .auth-brand {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
-            margin-bottom: 28px;
+            gap: 11px;
+            margin-bottom: 20px;
         }
         .auth-brand .logo-icon {
-            width: 48px;
-            height: 48px;
-            background: linear-gradient(135deg, #4F46E5, #10B981);
+            width: 46px;
+            height: 46px;
+            display: grid;
+            place-items: center;
             border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             color: #fff;
-            font-size: 22px;
-            box-shadow: 0 8px 24px rgba(79, 70, 229, 0.4);
+            font-size: 19px;
+            background: rgba(255,255,255,.12);
+            border: 1px solid rgba(255,255,255,.24);
+            box-shadow: inset 0 1px rgba(255,255,255,.16);
+            backdrop-filter: blur(10px);
         }
+        .auth-brand .logo-icon i { color: var(--v-gold); }
         .auth-brand .logo-text {
-            font-family: 'Playfair Display', serif;
+            font-family: "Playfair Display", Georgia, serif;
             font-size: 28px;
             font-weight: 700;
             color: #fff;
+            letter-spacing: -.3px;
         }
-        .auth-brand .logo-text span { color: #818CF8; }
+        .auth-brand .logo-text span { color: var(--v-gold); }
         .auth-card {
-            background: #fff;
-            border-radius: 20px;
+            background: rgba(255,255,255,.97);
+            border: 1px solid rgba(255,255,255,.72);
+            border-radius: 24px;
             padding: 36px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 30px 80px rgba(0,0,0,.28);
+            backdrop-filter: blur(16px);
+        }
+        .verify-icon {
+            width: 72px;
+            height: 72px;
+            margin: 0 auto 20px;
+            display: grid;
+            place-items: center;
+            border-radius: 22px;
+            background: #edf5f0;
+            border: 1px solid #dcebe2;
+        }
+        .verify-icon i {
+            font-size: 30px;
+            color: var(--v-green);
         }
         .auth-card h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 26px;
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: clamp(27px, 6vw, 32px);
+            line-height: 1.15;
             font-weight: 700;
-            color: #0f172a;
-            margin-bottom: 6px;
+            color: var(--v-ink);
             text-align: center;
+            margin-bottom: 9px;
         }
         .auth-card .subtitle {
-            font-size: 14px;
-            color: #64748b;
+            max-width: 365px;
+            margin: 0 auto 27px;
             text-align: center;
-            margin-bottom: 28px;
-            line-height: 1.6;
+            color: var(--v-muted);
+            font-size: 13px;
+            line-height: 1.7;
         }
-        .verify-icon { text-align: center; margin-bottom: 20px; }
-        .verify-icon i { font-size: 48px; color: #4F46E5; }
+        .auth-card .subtitle strong {
+            color: var(--v-ink);
+            font-weight: 700;
+            overflow-wrap: anywhere;
+        }
+        .otp-label {
+            display: block;
+            margin-bottom: 10px;
+            text-align: center;
+            color: #59675f;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+        }
         .otp-inputs {
             display: flex;
-            gap: 8px;
             justify-content: center;
-            margin-bottom: 18px;
+            gap: 9px;
+            margin-bottom: 20px;
         }
         .otp-inputs input {
-            width: 46px;
-            height: 52px;
+            width: 50px;
+            height: 56px;
+            flex: 0 0 50px;
+            border: 1px solid var(--v-line);
+            border-radius: 13px;
+            background: var(--v-soft);
+            color: var(--v-ink);
             text-align: center;
-            font-size: 22px;
-            font-weight: 700;
-            border: 1px solid #e2e8f0;
-            border-radius: 10px;
-            background: #f8fafc;
-            color: #0f172a;
-            font-family: 'Inter', sans-serif;
+            font: 800 23px/1 "Inter", sans-serif;
+            caret-color: var(--v-green);
+            transition: .2s ease;
         }
+        .otp-inputs input:hover { border-color: #c9d5ce; }
         .otp-inputs input:focus {
             outline: none;
-            border-color: #4F46E5;
+            border-color: var(--v-green);
             background: #fff;
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+            box-shadow: 0 0 0 4px rgba(31,107,79,.11);
+            transform: translateY(-1px);
         }
         .btn-auth {
             width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 10px;
-            background: linear-gradient(135deg, #4F46E5, #6366F1);
+            min-height: 50px;
+            padding: 13px 18px;
+            border: 0;
+            border-radius: 13px;
+            background: var(--v-green);
             color: #fff;
-            font-size: 15px;
-            font-weight: 600;
+            font: 800 14px/1.2 "Inter", sans-serif;
             cursor: pointer;
-            transition: all 0.2s;
-            font-family: 'Inter', sans-serif;
-            box-shadow: 0 4px 16px rgba(79, 70, 229, 0.3);
+            box-shadow: 0 12px 26px rgba(31,107,79,.22);
+            transition: .2s ease;
         }
-        .btn-auth:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(79, 70, 229, 0.4); }
-        .btn-auth:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-        .resend-link { text-align: center; font-size: 13px; color: #64748b; margin-top: 14px; }
+        .btn-auth:hover {
+            background: var(--v-green-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 16px 30px rgba(31,107,79,.28);
+        }
+        .btn-auth:focus-visible,
+        .resend-link button:focus-visible,
+        .back-home:focus-visible {
+            outline: 3px solid rgba(213,174,103,.55);
+            outline-offset: 3px;
+        }
+        .btn-auth:disabled {
+            opacity: .65;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .resend-link {
+            margin-top: 16px;
+            text-align: center;
+            color: #738078;
+            font-size: 12px;
+        }
         .resend-link button {
+            border: 0;
             background: none;
-            border: none;
-            color: #4F46E5;
-            font-weight: 600;
+            color: var(--v-green);
+            font: 800 12px "Inter", sans-serif;
             cursor: pointer;
-            font-family: 'Inter', sans-serif;
+            padding: 3px 2px;
         }
-        .resend-link button:disabled { color: #94a3b8; cursor: not-allowed; }
+        .resend-link button:hover:not(:disabled) { text-decoration: underline; }
+        .resend-link button:disabled {
+            color: #9da7a1;
+            cursor: not-allowed;
+        }
+        .success-section {
+            margin-top: 22px;
+            padding: 22px 16px 4px;
+            border-top: 1px solid var(--v-line);
+            text-align: center;
+        }
+        .success-icon {
+            width: 66px;
+            height: 66px;
+            margin: 0 auto 13px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            background: #eaf7f0;
+        }
+        .success-icon i {
+            font-size: 31px;
+            color: var(--v-success);
+        }
+        .success-msg {
+            color: #405048;
+            font-size: 14px;
+            line-height: 1.65;
+        }
+        .security-note {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 7px;
+            margin-top: 18px;
+            color: rgba(255,255,255,.66);
+            font-size: 11px;
+            text-align: center;
+        }
+        .security-note i { color: var(--v-gold); }
         .toast {
             position: fixed;
-            bottom: 24px;
             left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: #fff;
-            color: #0f172a;
-            padding: 14px 24px;
-            border-radius: 10px;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+            bottom: 22px;
+            z-index: 9999;
+            width: max-content;
+            max-width: min(92vw, 460px);
+            padding: 13px 17px;
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 14px;
-            font-weight: 500;
-            z-index: 9999;
+            gap: 9px;
+            border-radius: 12px;
+            background: #fff;
+            color: var(--v-ink);
+            box-shadow: 0 18px 50px rgba(0,0,0,.22);
+            border-left: 4px solid var(--v-success);
+            font-size: 13px;
+            font-weight: 600;
             opacity: 0;
-            transition: all 0.3s ease;
-            border-left: 4px solid #10B981;
-            max-width: 90vw;
+            transform: translate(-50%, 90px);
+            pointer-events: none;
+            transition: .3s ease;
         }
-        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-        .toast-error { border-left-color: #EF4444; }
-        .toast-success i { color: #10B981; }
-        .toast-error i { color: #EF4444; }
-        .success-icon { text-align: center; padding: 20px 0; }
-        .success-icon i { font-size: 64px; color: #10B981; }
-        .success-msg { text-align: center; font-size: 15px; color: #334155; margin-bottom: 24px; line-height: 1.6; }
+        .toast.show {
+            opacity: 1;
+            transform: translate(-50%, 0);
+        }
+        .toast-error { border-left-color: var(--v-error); }
+        .toast-success i { color: var(--v-success); }
+        .toast-error i { color: var(--v-error); }
+        @media (max-width: 560px) {
+            body {
+                padding: 20px 13px;
+                background:
+                    linear-gradient(135deg, rgba(7,20,14,.94), rgba(14,37,27,.78)),
+                    url("https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1400&q=85")
+                    center / cover fixed no-repeat;
+            }
+            .auth-container { max-width: 430px; }
+            .back-home { margin-bottom: 14px; }
+            .auth-brand { margin-bottom: 16px; }
+            .auth-brand .logo-text { font-size: 25px; }
+            .auth-card {
+                padding: 28px 18px 24px;
+                border-radius: 21px;
+            }
+            .verify-icon {
+                width: 62px;
+                height: 62px;
+                border-radius: 18px;
+                margin-bottom: 17px;
+            }
+            .verify-icon i { font-size: 26px; }
+            .auth-card .subtitle {
+                font-size: 12.5px;
+                margin-bottom: 23px;
+            }
+            .otp-inputs {
+                gap: clamp(5px, 2.2vw, 9px);
+            }
+            .otp-inputs input {
+                width: clamp(42px, 13vw, 50px);
+                height: 52px;
+                flex-basis: clamp(42px, 13vw, 50px);
+                border-radius: 11px;
+                font-size: 21px;
+            }
+            .btn-auth { min-height: 52px; }
+        }
+        @media (max-width: 370px) {
+            body { padding-left: 9px; padding-right: 9px; }
+            .auth-card { padding-left: 13px; padding-right: 13px; }
+            .otp-inputs { gap: 4px; }
+            .otp-inputs input {
+                width: 41px;
+                flex-basis: 41px;
+                height: 50px;
+                font-size: 19px;
+            }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .back-home, .otp-inputs input, .btn-auth, .toast { transition: none; }
+        }
     </style>
-<script>
-        // Back-button auth guard — if a session already exists, never show this auth page.
-        (function () {
-            try {
-                if (localStorage.getItem('heavenlease_token') || sessionStorage.getItem('heavenlease_token')) {
-                    location.replace('home');
-                }
-            } catch (e) { /* storage unavailable — ignore */ }
-        })();
-    </script>
 </head>
 <body>
-    <div class="auth-container">
-        <a href="login" class="back-home">
+    <main class="auth-container">
+        <a href="login" class="back-home" aria-label="Back to Sign In">
             <i class="fas fa-arrow-left"></i> Back to Sign In
         </a>
-
-        <div class="auth-brand">
+        <div class="auth-brand" aria-label="HeavenLease">
             <div class="logo-icon"><i class="fas fa-home"></i></div>
             <span class="logo-text">Heaven<span>Lease</span></span>
         </div>
-
-        <div class="auth-card">
-            <div class="verify-icon"><i class="fas fa-shield-halved"></i></div>
-            <h1>Verify Your Account</h1>
-            <p class="subtitle">Enter the 6-digit OTP sent to <strong id="verifyTarget">your email/phone</strong> to verify your account.</p>
-
-            <div class="otp-inputs" id="otpInputs">
-                <input type="text" maxlength="1" class="otp-digit" oninput="handleOtpInput(this)">
-                <input type="text" maxlength="1" class="otp-digit" oninput="handleOtpInput(this)">
-                <input type="text" maxlength="1" class="otp-digit" oninput="handleOtpInput(this)">
-                <input type="text" maxlength="1" class="otp-digit" oninput="handleOtpInput(this)">
-                <input type="text" maxlength="1" class="otp-digit" oninput="handleOtpInput(this)">
-                <input type="text" maxlength="1" class="otp-digit" oninput="handleOtpInput(this)">
+        <section class="auth-card" aria-labelledby="verifyTitle">
+            <div class="verify-icon" aria-hidden="true">
+                <i class="fas fa-shield-halved"></i>
             </div>
-
-            <button class="btn-auth" id="verifyBtn" onclick="verifyAccount()">
+            <h1 id="verifyTitle">Verify Your Account</h1>
+            <p class="subtitle">
+                Enter the 6-digit OTP sent to
+                <strong id="verifyTarget">your email/phone</strong>
+                to verify your account.
+            </p>
+            <label class="otp-label" for="otpDigit1">6-digit verification code</label>
+            <div class="otp-inputs" id="otpInputs">
+                <input id="otpDigit1" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="1" class="otp-digit" aria-label="OTP digit 1" oninput="handleOtpInput(this)">
+                <input type="text" inputmode="numeric" maxlength="1" class="otp-digit" aria-label="OTP digit 2" oninput="handleOtpInput(this)">
+                <input type="text" inputmode="numeric" maxlength="1" class="otp-digit" aria-label="OTP digit 3" oninput="handleOtpInput(this)">
+                <input type="text" inputmode="numeric" maxlength="1" class="otp-digit" aria-label="OTP digit 4" oninput="handleOtpInput(this)">
+                <input type="text" inputmode="numeric" maxlength="1" class="otp-digit" aria-label="OTP digit 5" oninput="handleOtpInput(this)">
+                <input type="text" inputmode="numeric" maxlength="1" class="otp-digit" aria-label="OTP digit 6" oninput="handleOtpInput(this)">
+            </div>
+            <button class="btn-auth" id="verifyBtn" type="button" onclick="verifyAccount()">
                 <i class="fas fa-check-circle"></i> Verify Account
             </button>
-
             <div class="resend-link">
-                Didn't receive it? <button type="button" id="resendBtn" onclick="resendCode()">Resend</button>
+                Didn't receive it?
+                <button type="button" id="resendBtn" onclick="resendCode()">Resend</button>
             </div>
-
-            <div id="successSection" style="display: none; margin-top: 20px;">
+            <div id="successSection" class="success-section" style="display: none;">
                 <div class="success-icon"><i class="fas fa-check-circle"></i></div>
                 <p class="success-msg">Account verified successfully! Redirecting to your dashboard...</p>
             </div>
+        </section>
+        <div class="security-note">
+            <i class="fas fa-lock"></i>
+            <span>Your verification is protected by HeavenLease.</span>
         </div>
-    </div>
-
-    <script src="api.js?v=20260913a"></script>
-    <script>
-        // Read email/phone from URL params
-        const params = new URLSearchParams(window.location.search);
-        const email = params.get('email');
-        const phone = params.get('phone');
-        if (email) document.getElementById('verifyTarget').textContent = email;
-        if (phone) document.getElementById('verifyTarget').textContent = '+91 ' + phone;
-
-        function handleOtpInput(el) {
-            if (el.value.length === 1) {
-                const next = el.nextElementSibling;
-                if (next) next.focus();
-            }
-        }
-        window.handleOtpInput = handleOtpInput;
-
-        function getOtpValue() {
-            const inputs = document.querySelectorAll('#otpInputs .otp-digit');
-            return Array.from(inputs).map(i => i.value).join('');
-        }
-
-        function startCountdown(btnId) {
-            const btn = document.getElementById(btnId);
-            let seconds = 30;
-            btn.disabled = true;
-            btn.textContent = 'Resend in ' + seconds + 's';
-            const interval = setInterval(() => {
-                seconds--;
-                if (seconds <= 0) {
-                    clearInterval(interval);
-                    btn.disabled = false;
-                    btn.textContent = 'Resend';
-                } else {
-                    btn.textContent = 'Resend in ' + seconds + 's';
-                }
-            }, 1000);
-        }
-
-        // Verify account
-        window.verifyAccount = async function() {
-            const code = getOtpValue();
-            if (code.length !== 6) {
-                showToast('Please enter the 6-digit OTP.', 'error');
-                return;
-            }
-
-            const btn = document.getElementById('verifyBtn');
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying...';
-
-            try {
-                if (email) {
-                    await api.verifyEmail(email, code);
-                } else if (phone) {
-                    await api.verifySmsOtp(phone, code);
-                } else {
-                    throw new Error('Missing verification target.');
-                }
-
-                document.getElementById('successSection').style.display = 'block';
-                document.querySelector('.otp-inputs').style.display = 'none';
-                document.getElementById('verifyBtn').style.display = 'none';
-                document.querySelector('.resend-link').style.display = 'none';
-                showToast('Account verified successfully! 🎉', 'success');
-
-                setTimeout(() => {
-                    window.location.replace('home');
-                }, 1500);
-            } catch (error) {
-                showToast(error.message || 'Verification failed. Please try again.', 'error');
-            } finally {
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-check-circle"></i> Verify Account';
-            }
-        };
-
-        // Resend OTP
-        window.resendCode = async function() {
-            try {
-                if (email) {
-                    await api.sendVerification(email);
-                } else if (phone) {
-                    await api.sendSmsOtp(phone);
-                } else {
-                    throw new Error('Missing verification target.');
-                }
-                showToast('OTP resent successfully.', 'success');
-                startCountdown('resendBtn');
-            } catch (error) {
-                showToast(error.message || 'Failed to resend OTP.', 'error');
-            }
-        };
-
-        // Start countdown on load
-        startCountdown('resendBtn');
-    </script>
+    </main>
+    <script src="js/api.js?v=20260913a"></script>
+    
+    <script src="js/pages/verify-account.js?v=20260913a"></script>
 </body>
 </html>
-

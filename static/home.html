@@ -1,579 +1,484 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Your HeavenLease home — quick access to every feature after you sign in.">
-    <title>Home — HeavenLease</title>
-    <link rel="icon" href="favicon.svg" type="image/svg+xml">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="styles.css?v=20260909a">
-    <style>
-        /* Full-screen fixed background (heavenlease page only) — bg-home.jpg at ~15% strength */
-        body {
-            background-image: url('bg-home.jpg');
-            background-size: cover;
-            background-attachment: fixed;
-            background-position: center;
-            background-repeat: no-repeat;
-            position: relative;
-        }
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background: rgba(255, 255, 255, 0.85);
-            /* Negative z-index keeps the overlay behind ALL real content, so the
-               account dropdown, modals and toasts can never be covered by it. */
-            z-index: -1;
-            pointer-events: none;
-        }
-        .main-hero, .hub-section, .footer { position: relative; }
-
-        .main-hero {
-            padding: 120px 0 80px;
-            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 60%, #312e81 100%);
-            color: #fff;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-        .main-hero::before {
-            content: '';
-            position: absolute;
-            top: 0; right: 0; bottom: 0; left: 0;
-            background: url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1920&q=80') center/cover no-repeat;
-            opacity: 0.18;
-        }
-        .main-hero .hero-inner { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; }
-        .main-hero .hero-badge {
-            display: inline-flex; align-items: center; gap: 8px;
-            background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
-            color: #fff; padding: 8px 16px; border-radius: 50px; font-size: 13px; font-weight: 500;
-            margin-bottom: 22px;
-        }
-        .main-hero .hero-badge i { color: #10B981; }
-        .main-hero h1 {
-            font-family: var(--font-heading);
-            font-size: 46px;
-            font-weight: 700;
-            color: #fff;
-            margin: 0 0 14px;
-            line-height: 1.15;
-        }
-        .main-hero p {
-            font-size: 17px;
-            color: rgba(255,255,255,0.75);
-            max-width: 560px;
-            margin: 0 auto 26px;
-        }
-        .main-hero .gradient-text { background: linear-gradient(90deg,#A5B4FC,#34D399); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; }
-        .main-hero .hero-cta { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 30px; }
-        .main-hero .btn-ghost {
-            padding: 12px 24px; border: 1px solid rgba(255,255,255,0.3); border-radius: 12px;
-            color: #fff; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all .2s;
-        }
-        .main-hero .btn-ghost:hover { background: rgba(255,255,255,0.12); border-color: #fff; }
-
-        .hub-section { padding: 48px 0 72px; background: rgba(255, 255, 255, 0.35); backdrop-filter: blur(4px); }
-        .hub-category { margin-bottom: 40px; }
-        .hub-category > h2 {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--dark);
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .hub-category > h2 i { color: var(--primary); }
-        .hub-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);   /* strict 3 equal columns — no orphan rows */
-            gap: 26px;
-        }
-        .hub-grid .bs-card {
-            width: 100%;
-            max-width: 460px;
-            margin: 0 auto;   /* center the card within its column */
-        }
-        .hub-card {
-            display: flex;
-            flex-direction: column;
-            background: var(--white);
-            border: 1px solid var(--gray-200);
-            border-radius: var(--radius-lg);
-            padding: 22px;
-            transition: var(--transition);
-            text-decoration: none;
-            position: relative;
-            overflow: hidden;
-        }
-        .hub-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-lg);
-            border-color: var(--primary);
-        }
-        .hub-card .icon {
-            width: 48px;
-            height: 48px;
-            border-radius: var(--radius-md);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            margin-bottom: 14px;
-        }
-        .hub-card .icon.blue { background: var(--primary-light); color: var(--primary); }
-        .hub-card .icon.green { background: #D1FAE5; color: var(--secondary-dark); }
-        .hub-card .icon.orange { background: #FEF3C7; color: #B45309; }
-        .hub-card .icon.purple { background: #EDE9FE; color: #7C3AED; }
-        .hub-card h3 { font-size: 15px; font-weight: 600; color: var(--dark); margin-bottom: 6px; }
-        .hub-card p { font-size: 13px; color: var(--gray-500); line-height: 1.5; flex: 1; }
-        .hub-card .go { margin-top: 12px; font-size: 12px; font-weight: 600; color: var(--primary); }
-
-        .search-widget { max-width: 620px; margin: 0 auto; }
-        .search-widget-box { display: flex; align-items: center; gap: 10px; background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-full); padding: 6px 8px 6px 18px; box-shadow: var(--shadow-lg); }
-        .search-widget-box > i.fa-magnifying-glass { color: var(--gray-400); font-size: 15px; }
-        .search-widget-box input { flex: 1; border: none; outline: none; font-size: 15px; color: var(--gray-700); background: transparent; padding: 10px 0; min-width: 0; }
-        .voice-btn { flex-shrink: 0; width: 46px; height: 46px; border-radius: 50%; border: none; background: var(--gradient); color: #fff; font-size: 18px; cursor: pointer; box-shadow: var(--shadow-primary); transition: var(--transition); display: flex; align-items: center; justify-content: center; }
-        .voice-btn:hover { transform: scale(1.06); }
-        .voice-btn.listening { background: #EF4444; animation: pulse 1.2s infinite; }
-        @keyframes pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(239,68,68,.5);} 50% { box-shadow: 0 0 0 14px rgba(239,68,68,0);} }
-        .voice-hint { margin-top: 12px; font-size: 13px; color: var(--gray-500); background: var(--white); border-radius: var(--radius-md); padding: 10px 14px; display: flex; align-items: center; gap: 10px; box-shadow: var(--shadow-md); text-align: left; }
-
-        @media (max-width: 1100px) {
-            .hub-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-        @media (max-width: 768px) {
-            .main-hero { padding: 120px 0 40px; }
-            .main-hero h1 { font-size: 32px; }
-            .main-hero p { font-size: 15px; }
-            .main-hero .hero-cta { flex-direction: column; align-items: stretch; max-width: 340px; margin: 0 auto 26px; }
-            .main-hero .hero-cta .btn, .main-hero .hero-cta .btn-ghost { width: 100%; justify-content: center; }
-            .search-widget-box { border-radius: var(--radius-lg); }
-            .hub-section { padding: 32px 0 48px; }
-            .hub-grid { grid-template-columns: 1fr; gap: 18px; }
-        }
-        @media (max-width: 480px) {
-            .main-hero { padding: 108px 0 32px; }
-            .main-hero h1 { font-size: 27px; }
-            .main-hero .hero-badge { font-size: 12px; padding: 7px 12px; }
-            .hub-category > h2 { font-size: 16px; }
-        }
-    .htier { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-        .hcard { position: relative; overflow: hidden; border-radius: 20px; min-height: 210px; display: block; color: #fff; text-decoration: none; box-shadow: 0 18px 40px rgba(15,23,42,0.18); transition: transform .2s ease, box-shadow .2s ease; }
-        .hcard:hover { transform: translateY(-4px); box-shadow: 0 26px 50px rgba(15,23,42,0.26); }
-        .hcard.t1 { background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%); }
-        .hcard.t1b { background: linear-gradient(135deg, #0F172A 0%, #1E1B4B 100%); }
-        .hcard.t1c { background: linear-gradient(135deg, #059669 0%, #10B981 100%); }
-        .hcard.t2 { background: linear-gradient(135deg, #334155 0%, #1E293B 100%); }
-        .hcard.t3 { background: linear-gradient(135deg, #64748B 0%, #334155 100%); }
-        .hcard .hcard-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; z-index: 0; }
-        .hcard .hcard-overlay { content: ""; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(15,23,42,0.10) 0%, rgba(30,27,75,0.86) 100%); z-index: 1; }
-        .hcard .hcard-body { position: relative; z-index: 2; padding: 26px 24px; min-height: 210px; display: flex; flex-direction: column; justify-content: flex-end; box-sizing: border-box; }
-        .hcard .hc-icon { width: 46px; height: 46px; border-radius: 12px; background: rgba(255,255,255,0.18); display: flex; align-items: center; justify-content: center; font-size: 18px; margin-bottom: 12px; }
-        .hcard h3 { font-size: 17px; font-weight: 700; margin: 0 0 4px; color: #fff; }
-        .hcard p { font-size: 12.5px; color: rgba(255,255,255,0.9); line-height: 1.55; margin: 0 0 14px; }
-        .hcard .hc-cta { font-size: 12.5px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
-        .htierlink { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-        .hlink { background: rgba(255,255,255,0.6); border: 1px solid var(--gray-200); border-radius: 14px; padding: 12px 16px; font-size: 13px; font-weight: 600; color: var(--gray-600); text-decoration: none; display: flex; align-items: center; gap: 10px; transition: var(--transition); }
-        .hlink:hover { border-color: var(--primary); color: var(--primary); transform: translateY(-2px); box-shadow: var(--shadow-sm); }
-        @media (max-width: 900px) { .htier, .htierlink { grid-template-columns: repeat(2,1fr); } }
-        @media (max-width: 640px) { .htier, .htierlink { grid-template-columns: 1fr; } .hcard, .hcard .hcard-body { min-height: 180px; } }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="HeavenLease — find verified rental homes, connect directly with owners, and manage your rental journey in one place.">
+  <title>HeavenLease — Find a place that feels like home</title>
+<link rel="stylesheet" href="styles.css?v=20260909a">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
+  <style>
+    :root {
+      --ink:#182033;
+      --muted:#687386;
+      --line:#e4e7ee;
+      --surface:#ffffff;
+      --soft:#f6f7fb;
+      --brand:#5b5ce2;
+      --brand-dark:#4445c5;
+      --green:#18a878;
+      --gold:#c58b3a;
+      --radius:22px;
+      --shadow:0 18px 55px rgba(17,24,39,.10);
+    }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body {
+      margin:0;
+      font-family:"DM Sans",sans-serif;
+      color:var(--ink);
+      background:#fff;
+      -webkit-font-smoothing:antialiased;
+    }
+    a { color:inherit; }
+    img { display:block; max-width:100%; }
+    button,input { font:inherit; }
+    .container { width:min(1180px,calc(100% - 40px)); margin:auto; }
+    /* NAV */
+    .navbar {
+      position:sticky; top:0; z-index:100;
+      background:rgba(255,255,255,.90);
+      border-bottom:1px solid rgba(232,234,240,.85);
+      backdrop-filter:blur(18px);
+    }
+    .nav-container {
+      min-height:76px; display:flex; align-items:center; justify-content:space-between; gap:20px;
+    }
+    .logo { display:inline-flex; align-items:center; gap:11px; text-decoration:none; font-weight:700; }
+    .logo-icon {
+      width:40px;height:40px;border-radius:12px;display:grid;place-items:center;
+      color:#fff;background:linear-gradient(135deg,#5b5ce2,#4445c5);
+      box-shadow:0 8px 20px rgba(79,70,229,.25);
+    }
+    .logo-text { font-size:19px; letter-spacing:-.4px; }
+    .logo-text span { color:var(--brand); }
+    .nav-actions { display:flex; align-items:center; }
+    .user-menu { position:relative; }
+    .user-menu-trigger {
+      border:1px solid var(--line); background:#fff; border-radius:999px; padding:7px 12px 7px 7px;
+      display:flex;align-items:center;gap:9px;cursor:pointer;color:var(--ink);font-weight:600;
+    }
+    .user-avatar { width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:#eef0ff;color:var(--brand);font-size:13px; }
+    .user-menu-trigger > i { font-size:11px;color:#9aa3b2; }
+    .user-dropdown {
+      display:none; position:absolute; right:0; top:calc(100% + 10px); width:230px; padding:8px;
+      background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);
+    }
+    .user-menu:hover .user-dropdown { display:block; }
+    .user-dropdown a { display:flex;gap:10px;align-items:center;padding:11px 12px;border-radius:10px;text-decoration:none;font-size:14px; }
+    .user-dropdown a:hover { background:var(--soft); }
+    .dropdown-divider { height:1px;background:var(--line);margin:7px 4px; }
+    /* HERO */
+    .hero {
+      position:relative; overflow:hidden; color:#fff;
+      background:
+        radial-gradient(circle at 80% 15%,rgba(99,102,241,.40),transparent 28%),
+        linear-gradient(135deg,#182033 0%,#18164a 54%,#4445c5 100%);
+    }
+    .hero::before {
+      content:"";position:absolute;inset:0;
+      background:url("https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=1800&q=85") center/cover no-repeat;
+      opacity:.16;
+    }
+    .hero::after {
+      content:"";position:absolute;inset:auto -10% -220px;height:360px;
+      background:radial-gradient(ellipse,rgba(52,211,153,.18),transparent 68%);
+    }
+    .hero-inner {
+      position:relative;z-index:1; min-height:650px; padding:88px 0 70px;
+      display:grid;grid-template-columns:1.03fr .97fr;align-items:center;gap:60px;
+    }
+    .eyebrow {
+      display:inline-flex;align-items:center;gap:8px;padding:8px 13px;border-radius:999px;
+      border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.08);
+      color:#eef0ff;font-size:12px;font-weight:700;letter-spacing:.2px;
+    }
+    .eyebrow i { color:#34d399; }
+    h1 {
+      font-family:"Playfair Display",serif;
+      font-size:clamp(46px,6vw,76px);line-height:.99;letter-spacing:-2.8px;
+      margin:22px 0 22px;font-weight:600;
+    }
+    .hero-copy { max-width:650px;color:#d4d8e2;font-size:18px;line-height:1.7; }
+    .hero-copy strong { color:#fff; }
+    .hero-buttons { display:flex;gap:12px;flex-wrap:wrap;margin:30px 0 28px; }
+    .btn {
+      min-height:48px;padding:0 20px;border-radius:13px;display:inline-flex;align-items:center;justify-content:center;
+      gap:9px;text-decoration:none;font-weight:700;font-size:14px;border:1px solid transparent;transition:.2s ease;
+    }
+    .btn-primary { background:#fff;color:#1f1b4b;box-shadow:0 10px 30px rgba(0,0,0,.18); }
+    .btn-primary:hover { transform:translateY(-2px); }
+    .btn-outline { color:#fff;border-color:rgba(255,255,255,.25);background:rgba(255,255,255,.07); }
+    .btn-outline:hover { background:rgba(255,255,255,.13); }
+    .hero-note { display:flex;gap:18px;flex-wrap:wrap;color:#aeb9cc;font-size:12px; }
+    .hero-note span { display:inline-flex;align-items:center;gap:7px; }
+    .hero-note i { color:#34d399; }
+    /* SEARCH PANEL */
+    .search-panel {
+      background:rgba(255,255,255,.97);color:var(--ink);padding:26px;border-radius:26px;
+      box-shadow:0 30px 80px rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.4);
+    }
+    .search-panel-top { display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:18px; }
+    .search-panel h2 { margin:0;font-size:22px;letter-spacing:-.6px; }
+    .search-panel p { margin:6px 0 0;color:var(--muted);font-size:13px;line-height:1.5; }
+    .search-icon { width:42px;height:42px;border-radius:12px;background:#eef0ff;color:var(--brand);display:grid;place-items:center; }
+    .search-box {
+      display:flex;align-items:center;gap:10px;padding:6px 7px 6px 15px;
+      border:1px solid #dfe3ea;border-radius:15px;background:#fff;box-shadow:0 5px 18px rgba(17,24,39,.05);
+    }
+    .search-box > i { color:#9aa3b2; }
+    .search-box input { flex:1;min-width:0;border:0;outline:0;padding:11px 0;color:var(--ink); }
+    .search-submit { border:0;background:var(--brand);color:#fff;width:44px;height:44px;border-radius:11px;cursor:pointer; }
+    .search-submit:hover { background:var(--brand-dark); }
+    .search-examples { display:flex;flex-wrap:wrap;gap:7px;margin-top:14px; }
+    .search-chip { border:1px solid var(--line);background:#fafafa;border-radius:999px;padding:7px 10px;color:#687386;font-size:11px;cursor:pointer; }
+    .search-chip:hover { border-color:#eef0ff;color:var(--brand);background:#eef0ff; }
+    /* TRUST BAR */
+    .trustbar { border-bottom:1px solid var(--line);background:#fff; }
+    .trust-inner { display:grid;grid-template-columns:repeat(4,1fr); }
+    .trust-item { padding:23px 18px;display:flex;align-items:center;justify-content:center;gap:11px;border-right:1px solid var(--line);text-align:left; }
+    .trust-item:last-child { border-right:0; }
+    .trust-item i { color:var(--brand);font-size:17px; }
+    .trust-item strong { display:block;font-size:13px; }
+    .trust-item span { display:block;color:#9aa3b2;font-size:11px;margin-top:2px; }
+    /* SECTIONS */
+    .section { padding:92px 0; }
+    .section.soft { background:var(--soft); }
+    .section-head { display:flex;align-items:end;justify-content:space-between;gap:30px;margin-bottom:34px; }
+    .kicker { color:var(--brand);font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:1.4px; }
+    .section h2 { margin:8px 0 0;font-size:clamp(30px,4vw,44px);letter-spacing:-1.6px;line-height:1.08; }
+    .section-head p { max-width:450px;color:var(--muted);line-height:1.65;margin:0; }
+    .feature-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:20px; }
+    .feature {
+      position:relative;min-height:315px;overflow:hidden;border-radius:22px;color:#fff;text-decoration:none;
+      background:#182033;box-shadow:0 16px 40px rgba(17,24,39,.12);
+    }
+    .feature img { position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .45s ease; }
+    .feature:hover img { transform:scale(1.045); }
+    .feature::after { content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(17,24,39,.04) 15%,rgba(17,24,39,.92) 100%); }
+    .feature-body { position:absolute;z-index:2;inset:auto 0 0;padding:25px; }
+    .feature-icon { width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:rgba(255,255,255,.14);backdrop-filter:blur(8px);margin-bottom:13px; }
+    .feature h3 { margin:0 0 6px;font-size:19px; }
+    .feature p { margin:0 0 15px;color:#dbe3ef;font-size:13px;line-height:1.55;max-width:360px; }
+    .feature span { font-size:12px;font-weight:800; }
+    .steps { display:grid;grid-template-columns:repeat(3,1fr);gap:18px; }
+    .step { padding:28px;border:1px solid var(--line);border-radius:20px;background:#fff; }
+    .step-number { width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:#eef0ff;color:var(--brand);font-weight:800;font-size:13px;margin-bottom:22px; }
+    .step h3 { margin:0 0 8px;font-size:17px; }
+    .step p { margin:0;color:var(--muted);font-size:13px;line-height:1.65; }
+    .owner-banner {
+      display:grid;grid-template-columns:1.05fr .95fr;overflow:hidden;border-radius:28px;
+      background:#182033;color:#fff;box-shadow:0 25px 70px rgba(17,24,39,.18);
+    }
+    .owner-copy { padding:54px; }
+    .owner-copy h2 { margin:8px 0 14px;font-size:42px;letter-spacing:-1.5px; }
+    .owner-copy p { color:#b9c2d0;line-height:1.7;max-width:520px; }
+    .owner-image { min-height:370px;background:url("https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=1100&q=85") center/cover; }
+    .owner-points { display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:24px 0 28px; }
+    .owner-points div { display:flex;gap:9px;color:#dce4ef;font-size:12px; }
+    .owner-points i { color:#34d399;margin-top:2px; }
+    .quick-grid { display:grid;grid-template-columns:repeat(4,1fr);gap:14px; }
+    .quick {
+      display:flex;align-items:center;gap:13px;padding:18px;border:1px solid var(--line);border-radius:16px;
+      background:#fff;text-decoration:none;transition:.2s;
+    }
+    .quick:hover { transform:translateY(-2px);border-color:#eef0ff;box-shadow:0 10px 25px rgba(17,24,39,.07); }
+    .quick i { color:var(--brand);width:20px;text-align:center; }
+    .quick strong { display:block;font-size:13px; }
+    .quick span { color:#9aa3b2;font-size:11px; }
+    /* CTA + FOOTER */
+    .cta { padding:0 0 92px; }
+    .cta-inner {
+      border-radius:28px;padding:58px 30px;text-align:center;color:#fff;
+      background:linear-gradient(135deg,#5b5ce2,#4445c5);
+      position:relative;overflow:hidden;
+    }
+    .cta-inner::before { content:"";position:absolute;width:400px;height:400px;right:-160px;top:-220px;border-radius:50%;background:rgba(255,255,255,.10); }
+    .cta-inner > * { position:relative; }
+    .cta h2 { margin:0 0 10px;font-size:38px;letter-spacing:-1.3px; }
+    .cta p { margin:0 auto 25px;max-width:560px;color:#eef0ff;line-height:1.6;font-size:14px; }
+    footer { background:#182033;color:#fff;padding:58px 0 24px; }
+    .footer-grid { display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:35px; }
+    .footer-brand p { color:#8d99ab;max-width:320px;font-size:13px;line-height:1.7; }
+    .footer-col h4 { margin:0 0 14px;font-size:12px;text-transform:uppercase;letter-spacing:1px;color:#d8dee9; }
+    .footer-col a { display:block;color:#8d99ab;text-decoration:none;font-size:13px;margin:10px 0; }
+    .footer-col a:hover { color:#fff; }
+    .footer-bottom { border-top:1px solid #1d2939;margin-top:38px;padding-top:20px;color:#697586;font-size:11px;display:flex;justify-content:space-between;gap:20px; }
+    @media (max-width: 950px) {
+      .hero-inner,.owner-banner { grid-template-columns:1fr; }
+      .hero-inner { padding-top:65px; }
+      .owner-image { min-height:300px;order:-1; }
+      .feature-grid,.steps { grid-template-columns:1fr 1fr; }
+      .quick-grid { grid-template-columns:1fr 1fr; }
+      .footer-grid { grid-template-columns:2fr 1fr 1fr; }
+      .footer-grid > :first-child { grid-column:1/-1; }
+    }
+    @media (max-width: 680px) {
+      .container { width:min(100% - 28px,1180px); }
+      .nav-container { min-height:66px; }
+      .nav-user-name,.user-menu-trigger > i { display:none; }
+      .hero-inner { min-height:auto;padding:55px 0 55px;gap:35px; }
+      h1 { font-size:45px;letter-spacing:-1.8px; }
+      .hero-copy { font-size:16px; }
+      .search-panel { padding:20px;border-radius:20px; }
+      .trust-inner { grid-template-columns:1fr 1fr; }
+      .trust-item { justify-content:flex-start;border-bottom:1px solid var(--line); }
+      .trust-item:nth-child(2) { border-right:0; }
+      .trust-item:nth-child(3),.trust-item:nth-child(4) { border-bottom:0; }
+      .section { padding:65px 0; }
+      .section-head { display:block; }
+      .section-head p { margin-top:12px; }
+      .feature-grid,.steps,.quick-grid { grid-template-columns:1fr; }
+      .feature { min-height:285px; }
+      .owner-copy { padding:34px 25px; }
+      .owner-copy h2 { font-size:32px; }
+      .owner-points { grid-template-columns:1fr; }
+      .cta { padding-bottom:65px; }
+      .cta h2 { font-size:31px; }
+      .footer-grid { grid-template-columns:1fr 1fr; }
+      .footer-grid > :first-child { grid-column:1/-1; }
+      .footer-bottom { display:block; }
+    }
+  </style>
 </head>
 <body>
-<!-- ===== NAVIGATION ===== -->
-    <nav class="navbar" id="navbar">
-        <div class="nav-container">
-            <a href="home" class="logo">
-                <div class="logo-icon"><i class="fas fa-home"></i></div>
-                <span class="logo-text">Heaven<span>Lease</span></span>
-            </a>
-            
-            <div class="nav-actions">
-                <!-- Profile button (only button in the navbar) -->
-                <div class="user-menu" id="userMenu">
-                    <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu">
-                        <span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span>
-                        <span id="navUserName">Account</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </button>
-                    <div class="user-dropdown" id="profileDropdown">
-                        <a href="home" id="mainHomeLink"><i class="fas fa-home"></i> Main Home</a>
-                        <a href="edit-profile" id="myProfileLink"><i class="fas fa-user"></i> My Profile &amp; Settings</a>
-                        <a href="payment"><i class="fas fa-credit-card"></i> Access Pass</a>
-                        <div class="dropdown-divider"></div>
-                        <a href="login" id="signInLink" class="hide-when-auth"><i class="fas fa-arrow-right-to-bracket"></i> Sign In</a>
-                        <a href="#" id="logoutLink" class="logout-link hide-when-guest"><i class="fas fa-sign-out-alt"></i> Logout</a>
-                    </div>
-                </div>
-            </div>
+  <nav class="navbar" id="navbar">
+    <div class="container nav-container">
+      <a href="home" class="logo" aria-label="HeavenLease home">
+        <div class="logo-icon"><i class="fas fa-house"></i></div>
+        <span class="logo-text">Heaven<span>Lease</span></span>
+      </a>
+      <div class="nav-actions">
+        <div class="user-menu" id="userMenu">
+          <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu">
+            <span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span>
+            <span class="nav-user-name" id="navUserName">Account</span>
+            <i class="fas fa-chevron-down"></i>
+          </button>
+          <div class="user-dropdown" id="profileDropdown">
+            <a href="home"><i class="fas fa-house"></i> Main Home</a>
+            <a href="edit-profile" id="myProfileLink"><i class="fas fa-user"></i> My Profile &amp; Settings</a>
+            <a href="payment"><i class="fas fa-credit-card"></i> Access Pass</a>
+            <div class="dropdown-divider"></div>
+            <a href="login" id="signInLink" class="hide-when-auth"><i class="fas fa-arrow-right-to-bracket"></i> Sign In</a>
+            <a href="#" id="logoutLink" class="logout-link hide-when-guest"><i class="fas fa-right-from-bracket"></i> Logout</a>
+          </div>
         </div>
-    </nav>
-
-    <!-- ===== WELCOME HERO ===== -->
-    <section class="main-hero">
-        <div class="hero-inner">
-            <div class="hero-badge"><i class="fas fa-shield-halved"></i> Verified Owners · Escrow Protected · Zero Broker Fees</div>
-            <h1>Welcome back, <span class="gradient-text">let's continue</span> your property journey</h1>
-            <p id="welcomeMsg">Everything you need is one tap away — search, manage, and move seamlessly.</p>
-            <div class="hero-cta">
-                <a href="properties" class="btn btn-primary"><i class="fas fa-search"></i> Browse Homes</a>
-                <a href="list-property" class="btn-ghost"><i class="fas fa-key"></i> List Your Property</a>
-            </div>
-            <div class="search-widget">
-                <div class="search-widget-box">
-                    <i class="fas fa-magnifying-glass"></i>
-                    <input type="text" id="searchBox" placeholder='Type "2 BHK in Bengaluru under ₹30,000"' autocomplete="off">
-                </div>
-            </div>
+      </div>
+    </div>
+  </nav>
+  <main>
+    <section class="hero">
+      <div class="container hero-inner">
+        <div>
+          <span class="eyebrow"><i class="fas fa-circle-check"></i> Verified owners · Protected payments · No broker fees</span>
+          <h1>Find a place that feels like <em>home.</em></h1>
+          <p class="hero-copy" id="welcomeMsg">
+            Search verified homes, compare what matters, connect directly with owners, and manage your rental journey without the usual friction.
+          </p>
+          <div class="hero-buttons">
+            <a href="properties" class="btn btn-primary"><i class="fas fa-magnifying-glass"></i> Browse homes</a>
+            <a href="list-property" class="btn btn-outline hero-list-btn"><i class="fas fa-key"></i> List your property</a>
+          </div>
+          <div class="hero-note">
+            <span><i class="fas fa-check"></i> Direct owner connections</span>
+            <span><i class="fas fa-check"></i> Comfort-first search</span>
+            <span><i class="fas fa-check"></i> Escrow-secured payments</span>
+          </div>
         </div>
+        <div class="search-panel">
+          <div class="search-panel-top">
+            <div>
+              <h2>What are you looking for?</h2>
+              <p>Describe your ideal home naturally. We'll turn it into a property search.</p>
+            </div>
+            <div class="search-icon"><i class="fas fa-sparkles"></i></div>
+          </div>
+          <form class="search-box" id="homeSearchForm">
+            <i class="fas fa-magnifying-glass"></i>
+            <input type="text" id="searchBox" placeholder='Try "2 BHK in Bengaluru under ₹30,000"' autocomplete="off" aria-label="Search properties">
+            <button class="search-submit" type="submit" aria-label="Search"><i class="fas fa-arrow-right"></i></button>
+          </form>
+          <div class="search-examples">
+            <button class="search-chip" type="button" data-query="2 BHK in Bengaluru under ₹30000">2 BHK · Bengaluru · ₹30k</button>
+            <button class="search-chip" type="button" data-query="1 BHK in Pune under ₹20000">1 BHK · Pune · ₹20k</button>
+            <button class="search-chip" type="button" data-query="3 BHK in Hyderabad under ₹50000">3 BHK · Hyderabad · ₹50k</button>
+          </div>
+        </div>
+      </div>
     </section>
-<!-- ===== NEW FEATURE HUB (tiered by usefulness) ===== -->
-    <section class="hub-section" id="hubNew">
-        <div class="container">
-
-            <div class="hub-category" data-role="both">
-                <h2><i class="fas fa-bolt"></i> Get Started</h2>
-                <div class="htier">
-                    <a href="properties" class="hcard t1"><img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=900&q=80" alt="Browse Properties" class="hcard-img"><div class="hcard-overlay"></div><div class="hcard-body"><div class="hc-icon"><i class="fas fa-building"></i></div><h3>Browse Properties</h3><p>Search rental homes by budget, comfort score and location.</p><span class="hc-cta">Open Browse <i class="fas fa-arrow-right"></i></span></div></a>
-                    <a href="verify-account" class="hcard t1b"><img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=900&q=80" alt="Verify Your Account" class="hcard-img"><div class="hcard-overlay"></div><div class="hcard-body"><div class="hc-icon"><i class="fas fa-user-check"></i></div><h3>Verify Your Account</h3><p>Complete email &amp; phone verification to book tours and apply faster.</p><span class="hc-cta">Verify Now <i class="fas fa-arrow-right"></i></span></div></a>
-                    <a href="trust-and-safety-first" class="hcard t1c"><img src="https://images.unsplash.com/photo-1553456558-aff63285bdd1?w=900&q=80" alt="Trust and Safety" class="hcard-img"><div class="hcard-overlay"></div><div class="hcard-body"><div class="hc-icon"><i class="fas fa-shield-halved"></i></div><h3>Trust &amp; Safety</h3><p>Verified owners, protected deposits and escrow-secured payments.</p><span class="hc-cta">Read More <i class="fas fa-arrow-right"></i></span></div></a>
-                </div>
-            </div>
-
-            <div class="hub-category" data-role="owner">
-                <h2><i class="fas fa-key"></i> Owner Actions</h2>
-                <div class="htier">
-                    <a href="list-property" class="hcard t1"><img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=900&q=80" alt="List Your Property" class="hcard-img"><div class="hcard-overlay"></div><div class="hcard-body"><div class="hc-icon"><i class="fas fa-plus"></i></div><h3>List Your Property</h3><p>Publish your listing in minutes and reach verified tenants.</p><span class="hc-cta">Start Listing <i class="fas fa-arrow-right"></i></span></div></a>
-                    <a href="properties-management" class="hcard t1b"><img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=900&q=80" alt="Manage Properties" class="hcard-img"><div class="hcard-overlay"></div><div class="hcard-body"><div class="hc-icon"><i class="fas fa-house-circle-check"></i></div><h3>Manage Properties</h3><p>Update, edit or archive your live listings anytime.</p><span class="hc-cta">Manage Listings <i class="fas fa-arrow-right"></i></span></div></a>
-                    <a href="owner-verify" class="hcard t1c"><img src="https://images.unsplash.com/photo-1556155092-490a1ba16284?w=900&q=80" alt="Owner Verification" class="hcard-img"><div class="hcard-overlay"></div><div class="hcard-body"><div class="hc-icon"><i class="fas fa-id-card"></i></div><h3>Owner Verification</h3><p>Get the Verified Owner badge with document checks.</p><span class="hc-cta">Get Verified <i class="fas fa-arrow-right"></i></span></div></a>
-                </div>
-            </div>
-
-            <div class="hub-category" data-role="both">
-                <h2><i class="fas fa-user-shield"></i> Tenant Screening &amp; Verification</h2>
-                <div class="htier">
-                    <a href="tenant-screening" class="hcard t1"><img src="https://images.unsplash.com/photo-1556155092-490a1ba16284?w=900&q=80" alt="Tenant Screening" class="hcard-img"><div class="hcard-overlay"></div><div class="hcard-body"><div class="hc-icon"><i class="fas fa-user-shield"></i></div><h3>Tenant Screening</h3><p>Verify identity, employment and credit before approving.</p><span class="hc-cta">Screen Tenant <i class="fas fa-arrow-right"></i></span></div></a>
-                    <a href="background-check" class="hcard t1b"><img src="https://images.unsplash.com/photo-1614741118887-7a4ee193a5fa?w=900&q=80" alt="Background Check" class="hcard-img"><div class="hcard-overlay"></div><div class="hcard-body"><div class="hc-icon"><i class="fas fa-magnifying-glass"></i></div><h3>Background Check</h3><p>Run a clean, respectful background check on applicants.</p><span class="hc-cta">Run Check <i class="fas fa-arrow-right"></i></span></div></a>
-                    <a href="credit-score-check" class="hcard t1c"><img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=900&q=80" alt="Credit Score Check" class="hcard-img"><div class="hcard-overlay"></div><div class="hcard-body"><div class="hc-icon"><i class="fas fa-chart-line"></i></div><h3>Credit Score</h3><p>Check a tenant's credit and payment track record.</p><span class="hc-cta">Check Score <i class="fas fa-arrow-right"></i></span></div></a>
-                    <a href="identity-verification" class="hcard t1"><img src="identity-verify.jpg" alt="Identity Verification" class="hcard-img"><div class="hcard-overlay"></div><div class="hcard-body"><div class="hc-icon"><i class="fas fa-id-badge"></i></div><h3>Identity Verification</h3><p>Confirm who you are renting to with government IDs.</p><span class="hc-cta">Verify ID <i class="fas fa-arrow-right"></i></span></div></a>
-                    <a href="employment-verification" class="hcard t1b"><img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=900&q=80" alt="Employment Verification" class="hcard-img"><div class="hcard-overlay"></div><div class="hcard-body"><div class="hc-icon"><i class="fas fa-briefcase"></i></div><h3>Employment Check</h3><p>Confirm income and job stability before signing.</p><span class="hc-cta">Verify Job <i class="fas fa-arrow-right"></i></span></div></a>
-                    <a href="rental-history" class="hcard t1c"><img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=900&q=80" alt="Rental History" class="hcard-img"><div class="hcard-overlay"></div><div class="hcard-body"><div class="hc-icon"><i class="fas fa-clock-rotate-left"></i></div><h3>Rental History</h3><p>Review past tenancy behaviour and references.</p><span class="hc-cta">View History <i class="fas fa-arrow-right"></i></span></div></a>
-                </div>
-            </div>
-
-            <div class="hub-category" data-role="owner">
-                <h2><i class="fas fa-book-open"></i> Owner Resources &amp; Support</h2>
-                <div class="htier">
-                    <a href="owner-guides" class="hcard t2"><img src="https://images.unsplash.com/photo-1431540015161-0bf868a2d407?w=900&q=80" alt="Owner Guides" class="hcard-img"><div class="hcard-overlay"></div><div class="hcard-body"><div class="hc-icon"><i class="fas fa-book-open"></i></div><h3>Owner Guides</h3><p>Practical advice from first listing to smooth move-out.</p><span class="hc-cta">Read Guides <i class="fas fa-arrow-right"></i></span></div></a>
-                    <a href="owner-resources" class="hcard t2"><img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=900&q=80" alt="Owner Resources" class="hcard-img"><div class="hcard-overlay"></div><div class="hcard-body"><div class="hc-icon"><i class="fas fa-boxes"></i></div><h3>Owner Resources</h3><p>Templates, calculators and tools for landlords.</p><span class="hc-cta">Open Tools <i class="fas fa-arrow-right"></i></span></div></a>
-                    <a href="rent-pricing-guide" class="hcard t2"><img src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=900&q=80" alt="Rent Pricing Guide" class="hcard-img"><div class="hcard-overlay"></div><div class="hcard-body"><div class="hc-icon"><i class="fas fa-tags"></i></div><h3>Rent Pricing Guide</h3><p>Set the right rent with data-driven guidance.</p><span class="hc-cta">Pricing Guide <i class="fas fa-arrow-right"></i></span></div></a>
-                    <a href="tenant-management" class="hcard t2"><img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=900&q=80" alt="Tenant Management" class="hcard-img"><div class="hcard-overlay"></div><div class="hcard-body"><div class="hc-icon"><i class="fas fa-users-gear"></i></div><h3>Tenant Management</h3><p>Manage active tenants, leases and renewals.</p><span class="hc-cta">Manage Tenants <i class="fas fa-arrow-right"></i></span></div></a>
-                    <a href="support-tickets" class="hcard t2"><img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=900&q=80" alt="Support Tickets" class="hcard-img"><div class="hcard-overlay"></div><div class="hcard-body"><div class="hc-icon"><i class="fas fa-headset"></i></div><h3>Support Tickets</h3><p>Track every conversation with our support team.</p><span class="hc-cta">Get Help <i class="fas fa-arrow-right"></i></span></div></a>
-                    <a href="lease-templates" class="hcard t2"><img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=900&q=80" alt="Lease Templates" class="hcard-img"><div class="hcard-overlay"></div><div class="hcard-body"><div class="hc-icon"><i class="fas fa-file-signature"></i></div><h3>Lease Templates</h3><p>Ready-made rental agreements for your property.</p><span class="hc-cta">Get Templates <i class="fas fa-arrow-right"></i></span></div></a>
-                </div>
-            </div>
-
-            <div class="hub-category" data-role="both">
-                <h2><i class="fas fa-wand-magic-sparkles"></i> Stay On Top</h2>
-                <div class="htier">
-                    <a href="payment" class="hcard t2"><img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=900&q=80" alt="Access Pass" class="hcard-img"><div class="hcard-overlay"></div><div class="hcard-body"><div class="hc-icon"><i class="fas fa-credit-card"></i></div><h3>Access Pass</h3><p>Unlock owner contact details and premium features.</p><span class="hc-cta">View Plans <i class="fas fa-arrow-right"></i></span></div></a>
-                    <a href="lease-management" class="hcard t2"><img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=900&q=80" alt="Manage Leases" class="hcard-img"><div class="hcard-overlay"></div><div class="hcard-body"><div class="hc-icon"><i class="fas fa-file-contract"></i></div><h3>Manage Leases</h3><p>Track lease terms, renewals and signed agreements.</p><span class="hc-cta">Open Leases <i class="fas fa-arrow-right"></i></span></div></a>
-                    <a href="maintenance-requests" class="hcard t2"><img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=900&q=80" alt="Maintenance" class="hcard-img"><div class="hcard-overlay"></div><div class="hcard-body"><div class="hc-icon"><i class="fas fa-screwdriver-wrench"></i></div><h3>Maintenance</h3><p>Raise or review maintenance requests and track status.</p><span class="hc-cta">Maintenance <i class="fas fa-arrow-right"></i></span></div></a>
-                    <a href="map" class="hcard t2"><img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?w=900&q=80" alt="Property Map" class="hcard-img"><div class="hcard-overlay"></div><div class="hcard-body"><div class="hc-icon"><i class="fas fa-map-location-dot"></i></div><h3>Property Map</h3><p>Explore homes around your favourite neighbourhood.</p><span class="hc-cta">Open Map <i class="fas fa-arrow-right"></i></span></div></a>
-                    <a href="saved-properties" class="hcard t2"><img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=900&q=80" alt="Saved Properties" class="hcard-img"><div class="hcard-overlay"></div><div class="hcard-body"><div class="hc-icon"><i class="fas fa-heart"></i></div><h3>Saved Properties</h3><p>Your shortlisted homes, all in one place.</p><span class="hc-cta">View Saved <i class="fas fa-arrow-right"></i></span></div></a>
-                    <a href="notifications" class="hcard t2"><img src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=900&q=80" alt="Notifications" class="hcard-img"><div class="hcard-overlay"></div><div class="hcard-body"><div class="hc-icon"><i class="fas fa-bell"></i></div><h3>Notifications</h3><p>Stay updated on tours, leases and payments.</p><span class="hc-cta">Open Inbox <i class="fas fa-arrow-right"></i></span></div></a>
-                </div>
-            </div>
-
-            <div class="hub-category" data-role="both">
-                <h2><i class="fas fa-compass"></i> Explore More</h2>
-                <div class="htier">
-                    <a href="buy-a-home" class="hcard t3"><img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=900&q=80" alt="Buy a Home" class="hcard-img"><div class="hcard-overlay"></div><div class="hcard-body"><div class="hc-icon"><i class="fas fa-house-signal"></i></div><h3>Buy a Home</h3><p>Browse verified homes for sale.</p><span class="hc-cta">Open <i class="fas fa-arrow-right"></i></span></div></a>
-                    <a href="sell-your-home" class="hcard t3"><img src="https://images.unsplash.com/photo-1560184897-ae75f418493e?w=900&q=80" alt="Sell Your Home" class="hcard-img"><div class="hcard-overlay"></div><div class="hcard-body"><div class="hc-icon"><i class="fas fa-tag"></i></div><h3>Sell Your Home</h3><p>List your property to buyers.</p><span class="hc-cta">Open <i class="fas fa-arrow-right"></i></span></div></a>
-                    <a href="messages" class="hcard t3"><img src="https://images.unsplash.com/photo-1516387938699-a93567ec168e?w=900&q=80" alt="Messages" class="hcard-img"><div class="hcard-overlay"></div><div class="hcard-body"><div class="hc-icon"><i class="fas fa-comments"></i></div><h3>Messages</h3><p>Chat in real time with owners and tenants.</p><span class="hc-cta">Open <i class="fas fa-arrow-right"></i></span></div></a>
-                    <a href="comfort-scores" class="hcard t3"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=900&q=80" alt="Comfort Scores" class="hcard-img"><div class="hcard-overlay"></div><div class="hcard-body"><div class="hc-icon"><i class="fas fa-gauge-high"></i></div><h3>Comfort Scores</h3><p>Quietness, sunlight and commute - rated.</p><span class="hc-cta">Open <i class="fas fa-arrow-right"></i></span></div></a>
-                    <a href="tour-booking" class="hcard t3"><img src="https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?w=900&q=80" alt="Book a Tour" class="hcard-img"><div class="hcard-overlay"></div><div class="hcard-body"><div class="hc-icon"><i class="fas fa-calendar-check"></i></div><h3>Book a Tour</h3><p>Schedule a visit to a property you like.</p><span class="hc-cta">Open <i class="fas fa-arrow-right"></i></span></div></a>
-                    <a href="transaction-history" class="hcard t3"><img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=900&q=80" alt="My Transactions" class="hcard-img"><div class="hcard-overlay"></div><div class="hcard-body"><div class="hc-icon"><i class="fas fa-receipt"></i></div><h3>My Transactions</h3><p>Payments, receipts and escrow deposits.</p><span class="hc-cta">Open <i class="fas fa-arrow-right"></i></span></div></a>
-                </div>
-            </div>
-
-            <div class="hub-category" data-role="both">
-                <h2 style="margin-bottom:18px;"><i class="fas fa-circle-info"></i> Company &amp; Help</h2>
-                <div class="htierlink">
-                    <a href="how-it-works" class="hlink"><i class="fas fa-circle-question"></i> How It Works</a>
-                    <a href="about" class="hlink"><i class="fas fa-building"></i> About Us</a>
-                    <a href="blog" class="hlink"><i class="fas fa-newspaper"></i> Blog</a>
-                    <a href="faq" class="hlink"><i class="fas fa-circle-question"></i> FAQ</a>
-                    <a href="helper" class="hlink"><i class="fas fa-life-ring"></i> Help Center</a>
-                    <a href="contact" class="hlink"><i class="fas fa-envelope"></i> Contact &amp; Support</a>
-                    <a href="press" class="hlink"><i class="fas fa-bullhorn"></i> Press</a>
-                    <a href="careers" class="hlink"><i class="fas fa-briefcase"></i> Careers</a>
-                </div>
-            </div>
-
-        </div>
+    <section class="trustbar">
+      <div class="container trust-inner">
+        <div class="trust-item"><i class="fas fa-user-check"></i><div><strong>Verified profiles</strong><span>Know who you're dealing with</span></div></div>
+        <div class="trust-item"><i class="fas fa-shield-halved"></i><div><strong>Safer transactions</strong><span>Protection built into the journey</span></div></div>
+        <div class="trust-item"><i class="fas fa-chart-simple"></i><div><strong>Comfort scores</strong><span>Compare beyond rent &amp; size</span></div></div>
+        <div class="trust-item"><i class="fas fa-comments"></i><div><strong>Direct communication</strong><span>Talk to owners and tenants</span></div></div>
+      </div>
     </section>
-
-    <!-- ===== FEATURE HUB (legacy, hidden internally) ===== -->
-    <section class="hub-section" id="hubOld" style="display:none;">
-        <div class="container">
-            <div class="hub-category" data-role="tenant">
-                <h2><i class="fas fa-magnifying-glass"></i> Find &amp; Rent</h2>
-                <div class="hub-grid">
-                    <a href="properties" class="bs-card" style="position:relative;overflow:hidden;border-radius:24px;min-height:260px;background:linear-gradient(135deg,#0f172a00 0%,#1e1b4bcc 100%);box-shadow:0 20px 45px rgba(15,23,42,0.25);text-decoration:none;display:block;"><img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=900&q=80" alt="Browse Properties" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;"><div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(15,23,42,0.1) 0%,rgba(30,27,75,0.82) 100%);z-index:1;"></div><div style="position:relative;z-index:2;padding:30px;color:#fff;display:flex;flex-direction:column;height:100%;justify-content:flex-end;box-sizing:border-box;"><div style="width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,0.16);color:#A5B4FC;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;"><i class="fas fa-building"></i></div><h3 style="font-size:19px;font-weight:700;margin:0 0 6px;color:#fff;">Browse Properties</h3><p style="font-size:13px;color:rgba(255,255,255,0.85);line-height:1.6;margin:0 0 18px;">Search rental homes by budget, comfort score and location.</p><span class="btn btn-primary" style="align-self:flex-start;"><i class="fas fa-arrow-right"></i> Open Browse Properties</span></div></a>
-                    <a href="trust-and-safety-first" class="bs-card" style="position:relative;overflow:hidden;border-radius:24px;min-height:260px;background:linear-gradient(135deg,#0f172a00 0%,#1e1b4bcc 100%);box-shadow:0 20px 45px rgba(15,23,42,0.25);text-decoration:none;display:block;"><img src="https://images.unsplash.com/photo-1553456558-aff63285bdd1?w=900&q=80" alt="Trust &amp; Safety First" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;"><div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(15,23,42,0.1) 0%,rgba(30,27,75,0.82) 100%);z-index:1;"></div><div style="position:relative;z-index:2;padding:30px;color:#fff;display:flex;flex-direction:column;height:100%;justify-content:flex-end;box-sizing:border-box;"><div style="width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,0.16);color:#A5B4FC;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;"><i class="fas fa-shield-halved"></i></div><h3 style="font-size:19px;font-weight:700;margin:0 0 6px;color:#fff;">Trust &amp; Safety First</h3><p style="font-size:13px;color:rgba(255,255,255,0.85);line-height:1.6;margin:0 0 18px;">Verified owners, protected deposits, escrow-secured payments.</p><span class="btn btn-primary" style="align-self:flex-start;"><i class="fas fa-arrow-right"></i> Open Trust &amp; Safety First</span></div></a>
-                    <a href="verify-account" class="bs-card" style="position:relative;overflow:hidden;border-radius:24px;min-height:260px;background:linear-gradient(135deg,#0f172a00 0%,#1e1b4bcc 100%);box-shadow:0 20px 45px rgba(15,23,42,0.25);text-decoration:none;display:block;"><img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=900&q=80" alt="Tenant Verification" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;"><div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(15,23,42,0.1) 0%,rgba(30,27,75,0.82) 100%);z-index:1;"></div><div style="position:relative;z-index:2;padding:30px;color:#fff;display:flex;flex-direction:column;height:100%;justify-content:flex-end;box-sizing:border-box;"><div style="width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,0.16);color:#A5B4FC;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;"><i class="fas fa-user-check"></i></div><h3 style="font-size:19px;font-weight:700;margin:0 0 6px;color:#fff;">Tenant Verification</h3><p style="font-size:13px;color:rgba(255,255,255,0.85);line-height:1.6;margin:0 0 18px;">Complete KYC and identity checks to unlock verified listings.</p><span class="btn btn-primary" style="align-self:flex-start;"><i class="fas fa-arrow-right"></i> Open Tenant Verification</span></div></a>
-                    <a href="map" class="bs-card" style="position:relative;overflow:hidden;border-radius:24px;min-height:260px;background:linear-gradient(135deg,#0f172a00 0%,#1e1b4bcc 100%);box-shadow:0 20px 45px rgba(15,23,42,0.25);text-decoration:none;display:block;"><img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?w=900&q=80" alt="Property Map" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;"><div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(15,23,42,0.1) 0%,rgba(30,27,75,0.82) 100%);z-index:1;"></div><div style="position:relative;z-index:2;padding:30px;color:#fff;display:flex;flex-direction:column;height:100%;justify-content:flex-end;box-sizing:border-box;"><div style="width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,0.16);color:#A5B4FC;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;"><i class="fas fa-map-location-dot"></i></div><h3 style="font-size:19px;font-weight:700;margin:0 0 6px;color:#fff;">Property Map</h3><p style="font-size:13px;color:rgba(255,255,255,0.85);line-height:1.6;margin:0 0 18px;">Explore listings on a live map with English place names.</p><span class="btn btn-primary" style="align-self:flex-start;"><i class="fas fa-arrow-right"></i> Open Property Map</span></div></a>
-                    <a href="comfort-scores" class="bs-card" style="position:relative;overflow:hidden;border-radius:24px;min-height:260px;background:linear-gradient(135deg,#0f172a00 0%,#1e1b4bcc 100%);box-shadow:0 20px 45px rgba(15,23,42,0.25);text-decoration:none;display:block;"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=900&q=80" alt="Comfort Scores" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;"><div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(15,23,42,0.1) 0%,rgba(30,27,75,0.82) 100%);z-index:1;"></div><div style="position:relative;z-index:2;padding:30px;color:#fff;display:flex;flex-direction:column;height:100%;justify-content:flex-end;box-sizing:border-box;"><div style="width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,0.16);color:#A5B4FC;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;"><i class="fas fa-gauge-high"></i></div><h3 style="font-size:19px;font-weight:700;margin:0 0 6px;color:#fff;">Comfort Scores</h3><p style="font-size:13px;color:rgba(255,255,255,0.85);line-height:1.6;margin:0 0 18px;">Compare homes by quietness, sunlight, commute and pet-friendliness.</p><span class="btn btn-primary" style="align-self:flex-start;"><i class="fas fa-arrow-right"></i> Open Comfort Scores</span></div></a>
-                </div>
-            </div>
-            <div class="hub-category" data-role="both">
-                <h2><i class="fas fa-gauge-high"></i> My Dashboard &amp; Account</h2>
-                <div class="hub-grid">
-                    <a href="dashboard" class="bs-card" style="position:relative;overflow:hidden;border-radius:24px;min-height:260px;background:linear-gradient(135deg,#0f172a00 0%,#1e1b4bcc 100%);box-shadow:0 20px 45px rgba(15,23,42,0.25);text-decoration:none;display:block;"><img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=900&q=80" alt="My Dashboard" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;"><div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(15,23,42,0.1) 0%,rgba(30,27,75,0.82) 100%);z-index:1;"></div><div style="position:relative;z-index:2;padding:30px;color:#fff;display:flex;flex-direction:column;height:100%;justify-content:flex-end;box-sizing:border-box;"><div style="width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,0.16);color:#A5B4FC;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;"><i class="fas fa-gauge-high"></i></div><h3 style="font-size:19px;font-weight:700;margin:0 0 6px;color:#fff;">My Dashboard</h3><p style="font-size:13px;color:rgba(255,255,255,0.85);line-height:1.6;margin:0 0 18px;">Your central hub - rents, leases, bookings, verifications and documents.</p><span class="btn btn-primary" style="align-self:flex-start;"><i class="fas fa-arrow-right"></i> Open My Dashboard</span></div></a>
-                    <a href="edit-profile" class="bs-card" style="position:relative;overflow:hidden;border-radius:24px;min-height:260px;background:linear-gradient(135deg,#0f172a00 0%,#1e1b4bcc 100%);box-shadow:0 20px 45px rgba(15,23,42,0.25);text-decoration:none;display:block;"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=900&q=80" alt="Edit Profile" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;"><div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(15,23,42,0.1) 0%,rgba(30,27,75,0.82) 100%);z-index:1;"></div><div style="position:relative;z-index:2;padding:30px;color:#fff;display:flex;flex-direction:column;height:100%;justify-content:flex-end;box-sizing:border-box;"><div style="width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,0.16);color:#A5B4FC;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;"><i class="fas fa-user-pen"></i></div><h3 style="font-size:19px;font-weight:700;margin:0 0 6px;color:#fff;">Edit Profile</h3><p style="font-size:13px;color:rgba(255,255,255,0.85);line-height:1.6;margin:0 0 18px;">Update your photo, contact details and preferences.</p><span class="btn btn-primary" style="align-self:flex-start;"><i class="fas fa-arrow-right"></i> Open Edit Profile</span></div></a>
-                    <a href="saved-properties" class="bs-card" style="position:relative;overflow:hidden;border-radius:24px;min-height:260px;background:linear-gradient(135deg,#0f172a00 0%,#1e1b4bcc 100%);box-shadow:0 20px 45px rgba(15,23,42,0.25);text-decoration:none;display:block;"><img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=900&q=80" alt="Saved Properties" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;"><div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(15,23,42,0.1) 0%,rgba(30,27,75,0.82) 100%);z-index:1;"></div><div style="position:relative;z-index:2;padding:30px;color:#fff;display:flex;flex-direction:column;height:100%;justify-content:flex-end;box-sizing:border-box;"><div style="width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,0.16);color:#A5B4FC;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;"><i class="fas fa-heart"></i></div><h3 style="font-size:19px;font-weight:700;margin:0 0 6px;color:#fff;">Saved Properties</h3><p style="font-size:13px;color:rgba(255,255,255,0.85);line-height:1.6;margin:0 0 18px;">Your shortlisted homes, all in one place.</p><span class="btn btn-primary" style="align-self:flex-start;"><i class="fas fa-arrow-right"></i> Open Saved Properties</span></div></a>
-                    <a href="messages" class="bs-card" style="position:relative;overflow:hidden;border-radius:24px;min-height:260px;background:linear-gradient(135deg,#0f172a00 0%,#1e1b4bcc 100%);box-shadow:0 20px 45px rgba(15,23,42,0.25);text-decoration:none;display:block;"><img src="https://images.unsplash.com/photo-1516387938699-a93567ec168e?w=900&q=80" alt="Messages" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;"><div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(15,23,42,0.1) 0%,rgba(30,27,75,0.82) 100%);z-index:1;"></div><div style="position:relative;z-index:2;padding:30px;color:#fff;display:flex;flex-direction:column;height:100%;justify-content:flex-end;box-sizing:border-box;"><div style="width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,0.16);color:#A5B4FC;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;"><i class="fas fa-comments"></i></div><h3 style="font-size:19px;font-weight:700;margin:0 0 6px;color:#fff;">Messages</h3><p style="font-size:13px;color:rgba(255,255,255,0.85);line-height:1.6;margin:0 0 18px;">Chat in real time with owners and tenants.</p><span class="btn btn-primary" style="align-self:flex-start;"><i class="fas fa-arrow-right"></i> Open Messages</span></div></a>
-                    <a href="notifications" class="bs-card" style="position:relative;overflow:hidden;border-radius:24px;min-height:260px;background:linear-gradient(135deg,#0f172a00 0%,#1e1b4bcc 100%);box-shadow:0 20px 45px rgba(15,23,42,0.25);text-decoration:none;display:block;"><img src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=900&q=80" alt="Notifications" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;"><div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(15,23,42,0.1) 0%,rgba(30,27,75,0.82) 100%);z-index:1;"></div><div style="position:relative;z-index:2;padding:30px;color:#fff;display:flex;flex-direction:column;height:100%;justify-content:flex-end;box-sizing:border-box;"><div style="width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,0.16);color:#A5B4FC;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;"><i class="fas fa-bell"></i></div><h3 style="font-size:19px;font-weight:700;margin:0 0 6px;color:#fff;">Notifications</h3><p style="font-size:13px;color:rgba(255,255,255,0.85);line-height:1.6;margin:0 0 18px;">Stay updated on tours, leases and payments.</p><span class="btn btn-primary" style="align-self:flex-start;"><i class="fas fa-arrow-right"></i> Open Notifications</span></div></a>
-                </div>
-            </div>
-            <div class="hub-category" data-role="owner">
-                <h2><i class="fas fa-user-tie"></i> Owner Tools</h2>
-                <div class="hub-grid">
-                    <a href="list-property" class="bs-card" style="position:relative;overflow:hidden;border-radius:24px;min-height:260px;background:linear-gradient(135deg,#0f172a00 0%,#1e1b4bcc 100%);box-shadow:0 20px 45px rgba(15,23,42,0.25);text-decoration:none;display:block;"><img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=900&q=80" alt="List Your Property" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;"><div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(15,23,42,0.1) 0%,rgba(30,27,75,0.82) 100%);z-index:1;"></div><div style="position:relative;z-index:2;padding:30px;color:#fff;display:flex;flex-direction:column;height:100%;justify-content:flex-end;box-sizing:border-box;"><div style="width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,0.16);color:#A5B4FC;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;"><i class="fas fa-key"></i></div><h3 style="font-size:19px;font-weight:700;margin:0 0 6px;color:#fff;">List Your Property</h3><p style="font-size:13px;color:rgba(255,255,255,0.85);line-height:1.6;margin:0 0 18px;">Publish your listing in minutes and reach verified tenants.</p><span class="btn btn-primary" style="align-self:flex-start;"><i class="fas fa-arrow-right"></i> Open List Your Property</span></div></a>
-                    <a href="rent-collection" class="bs-card" style="position:relative;overflow:hidden;border-radius:24px;min-height:260px;background:linear-gradient(135deg,#0f172a00 0%,#1e1b4bcc 100%);box-shadow:0 20px 45px rgba(15,23,42,0.25);text-decoration:none;display:block;"><img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=900&q=80" alt="Rent Collection" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;"><div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(15,23,42,0.1) 0%,rgba(30,27,75,0.82) 100%);z-index:1;"></div><div style="position:relative;z-index:2;padding:30px;color:#fff;display:flex;flex-direction:column;height:100%;justify-content:flex-end;box-sizing:border-box;"><div style="width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,0.16);color:#A5B4FC;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;"><i class="fas fa-money-bill-transfer"></i></div><h3 style="font-size:19px;font-weight:700;margin:0 0 6px;color:#fff;">Rent Collection</h3><p style="font-size:13px;color:rgba(255,255,255,0.85);line-height:1.6;margin:0 0 18px;">Track rents, send reminders and record payments.</p><span class="btn btn-primary" style="align-self:flex-start;"><i class="fas fa-arrow-right"></i> Open Rent Collection</span></div></a>
-                    <a href="tenant-screening" class="bs-card" style="position:relative;overflow:hidden;border-radius:24px;min-height:260px;background:linear-gradient(135deg,#0f172a00 0%,#1e1b4bcc 100%);box-shadow:0 20px 45px rgba(15,23,42,0.25);text-decoration:none;display:block;"><img src="https://images.unsplash.com/photo-1556155092-490a1ba16284?w=900&q=80" alt="Tenant Screening" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;"><div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(15,23,42,0.1) 0%,rgba(30,27,75,0.82) 100%);z-index:1;"></div><div style="position:relative;z-index:2;padding:30px;color:#fff;display:flex;flex-direction:column;height:100%;justify-content:flex-end;box-sizing:border-box;"><div style="width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,0.16);color:#A5B4FC;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;"><i class="fas fa-user-check"></i></div><h3 style="font-size:19px;font-weight:700;margin:0 0 6px;color:#fff;">Tenant Screening</h3><p style="font-size:13px;color:rgba(255,255,255,0.85);line-height:1.6;margin:0 0 18px;">Screen applicants with checks, references and ratings.</p><span class="btn btn-primary" style="align-self:flex-start;"><i class="fas fa-arrow-right"></i> Open Tenant Screening</span></div></a>
-                    <a href="owner-verify" class="bs-card" style="position:relative;overflow:hidden;border-radius:24px;min-height:260px;background:linear-gradient(135deg,#0f172a00 0%,#1e1b4bcc 100%);box-shadow:0 20px 45px rgba(15,23,42,0.25);text-decoration:none;display:block;"><img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=900&q=80" alt="Owner Verification" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;"><div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(15,23,42,0.1) 0%,rgba(30,27,75,0.82) 100%);z-index:1;"></div><div style="position:relative;z-index:2;padding:30px;color:#fff;display:flex;flex-direction:column;height:100%;justify-content:flex-end;box-sizing:border-box;"><div style="width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,0.16);color:#A5B4FC;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;"><i class="fas fa-id-card"></i></div><h3 style="font-size:19px;font-weight:700;margin:0 0 6px;color:#fff;">Owner Verification</h3><p style="font-size:13px;color:rgba(255,255,255,0.85);line-height:1.6;margin:0 0 18px;">Get verified as an owner to unlock trust badges and tools.</p><span class="btn btn-primary" style="align-self:flex-start;"><i class="fas fa-arrow-right"></i> Open Owner Verification</span></div></a>
-                    <a href="owner-resources" class="bs-card" style="position:relative;overflow:hidden;border-radius:24px;min-height:260px;background:linear-gradient(135deg,#0f172a00 0%,#1e1b4bcc 100%);box-shadow:0 20px 45px rgba(15,23,42,0.25);text-decoration:none;display:block;"><img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=900&q=80" alt="Owner Resources" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;"><div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(15,23,42,0.1) 0%,rgba(30,27,75,0.82) 100%);z-index:1;"></div><div style="position:relative;z-index:2;padding:30px;color:#fff;display:flex;flex-direction:column;height:100%;justify-content:flex-end;box-sizing:border-box;"><div style="width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,0.16);color:#A5B4FC;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;"><i class="fas fa-toolbox"></i></div><h3 style="font-size:19px;font-weight:700;margin:0 0 6px;color:#fff;">Owner Resources</h3><p style="font-size:13px;color:rgba(255,255,255,0.85);line-height:1.6;margin:0 0 18px;">Pricing guides, lease templates, maintenance and tax help.</p><span class="btn btn-primary" style="align-self:flex-start;"><i class="fas fa-arrow-right"></i> Open Owner Resources</span></div></a>
-                </div>
-            </div>
-            <div class="hub-category" data-role="both">
-                <h2><i class="fas fa-user-check"></i> Tenant Screening &amp; Verification</h2>
-                <div class="hub-grid">
-                    <a href="identity-verification" class="bs-card" style="position:relative;overflow:hidden;border-radius:24px;min-height:260px;background:linear-gradient(135deg,#0f172a00 0%,#1e1b4bcc 100%);box-shadow:0 20px 45px rgba(15,23,42,0.25);text-decoration:none;display:block;"><img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=900&q=80" alt="Identity Verification" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;"><div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(15,23,42,0.1) 0%,rgba(30,27,75,0.82) 100%);z-index:1;"></div><div style="position:relative;z-index:2;padding:30px;color:#fff;display:flex;flex-direction:column;height:100%;justify-content:flex-end;box-sizing:border-box;"><div style="width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,0.16);color:#A5B4FC;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;"><i class="fas fa-id-card"></i></div><h3 style="font-size:19px;font-weight:700;margin:0 0 6px;color:#fff;">Identity Verification</h3><p style="font-size:13px;color:rgba(255,255,255,0.85);line-height:1.6;margin:0 0 18px;">Government ID checks for every applicant.</p><span class="btn btn-primary" style="align-self:flex-start;"><i class="fas fa-arrow-right"></i> Open Identity Verification</span></div></a>
-                    <a href="credit-score-check" class="bs-card" style="position:relative;overflow:hidden;border-radius:24px;min-height:260px;background:linear-gradient(135deg,#0f172a00 0%,#1e1b4bcc 100%);box-shadow:0 20px 45px rgba(15,23,42,0.25);text-decoration:none;display:block;"><img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=900&q=80" alt="Credit Score Check" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;"><div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(15,23,42,0.1) 0%,rgba(30,27,75,0.82) 100%);z-index:1;"></div><div style="position:relative;z-index:2;padding:30px;color:#fff;display:flex;flex-direction:column;height:100%;justify-content:flex-end;box-sizing:border-box;"><div style="width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,0.16);color:#A5B4FC;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;"><i class="fas fa-credit-card"></i></div><h3 style="font-size:19px;font-weight:700;margin:0 0 6px;color:#fff;">Credit Score Check</h3><p style="font-size:13px;color:rgba(255,255,255,0.85);line-height:1.6;margin:0 0 18px;">Financial reliability before you approve.</p><span class="btn btn-primary" style="align-self:flex-start;"><i class="fas fa-arrow-right"></i> Open Credit Score Check</span></div></a>
-                    <a href="rental-history" class="bs-card" style="position:relative;overflow:hidden;border-radius:24px;min-height:260px;background:linear-gradient(135deg,#0f172a00 0%,#1e1b4bcc 100%);box-shadow:0 20px 45px rgba(15,23,42,0.25);text-decoration:none;display:block;"><img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=900&q=80" alt="Rental History" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;"><div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(15,23,42,0.1) 0%,rgba(30,27,75,0.82) 100%);z-index:1;"></div><div style="position:relative;z-index:2;padding:30px;color:#fff;display:flex;flex-direction:column;height:100%;justify-content:flex-end;box-sizing:border-box;"><div style="width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,0.16);color:#A5B4FC;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;"><i class="fas fa-history"></i></div><h3 style="font-size:19px;font-weight:700;margin:0 0 6px;color:#fff;">Rental History</h3><p style="font-size:13px;color:rgba(255,255,255,0.85);line-height:1.6;margin:0 0 18px;">Previous landlord references and behaviour.</p><span class="btn btn-primary" style="align-self:flex-start;"><i class="fas fa-arrow-right"></i> Open Rental History</span></div></a>
-                    <a href="employment-verification" class="bs-card" style="position:relative;overflow:hidden;border-radius:24px;min-height:260px;background:linear-gradient(135deg,#0f172a00 0%,#1e1b4bcc 100%);box-shadow:0 20px 45px rgba(15,23,42,0.25);text-decoration:none;display:block;"><img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=900&q=80" alt="Employment Verification" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;"><div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(15,23,42,0.1) 0%,rgba(30,27,75,0.82) 100%);z-index:1;"></div><div style="position:relative;z-index:2;padding:30px;color:#fff;display:flex;flex-direction:column;height:100%;justify-content:flex-end;box-sizing:border-box;"><div style="width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,0.16);color:#A5B4FC;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;"><i class="fas fa-briefcase"></i></div><h3 style="font-size:19px;font-weight:700;margin:0 0 6px;color:#fff;">Employment Verification</h3><p style="font-size:13px;color:rgba(255,255,255,0.85);line-height:1.6;margin:0 0 18px;">Confirm income and job stability.</p><span class="btn btn-primary" style="align-self:flex-start;"><i class="fas fa-arrow-right"></i> Open Employment Verification</span></div></a>
-                    <a href="background-check" class="bs-card" style="position:relative;overflow:hidden;border-radius:24px;min-height:260px;background:linear-gradient(135deg,#0f172a00 0%,#1e1b4bcc 100%);box-shadow:0 20px 45px rgba(15,23,42,0.25);text-decoration:none;display:block;"><img src="https://images.unsplash.com/photo-1614741118887-7a4ee193a5fa?w=900&q=80" alt="Background Check" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;"><div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(15,23,42,0.1) 0%,rgba(30,27,75,0.82) 100%);z-index:1;"></div><div style="position:relative;z-index:2;padding:30px;color:#fff;display:flex;flex-direction:column;height:100%;justify-content:flex-end;box-sizing:border-box;"><div style="width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,0.16);color:#A5B4FC;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;"><i class="fas fa-shield-halved"></i></div><h3 style="font-size:19px;font-weight:700;margin:0 0 6px;color:#fff;">Background Check</h3><p style="font-size:13px;color:rgba(255,255,255,0.85);line-height:1.6;margin:0 0 18px;">Safety-first public-record screening.</p><span class="btn btn-primary" style="align-self:flex-start;"><i class="fas fa-arrow-right"></i> Open Background Check</span></div></a>
-                    <a href="tenant-ratings" class="bs-card" style="position:relative;overflow:hidden;border-radius:24px;min-height:260px;background:linear-gradient(135deg,#0f172a00 0%,#1e1b4bcc 100%);box-shadow:0 20px 45px rgba(15,23,42,0.25);text-decoration:none;display:block;"><img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=900&q=80" alt="Tenant Ratings" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;"><div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(15,23,42,0.1) 0%,rgba(30,27,75,0.82) 100%);z-index:1;"></div><div style="position:relative;z-index:2;padding:30px;color:#fff;display:flex;flex-direction:column;height:100%;justify-content:flex-end;box-sizing:border-box;"><div style="width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,0.16);color:#A5B4FC;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;"><i class="fas fa-star"></i></div><h3 style="font-size:19px;font-weight:700;margin:0 0 6px;color:#fff;">Tenant Ratings</h3><p style="font-size:13px;color:rgba(255,255,255,0.85);line-height:1.6;margin:0 0 18px;">Rated by previous landlords.</p><span class="btn btn-primary" style="align-self:flex-start;"><i class="fas fa-arrow-right"></i> Open Tenant Ratings</span></div></a>
-                </div>
-            </div>
-            <div class="hub-category" data-role="both">
-                <h2><i class="fas fa-credit-card"></i> Payments &amp; Leases</h2>
-                <div class="hub-grid">
-                    <a href="payment" class="bs-card" style="position:relative;overflow:hidden;border-radius:24px;min-height:260px;background:linear-gradient(135deg,#0f172a00 0%,#1e1b4bcc 100%);box-shadow:0 20px 45px rgba(15,23,42,0.25);text-decoration:none;display:block;"><img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=900&q=80" alt="Payments &amp; Access Pass" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;"><div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(15,23,42,0.1) 0%,rgba(30,27,75,0.82) 100%);z-index:1;"></div><div style="position:relative;z-index:2;padding:30px;color:#fff;display:flex;flex-direction:column;height:100%;justify-content:flex-end;box-sizing:border-box;"><div style="width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,0.16);color:#A5B4FC;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;"><i class="fas fa-credit-card"></i></div><h3 style="font-size:19px;font-weight:700;margin:0 0 6px;color:#fff;">Payments &amp; Access Pass</h3><p style="font-size:13px;color:rgba(255,255,255,0.85);line-height:1.6;margin:0 0 18px;">Subscribe and unlock unlimited property access.</p><span class="btn btn-primary" style="align-self:flex-start;"><i class="fas fa-arrow-right"></i> Open Payments &amp; Access Pass</span></div></a>
-                    <a href="lease-signing" class="bs-card" style="position:relative;overflow:hidden;border-radius:24px;min-height:260px;background:linear-gradient(135deg,#0f172a00 0%,#1e1b4bcc 100%);box-shadow:0 20px 45px rgba(15,23,42,0.25);text-decoration:none;display:block;"><img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=900&q=80" alt="Leases &amp; Signing" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;"><div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(15,23,42,0.1) 0%,rgba(30,27,75,0.82) 100%);z-index:1;"></div><div style="position:relative;z-index:2;padding:30px;color:#fff;display:flex;flex-direction:column;height:100%;justify-content:flex-end;box-sizing:border-box;"><div style="width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,0.16);color:#A5B4FC;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;"><i class="fas fa-file-signature"></i></div><h3 style="font-size:19px;font-weight:700;margin:0 0 6px;color:#fff;">Leases &amp; Signing</h3><p style="font-size:13px;color:rgba(255,255,255,0.85);line-height:1.6;margin:0 0 18px;">Create, view and sign lease agreements online.</p><span class="btn btn-primary" style="align-self:flex-start;"><i class="fas fa-arrow-right"></i> Open Leases &amp; Signing</span></div></a>
-                    <a href="tour-booking" class="bs-card" style="position:relative;overflow:hidden;border-radius:24px;min-height:260px;background:linear-gradient(135deg,#0f172a00 0%,#1e1b4bcc 100%);box-shadow:0 20px 45px rgba(15,23,42,0.25);text-decoration:none;display:block;"><img src="https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?w=900&q=80" alt="Tour Bookings" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;"><div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(15,23,42,0.1) 0%,rgba(30,27,75,0.82) 100%);z-index:1;"></div><div style="position:relative;z-index:2;padding:30px;color:#fff;display:flex;flex-direction:column;height:100%;justify-content:flex-end;box-sizing:border-box;"><div style="width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,0.16);color:#A5B4FC;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;"><i class="fas fa-calendar-check"></i></div><h3 style="font-size:19px;font-weight:700;margin:0 0 6px;color:#fff;">Tour Bookings</h3><p style="font-size:13px;color:rgba(255,255,255,0.85);line-height:1.6;margin:0 0 18px;">Request and manage property visits.</p><span class="btn btn-primary" style="align-self:flex-start;"><i class="fas fa-arrow-right"></i> Open Tour Bookings</span></div></a>
-                    <a href="possession" class="bs-card" style="position:relative;overflow:hidden;border-radius:24px;min-height:260px;background:linear-gradient(135deg,#0f172a00 0%,#1e1b4bcc 100%);box-shadow:0 20px 45px rgba(15,23,42,0.25);text-decoration:none;display:block;"><img src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=900&q=80" alt="Possession &amp; Handover" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;"><div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(15,23,42,0.1) 0%,rgba(30,27,75,0.82) 100%);z-index:1;"></div><div style="position:relative;z-index:2;padding:30px;color:#fff;display:flex;flex-direction:column;height:100%;justify-content:flex-end;box-sizing:border-box;"><div style="width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,0.16);color:#A5B4FC;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;"><i class="fas fa-key"></i></div><h3 style="font-size:19px;font-weight:700;margin:0 0 6px;color:#fff;">Possession &amp; Handover</h3><p style="font-size:13px;color:rgba(255,255,255,0.85);line-height:1.6;margin:0 0 18px;">Inspection, escrow release, and taking the keys.</p><span class="btn btn-primary" style="align-self:flex-start;"><i class="fas fa-arrow-right"></i> Open Possession &amp; Handover</span></div></a>
-                </div>
-            </div>
-            <div class="hub-category" data-role="owner">
-                <h2><i class="fas fa-book-open"></i> Guides &amp; Resources</h2>
-                <div class="hub-grid">
-                    <a href="rent-pricing-guide" class="bs-card" style="position:relative;overflow:hidden;border-radius:24px;min-height:260px;background:linear-gradient(135deg,#0f172a00 0%,#1e1b4bcc 100%);box-shadow:0 20px 45px rgba(15,23,42,0.25);text-decoration:none;display:block;"><img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=900&q=80" alt="Rent Pricing Guide" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;"><div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(15,23,42,0.1) 0%,rgba(30,27,75,0.82) 100%);z-index:1;"></div><div style="position:relative;z-index:2;padding:30px;color:#fff;display:flex;flex-direction:column;height:100%;justify-content:flex-end;box-sizing:border-box;"><div style="width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,0.16);color:#A5B4FC;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;"><i class="fas fa-chart-line"></i></div><h3 style="font-size:19px;font-weight:700;margin:0 0 6px;color:#fff;">Rent Pricing Guide</h3><p style="font-size:13px;color:rgba(255,255,255,0.85);line-height:1.6;margin:0 0 18px;">Set the right rent with market data.</p><span class="btn btn-primary" style="align-self:flex-start;"><i class="fas fa-arrow-right"></i> Open Rent Pricing Guide</span></div></a>
-                    <a href="lease-templates" class="bs-card" style="position:relative;overflow:hidden;border-radius:24px;min-height:260px;background:linear-gradient(135deg,#0f172a00 0%,#1e1b4bcc 100%);box-shadow:0 20px 45px rgba(15,23,42,0.25);text-decoration:none;display:block;"><img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=900&q=80" alt="Lease Templates" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;"><div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(15,23,42,0.1) 0%,rgba(30,27,75,0.82) 100%);z-index:1;"></div><div style="position:relative;z-index:2;padding:30px;color:#fff;display:flex;flex-direction:column;height:100%;justify-content:flex-end;box-sizing:border-box;"><div style="width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,0.16);color:#A5B4FC;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;"><i class="fas fa-file-contract"></i></div><h3 style="font-size:19px;font-weight:700;margin:0 0 6px;color:#fff;">Lease Templates</h3><p style="font-size:13px;color:rgba(255,255,255,0.85);line-height:1.6;margin:0 0 18px;">Ready-to-use, compliant agreements.</p><span class="btn btn-primary" style="align-self:flex-start;"><i class="fas fa-arrow-right"></i> Open Lease Templates</span></div></a>
-                    <a href="maintenance-management" class="bs-card" style="position:relative;overflow:hidden;border-radius:24px;min-height:260px;background:linear-gradient(135deg,#0f172a00 0%,#1e1b4bcc 100%);box-shadow:0 20px 45px rgba(15,23,42,0.25);text-decoration:none;display:block;"><img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=900&q=80" alt="Maintenance Management" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;"><div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(15,23,42,0.1) 0%,rgba(30,27,75,0.82) 100%);z-index:1;"></div><div style="position:relative;z-index:2;padding:30px;color:#fff;display:flex;flex-direction:column;height:100%;justify-content:flex-end;box-sizing:border-box;"><div style="width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,0.16);color:#A5B4FC;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;"><i class="fas fa-tools"></i></div><h3 style="font-size:19px;font-weight:700;margin:0 0 6px;color:#fff;">Maintenance Management</h3><p style="font-size:13px;color:rgba(255,255,255,0.85);line-height:1.6;margin:0 0 18px;">Track repairs and vendors in one place.</p><span class="btn btn-primary" style="align-self:flex-start;"><i class="fas fa-arrow-right"></i> Open Maintenance Management</span></div></a>
-                    <a href="tax-and-accounting" class="bs-card" style="position:relative;overflow:hidden;border-radius:24px;min-height:260px;background:linear-gradient(135deg,#0f172a00 0%,#1e1b4bcc 100%);box-shadow:0 20px 45px rgba(15,23,42,0.25);text-decoration:none;display:block;"><img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=900&q=80" alt="Tax &amp; Accounting" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;"><div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(15,23,42,0.1) 0%,rgba(30,27,75,0.82) 100%);z-index:1;"></div><div style="position:relative;z-index:2;padding:30px;color:#fff;display:flex;flex-direction:column;height:100%;justify-content:flex-end;box-sizing:border-box;"><div style="width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,0.16);color:#A5B4FC;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;"><i class="fas fa-calculator"></i></div><h3 style="font-size:19px;font-weight:700;margin:0 0 6px;color:#fff;">Tax &amp; Accounting</h3><p style="font-size:13px;color:rgba(255,255,255,0.85);line-height:1.6;margin:0 0 18px;">Deductions and records for rental income.</p><span class="btn btn-primary" style="align-self:flex-start;"><i class="fas fa-arrow-right"></i> Open Tax &amp; Accounting</span></div></a>
-                    <a href="owner-guides" class="bs-card" style="position:relative;overflow:hidden;border-radius:24px;min-height:260px;background:linear-gradient(135deg,#0f172a00 0%,#1e1b4bcc 100%);box-shadow:0 20px 45px rgba(15,23,42,0.25);text-decoration:none;display:block;"><img src="https://images.unsplash.com/photo-1431540015161-0bf868a2d407?w=900&q=80" alt="Owner Guides" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;"><div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(15,23,42,0.1) 0%,rgba(30,27,75,0.82) 100%);z-index:1;"></div><div style="position:relative;z-index:2;padding:30px;color:#fff;display:flex;flex-direction:column;height:100%;justify-content:flex-end;box-sizing:border-box;"><div style="width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,0.16);color:#A5B4FC;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;"><i class="fas fa-book-open"></i></div><h3 style="font-size:19px;font-weight:700;margin:0 0 6px;color:#fff;">Owner Guides</h3><p style="font-size:13px;color:rgba(255,255,255,0.85);line-height:1.6;margin:0 0 18px;">Practical advice for every landlord stage.</p><span class="btn btn-primary" style="align-self:flex-start;"><i class="fas fa-arrow-right"></i> Open Owner Guides</span></div></a>
-                    <a href="owner-support" class="bs-card" style="position:relative;overflow:hidden;border-radius:24px;min-height:260px;background:linear-gradient(135deg,#0f172a00 0%,#1e1b4bcc 100%);box-shadow:0 20px 45px rgba(15,23,42,0.25);text-decoration:none;display:block;"><img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=900&q=80" alt="Owner Support" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;"><div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(15,23,42,0.1) 0%,rgba(30,27,75,0.82) 100%);z-index:1;"></div><div style="position:relative;z-index:2;padding:30px;color:#fff;display:flex;flex-direction:column;height:100%;justify-content:flex-end;box-sizing:border-box;"><div style="width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,0.16);color:#A5B4FC;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;"><i class="fas fa-headset"></i></div><h3 style="font-size:19px;font-weight:700;margin:0 0 6px;color:#fff;">Owner Support</h3><p style="font-size:13px;color:rgba(255,255,255,0.85);line-height:1.6;margin:0 0 18px;">Real people to help you every day.</p><span class="btn btn-primary" style="align-self:flex-start;"><i class="fas fa-arrow-right"></i> Open Owner Support</span></div></a>
-                </div>
-            </div>
-            <div class="hub-category" data-role="both">
-                <h2><i class="fas fa-circle-info"></i> Company &amp; Help</h2>
-                <div class="hub-grid">
-                    <a href="how-it-works" class="bs-card" style="position:relative;overflow:hidden;border-radius:24px;min-height:260px;background:linear-gradient(135deg,#0f172a00 0%,#1e1b4bcc 100%);box-shadow:0 20px 45px rgba(15,23,42,0.25);text-decoration:none;display:block;"><img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=900&q=80" alt="How It Works" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;"><div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(15,23,42,0.1) 0%,rgba(30,27,75,0.82) 100%);z-index:1;"></div><div style="position:relative;z-index:2;padding:30px;color:#fff;display:flex;flex-direction:column;height:100%;justify-content:flex-end;box-sizing:border-box;"><div style="width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,0.16);color:#A5B4FC;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;"><i class="fas fa-circle-question"></i></div><h3 style="font-size:19px;font-weight:700;margin:0 0 6px;color:#fff;">How It Works</h3><p style="font-size:13px;color:rgba(255,255,255,0.85);line-height:1.6;margin:0 0 18px;">Learn the HeavenLease rental journey.</p><span class="btn btn-primary" style="align-self:flex-start;"><i class="fas fa-arrow-right"></i> Open How It Works</span></div></a>
-                    <a href="about" class="bs-card" style="position:relative;overflow:hidden;border-radius:24px;min-height:260px;background:linear-gradient(135deg,#0f172a00 0%,#1e1b4bcc 100%);box-shadow:0 20px 45px rgba(15,23,42,0.25);text-decoration:none;display:block;"><img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=900&q=80" alt="About Us" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;"><div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(15,23,42,0.1) 0%,rgba(30,27,75,0.82) 100%);z-index:1;"></div><div style="position:relative;z-index:2;padding:30px;color:#fff;display:flex;flex-direction:column;height:100%;justify-content:flex-end;box-sizing:border-box;"><div style="width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,0.16);color:#A5B4FC;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;"><i class="fas fa-building"></i></div><h3 style="font-size:19px;font-weight:700;margin:0 0 6px;color:#fff;">About Us</h3><p style="font-size:13px;color:rgba(255,255,255,0.85);line-height:1.6;margin:0 0 18px;">Our mission and what we stand for.</p><span class="btn btn-primary" style="align-self:flex-start;"><i class="fas fa-arrow-right"></i> Open About Us</span></div></a>
-                    <a href="blog" class="bs-card" style="position:relative;overflow:hidden;border-radius:24px;min-height:260px;background:linear-gradient(135deg,#0f172a00 0%,#1e1b4bcc 100%);box-shadow:0 20px 45px rgba(15,23,42,0.25);text-decoration:none;display:block;"><img src="https://images.unsplash.com/photo-1495020689067-958852a7765e?w=900&q=80" alt="Blog" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;"><div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(15,23,42,0.1) 0%,rgba(30,27,75,0.82) 100%);z-index:1;"></div><div style="position:relative;z-index:2;padding:30px;color:#fff;display:flex;flex-direction:column;height:100%;justify-content:flex-end;box-sizing:border-box;"><div style="width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,0.16);color:#A5B4FC;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;"><i class="fas fa-newspaper"></i></div><h3 style="font-size:19px;font-weight:700;margin:0 0 6px;color:#fff;">Blog</h3><p style="font-size:13px;color:rgba(255,255,255,0.85);line-height:1.6;margin:0 0 18px;">Guides and news for tenants and owners.</p><span class="btn btn-primary" style="align-self:flex-start;"><i class="fas fa-arrow-right"></i> Open Blog</span></div></a>
-                    <a href="contact" class="bs-card" style="position:relative;overflow:hidden;border-radius:24px;min-height:260px;background:linear-gradient(135deg,#0f172a00 0%,#1e1b4bcc 100%);box-shadow:0 20px 45px rgba(15,23,42,0.25);text-decoration:none;display:block;"><img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=900&q=80" alt="Contact &amp; Support" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;"><div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(15,23,42,0.1) 0%,rgba(30,27,75,0.82) 100%);z-index:1;"></div><div style="position:relative;z-index:2;padding:30px;color:#fff;display:flex;flex-direction:column;height:100%;justify-content:flex-end;box-sizing:border-box;"><div style="width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,0.16);color:#A5B4FC;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;"><i class="fas fa-envelope"></i></div><h3 style="font-size:19px;font-weight:700;margin:0 0 6px;color:#fff;">Contact &amp; Support</h3><p style="font-size:13px;color:rgba(255,255,255,0.85);line-height:1.6;margin:0 0 18px;">Reach our support team any time.</p><span class="btn btn-primary" style="align-self:flex-start;"><i class="fas fa-arrow-right"></i> Open Contact &amp; Support</span></div></a>
-                    <a href="helper" class="bs-card" style="position:relative;overflow:hidden;border-radius:24px;min-height:260px;background:linear-gradient(135deg,#0f172a00 0%,#1e1b4bcc 100%);box-shadow:0 20px 45px rgba(15,23,42,0.25);text-decoration:none;display:block;"><img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=900&q=80" alt="Help &amp; FAQ" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;"><div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(15,23,42,0.1) 0%,rgba(30,27,75,0.82) 100%);z-index:1;"></div><div style="position:relative;z-index:2;padding:30px;color:#fff;display:flex;flex-direction:column;height:100%;justify-content:flex-end;box-sizing:border-box;"><div style="width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,0.16);color:#A5B4FC;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;"><i class="fas fa-circle-question"></i></div><h3 style="font-size:19px;font-weight:700;margin:0 0 6px;color:#fff;">Help &amp; FAQ</h3><p style="font-size:13px;color:rgba(255,255,255,0.85);line-height:1.6;margin:0 0 18px;">Answers to common questions and quick help.</p><span class="btn btn-primary" style="align-self:flex-start;"><i class="fas fa-arrow-right"></i> Open Help &amp; FAQ</span></div></a>
-                </div>
-            </div>
-            <div class="hub-category" data-role="both">
-                <h2><i class="fas fa-building"></i> About &amp; Company</h2>
-                <div class="hub-grid">
-                    <a href="no-brokers-ever" class="bs-card" style="position:relative;overflow:hidden;border-radius:24px;min-height:260px;background:linear-gradient(135deg,#0f172a00 0%,#1e1b4bcc 100%);box-shadow:0 20px 45px rgba(15,23,42,0.25);text-decoration:none;display:block;"><img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=900&q=80" alt="No Brokers, Ever" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;"><div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(15,23,42,0.1) 0%,rgba(30,27,75,0.82) 100%);z-index:1;"></div><div style="position:relative;z-index:2;padding:30px;color:#fff;display:flex;flex-direction:column;height:100%;justify-content:flex-end;box-sizing:border-box;"><div style="width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,0.16);color:#A5B4FC;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;"><i class="fas fa-handshake-slash"></i></div><h3 style="font-size:19px;font-weight:700;margin:0 0 6px;color:#fff;">No Brokers, Ever</h3><p style="font-size:13px;color:rgba(255,255,255,0.85);line-height:1.6;margin:0 0 18px;">Direct renting, zero commissions.</p><span class="btn btn-primary" style="align-self:flex-start;"><i class="fas fa-arrow-right"></i> Open No Brokers, Ever</span></div></a>
-                    <a href="comfort-over-everything" class="bs-card" style="position:relative;overflow:hidden;border-radius:24px;min-height:260px;background:linear-gradient(135deg,#0f172a00 0%,#1e1b4bcc 100%);box-shadow:0 20px 45px rgba(15,23,42,0.25);text-decoration:none;display:block;"><img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=900&q=80" alt="Comfort Over Everything" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;"><div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(15,23,42,0.1) 0%,rgba(30,27,75,0.82) 100%);z-index:1;"></div><div style="position:relative;z-index:2;padding:30px;color:#fff;display:flex;flex-direction:column;height:100%;justify-content:flex-end;box-sizing:border-box;"><div style="width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,0.16);color:#A5B4FC;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;"><i class="fas fa-heart"></i></div><h3 style="font-size:19px;font-weight:700;margin:0 0 6px;color:#fff;">Comfort Over Everything</h3><p style="font-size:13px;color:rgba(255,255,255,0.85);line-height:1.6;margin:0 0 18px;">Scores that put comfort first.</p><span class="btn btn-primary" style="align-self:flex-start;"><i class="fas fa-arrow-right"></i> Open Comfort Over Everything</span></div></a>
-                    <a href="speed-and-simplicity" class="bs-card" style="position:relative;overflow:hidden;border-radius:24px;min-height:260px;background:linear-gradient(135deg,#0f172a00 0%,#1e1b4bcc 100%);box-shadow:0 20px 45px rgba(15,23,42,0.25);text-decoration:none;display:block;"><img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=900&q=80" alt="Speed &amp; Simplicity" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;"><div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(15,23,42,0.1) 0%,rgba(30,27,75,0.82) 100%);z-index:1;"></div><div style="position:relative;z-index:2;padding:30px;color:#fff;display:flex;flex-direction:column;height:100%;justify-content:flex-end;box-sizing:border-box;"><div style="width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,0.16);color:#A5B4FC;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;"><i class="fas fa-bolt"></i></div><h3 style="font-size:19px;font-weight:700;margin:0 0 6px;color:#fff;">Speed &amp; Simplicity</h3><p style="font-size:13px;color:rgba(255,255,255,0.85);line-height:1.6;margin:0 0 18px;">Rent faster, end to end.</p><span class="btn btn-primary" style="align-self:flex-start;"><i class="fas fa-arrow-right"></i> Open Speed &amp; Simplicity</span></div></a>
-                    <a href="fair-for-everyone" class="bs-card" style="position:relative;overflow:hidden;border-radius:24px;min-height:260px;background:linear-gradient(135deg,#0f172a00 0%,#1e1b4bcc 100%);box-shadow:0 20px 45px rgba(15,23,42,0.25);text-decoration:none;display:block;"><img src="https://images.unsplash.com/photo-1577415124269-fc1140a69e91?w=900&q=80" alt="Fair for Everyone" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;"><div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(15,23,42,0.1) 0%,rgba(30,27,75,0.82) 100%);z-index:1;"></div><div style="position:relative;z-index:2;padding:30px;color:#fff;display:flex;flex-direction:column;height:100%;justify-content:flex-end;box-sizing:border-box;"><div style="width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,0.16);color:#A5B4FC;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;"><i class="fas fa-scale-balanced"></i></div><h3 style="font-size:19px;font-weight:700;margin:0 0 6px;color:#fff;">Fair for Everyone</h3><p style="font-size:13px;color:rgba(255,255,255,0.85);line-height:1.6;margin:0 0 18px;">Transparent, balanced renting.</p><span class="btn btn-primary" style="align-self:flex-start;"><i class="fas fa-arrow-right"></i> Open Fair for Everyone</span></div></a>
-                    <a href="community-focused" class="bs-card" style="position:relative;overflow:hidden;border-radius:24px;min-height:260px;background:linear-gradient(135deg,#0f172a00 0%,#1e1b4bcc 100%);box-shadow:0 20px 45px rgba(15,23,42,0.25);text-decoration:none;display:block;"><img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=900&q=80" alt="Community Focused" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;"><div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(15,23,42,0.1) 0%,rgba(30,27,75,0.82) 100%);z-index:1;"></div><div style="position:relative;z-index:2;padding:30px;color:#fff;display:flex;flex-direction:column;height:100%;justify-content:flex-end;box-sizing:border-box;"><div style="width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,0.16);color:#A5B4FC;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;"><i class="fas fa-users"></i></div><h3 style="font-size:19px;font-weight:700;margin:0 0 6px;color:#fff;">Community Focused</h3><p style="font-size:13px;color:rgba(255,255,255,0.85);line-height:1.6;margin:0 0 18px;">Services that make moving easier.</p><span class="btn btn-primary" style="align-self:flex-start;"><i class="fas fa-arrow-right"></i> Open Community Focused</span></div></a>
-                    <a href="buy-a-home" class="bs-card" style="position:relative;overflow:hidden;border-radius:24px;min-height:260px;background:linear-gradient(135deg,#0f172a00 0%,#1e1b4bcc 100%);box-shadow:0 20px 45px rgba(15,23,42,0.25);text-decoration:none;display:block;"><img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=900&q=80" alt="Buy a Home" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;"><div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(15,23,42,0.1) 0%,rgba(30,27,75,0.82) 100%);z-index:1;"></div><div style="position:relative;z-index:2;padding:30px;color:#fff;display:flex;flex-direction:column;height:100%;justify-content:flex-end;box-sizing:border-box;"><div style="width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,0.16);color:#A5B4FC;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;"><i class="fas fa-house-signal"></i></div><h3 style="font-size:19px;font-weight:700;margin:0 0 6px;color:#fff;">Buy a Home</h3><p style="font-size:13px;color:rgba(255,255,255,0.85);line-height:1.6;margin:0 0 18px;">Browse verified homes for sale.</p><span class="btn btn-primary" style="align-self:flex-start;"><i class="fas fa-arrow-right"></i> Open Buy a Home</span></div></a>
-                    <a href="sell-your-home" class="bs-card" style="position:relative;overflow:hidden;border-radius:24px;min-height:260px;background:linear-gradient(135deg,#0f172a00 0%,#1e1b4bcc 100%);box-shadow:0 20px 45px rgba(15,23,42,0.25);text-decoration:none;display:block;"><img src="https://images.unsplash.com/photo-1560184897-ae75f418493e?w=900&q=80" alt="Sell Your Home" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;"><div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(15,23,42,0.1) 0%,rgba(30,27,75,0.82) 100%);z-index:1;"></div><div style="position:relative;z-index:2;padding:30px;color:#fff;display:flex;flex-direction:column;height:100%;justify-content:flex-end;box-sizing:border-box;"><div style="width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,0.16);color:#A5B4FC;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;"><i class="fas fa-tag"></i></div><h3 style="font-size:19px;font-weight:700;margin:0 0 6px;color:#fff;">Sell Your Home</h3><p style="font-size:13px;color:rgba(255,255,255,0.85);line-height:1.6;margin:0 0 18px;">List your property to sell to buyers.</p><span class="btn btn-primary" style="align-self:flex-start;"><i class="fas fa-arrow-right"></i> Open Sell Your Home</span></div></a>
-                    <a href="upgrade-plan" class="bs-card" style="position:relative;overflow:hidden;border-radius:24px;min-height:260px;background:linear-gradient(135deg,#0f172a00 0%,#1e1b4bcc 100%);box-shadow:0 20px 45px rgba(15,23,42,0.25);text-decoration:none;display:block;"><img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=900&q=80" alt="Upgrade Plan" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;"><div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(15,23,42,0.1) 0%,rgba(30,27,75,0.82) 100%);z-index:1;"></div><div style="position:relative;z-index:2;padding:30px;color:#fff;display:flex;flex-direction:column;height:100%;justify-content:flex-end;box-sizing:border-box;"><div style="width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,0.16);color:#A5B4FC;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;"><i class="fas fa-rocket"></i></div><h3 style="font-size:19px;font-weight:700;margin:0 0 6px;color:#fff;">Upgrade Plan</h3><p style="font-size:13px;color:rgba(255,255,255,0.85);line-height:1.6;margin:0 0 18px;">Compare plans and unlock premium features.</p><span class="btn btn-primary" style="align-self:flex-start;"><i class="fas fa-arrow-right"></i> Open Upgrade Plan</span></div></a>
-                </div>
-            </div>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="kicker">Start here</div>
+            <h2>Everything you need to move with confidence.</h2>
+          </div>
+          <p>From discovering a home to signing a lease, HeavenLease brings the important parts of renting into one clear experience.</p>
         </div>
+        <div class="feature-grid">
+          <a href="properties" class="feature">
+            <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1000&q=85" alt="Modern apartment building">
+            <div class="feature-body">
+              <div class="feature-icon"><i class="fas fa-building"></i></div>
+              <h3>Browse verified homes</h3>
+              <p>Search by location, budget, BHK and comfort factors that actually affect daily life.</p>
+              <span>Explore properties <i class="fas fa-arrow-right"></i></span>
+            </div>
+          </a>
+          <a href="trust-and-safety-first" class="feature">
+            <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1000&q=85" alt="Secure property transaction">
+            <div class="feature-body">
+              <div class="feature-icon"><i class="fas fa-shield-halved"></i></div>
+              <h3>Rent with more trust</h3>
+              <p>Use verification, protected deposits and safer payment workflows when you're ready to move.</p>
+              <span>See how safety works <i class="fas fa-arrow-right"></i></span>
+            </div>
+          </a>
+          <a href="dashboard" class="feature" id="myDashboardCard">
+            <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1000&q=85" alt="Property management dashboard">
+            <div class="feature-body">
+              <div class="feature-icon"><i class="fas fa-gauge-high"></i></div>
+              <h3>Manage it all in one place</h3>
+              <p>Keep applications, leases, messages, payments and property tasks together in your dashboard.</p>
+              <span>Open dashboard <i class="fas fa-arrow-right"></i></span>
+            </div>
+          </a>
+        </div>
+      </div>
     </section>
-
-    <!-- ===== FOOTER ===== -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-grid" style="grid-template-columns: repeat(3, 1fr); gap: 32px; text-align: left;">
-                <div class="footer-brand">
-                    <a href="/" class="logo">
-                        <div class="logo-icon"><i class="fas fa-home"></i></div>
-                        <span class="logo-text">Heaven<span>Lease</span></span>
-                    </a>
-                    <p style="margin:12px 0 0;max-width:280px;">Simple steps to your perfect stay. Direct owner rentals with zero broker fees and comfort-first search.</p>
-                </div>
-                <div style="display:flex;flex-direction:column;gap:8px;font-size:14px;">
-                    <strong style="margin-bottom:4px;">Company</strong>
-                    <a href="about" style="color:inherit;text-decoration:none;">About Us</a>
-                    <a href="careers" style="color:inherit;text-decoration:none;">Careers</a>
-                    <a href="press" style="color:inherit;text-decoration:none;">Press</a>
-                    <a href="blog" style="color:inherit;text-decoration:none;">Blog</a>
-                    <a href="contact" style="color:inherit;text-decoration:none;">Contact</a>
-                </div>
-                <div style="display:flex;flex-direction:column;gap:8px;font-size:14px;">
-                    <strong style="margin-bottom:4px;">Legal &amp; Resources</strong>
-                    <a href="privacy" style="color:inherit;text-decoration:none;">Privacy Policy</a>
-                    <a href="terms" style="color:inherit;text-decoration:none;">Terms of Service</a>
-                    <a href="cookies" style="color:inherit;text-decoration:none;">Cookie Policy</a>
-                    <a href="rental-laws" style="color:inherit;text-decoration:none;">Rental Laws</a>
-                    <a href="escrow-policy" style="color:inherit;text-decoration:none;">Escrow Policy</a>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2026 HeavenLease. All rights reserved.</p>
-            </div>
+    <section class="section soft">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="kicker">A simpler journey</div>
+            <h2>From “maybe” to move-in.</h2>
+          </div>
+          <p>No cluttered process. Just the next useful step, when you need it.</p>
         </div>
-    </footer>
-<script src="api.js?v=20260913a"></script>
-    <script src="script.js?v=20260913a"></script>
-    <script>
-    (function() {
-        // Auth guard — redirect to login if not authenticated.
-        if (!api.isAuthenticated()) {
-            window.location.href = 'login';
-            return;
-        }
-        const user = api.getUser() || {};
-
-        // ===== ROLE-AWARE HUB: hide owner tools from tenants and tenant
-        // browsing tools from owners. "both" categories stay visible for everyone.
-        (function filterHubByRole() {
-            const role = (user.role || '').toUpperCase();
-            const isOwner = role === 'OWNER' || role === 'VERIFIED_OWNER';
-            const isAdmin = role === 'ADMIN';
-            document.querySelectorAll('.hub-category[data-role]').forEach(cat => {
-                const need = cat.getAttribute('data-role');
-                const visible = isAdmin
-                    || need === 'both'
-                    || (need === 'owner' && isOwner)
-                    || (need === 'tenant' && !isOwner);
-                if (!visible) cat.style.display = 'none';
-            });
-            // Only owners should see the "List Your Property" hero button.
-            const heroListBtn = document.querySelector('.hero-cta a[href="list-property"]');
-            if (heroListBtn && !isOwner) heroListBtn.style.display = 'none';
-        })();
-
-        // Role-aware "My Dashboard" card: tenants land on dashboard, everyone else on dashboard.
-        const myDashboardCard = document.getElementById('myDashboardCard');
-        if (myDashboardCard) {
-            myDashboardCard.addEventListener('click', (e) => {
-                e.preventDefault();
-                const role = (user.role || '').toUpperCase();
-                // "My Dashboard" always opens the single unified dashboard page.
-                const target = 'dashboard';
-                window.location.href = target;
-            });
-        }
-
-        const name = user.fullName || user.name || '';
-        const initial = (name.trim().charAt(0) || 'U').toUpperCase();
-
-        // Role-aware "My Profile & Settings" link (single profile option, no duplicates)
-        const profileLink = document.getElementById('myProfileLink');
-        if (profileLink) {
-            const role = (user.role || '').toLowerCase();
-            profileLink.href = role === 'owner' ? 'edit-profile' : 'edit-profile';
-        }
-
-        if (name) {
-            const el = document.getElementById('navUserName');
-            const icon = document.getElementById('navAvatarIcon');
-            if (el) el.textContent = name.split(' ').slice(0, 2).join(' ');
-            if (icon) icon.className = 'fas fa-user-circle';
-        }
-        const avatar = document.querySelector('#profileBtn .user-avatar');
-        if (avatar && name) avatar.textContent = initial;
-        if (avatar && !name) avatar.innerHTML = '<i class="fas fa-user"></i>';
-
-        const welcome = document.getElementById('welcomeMsg');
-        if (welcome) {
-            const role = (user.role || '').toLowerCase();
-            const base = name ? 'Hi ' + name.split(' ')[0] + ' — ' : 'Welcome — ';
-            welcome.textContent = role === 'owner'
-                ? base + 'manage your listings, rents and tenants right from here.'
-                : base + 'find your perfect home and track your applications here.';
-        }
-
-        // ===== TYPE SEARCH =====
-        const searchBox = document.getElementById('searchBox');
-
-        // Parse a natural-language query into filter params
-        function parseQueryToParams(q) {
-            q = (q || '').toLowerCase();
-            const params = {};
-            // BHK: "2 bhk", "3bhk"
-            const bhkMatch = q.match(/(\d)\s*bhk/);
-            if (bhkMatch) params.bhk = bhkMatch[1];
-            // Budget: "under 30000" / "30,000" → pick a band
-            const budgetMatch = q.match(/under\s*₹?([\d,]+)/);
-            if (budgetMatch) {
-                const amt = parseInt(budgetMatch[1].replace(/,/g, ''), 10);
-                if (amt <= 10000) params.budget = '10000';
-                else if (amt <= 20000) params.budget = '20000';
-                else if (amt <= 30000) params.budget = '30000';
-                else if (amt <= 50000) params.budget = '50000';
-                else params.budget = '100000';
-            }
-            // Location: last few words — try to pull a known city
-            const cities = ['bengaluru','bangalore','hyderabad','pune','mumbai','delhi','noida','gurgaon','gurugram','kolkata','chennai','goa','jaipur','lucknow','ahmedabad'];
-            for (const c of cities) {
-                if (q.includes(c)) { params.location = (c === 'bangalore' ? 'bengaluru' : c); break; }
-            }
-            // If location not found, use the remaining words after budget/BHK as a locality hint
-            if (!params.location) {
-                const cleaned = q.replace(/\d+\s*bhk/,'').replace(/under\s*₹?[\d,]+/,'').replace(/rent|properties|in|for|homes?/g,'').trim();
-                if (cleaned && cleaned.length < 24) params.location = cleaned;
-            }
-            // Type: buy vs rent
-            if (q.includes('buy') || q.includes('sale')) params.type = q.includes('buy') ? 'buy' : 'sale';
-            return params;
-        }
-
-        function goSearch(q) {
-            const params = parseQueryToParams(q);
-            const qs = new URLSearchParams();
-            if (params.location) qs.set('location', params.location);
-            if (params.budget) qs.set('budget', params.budget);
-            if (params.bhk) qs.set('bhk', params.bhk);
-            if (params.type) qs.set('type', params.type);
-            const target = 'properties' + (qs.toString() ? '?' + qs.toString() : '');
-            window.location.href = target;
-        }
-
-        if (searchBox) {
-            searchBox.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    const v = searchBox.value.trim();
-                    if (!v) { window.location.href = 'properties'; return; }
-                    goSearch(v);
-                }
-            });
-        }
-
-
-    })();
-    </script>
+        <div class="steps">
+          <div class="step">
+            <div class="step-number">01</div>
+            <h3>Discover</h3>
+            <p>Tell us what you want and browse homes using practical filters, comfort scores and location context.</p>
+          </div>
+          <div class="step">
+            <div class="step-number">02</div>
+            <h3>Verify &amp; connect</h3>
+            <p>Complete the relevant checks, ask questions, message directly and arrange a property tour.</p>
+          </div>
+          <div class="step">
+            <div class="step-number">03</div>
+            <h3>Move forward</h3>
+            <p>Handle applications, leases, payments and ongoing rental tasks from one connected account.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section" id="owners">
+      <div class="container">
+        <div class="owner-banner">
+          <div class="owner-copy">
+            <div class="kicker" style="color:#aeb1ff">For property owners</div>
+            <h2>More than a listing. A better way to manage renting.</h2>
+            <p>Publish your property, verify applicants, manage leases and keep your rental operations organised without juggling disconnected tools.</p>
+            <div class="owner-points">
+              <div><i class="fas fa-check"></i> Publish listings quickly</div>
+              <div><i class="fas fa-check"></i> Screen applicants</div>
+              <div><i class="fas fa-check"></i> Manage tenants &amp; leases</div>
+              <div><i class="fas fa-check"></i> Track rent &amp; maintenance</div>
+            </div>
+            <a href="list-property" class="btn btn-primary"><i class="fas fa-plus"></i> Start listing</a>
+          </div>
+          <div class="owner-image" aria-label="Beautiful rental property"></div>
+        </div>
+      </div>
+    </section>
+    <section class="section soft">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="kicker">Quick access</div>
+            <h2>Useful tools, without the maze.</h2>
+          </div>
+          <p>Jump straight into the part of your rental journey you need today.</p>
+        </div>
+        <div class="quick-grid">
+          <a class="quick" href="saved-properties"><i class="fas fa-heart"></i><div><strong>Saved properties</strong><span>Your shortlist</span></div></a>
+          <a class="quick" href="tour-booking"><i class="fas fa-calendar-check"></i><div><strong>Book a tour</strong><span>Schedule a visit</span></div></a>
+          <a class="quick" href="messages"><i class="fas fa-comments"></i><div><strong>Messages</strong><span>Talk directly</span></div></a>
+          <a class="quick" href="maintenance-requests"><i class="fas fa-screwdriver-wrench"></i><div><strong>Maintenance</strong><span>Track requests</span></div></a>
+          <a class="quick" href="lease-management"><i class="fas fa-file-contract"></i><div><strong>Manage leases</strong><span>Terms &amp; renewals</span></div></a>
+          <a class="quick" href="transaction-history"><i class="fas fa-receipt"></i><div><strong>Transactions</strong><span>Payments &amp; receipts</span></div></a>
+          <a class="quick" href="owner-resources"><i class="fas fa-toolbox"></i><div><strong>Owner resources</strong><span>Guides &amp; tools</span></div></a>
+          <a class="quick" href="helper"><i class="fas fa-life-ring"></i><div><strong>Help center</strong><span>Get support</span></div></a>
+        </div>
+      </div>
+    </section>
+    <section class="cta">
+      <div class="container">
+        <div class="cta-inner">
+          <h2>Ready to find your next place?</h2>
+          <p>Start with what you know — your budget, preferred location, BHK or simply the kind of home you want.</p>
+          <a href="properties" class="btn btn-primary"><i class="fas fa-magnifying-glass"></i> Explore homes</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="home" class="logo">
+            <div class="logo-icon"><i class="fas fa-house"></i></div>
+            <span class="logo-text">Heaven<span>Lease</span></span>
+          </a>
+          <p>A clearer way to find, rent and manage homes — with direct owner connections and trust built into the experience.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Explore</h4>
+          <a href="properties">Properties</a>
+          <a href="map">Property map</a>
+          <a href="comfort-scores">Comfort scores</a>
+          <a href="buy-a-home">Buy a home</a>
+        </div>
+        <div class="footer-col">
+          <h4>Manage</h4>
+          <a href="dashboard">Dashboard</a>
+          <a href="saved-properties">Saved properties</a>
+          <a href="lease-management">Leases</a>
+          <a href="maintenance-requests">Maintenance</a>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <a href="about">About us</a>
+          <a href="how-it-works">How it works</a>
+          <a href="blog">Blog</a>
+          <a href="contact">Contact</a>
+          <a href="privacy">Privacy</a>
+          <a href="terms">Terms</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 HeavenLease. All rights reserved.</span>
+        <span>Built for a simpler rental experience.</span>
+      </div>
+    </div>
+  </footer>
+  <script src="js/api.js?v=20260913a"></script>
+  <script src="js/core.js?v=20260913a"></script>
+  <script src="js/pages/home.js?v=20260913a"></script>
 </body>
 </html>

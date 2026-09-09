@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
     <link rel="stylesheet" href="styles.css?v=20260909a">
     <style>
         .help-page { min-height: 100vh; background: var(--gray-50); padding-top: 72px; }
@@ -21,14 +21,12 @@
         .help-search input { width: 100%; padding: 14px 20px 14px 48px; border: 1px solid var(--gray-200); border-radius: var(--radius-full); background: var(--white); font-size: 14px; box-shadow: var(--shadow-sm); }
         .help-search input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); }
         .help-search i { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: var(--gray-400); }
-
         .help-cats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 40px; }
         .help-cat { background: var(--white); border-radius: var(--radius-lg); padding: 24px; text-align: center; box-shadow: var(--shadow-sm); border: 1px solid var(--gray-200); cursor: pointer; transition: var(--transition); }
         .help-cat:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: var(--primary); }
         .help-cat i { font-size: 28px; color: var(--primary); margin-bottom: 12px; display: block; }
         .help-cat strong { display: block; font-size: 14px; color: var(--dark); margin-bottom: 4px; }
         .help-cat span { font-size: 12px; color: var(--gray-400); }
-
         .faq-section { margin-bottom: 40px; }
         .faq-section h2 { font-size: 22px; font-weight: 600; color: var(--dark); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
         .faq-section h2 i { color: var(--primary); }
@@ -39,7 +37,6 @@
         .faq-item.open .faq-q i { transform: rotate(180deg); color: var(--primary); }
         .faq-a { display: none; padding: 0 24px 18px; font-size: 14px; color: var(--gray-500); line-height: 1.7; }
         .faq-item.open .faq-a { display: block; }
-
         .support-card { background: var(--white); border-radius: var(--radius-xl); box-shadow: var(--shadow-md); border: 1px solid var(--gray-200); overflow: hidden; }
         .support-card .card-head { padding: 24px 28px; border-bottom: 1px solid var(--gray-200); }
         .support-card .card-head h2 { font-size: 20px; font-weight: 600; color: var(--dark); display: flex; align-items: center; gap: 10px; }
@@ -55,6 +52,55 @@
         .back-link:hover { color: var(--primary); }
         @media (max-width: 768px) { .form-row { grid-template-columns: 1fr; } .help-header h1 { font-size: 28px; } }
     </style>
+<style>
+/* ===== IMAGE BACKGROUNDS ===== */
+html, body {
+    min-height: 100%;
+}
+body {
+    background:
+        linear-gradient(rgba(248,250,252,.72), rgba(248,250,252,.72)),
+        url("assets/images/site-background.jpg") center center / cover fixed no-repeat !important;
+    background-attachment: fixed;
+}
+/* Keep the navbar visually separate from the page background */
+.navbar {
+    background:
+        linear-gradient(rgba(15,23,42,.72), rgba(15,23,42,.72)),
+        url("assets/images/navbar-background.jpg") center center / cover no-repeat !important;
+    backdrop-filter: blur(10px);
+}
+/* Make the main page itself transparent so the image is visible */
+.help-page {
+    background: transparent !important;
+}
+/* Cards stay readable above the photographic background */
+.help-cat,
+.faq-item,
+.support-card,
+.help-search input {
+    background: rgba(255,255,255,.94) !important;
+}
+/* Slight glass effect for the search/header area */
+.help-header {
+    background: rgba(255,255,255,.76);
+    border-radius: 24px;
+    padding: 28px 24px;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 18px 45px rgba(15,23,42,.10);
+}
+/* Strong, non-transparent footer */
+.footer {
+    background: #101827 !important;
+    opacity: 1 !important;
+}
+/* Mobile: avoid fixed attachment quirks */
+@media (max-width: 768px) {
+    body {
+        background-attachment: scroll;
+    }
+}
+</style>
 </head>
 <body>
     <!-- ===== NAVIGATION ===== -->
@@ -104,14 +150,12 @@
 </div>
         </div>
     </nav>
-
     <!-- ===== HELP CENTER PAGE ===== -->
     <div class="help-page">
         <div class="help-container">
             <a href="/" class="back-link">
                 <i class="fas fa-arrow-left"></i> Back to Home
             </a>
-
             <div class="help-header">
                 <h1><i class="fas fa-circle-question"></i> Help Center</h1>
                 <p>Find answers to common questions or reach out to our support team</p>
@@ -120,7 +164,6 @@
                     <input type="text" placeholder="Search for help..." oninput="filterFaq(this.value)">
                 </div>
             </div>
-
             <!-- Categories -->
             <div class="help-cats">
                 <div class="help-cat" onclick="scrollToFaq('payments')">
@@ -139,7 +182,6 @@
                     <span>Deposit safety</span>
                 </div>
             </div>
-
             <!-- FAQ -->
             <div class="faq-section" id="payments">
                 <h2><i class="fas fa-indian-rupee-sign"></i> Payments</h2>
@@ -156,7 +198,6 @@
                     <div class="faq-a">Yes, a payment receipt with your payment ID is shown immediately after a successful payment and saved to your account.</div>
                 </div>
             </div>
-
             <div class="faq-section" id="booking">
                 <h2><i class="fas fa-calendar-check"></i> Bookings & Tours</h2>
                 <div class="faq-item">
@@ -168,7 +209,6 @@
                     <div class="faq-a">Once you and the owner agree, you can review and sign the lease digitally on the <a href="lease-signing" style="color:var(--primary);">Lease Signing</a> page. No paperwork needed.</div>
                 </div>
             </div>
-
             <div class="faq-section" id="escrow">
                 <h2><i class="fas fa-shield-halved"></i> Escrow & Deposits</h2>
                 <div class="faq-item">
@@ -180,7 +220,6 @@
                     <div class="faq-a">Both parties can submit evidence and our team makes a fair determination within 7 business days.</div>
                 </div>
             </div>
-
             <!-- Support form -->
             <div class="support-card">
                 <div class="card-head">
@@ -221,83 +260,46 @@
             </div>
         </div>
     </div>
-
-    <script src="api.js?v=20260913a"></script>
-    <script src="script.js?v=20260913a"></script>
-    <script>
-        (function() {
-        // Navbar
-        const navbar = document.getElementById('navbar');
-        const hamburger = document.getElementById('hamburger');
-        const navLinks = document.getElementById('navLinks');
-
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) navbar.classList.add('scrolled');
-            else navbar.classList.remove('scrolled');
-        });
-
-        if (hamburger) hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            navLinks.classList.toggle('active');
-        });
-
-        if (hamburger && navLinks) {
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.addEventListener('click', () => {
-                    hamburger.classList.remove('active');
-                    navLinks.classList.remove('active');
-                });
-            });
-        }
-
-        window.toggleFaq = function(el) {
-            const item = el.parentElement;
-            item.classList.toggle('open');
-        };
-
-        window.scrollToFaq = function(id) {
-            const el = document.getElementById(id);
-            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        };
-
-        window.filterFaq = function(value) {
-            const q = value.toLowerCase();
-            document.querySelectorAll('.faq-item').forEach(item => {
-                const text = item.textContent.toLowerCase();
-                item.style.display = text.includes(q) ? '' : 'none';
-            });
-        };
-
-        // Support form
-        document.getElementById('supportForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const name = document.getElementById('supportName').value;
-            const email = document.getElementById('supportEmail').value;
-            const message = document.getElementById('supportMessage').value;
-
-            if (!name || !email || !message) {
-                showToast('Please fill in all required fields.', 'error');
-                return;
-            }
-            if (!isValidEmail(email)) {
-                showToast('Please enter a valid email address.', 'error');
-                return;
-            }
-
-            const btn = e.target.querySelector('button[type="submit"]');
-            const original = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
-            btn.disabled = true;
-
-            setTimeout(() => {
-                btn.innerHTML = original;
-                btn.disabled = false;
-                e.target.reset();
-                showToast('Message sent! Our team will reply within 24 hours.', 'success');
-            }, 1500);
-        });
-        })();
-    </script>
+    <script src="js/api.js?v=20260913a"></script>
+    <script src="js/core.js?v=20260913a"></script>
+    
+<script src="js/pages/helper.js?v=20260913a"></script>
+<footer class="footer">
+<div class="container">
+    <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
+        <div class="footer-brand">
+            <a href="home" class="logo">
+                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <span class="logo-text">Heaven<span>Lease</span></span>
+            </a>
+            <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Explore</strong>
+            <a href="properties" style="color:inherit;text-decoration:none;">Find a Home</a>
+            <a href="map" style="color:inherit;text-decoration:none;">Property Map</a>
+            <a href="how-it-works" style="color:inherit;text-decoration:none;">How It Works</a>
+            <a href="about" style="color:inherit;text-decoration:none;">About Us</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Company</strong>
+            <a href="careers" style="color:inherit;text-decoration:none;">Careers</a>
+            <a href="press" style="color:inherit;text-decoration:none;">Press</a>
+            <a href="blog" style="color:inherit;text-decoration:none;">Blog</a>
+            <a href="contact" style="color:inherit;text-decoration:none;">Contact</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">For Owners</strong>
+            <a href="list-property" style="color:inherit;text-decoration:none;">List Your Property</a>
+            <a href="properties-management" style="color:inherit;text-decoration:none;">Owner Dashboard</a>
+            <a href="payment" style="color:inherit;text-decoration:none;">Pricing &amp; Upgrade</a>
+            <a href="owner-resources" style="color:inherit;text-decoration:none;">Owner Resources</a>
+        </div>
+    </div>
+    <div class="footer-bottom" style="justify-content:center;margin-top:28px;">
+        <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
+    </div>
+</div>
+</footer>
 </body>
 </html>
-

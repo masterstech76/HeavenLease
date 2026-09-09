@@ -8,80 +8,656 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
     <link rel="stylesheet" href="styles.css?v=20260909a">
     <style>
-        .admin-page { min-height: 100vh; background: var(--gray-50); padding-top: 72px; }
-        .admin-container { max-width: 1200px; margin: 0 auto; padding: 40px 24px; }
-        .admin-header { margin-bottom: 32px; }
-        .admin-header h1 { font-family: var(--font-heading); font-size: 28px; font-weight: 700; color: var(--dark); display: flex; align-items: center; gap: 12px; }
-        .admin-header h1 i { color: var(--primary); }
-        .admin-header p { font-size: 14px; color: var(--gray-500); margin-top: 4px; }
-        .admin-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 32px; }
-        .admin-stat { background: var(--white); border-radius: var(--radius-lg); padding: 20px; border: 1px solid var(--gray-200); display: flex; align-items: center; gap: 14px; }
-        .admin-stat .icon { width: 48px; height: 48px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
-        .admin-stat .icon.blue { background: var(--primary-light); color: var(--primary); }
-        .admin-stat .icon.green { background: #D1FAE5; color: var(--secondary-dark); }
-        .admin-stat .icon.amber { background: #FEF3C7; color: #B45309; }
-        .admin-stat .icon.red { background: #FEE2E2; color: #DC2626; }
-        .admin-stat strong { display: block; font-size: 24px; font-weight: 700; color: var(--dark); }
-        .admin-stat span { font-size: 13px; color: var(--gray-500); }
-        .admin-tabs { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
-        .admin-tab { padding: 10px 20px; border: 1px solid var(--gray-200); border-radius: var(--radius-md); background: var(--white); font-size: 14px; font-weight: 600; color: var(--gray-600); cursor: pointer; transition: var(--transition); }
-        .admin-tab:hover { border-color: var(--primary); color: var(--primary); }
-        .admin-tab.active { background: var(--primary); color: var(--white); border-color: var(--primary); }
-        .admin-panel { display: none; }
-        .admin-panel.active { display: block; }
-        .admin-card { background: var(--white); border-radius: var(--radius-lg); border: 1px solid var(--gray-200); overflow: hidden; }
-        .admin-card-header { padding: 20px 24px; border-bottom: 1px solid var(--gray-200); display: flex; align-items: center; justify-content: space-between; }
-        .admin-card-header h3 { font-size: 16px; font-weight: 600; color: var(--dark); }
-        .admin-table { width: 100%; }
-        .admin-table th { text-align: left; padding: 12px 16px; font-size: 12px; font-weight: 600; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid var(--gray-200); }
-        .admin-table td { padding: 12px 16px; font-size: 14px; color: var(--gray-600); border-bottom: 1px solid var(--gray-100); }
-        .admin-table tr:last-child td { border-bottom: none; }
-        .badge { padding: 4px 12px; border-radius: var(--radius-full); font-size: 12px; font-weight: 600; }
-        .badge-pending { background: #FEF3C7; color: #B45309; }
-        .badge-approved { background: #D1FAE5; color: var(--secondary-dark); }
-        .badge-rejected { background: #FEE2E2; color: #DC2626; }
-        .badge-active { background: var(--primary-light); color: var(--primary); }
-        .admin-btn { padding: 6px 14px; border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; cursor: pointer; border: none; transition: var(--transition); margin-right: 4px; }
-        .admin-btn-approve { background: #D1FAE5; color: var(--secondary-dark); }
-        .admin-btn-approve:hover { background: #A7F3D0; }
-        .admin-btn-reject { background: #FEE2E2; color: #DC2626; }
-        .admin-btn-reject:hover { background: #FECACA; }
-        .empty-state { text-align: center; padding: 40px; color: var(--gray-400); }
-        .empty-state i { font-size: 40px; margin-bottom: 12px; display: block; }
-
-        /* ===== INTEGRATION SETTINGS ===== */
-        .int-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
-        .int-card { background: var(--white); border-radius: var(--radius-lg); border: 1px solid var(--gray-200); padding: 20px; }
-        .int-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
-        .int-card-header .int-title { display: flex; align-items: center; gap: 12px; }
-        .int-card-header .int-icon { width: 40px; height: 40px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
-        .int-card-header .int-icon.rzp { background: #D4F1F9; color: #0C3C60; }
-        .int-card-header .int-icon.ses { background: #FFE7E7; color: #D13212; }
-        .int-card-header .int-icon.sns { background: #FEF3C7; color: #B45309; }
-        .int-card-header .int-icon.google { background: #E8F0FE; color: #4285F4; }
-        .int-card-header .int-icon.captcha { background: #D1FAE5; color: #059669; }
-        .int-card-header h4 { font-size: 15px; font-weight: 600; color: var(--dark); }
-        .int-card-header p { font-size: 12px; color: var(--gray-500); }
-        .int-status { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: var(--radius-full); font-size: 11px; font-weight: 600; }
-        .int-status.live { background: #D1FAE5; color: #059669; }
-        .int-status.not-configured { background: #FEF3C7; color: #B45309; }
-        .int-field { margin-bottom: 12px; }
-        .int-field label { display: block; font-size: 12px; font-weight: 600; color: var(--gray-600); margin-bottom: 4px; }
-        .int-field input { width: 100%; padding: 10px 12px; border: 1px solid var(--gray-200); border-radius: var(--radius-sm); font-size: 13px; font-family: var(--font-body); color: var(--dark); }
-        .int-field input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79,70,229,0.1); }
-        .int-field .hint { font-size: 11px; color: var(--gray-400); margin-top: 4px; }
-        .int-save-btn { width: 100%; padding: 10px; border: none; border-radius: var(--radius-sm); background: var(--primary); color: var(--white); font-size: 13px; font-weight: 600; cursor: pointer; transition: var(--transition); font-family: var(--font-body); }
-        .int-save-btn:hover { background: var(--primary-dark); }
-        .int-save-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-        .int-remove-btn { width: 100%; padding: 8px; border: 1px solid #FEE2E2; border-radius: var(--radius-sm); background: #fff; color: #DC2626; font-size: 12px; font-weight: 600; cursor: pointer; margin-top: 8px; font-family: var(--font-body); }
-        .int-remove-btn:hover { background: #FEE2E2; }
-        .int-masked { background: var(--gray-50); border: 1px dashed var(--gray-200); border-radius: var(--radius-sm); padding: 10px 12px; font-size: 13px; color: var(--gray-500); font-family: monospace; }
-        @media (max-width: 768px) { .int-grid { grid-template-columns: 1fr; } }
-        @media (max-width: 1024px) { .admin-stats { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 768px) { .admin-stats { grid-template-columns: 1fr; } .admin-table { display: block; overflow-x: auto; } }
+        /* =========================================================
+           HEAVENLEASE — ADMIN DASHBOARD MODERN UI
+           HTML/CSS modernization only. Existing JS/API behavior
+           and required IDs/classes are preserved below.
+           ========================================================= */
+        :root {
+            --admin-navy: #0b1727;
+            --admin-navy-2: #12243a;
+            --admin-ink: #162235;
+            --admin-muted: #687386;
+            --admin-line: #e5e7eb;
+            --admin-soft: #f5f7fa;
+            --admin-card: #ffffff;
+            --admin-primary: var(;--primary);
+            --admin-shadow: 0 16px 45px rgba(15, 23, 42, 0.08);
+            --admin-shadow-sm: 0 8px 24px rgba(15, 23, 42, 0.07);
+        }
+        body {
+            background:
+                linear-gradient(rgba(244, 246, 249, 0.94), rgba(244, 246, 249, 0.98)),
+                url("https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=2200&q=85") center/cover fixed;
+            color: var(--admin-ink);
+        }
+        /* Dark property-inspired navbar treatment */
+        .navbar {
+            background:
+                linear-gradient(90deg, rgba(7, 18, 32, 0.96), rgba(16, 36, 57, 0.91)),
+                url("https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1800&q=85") center/cover;
+            border-bottom: 1px solid rgba(255,255,255,0.10);
+            box-shadow: 0 10px 30px rgba(4, 12, 24, 0.18);
+        }
+        .navbar .logo-text {
+            color: #fff;
+        }
+        .navbar .logo-text span {
+            color: #c8a96b;
+        }
+        .navbar .logo-icon {
+            box-shadow: 0 8px 22px rgba(200,169,107,0.22);
+        }
+        .admin-page {
+            min-height: 100vh;
+            padding-top: 86px;
+            position: relative;
+        }
+        .admin-page::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            height: 320px;
+            background:
+                linear-gradient(180deg, rgba(10, 24, 40, 0.94), rgba(10, 24, 40, 0.74) 55%, rgba(244, 246, 249, 0));
+            pointer-events: none;
+            z-index: 0;
+        }
+        .admin-container {
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 42px 28px 70px;
+            position: relative;
+            z-index: 1;
+        }
+        .admin-header {
+            margin-bottom: 30px;
+            color: #fff;
+        }
+        .admin-header h1 {
+            font-family: var(--font-heading);
+            font-size: clamp(30px, 4vw, 44px);
+            line-height: 1.12;
+            font-weight: 600;
+            letter-spacing: -0.7px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            color: #fff;
+        }
+        .admin-header h1 i {
+            color: #d7b878;
+            font-size: 0.72em;
+        }
+        .admin-header p {
+            font-size: 14px;
+            color: rgba(255,255,255,0.72);
+            margin-top: 9px;
+            max-width: 620px;
+        }
+        /* Stats */
+        .admin-stats {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+        .admin-stat {
+            background: rgba(255,255,255,0.98);
+            border-radius: 18px;
+            padding: 22px;
+            border: 1px solid rgba(255,255,255,0.72);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            box-shadow: var(--admin-shadow);
+            min-height: 104px;
+            transition: transform .22s ease, box-shadow .22s ease;
+        }
+        .admin-stat:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 50px rgba(15,23,42,0.12);
+        }
+        .admin-stat .icon {
+            width: 54px;
+            height: 54px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+        .admin-stat .icon.blue {
+            background: #e9efff;
+            color: var(--primary);
+        }
+        .admin-stat .icon.green {
+            background: #e7f7ef;
+            color: #087443;
+        }
+        .admin-stat .icon.amber {
+            background: #fff4d8;
+            color: #a56500;
+        }
+        .admin-stat strong {
+            display: block;
+            font-size: 27px;
+            line-height: 1;
+            font-weight: 750;
+            color: var(--admin-ink);
+            letter-spacing: -0.4px;
+        }
+        .admin-stat span {
+            display: block;
+            margin-top: 7px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--admin-muted);
+            text-transform: uppercase;
+            letter-spacing: .55px;
+        }
+        /* Tabs */
+        .admin-tabs {
+            display: flex;
+            gap: 7px;
+            margin-bottom: 18px;
+            padding: 6px;
+            flex-wrap: wrap;
+            background: rgba(255,255,255,0.78);
+            border: 1px solid rgba(255,255,255,0.9);
+            border-radius: 15px;
+            box-shadow: var(--admin-shadow-sm);
+            backdrop-filter: blur(12px);
+        }
+        .admin-tab {
+            padding: 11px 18px;
+            border: 1px solid transparent;
+            border-radius: 10px;
+            background: transparent;
+            font-size: 13px;
+            font-weight: 700;
+            color: #687386;
+            cursor: pointer;
+            transition: all .2s ease;
+        }
+        .admin-tab:hover {
+            background: #fff;
+            border-color: var(--admin-line);
+            color: var(--primary);
+        }
+        .admin-tab.active {
+            background: var(--admin-navy);
+            color: #fff;
+            border-color: var(--admin-navy);
+            box-shadow: 0 7px 16px rgba(11,23,39,.18);
+        }
+        .admin-panel {
+            display: none;
+        }
+        .admin-panel.active {
+            display: block;
+            animation: adminPanelIn .24s ease both;
+        }
+        @keyframes adminPanelIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Main cards */
+        .admin-card {
+            background: rgba(255,255,255,0.98);
+            border-radius: 18px;
+            border: 1px solid rgba(226,232,240,.95);
+            overflow: hidden;
+            box-shadow: var(--admin-shadow);
+        }
+        .admin-card-header {
+            padding: 19px 22px;
+            min-height: 66px;
+            border-bottom: 1px solid var(--admin-line);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(180deg, #fff, #fbfcfd);
+        }
+        .admin-card-header h3 {
+            margin: 0;
+            font-size: 15px;
+            font-weight: 750;
+            color: var(--admin-ink);
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+        .admin-card-header h3 i {
+            color: var(--primary);
+            font-size: 14px;
+        }
+        /* Tables */
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 700px;
+        }
+        .admin-table th {
+            text-align: left;
+            padding: 13px 17px;
+            font-size: 10px;
+            font-weight: 800;
+            color: #7b8798;
+            text-transform: uppercase;
+            letter-spacing: .8px;
+            border-bottom: 1px solid var(--admin-line);
+            background: #f7f8fc;
+            white-space: nowrap;
+        }
+        .admin-table td {
+            padding: 14px 17px;
+            font-size: 13px;
+            line-height: 1.45;
+            color: #536174;
+            border-bottom: 1px solid #edf0f4;
+            vertical-align: middle;
+        }
+        .admin-table tbody tr {
+            transition: background .16s ease;
+        }
+        .admin-table tbody tr:hover {
+            background: #fafbfd;
+        }
+        .admin-table tr:last-child td {
+            border-bottom: none;
+        }
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5px 10px;
+            border-radius: 999px;
+            font-size: 10px;
+            line-height: 1;
+            font-weight: 800;
+            white-space: nowrap;
+            letter-spacing: .25px;
+        }
+        .badge-pending {
+            background: #fff4d6;
+            color: #a26300;
+        }
+        .badge-approved {
+            background: #def7e9;
+            color: #087443;
+        }
+        .badge-rejected {
+            background: #fee5e5;
+            color: #c52929;
+        }
+        .badge-active {
+            background: #e9efff;
+            color: var(--primary);
+        }
+        .admin-btn {
+            padding: 7px 11px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 750;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: all .18s ease;
+            margin-right: 4px;
+            white-space: nowrap;
+        }
+        .admin-btn i {
+            margin-right: 3px;
+        }
+        .admin-btn-approve {
+            background: #e4f7ed;
+            color: #087443;
+        }
+        .admin-btn-approve:hover {
+            background: #c8f0db;
+            transform: translateY(-1px);
+        }
+        .admin-btn-reject {
+            background: #fee7e7;
+            color: #c52929;
+        }
+        .admin-btn-reject:hover {
+            background: #fbcfcf;
+            transform: translateY(-1px);
+        }
+        .empty-state {
+            text-align: center;
+            padding: 62px 30px;
+            color: #94a0b2;
+        }
+        .empty-state i {
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            background: #f1f4f8;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            margin-bottom: 14px;
+            color: #94a0b2;
+        }
+        .empty-state p {
+            margin: 0;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        /* Integration settings */
+        #panel-integrations > .admin-card > div[style] {
+            padding: 22px !important;
+        }
+        .int-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+        .int-card {
+            background: #fff;
+            border-radius: 16px;
+            border: 1px solid #e4e9ef;
+            padding: 20px;
+            box-shadow: 0 8px 24px rgba(15,23,42,.045);
+            transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+        }
+        .int-card:hover {
+            border-color: #d5dce5;
+            box-shadow: 0 14px 32px rgba(15,23,42,.075);
+            transform: translateY(-2px);
+        }
+        .int-card-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+        .int-card-header .int-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 0;
+        }
+        .int-card-header .int-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        .int-card-header .int-icon.rzp { background: #dff4fa; color: #0c3c60; }
+        .int-card-header .int-icon.ses { background: #ffe9e5; color: #c7381c; }
+        .int-card-header .int-icon.sns { background: #fff4d8; color: #a56500; }
+        .int-card-header .int-icon.google { background: #eaf1ff; color: #4285f4; }
+        .int-card-header .int-icon.captcha { background: #e3f8ef; color: #078a68; }
+        .int-card-header h4 {
+            margin: 0;
+            font-size: 14px;
+            font-weight: 750;
+            color: var(--admin-ink);
+        }
+        .int-card-header p {
+            margin: 4px 0 0;
+            font-size: 11px;
+            line-height: 1.45;
+            color: #8490a1;
+        }
+        .int-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 9px;
+            border-radius: 999px;
+            font-size: 10px;
+            font-weight: 800;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .int-status.live {
+            background: #e0f7eb;
+            color: #07804a;
+        }
+        .int-status.not-configured {
+            background: #fff4d8;
+            color: #a56500;
+        }
+        .int-field {
+            margin-bottom: 13px;
+        }
+        .int-field label {
+            display: block;
+            font-size: 11px;
+            font-weight: 750;
+            color: #586578;
+            margin-bottom: 6px;
+        }
+        .int-field input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 11px 12px;
+            border: 1px solid #dfe5ec;
+            border-radius: 9px;
+            background: #fbfcfe;
+            font-size: 12px;
+            font-family: var(--font-body);
+            color: var(--admin-ink);
+            transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
+        }
+        .int-field input:hover {
+            border-color: #cbd4df;
+            background: #fff;
+        }
+        .int-field input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(79,70,229,.10);
+        }
+        .int-field .hint {
+            font-size: 10px;
+            line-height: 1.4;
+            color: #9aa4b2;
+            margin-top: 5px;
+        }
+        .int-masked {
+            background: #f6f8fb;
+            border: 1px dashed #dbe1e8;
+            border-radius: 9px;
+            padding: 10px 12px;
+            font-size: 12px;
+            color: #6d798a;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        }
+        .int-save-btn {
+            width: 100%;
+            padding: 11px;
+            border: none;
+            border-radius: 9px;
+            background: var(--admin-navy);
+            color: #fff;
+            font-size: 12px;
+            font-weight: 750;
+            cursor: pointer;
+            transition: all .18s ease;
+            font-family: var(--font-body);
+            margin-top: 3px;
+        }
+        .int-save-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+        .int-save-btn:disabled {
+            opacity: .5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .int-remove-btn {
+            width: 100%;
+            padding: 9px;
+            border: 1px solid #f2caca;
+            border-radius: 9px;
+            background: #fff;
+            color: #c52929;
+            font-size: 11px;
+            font-weight: 750;
+            cursor: pointer;
+            margin-top: 8px;
+            font-family: var(--font-body);
+            transition: all .18s ease;
+        }
+        .int-remove-btn:hover {
+            background: #fff1f1;
+            border-color: #eeb5b5;
+        }
+        /* Existing navbar dropdown remains functional */
+        .user-dropdown {
+            max-height: min(75vh, 620px);
+            overflow-y: auto;
+        }
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .admin-container {
+                padding-left: 22px;
+                padding-right: 22px;
+            }
+            .admin-stats {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 14px;
+            }
+            .admin-stat {
+                padding: 18px;
+            }
+            .int-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        @media (max-width: 768px) {
+            body {
+                background-attachment: scroll;
+            }
+            .admin-page {
+                padding-top: 74px;
+            }
+            .admin-page::before {
+                height: 285px;
+            }
+            .admin-container {
+                padding: 30px 15px 52px;
+            }
+            .admin-header {
+                margin-bottom: 23px;
+            }
+            .admin-header h1 {
+                font-size: 30px;
+            }
+            .admin-header p {
+                font-size: 13px;
+                line-height: 1.55;
+            }
+            .admin-stats {
+                grid-template-columns: 1fr;
+                gap: 11px;
+                margin-bottom: 22px;
+            }
+            .admin-stat {
+                min-height: 0;
+                padding: 17px;
+                border-radius: 15px;
+            }
+            .admin-stat .icon {
+                width: 48px;
+                height: 48px;
+            }
+            .admin-stat strong {
+                font-size: 23px;
+            }
+            .admin-tabs {
+                overflow-x: auto;
+                flex-wrap: nowrap;
+                scrollbar-width: none;
+                padding: 5px;
+                margin-bottom: 14px;
+            }
+            .admin-tabs::-webkit-scrollbar {
+                display: none;
+            }
+            .admin-tab {
+                flex: 0 0 auto;
+                padding: 10px 14px;
+                font-size: 12px;
+            }
+            .admin-card {
+                border-radius: 15px;
+            }
+            .admin-card-header {
+                padding: 16px;
+            }
+            .admin-card-header h3 {
+                font-size: 14px;
+            }
+            .admin-table {
+                display: block;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            .admin-table th,
+            .admin-table td {
+                padding: 12px 13px;
+            }
+            #panel-integrations > .admin-card > div[style] {
+                padding: 15px !important;
+            }
+            .int-card {
+                padding: 16px;
+                border-radius: 14px;
+            }
+            .int-card-header {
+                gap: 10px;
+            }
+            .int-card-header .int-icon {
+                width: 40px;
+                height: 40px;
+                border-radius: 11px;
+            }
+            .int-card-header h4 {
+                font-size: 13px;
+            }
+            .int-card-header p {
+                font-size: 10px;
+            }
+        }
+        @media (max-width: 480px) {
+            .admin-header h1 {
+                font-size: 27px;
+            }
+            .admin-stat {
+                gap: 12px;
+            }
+            .admin-tabs {
+                border-radius: 12px;
+            }
+            .int-card-header {
+                align-items: flex-start;
+            }
+            .int-status {
+                font-size: 9px;
+                padding: 5px 7px;
+            }
+            .admin-btn {
+                margin-bottom: 4px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -91,10 +667,8 @@
                 <div class="logo-icon"><i class="fas fa-home"></i></div>
                 <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
-            
             <div class="nav-actions">
-                
-                                <div class="user-menu" id="userMenu">
+                <div class="user-menu" id="userMenu">
                     <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu">
                         <span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span>
                         <span id="navUserName">Account</span>
@@ -122,25 +696,22 @@
                         <a href="how-it-works"><i class="fas fa-circle-question"></i> How It Works</a>
                         <a href="about"><i class="fas fa-building"></i> About Us</a>
                         <a href="blog"><i class="fas fa-newspaper"></i> Blog</a>
-<a href="comfort-scores"><i class="fas fa-chart-simple"></i> Type &amp; Voice Search</a>
-                                                <a href="contact"><i class="fas fa-envelope"></i> Contact &amp; Support</a>
+                        <a href="comfort-scores"><i class="fas fa-chart-simple"></i> Type &amp; Voice Search</a>
+                        <a href="contact"><i class="fas fa-envelope"></i> Contact &amp; Support</a>
                         <div class="dropdown-divider"></div>
                         <a href="login" id="signInLink" class="hide-when-auth"><i class="fas fa-arrow-right-to-bracket"></i> Sign In</a>
                         <a href="#" id="logoutLink" class="logout-link hide-when-guest"><i class="fas fa-sign-out-alt"></i> Logout</a>
                     </div>
                 </div>
-</div>
+            </div>
         </div>
     </nav>
-
     <div class="admin-page">
         <div class="admin-container">
             <div class="admin-header">
                 <h1><i class="fas fa-shield-alt"></i> Admin Dashboard</h1>
                 <p>Manage users, property verifications, and owner applications.</p>
             </div>
-
-            <!-- Stats -->
             <div class="admin-stats">
                 <div class="admin-stat">
                     <div class="icon blue"><i class="fas fa-users"></i></div>
@@ -155,16 +726,12 @@
                     <div><strong id="statOwnerApps">0</strong><span>Owner Applications</span></div>
                 </div>
             </div>
-
-            <!-- Tabs -->
             <div class="admin-tabs">
                 <button class="admin-tab active" data-tab="users">Users</button>
                 <button class="admin-tab" data-tab="properties">Properties</button>
                 <button class="admin-tab" data-tab="owners">Owner Apps</button>
                 <button class="admin-tab" data-tab="integrations">Integrations</button>
             </div>
-
-            <!-- Users Panel -->
             <div class="admin-panel active" id="panel-users">
                 <div class="admin-card">
                     <div class="admin-card-header">
@@ -173,8 +740,6 @@
                     <div id="usersList"><div class="empty-state"><i class="fas fa-users"></i><p>Loading users...</p></div></div>
                 </div>
             </div>
-
-            <!-- Properties Panel -->
             <div class="admin-panel" id="panel-properties">
                 <div class="admin-card">
                     <div class="admin-card-header">
@@ -183,8 +748,6 @@
                     <div id="propertiesList"><div class="empty-state"><i class="fas fa-building"></i><p>Loading properties...</p></div></div>
                 </div>
             </div>
-
-            <!-- Owner Applications Panel -->
             <div class="admin-panel" id="panel-owners">
                 <div class="admin-card">
                     <div class="admin-card-header">
@@ -193,8 +756,6 @@
                     <div id="ownersList"><div class="empty-state"><i class="fas fa-file-shield"></i><p>Loading applications...</p></div></div>
                 </div>
             </div>
-
-            <!-- Integrations Panel -->
             <div class="admin-panel" id="panel-integrations">
                 <div class="admin-card">
                     <div class="admin-card-header">
@@ -209,319 +770,45 @@
             </div>
         </div>
     </div>
-
-    <script src="api.js?v=20260913a"></script>
-    <script src="script.js?v=20260913a"></script>
-    <script>
-        (function() {
-        // Navbar (navbar, hamburger, navLinks already declared in script.js)
-
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) navbar.classList.add('scrolled');
-            else navbar.classList.remove('scrolled');
-        });
-
-        if (hamburger) hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            navLinks.classList.toggle('active');
-        });
-
-        if (hamburger && navLinks) {
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.addEventListener('click', () => {
-                hamburger.classList.remove('active');
-                navLinks.classList.remove('active');
-                });
-            });
-        }
-
-        // Tabs
-        document.querySelectorAll('.admin-tab').forEach(tab => {
-            tab.addEventListener('click', () => {
-                document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
-                document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active'));
-                tab.classList.add('active');
-                document.getElementById('panel-' + tab.dataset.tab).classList.add('active');
-            });
-        });
-
-        function badge(status) {
-            const s = (status || '').toLowerCase();
-            const cls = s === 'approved' || s === 'active' || s === 'verified' ? 'badge-approved' :
-                s === 'rejected' || s === 'inactive' ? 'badge-rejected' : 'badge-pending';
-            return `<span class="badge ${cls}">${status}</span>`;
-        }
-
-        // Load users
-        async function loadUsers() {
-            try {
-                const users = await api.getUsers().catch(() => []);
-                document.getElementById('statUsers').textContent = users.length || 0;
-                const el = document.getElementById('usersList');
-                if (!users || users.length === 0) {
-                    el.innerHTML = '<div class="empty-state"><i class="fas fa-users"></i><p>No users yet.</p></div>';
-                    return;
-                }
-                el.innerHTML = `
-                    <table class="admin-table">
-                        <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Role</th><th>Status</th><th>Actions</th></tr></thead>
-                        <tbody>${users.map(u => `
-                            <tr>
-                                <td>${escapeHtml(u.fullName || u.name || '-')}</td>
-                                <td>${escapeHtml(u.email || '-')}</td>
-                                <td>${escapeHtml(u.phone || '-')}</td>
-                                <td>${escapeHtml(u.role || '-')}</td>
-                                <td>${u.verified ? '<span class="badge badge-approved">Verified</span>' : '<span class="badge badge-pending">Pending</span>'}</td>
-                                <td>
-                                    ${u.verified ? '' : `<button class="admin-btn admin-btn-approve" onclick="verifyUser(${u.id})"><i class="fas fa-check"></i> Verify</button>`}
-                                </td>
-                            </tr>
-                        `).join('')}</tbody>
-                    </table>`;
-            } catch (e) {
-                document.getElementById('usersList').innerHTML = '<div class="empty-state"><i class="fas fa-users"></i><p>Could not load users.</p></div>';
-            }
-        }
-
-        window.verifyUser = async function(id) {
-            try {
-                await api.verifyUser(id);
-                showToast('User verified successfully!', 'success');
-                setTimeout(loadUsers, 500);
-            } catch (e) {
-                showToast(e.message || 'Failed to verify user.', 'error');
-            }
-        };
-
-        // Load properties
-        async function loadProperties() {
-            try {
-                const props = await api.getProperties(0, 100).catch(() => []);
-                document.getElementById('statProperties').textContent = props.length || 0;
-                const el = document.getElementById('propertiesList');
-                if (!props || props.length === 0) {
-                    el.innerHTML = '<div class="empty-state"><i class="fas fa-building"></i><p>No properties yet.</p></div>';
-                    return;
-                }
-                el.innerHTML = `
-                    <table class="admin-table">
-                        <thead><tr><th>Title</th><th>City</th><th>Rent</th><th>BHK</th><th>Status</th></tr></thead>
-                        <tbody>${props.map(p => `
-                            <tr>
-                                <td>${escapeHtml(p.title || '-')}</td>
-                                <td>${escapeHtml(p.city || p.location || '-')}</td>
-                                <td>${p.rentAmount ? '₹' + Number(p.rentAmount).toLocaleString('en-IN') : (p.price ? '₹' + Number(p.price).toLocaleString('en-IN') : '-')}</td>
-                                <td>${escapeHtml(p.bhk || '-')} BHK</td>
-                                <td>${badge(p.status || 'active')}</td>
-                            </tr>
-                        `).join('')}</tbody>
-                    </table>`;
-            } catch (e) {
-                document.getElementById('propertiesList').innerHTML = '<div class="empty-state"><i class="fas fa-building"></i><p>Could not load properties.</p></div>';
-            }
-        }
-
-        // Load owner applications — real backend only (no localStorage fake entries).
-        async function loadOwnerApps() {
-            try {
-                const apps = await api.getOwnerApplications().catch(() => []);
-                document.getElementById('statOwnerApps').textContent = (apps || []).length || 0;
-                const el = document.getElementById('ownersList');
-                if (!apps || apps.length === 0) {
-                    el.innerHTML = '<div class="empty-state"><i class="fas fa-file-shield"></i><p>No owner applications.</p></div>';
-                    return;
-                }
-                el.innerHTML = `
-                    <table class="admin-table">
-                        <thead><tr><th>Name</th><th>Email</th><th>Property</th><th>Status</th><th>Actions</th></tr></thead>
-                        <tbody>${apps.map(a => `
-                            <tr>
-                                <td>${escapeHtml(a.fullName || '-')}</td>
-                                <td>${escapeHtml(a.email || '-')}</td>
-                                <td>${escapeHtml(a.propertyAddress || '-')}</td>
-                                <td>${badge(a.status || 'pending')}</td>
-                                <td>
-                                    ${a.status === 'approved' ? '<span class="badge badge-approved">Verified ✓</span>'
-                                    : a.status === 'rejected' ? '<span class="badge badge-rejected">Rejected</span>'
-                                    : `<button class="admin-btn admin-btn-approve" onclick="handleOwnerApp(${a.id}, 'approved')"><i class="fas fa-check"></i> Approve</button>
-                                       <button class="admin-btn admin-btn-reject" onclick="handleOwnerApp(${a.id}, 'rejected')"><i class="fas fa-times"></i> Reject</button>`}
-                                </td>
-                            </tr>
-                        `).join('')}</tbody>
-                    </table>`;
-            } catch (e) {
-                document.getElementById('ownersList').innerHTML = '<div class="empty-state"><i class="fas fa-file-shield"></i><p>Could not load applications.</p></div>';
-            }
-        }
-
-        window.handleOwnerApp = async function(id, status) {
-            try {
-                await api.updateOwnerApplicationStatus(id, status, 'Reviewed by admin');
-                showToast('Application ' + status + '!', status === 'approved' ? 'success' : 'error');
-                setTimeout(loadOwnerApps, 500);
-            } catch (e) {
-                showToast((e && e.message) || 'Action failed.', 'error');
-            }
-        };
-
-        // ===== INTEGRATION SETTINGS =====
-        const INTEGRATION_GROUPS = [
-            {
-                id: 'razorpay', icon: 'fas fa-credit-card', iconCls: 'rzp', title: 'Razorpay Payments',
-                desc: 'Accept UPI, cards & netbanking for access passes & escrow', fields: [
-                    { key: 'razorpay_key_id', label: 'Key ID', secret: false, placeholder: 'rzp_live_...', hint: 'From Razorpay Dashboard → Settings → API Keys' },
-                    { key: 'razorpay_key_secret', label: 'Key Secret', secret: true, placeholder: '••••••••', hint: 'Revealed only at creation. Store securely.' }
-                ]
-            },
-            {
-                id: 'ses', icon: 'fas fa-envelope', iconCls: 'ses', title: 'AWS SES — Email',
-                desc: 'Send real email OTPs & notifications', fields: [
-                    { key: 'aws_ses_access_key', label: 'Access Key ID', secret: true, placeholder: 'AKIA...' },
-                    { key: 'aws_ses_secret_key', label: 'Secret Access Key', secret: true, placeholder: '••••••••' },
-                    { key: 'aws_ses_region', label: 'Region', secret: false, placeholder: 'ap-south-1' },
-                    { key: 'aws_ses_from_email', label: 'From Email', secret: false, placeholder: 'no-reply@heavenlease.in' }
-                ]
-            },
-            {
-                id: 'sns', icon: 'fas fa-sms', iconCls: 'sns', title: 'AWS SNS — SMS',
-                desc: 'Send real SMS OTPs to phones', fields: [
-                    { key: 'aws_sns_access_key', label: 'Access Key ID', secret: true, placeholder: 'AKIA...' },
-                    { key: 'aws_sns_secret_key', label: 'Secret Access Key', secret: true, placeholder: '••••••••' },
-                    { key: 'aws_sns_region', label: 'Region', secret: false, placeholder: 'ap-south-1' },
-                    { key: 'aws_sns_sender_id', label: 'Sender ID', secret: false, placeholder: 'HEAVENLEASE' }
-                ]
-            },
-            {
-                id: 'google', icon: 'fab fa-google', iconCls: 'google', title: 'Google OAuth',
-                desc: 'Sign in with Google', fields: [
-                    { key: 'google_client_id', label: 'Client ID', secret: false, placeholder: 'xxxx.apps.googleusercontent.com' },
-                    { key: 'google_client_secret', label: 'Client Secret', secret: true, placeholder: '••••••••' }
-                ]
-            },
-            {
-                id: 'recaptcha', icon: 'fas fa-shield-halved', iconCls: 'captcha', title: 'reCAPTCHA v3',
-                desc: 'Bot protection on auth forms', fields: [
-                    { key: 'recaptcha_site_key', label: 'Site Key', secret: false, placeholder: '6Lc...' },
-                    { key: 'recaptcha_secret_key', label: 'Secret Key', secret: true, placeholder: '••••••••' }
-                ]
-            }
-        ];
-
-        let integrationStatus = {};
-
-        function escapeHtml(str) {
-            const map = { '&': '&' + 'amp;', '<': '&' + 'lt;', '>': '&' + 'gt;', '"': '&' + 'quot;', "'": '&' + '#39;' };
-            return String(str || '').replace(/[&<>"']/g, m => map[m]);
-        }
-
-        function renderIntegrationCards() {
-            const grid = document.getElementById('intGrid');
-
-            grid.innerHTML = INTEGRATION_GROUPS.map(group => {
-                const fieldsHtml = group.fields.map(f => {
-                    const st = integrationStatus[f.key] || { isConfigured: false, maskedValue: '' };
-                    const maskedHtml = st.isConfigured
-                        ? `<div class="int-masked" style="margin-bottom: 12px;">${escapeHtml(st.maskedValue)}</div>`
-                        : '';
-                    return `
-                        <div class="int-field" data-key="${f.key}">
-                            <label>${f.label} ${st.isConfigured ? '<span class="badge badge-approved" style="margin-left:6px;">Active</span>' : ''}</label>
-                            ${maskedHtml}
-                            <input type="${f.secret ? 'password' : 'text'}" placeholder="${f.placeholder}" value="">
-                            <div class="hint">${f.hint || ''}</div>
-                        </div>
-                    `;
-                }).join('');
-
-                const groupKeys = group.fields.map(f => f.key);
-                const isGroupLive = groupKeys.every(k => integrationStatus[k] && integrationStatus[k].isConfigured);
-
-                return `
-                    <div class="int-card" id="card-${group.id}">
-                        <div class="int-card-header">
-                            <div class="int-title">
-                                <div class="int-icon ${group.iconCls}"><i class="${group.icon}"></i></div>
-                                <div>
-                                    <h4>${group.title}</h4>
-                                    <p>${group.desc}</p>
-                                </div>
-                            </div>
-                            <span class="int-status ${isGroupLive ? 'live' : 'not-configured'}">
-                                <i class="fas ${isGroupLive ? 'fa-check-circle' : 'fa-circle-info'}"></i>
-                                ${isGroupLive ? 'Live' : 'Not configured'}
-                            </span>
-                        </div>
-                        ${fieldsHtml}
-                        <button class="int-save-btn" onclick="saveIntegrationGroup('${group.id}')"><i class="fas fa-save"></i> Save</button>
-                        <button class="int-remove-btn" onclick="removeIntegrationGroup('${group.id}')" style="${isGroupLive ? '' : 'display: none;'}"><i class="fas fa-trash"></i> Remove Saved Keys</button>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        window.saveIntegrationGroup = async function(groupId) {
-            const group = INTEGRATION_GROUPS.find(g => g.id === groupId);
-            if (!group) return;
-            const btn = document.querySelector(`#card-${groupId} .int-save-btn`);
-            const original = btn.innerHTML;
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
-            try {
-                for (const f of group.fields) {
-                    const input = document.querySelector(`#card-${groupId} .int-field[data-key="${f.key}"] input`);
-                    const value = input.value.trim();
-                    if (value) {
-                        await api.saveIntegration(f.key, value);
-                    }
-                }
-                showToast('Integration settings saved!', 'success');
-                await loadIntegrations();
-            } catch (e) {
-                showToast(e.message || 'Failed to save integration.', 'error');
-            } finally {
-                btn.disabled = false;
-                btn.innerHTML = original;
-            }
-        };
-
-        window.removeIntegrationGroup = async function(groupId) {
-            const group = INTEGRATION_GROUPS.find(g => g.id === groupId);
-            if (!group) return;
-            if (!confirm('Remove saved credentials for ' + group.title + '? This cannot be undone.')) return;
-            try {
-                for (const f of group.fields) {
-                    await api.deleteIntegration(f.key).catch(() => {});
-                }
-                showToast('Saved keys removed.', 'success');
-                await loadIntegrations();
-            } catch (e) {
-                showToast(e.message || 'Failed to remove integration.', 'error');
-            }
-        };
-
-        async function loadIntegrations() {
-            try {
-                const data = await api.getIntegrationStatus().catch(() => ({ integrations: [] }));
-                integrationStatus = {};
-                (data.integrations || []).forEach(item => {
-                    integrationStatus[item.key] = item;
-                });
-                renderIntegrationCards();
-            } catch (e) {
-                // If backend not running, show empty cards (a config requirement)
-                integrationStatus = {};
-                renderIntegrationCards();
-            }
-        }
-
-        // Initialize
-        loadUsers();
-        loadProperties();
-        loadOwnerApps();
-        loadIntegrations();
-        })();
-    </script>
+    <script src="js/api.js?v=20260913a"></script>
+    <script src="js/core.js?v=20260913a"></script>
+    <script src="js/pages/admin-dashboard.js?v=20260913a"></script>
+<footer class="footer">
+<div class="container">
+    <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
+        <div class="footer-brand">
+            <a href="home" class="logo">
+                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <span class="logo-text">Heaven<span>Lease</span></span>
+            </a>
+            <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Explore</strong>
+            <a href="properties" style="color:inherit;text-decoration:none;">Find a Home</a>
+            <a href="map" style="color:inherit;text-decoration:none;">Property Map</a>
+            <a href="how-it-works" style="color:inherit;text-decoration:none;">How It Works</a>
+            <a href="about" style="color:inherit;text-decoration:none;">About Us</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Company</strong>
+            <a href="careers" style="color:inherit;text-decoration:none;">Careers</a>
+            <a href="press" style="color:inherit;text-decoration:none;">Press</a>
+            <a href="blog" style="color:inherit;text-decoration:none;">Blog</a>
+            <a href="contact" style="color:inherit;text-decoration:none;">Contact</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">For Owners</strong>
+            <a href="list-property" style="color:inherit;text-decoration:none;">List Your Property</a>
+            <a href="properties-management" style="color:inherit;text-decoration:none;">Owner Dashboard</a>
+            <a href="payment" style="color:inherit;text-decoration:none;">Pricing &amp; Upgrade</a>
+            <a href="owner-resources" style="color:inherit;text-decoration:none;">Owner Resources</a>
+        </div>
+    </div>
+    <div class="footer-bottom" style="justify-content:center;margin-top:28px;">
+        <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
+    </div>
+</div>
+</footer>
 </body>
 </html>
-
-

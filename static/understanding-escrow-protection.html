@@ -15,44 +15,401 @@
     <meta name="twitter:card" content="summary_large_image">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
     <link rel="stylesheet" href="styles.css?v=20260909a">
     <style>
-        body { background: #f8fafc; }
-        .article-page { padding: 140px 0 60px; }
-        .article-wrap { max-width: 820px; margin: 0 auto; }
-        .article-header { background: var(--gradient-soft); border-radius: var(--radius-xl); padding: 48px 40px; margin-bottom: 32px; }
-        .article-header .ph-icon { width: 60px; height: 60px; border-radius: 16px; background: var(--gradient); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 16px; }
-        .article-header .tag { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--primary); margin-bottom: 8px; display: block; }
-        .article-header h1 { font-family: var(--font-heading); font-size: 34px; font-weight: 700; color: var(--dark); line-height: 1.2; }
-        .article-header .meta { margin-top: 14px; font-size: 13px; color: var(--gray-500); }
-        .article-body { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-xl); padding: 44px 40px; }
-        .article-body h2 { font-family: var(--font-heading); font-size: 24px; font-weight: 700; color: var(--dark); margin: 34px 0 10px; }
+        :root {
+            --hl-ink: #182033;
+            --hl-muted: #687386;
+            --hl-line: #e4e7ee;
+            --hl-paper: #ffffff;
+            --hl-card: #ffffff;
+            --hl-green: #18a878;
+            --hl-gold: #5b5ce2;
+            --hl-gold-soft: #f4e5c5;
+            --hl-shadow: 0 24px 70px rgba(16,33,43,.11);
+        }
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            margin: 0;
+            color: var(--hl-ink);
+            font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background:
+                linear-gradient(rgba(244,247,245,.95), rgba(244,247,245,.97)),
+                url("https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=2200&q=85") center/cover fixed;
+        }
+        /* Premium image-backed navigation */
+        .navbar {
+            position: fixed !important;
+            inset: 0 0 auto;
+            z-index: 1000;
+            background:
+                linear-gradient(90deg, rgba(6,18,23,.96), rgba(11,32,38,.72)),
+                url("https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2200&q=85") center/cover;
+            border-bottom: 1px solid rgba(255,255,255,.12);
+            box-shadow: 0 10px 34px rgba(0,0,0,.18);
+            backdrop-filter: blur(10px);
+        }
+        .navbar.scrolled {
+            background:
+                linear-gradient(90deg, rgba(5,15,19,.99), rgba(10,27,33,.95)),
+                url("https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2200&q=85") center/cover;
+        }
+        .nav-container {
+            max-width: 1240px;
+            min-height: 76px;
+            padding: 0 24px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+        .navbar .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: #fff !important;
+        }
+        .navbar .logo-text {
+            color: #fff !important;
+            font-size: 21px;
+            font-weight: 800;
+            letter-spacing: -.04em;
+        }
+        .navbar .logo-text span,
+        .footer .logo-text span { color: var(--hl-gold) !important; }
+        .logo-icon {
+            width: 38px !important;
+            height: 38px !important;
+            display: grid !important;
+            place-items: center !important;
+            border-radius: 12px !important;
+            color: #17252a !important;
+            background: linear-gradient(145deg, #f4d89e, #c9974b) !important;
+            box-shadow: 0 8px 22px rgba(0,0,0,.22);
+        }
+        .nav-actions { display: flex; align-items: center; margin-left: auto; }
+        .user-menu { position: relative; }
+        .user-menu-trigger {
+            min-height: 46px;
+            padding: 6px 13px 6px 7px;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            border: 1px solid rgba(255,255,255,.17) !important;
+            border-radius: 999px !important;
+            background: rgba(255,255,255,.09) !important;
+            color: #fff !important;
+            cursor: pointer;
+            font: inherit;
+            backdrop-filter: blur(12px);
+        }
+        .user-avatar {
+            width: 32px !important;
+            height: 32px !important;
+            display: grid !important;
+            place-items: center !important;
+            border-radius: 50% !important;
+            background: rgba(255,255,255,.15) !important;
+            color: #f2d18c !important;
+        }
+        .user-menu-trigger > i:last-child { font-size: 10px; opacity: .72; }
+        .user-dropdown {
+            right: 0;
+            margin-top: 10px !important;
+            min-width: 270px;
+            max-height: min(72vh, 620px);
+            overflow-y: auto;
+            padding: 9px !important;
+            border: 1px solid rgba(255,255,255,.12) !important;
+            border-radius: 18px !important;
+            background: rgba(13,28,34,.99) !important;
+            box-shadow: 0 25px 65px rgba(0,0,0,.32) !important;
+        }
+        .user-dropdown a {
+            color: rgba(255,255,255,.83) !important;
+            border-radius: 11px !important;
+            padding: 10px 12px !important;
+        }
+        .user-dropdown a:hover {
+            background: rgba(255,255,255,.08) !important;
+            color: #fff !important;
+        }
+        .user-dropdown i { width: 20px; color: var(--hl-gold); }
+        /* Article hero */
+        .article-page {
+            position: relative;
+            padding: 142px 20px 78px;
+            overflow: hidden;
+        }
+        .article-page::before {
+            content: "";
+            position: absolute;
+            top: 76px;
+            left: 0;
+            right: 0;
+            height: 500px;
+            background:
+                linear-gradient(180deg, rgba(9,28,32,.75), rgba(9,28,32,.18) 60%, rgba(244,247,245,0)),
+                url("https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=2200&q=88") center/cover;
+            z-index: -1;
+        }
+        .article-wrap {
+            width: min(920px, 100%);
+            margin: 0 auto;
+        }
+        .article-header {
+            position: relative;
+            min-height: 400px;
+            padding: 55px;
+            margin-bottom: 26px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            overflow: hidden;
+            border-radius: 30px;
+            color: #fff;
+            background:
+                linear-gradient(180deg, rgba(5,19,23,.13), rgba(5,19,23,.9)),
+                url("https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1800&q=88") center/cover;
+            box-shadow: 0 30px 80px rgba(12,28,34,.24);
+        }
+        .article-header::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(213,173,100,.10), transparent 45%);
+            pointer-events: none;
+        }
+        .article-header > * { position: relative; z-index: 1; }
+        .article-header .ph-icon {
+            width: 58px;
+            height: 58px;
+            margin-bottom: 17px;
+            display: grid;
+            place-items: center;
+            border-radius: 16px;
+            color: #14252a;
+            background: linear-gradient(145deg, #f4d89e, #c9974b);
+            box-shadow: 0 12px 30px rgba(0,0,0,.2);
+            font-size: 22px;
+        }
+        .article-header .tag {
+            display: block;
+            margin-bottom: 9px;
+            color: #e9ca89;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+        }
+        .article-header h1 {
+            max-width: 760px;
+            margin: 0;
+            color: #fff;
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: clamp(40px, 6vw, 64px);
+            line-height: 1.04;
+            letter-spacing: -.035em;
+        }
+        .article-header .meta {
+            margin-top: 17px;
+            color: rgba(255,255,255,.72);
+            font-size: 13px;
+        }
+        /* Article body */
+        .article-body {
+            position: relative;
+            padding: 50px 54px;
+            border: 1px solid rgba(16,33,43,.08);
+            border-radius: 28px;
+            background: var(--hl-card);
+            box-shadow: var(--hl-shadow);
+        }
+        .article-body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 54px;
+            width: 58px;
+            height: 4px;
+            border-radius: 0 0 8px 8px;
+            background: var(--hl-gold);
+        }
+        .article-body h2 {
+            margin: 38px 0 11px;
+            color: var(--hl-ink);
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: 28px;
+            line-height: 1.2;
+            letter-spacing: -.015em;
+        }
         .article-body h2:first-child { margin-top: 0; }
-        .article-body p { font-size: 15.5px; color: var(--gray-600); line-height: 1.85; margin-bottom: 16px; }
-        .article-body ul { margin: 0 0 18px; padding-left: 20px; }
-        .article-body ul li { font-size: 15px; color: var(--gray-600); margin-bottom: 8px; line-height: 1.7; }
-        .article-body .tip { background: #EEF2FF; border-left: 4px solid var(--primary); border-radius: 10px; padding: 16px 18px; margin: 20px 0; font-size: 14.5px; color: var(--gray-700); }
-        .article-cta { margin-top: 28px; text-align: center; }
-        .article-cta .btn { margin: 4px; }
-        .share-row { display: flex; gap: 10px; align-items: center; margin-top: 28px; flex-wrap: wrap; }
-        .share-row .share-label { font-size: 13px; color: var(--gray-500); font-weight: 600; }
-        .share-btn { width: 40px; height: 40px; border-radius: 10px; border: 1px solid var(--gray-200); display: inline-flex; align-items: center; justify-content: center; color: var(--gray-600); transition: var(--transition); background: var(--white); }
-        .share-btn:hover { border-color: var(--primary); color: var(--primary); }
-        @media (max-width: 768px) { .article-page { padding: 120px 0 40px; } .article-header h1 { font-size: 26px; } .article-header, .article-body { padding: 28px 22px; } }
+        .article-body p {
+            margin: 0 0 17px;
+            color: #5e6d74;
+            font-size: 15.5px;
+            line-height: 1.9;
+        }
+        .article-body ul {
+            margin: 3px 0 23px;
+            padding: 0;
+            list-style: none;
+            display: grid;
+            gap: 10px;
+        }
+        .article-body ul li {
+            position: relative;
+            padding: 15px 17px 15px 43px;
+            color: #4f6067;
+            font-size: 15px;
+            line-height: 1.7;
+            border: 1px solid var(--hl-line);
+            border-radius: 14px;
+            background: #f7faf8;
+        }
+        .article-body ul li::before {
+            content: "\f058";
+            position: absolute;
+            left: 17px;
+            top: 16px;
+            color: #a78043;
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+        }
+        .tip {
+            position: relative;
+            margin: 25px 0;
+            padding: 19px 20px 19px 22px;
+            border: 1px solid rgba(183,144,75,.22);
+            border-left: 4px solid var(--hl-gold);
+            border-radius: 15px;
+            color: #536269 !important;
+            background: linear-gradient(135deg, #fff9eb, #f8f4e9);
+            font-size: 14.5px;
+            line-height: 1.7;
+        }
+        .article-body strong { color: #243940; }
+        /* Sharing + CTA */
+        .share-row {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+            padding: 6px 4px;
+        }
+        .share-row .share-label {
+            margin-right: 4px;
+            color: #78868c;
+            font-size: 13px;
+            font-weight: 700;
+        }
+        .share-btn {
+            width: 42px;
+            height: 42px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--hl-line);
+            border-radius: 12px;
+            color: #5c6b72;
+            background: rgba(255,255,255,.9);
+            text-decoration: none;
+            transition: transform .2s ease, border-color .2s ease, color .2s ease, box-shadow .2s ease;
+        }
+        .share-btn:hover {
+            transform: translateY(-2px);
+            border-color: #c49b55;
+            color: #9b763a;
+            box-shadow: 0 8px 20px rgba(16,33,43,.09);
+        }
+        .article-cta {
+            margin-top: 18px;
+            padding: 22px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 9px;
+            border-radius: 22px;
+            background:
+                linear-gradient(90deg, rgba(18,61,54,.97), rgba(18,61,54,.91)),
+                url("https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1600&q=80") center/cover;
+        }
+        .article-cta .btn {
+            margin: 0 !important;
+            border-radius: 999px !important;
+            padding: 13px 21px !important;
+            text-decoration: none;
+            font-weight: 700;
+        }
+        /* Opaque premium footer */
+        .footer {
+            background: #0b1c22 !important;
+            color: rgba(255,255,255,.72) !important;
+            border-top: 1px solid rgba(255,255,255,.08);
+        }
+        .footer .logo-text { color: #fff !important; }
+        .footer .footer-brand p { color: rgba(255,255,255,.56) !important; line-height: 1.7; }
+        .footer strong { color: #fff; }
+        .footer a:hover { color: #e5c57f !important; }
+        .footer-bottom { border-top-color: rgba(255,255,255,.09) !important; }
+        .footer-bottom p { color: rgba(255,255,255,.48) !important; }
+        .back-to-top {
+            width: 46px !important;
+            height: 46px !important;
+            border-radius: 50% !important;
+            background: #17483e !important;
+            color: #fff !important;
+            box-shadow: 0 10px 25px rgba(0,0,0,.2);
+        }
+        @media (max-width: 760px) {
+            .nav-container { min-height: 68px; padding: 0 15px; }
+            .navbar .logo-text { font-size: 18px; }
+            .navbar .logo-icon { width: 34px !important; height: 34px !important; }
+            .user-menu-trigger { padding-right: 10px; }
+            .user-menu-trigger #navUserName { display: none; }
+            .article-page { padding: 112px 14px 50px; }
+            .article-page::before { top: 68px; height: 420px; }
+            .article-header {
+                min-height: 390px;
+                padding: 30px 24px;
+                border-radius: 23px;
+            }
+            .article-header h1 { font-size: clamp(34px, 11vw, 48px); }
+            .article-body {
+                padding: 38px 22px;
+                border-radius: 22px;
+            }
+            .article-body::before { left: 22px; }
+            .article-body h2 { font-size: 24px; }
+            .article-body p { font-size: 14.8px; }
+            .article-body ul li { font-size: 14.5px; }
+            .article-cta { border-radius: 18px; padding: 18px; }
+            .article-cta .btn { width: 100%; justify-content: center; }
+            .share-row { justify-content: center; }
+        }
+        @media (max-width: 420px) {
+            .article-header { min-height: 350px; padding: 25px 19px; }
+            .article-body { padding: 32px 18px; }
+            .article-body::before { left: 18px; }
+        }
     </style>
 </head>
 <body>
     <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <a href="/" class="logo">
+            <a href="/" class="logo" aria-label="HeavenLease home">
                 <div class="logo-icon"><i class="fas fa-home"></i></div>
                 <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
             <div class="nav-actions">
                 <div class="user-menu" id="userMenu">
-                    <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu">
+                    <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu" aria-haspopup="true">
                         <span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span>
                         <span id="navUserName">Account</span>
                         <i class="fas fa-chevron-down"></i>
@@ -66,41 +423,40 @@
             </div>
         </div>
     </nav>
-
-    <section class="article-page">
+    <main class="article-page">
         <div class="container article-wrap">
-            <div class="article-header">
-                <div class="ph-icon"><i class="fas fa-shield-halved"></i></div>
+            <header class="article-header">
+                <div class="ph-icon" aria-hidden="true"><i class="fas fa-shield-halved"></i></div>
                 <span class="tag">Safety</span>
                 <h1>Understanding Escrow Protection</h1>
                 <div class="meta">Aug 10, 2026 · 4 min read</div>
-            </div>
+            </header>
             <article class="article-body">
-<p>Your security deposit is often the single biggest chunk of money you hand over when renting. Escrow protection keeps that money safe in a neutral account until the tenancy ends cleanly, instead of sitting in the owner&rsquo;s personal account where disputes get messy.</p>
-<h2>What is escrow, really?</h2>
-<p>Escrow is a three-party arrangement. You, the owner, and HeavenLease as the neutral custodian. The deposit is parked in a dedicated escrow account the moment you sign. Neither side can touch it unilaterally &mdash; it is released only when both parties agree, or when an admin resolves a dispute according to the documented policy.</p>
-<div class="tip"><strong>HeavenLease tip:</strong> every listing on the platform carries the escrow-protected badge so you always know your deposit is safe before you pay.</div>
-<h2>What escrow protects against</h2>
-<ul>
-<li><strong>Owner keeps the deposit without reason</strong> &mdash; funds cannot be moved out without the joint release.</li>
-<li><strong>Tenant damages and disappears</strong> &mdash; verified claims backed by the documented move-in inspection report.</li>
-<li><strong>Ambiguous make-good clauses</strong> &mdash; the checklist from move-in becomes the single source of truth.</li>
-<li><strong>Inflated repair bills</strong> &mdash; itemised deductions must be justified and, if challenged, reviewed by our team.</li>
-</ul>
-<h2>The 3-step release flow</h2>
-<p><strong>Step 1 &mdash; Move-out inspection.</strong> Both sides walk the property against the move-in checklist and agree on deductions, if any.</p>
-<p><strong>Step 2 &mdash; Joint approval.</strong> You and the owner approve the release amount inside the app. The money leaves escrow within one working day.</p>
-<p><strong>Step 3 &mdash; Dispute path.</strong> If there is disagreement, either side can flag the case for our team. We review evidence from both parties and rule within 7 working days, and the deposit is released accordingly.</p>
-<h2>How to keep your deposit safe as a tenant</h2>
-<ul>
-<li>Photograph every room, wall, and fixture on move-in day and upload the photos as your inspection record.</li>
-<li>Get written confirmation of any pre-existing damage from the owner.</li>
-<li>Keep rent receipts and all payment proofs on the platform.</li>
-<li>Serve the agreed notice period and share proof of the move-out cleanup.</li>
-</ul>
-<div class="tip"><strong>Final word:</strong> escrow does not remove the need for a fair tenancy &mdash; it removes the <em>risk</em> that your goodwill ends up as a stranger&rsquo;s bank balance. Protect yourself, document everything, and let the escrow account do its quiet work in the middle.</div>
+                <p>Your security deposit is often the single biggest chunk of money you hand over when renting. Escrow protection keeps that money safe in a neutral account until the tenancy ends cleanly, instead of sitting in the owner&rsquo;s personal account where disputes get messy.</p>
+                <h2>What is escrow, really?</h2>
+                <p>Escrow is a three-party arrangement. You, the owner, and HeavenLease as the neutral custodian. The deposit is parked in a dedicated escrow account the moment you sign. Neither side can touch it unilaterally &mdash; it is released only when both parties agree, or when an admin resolves a dispute according to the documented policy.</p>
+                <div class="tip"><strong>HeavenLease tip:</strong> every listing on the platform carries the escrow-protected badge so you always know your deposit is safe before you pay.</div>
+                <h2>What escrow protects against</h2>
+                <ul>
+                    <li><strong>Owner keeps the deposit without reason</strong> &mdash; funds cannot be moved out without the joint release.</li>
+                    <li><strong>Tenant damages and disappears</strong> &mdash; verified claims backed by the documented move-in inspection report.</li>
+                    <li><strong>Ambiguous make-good clauses</strong> &mdash; the checklist from move-in becomes the single source of truth.</li>
+                    <li><strong>Inflated repair bills</strong> &mdash; itemised deductions must be justified and, if challenged, reviewed by our team.</li>
+                </ul>
+                <h2>The 3-step release flow</h2>
+                <p><strong>Step 1 &mdash; Move-out inspection.</strong> Both sides walk the property against the move-in checklist and agree on deductions, if any.</p>
+                <p><strong>Step 2 &mdash; Joint approval.</strong> You and the owner approve the release amount inside the app. The money leaves escrow within one working day.</p>
+                <p><strong>Step 3 &mdash; Dispute path.</strong> If there is disagreement, either side can flag the case for our team. We review evidence from both parties and rule within 7 working days, and the deposit is released accordingly.</p>
+                <h2>How to keep your deposit safe as a tenant</h2>
+                <ul>
+                    <li>Photograph every room, wall, and fixture on move-in day and upload the photos as your inspection record.</li>
+                    <li>Get written confirmation of any pre-existing damage from the owner.</li>
+                    <li>Keep rent receipts and all payment proofs on the platform.</li>
+                    <li>Serve the agreed notice period and share proof of the move-out cleanup.</li>
+                </ul>
+                <div class="tip"><strong>Final word:</strong> escrow does not remove the need for a fair tenancy &mdash; it removes the <em>risk</em> that your goodwill ends up as a stranger&rsquo;s bank balance. Protect yourself, document everything, and let the escrow account do its quiet work in the middle.</div>
             </article>
-            <div class="share-row">
+            <div class="share-row" aria-label="Share this article">
                 <span class="share-label">Share this article</span>
                 <a href="#" class="share-btn" onclick="window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent('Understanding Escrow Protection — HeavenLease')+'&url='+encodeURIComponent(location.href),'_blank');return false;" aria-label="Share on X"><i class="fab fa-twitter"></i></a>
                 <a href="#" class="share-btn" onclick="window.open('https://www.linkedin.com/sharing/share-offsite/?url='+encodeURIComponent(location.href),'_blank');return false;" aria-label="Share on LinkedIn"><i class="fab fa-linkedin-in"></i></a>
@@ -111,44 +467,48 @@
                 <a href="blog" class="btn btn-light"><i class="fas fa-newspaper"></i> Back to Blog</a>
             </div>
         </div>
-    </section>
-
+    </main>
     <footer class="footer">
-        <div class="container">
-            <div class="footer-grid" style="grid-template-columns: repeat(3, 1fr); gap: 32px; text-align: left;">
-                <div class="footer-brand">
-                    <a href="/" class="logo">
-                        <div class="logo-icon"><i class="fas fa-home"></i></div>
-                        <span class="logo-text">Heaven<span>Lease</span></span>
-                    </a>
-                    <p style="margin:12px 0 0;max-width:280px;">Simple steps to your perfect stay. Direct owner rentals with zero broker fees and comfort-first search.</p>
-                </div>
-                <div style="display:flex;flex-direction:column;gap:8px;font-size:14px;">
-                    <strong style="margin-bottom:4px;">Company</strong>
-                    <a href="about" style="color:inherit;text-decoration:none;">About Us</a>
-                    <a href="careers" style="color:inherit;text-decoration:none;">Careers</a>
-                    <a href="press" style="color:inherit;text-decoration:none;">Press</a>
-                    <a href="blog" style="color:inherit;text-decoration:none;">Blog</a>
-                    <a href="contact" style="color:inherit;text-decoration:none;">Contact</a>
-                </div>
-                <div style="display:flex;flex-direction:column;gap:8px;font-size:14px;">
-                    <strong style="margin-bottom:4px;">Legal &amp; Resources</strong>
-                    <a href="privacy" style="color:inherit;text-decoration:none;">Privacy Policy</a>
-                    <a href="terms" style="color:inherit;text-decoration:none;">Terms of Service</a>
-                    <a href="cookies" style="color:inherit;text-decoration:none;">Cookie Policy</a>
-                    <a href="rental-laws" style="color:inherit;text-decoration:none;">Rental Laws</a>
-                    <a href="escrow-policy" style="color:inherit;text-decoration:none;">Escrow Policy</a>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2026 HeavenLease. All rights reserved.</p>
-            </div>
+<div class="container">
+    <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
+        <div class="footer-brand">
+            <a href="home" class="logo">
+                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <span class="logo-text">Heaven<span>Lease</span></span>
+            </a>
+            <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>
         </div>
-    </footer>
-
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Explore</strong>
+            <a href="properties" style="color:inherit;text-decoration:none;">Find a Home</a>
+            <a href="map" style="color:inherit;text-decoration:none;">Property Map</a>
+            <a href="how-it-works" style="color:inherit;text-decoration:none;">How It Works</a>
+            <a href="about" style="color:inherit;text-decoration:none;">About Us</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Company</strong>
+            <a href="careers" style="color:inherit;text-decoration:none;">Careers</a>
+            <a href="press" style="color:inherit;text-decoration:none;">Press</a>
+            <a href="blog" style="color:inherit;text-decoration:none;">Blog</a>
+            <a href="contact" style="color:inherit;text-decoration:none;">Contact</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">For Owners</strong>
+            <a href="list-property" style="color:inherit;text-decoration:none;">List Your Property</a>
+            <a href="properties-management" style="color:inherit;text-decoration:none;">Owner Dashboard</a>
+            <a href="payment" style="color:inherit;text-decoration:none;">Pricing &amp; Upgrade</a>
+            <a href="owner-resources" style="color:inherit;text-decoration:none;">Owner Resources</a>
+        </div>
+    </div>
+    <div class="footer-bottom" style="justify-content:center;margin-top:28px;">
+        <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
+    </div>
+</div>
+</footer>
     <button class="back-to-top" id="backToTop" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
-
-    <script src="api.js?v=20260913a"></script>
-    <script src="script.js?v=20260913a"></script>
+    <script src="js/api.js?v=20260913a"></script>
+    <script src="js/core.js?v=20260913a"></script>
+    
+<script src="js/pages/understanding-escrow-protection.js?v=20260913a"></script>
 </body>
 </html>

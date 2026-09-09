@@ -3,147 +3,243 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Previously submitted rental applications.">
+    <meta name="description" content="Track your rental applications, property tours and active leases.">
     <title>Application History — HeavenLease</title>
+<link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
+<link rel="stylesheet" href="styles.css?v=20260909a">
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="styles.css?v=20260909a">
     <style>
-        .page-header { background: rgba(255,255,255,0.45); backdrop-filter: blur(6px); padding: 140px 0 70px; text-align: center; position: relative; overflow: hidden; }
-        .page-header h1 { font-family: var(--font-heading); font-size: 46px; font-weight: 700; color: var(--dark); margin-bottom: 12px; }
-        .page-header p { font-size: 17px; color: var(--gray-500); max-width: 640px; margin: 0 auto; }
-        .page-header .ph-icon { width: 68px; height: 68px; border-radius: 18px; background: var(--gradient); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 28px; margin: 0 auto 18px; box-shadow: var(--shadow-primary); }
-        .page-section { padding: 70px 0 90px; }
-        .page-section .section-head { text-align: center; margin-bottom: 44px; }
-        .page-section .section-head h2 { font-family: var(--font-heading); font-size: 30px; font-weight: 700; color: var(--dark); }
-        .feature-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 26px; }
-        .feature-card { background: rgba(255,255,255,0.92); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 28px; transition: var(--transition); box-shadow: var(--shadow-sm); }
-        .feature-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--primary); }
-        .feature-card .fc-icon { width: 52px; height: 52px; border-radius: 14px; background: var(--gradient-soft); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 14px; }
-        .feature-card h3 { font-size: 17px; font-weight: 600; color: var(--dark); margin-bottom: 6px; }
-        .feature-card p { font-size: 14px; color: var(--gray-500); line-height: 1.6; margin: 0; }
-        .page-cta { padding: 0 0 90px; }
-        .cta-banner { background: var(--gradient); border-radius: var(--radius-xl); padding: 44px 32px; text-align: center; color: #fff; }
-        .cta-banner h2 { font-family: var(--font-heading); font-size: 28px; margin-bottom: 8px; }
-        .cta-banner p { opacity: 0.92; margin-bottom: 20px; }
-        .cta-banner .btn { background: #fff; color: var(--primary); font-weight: 600; }
-        .cta-banner .btn.ghost { background: transparent; border: 1px solid #fff; color: #fff; }
-        @media (max-width: 900px) { .feature-grid { grid-template-columns: 1fr; } }
-        @media (max-width: 768px) { .page-header { padding: 120px 0 50px; } .page-header h1 { font-size: 34px; } }
+:root{
+  --ink:#182033;--muted:#687386;--soft:#f6f7fb;--line:#e4e7ee;
+  --primary:#5b5ce2;--primary2:#5b5ce2;--dark:#182033;--white:#ffffff;
+  --green:#18a878;--amber:#f79009;--red:#f04438;
+  --shadow:0 20px 60px rgba(16,24,40,.10);
+  --heading:#182033;
+  --body:#182033;
+}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:#fff;color:var(--ink);font-family:var(--body);font-size:14px}
+a{text-decoration:none}.hl-container{width:min(1160px,calc(100% - 40px));margin:auto}
+/* Navigation */
+.hl-nav{position:fixed;z-index:1000;top:0;left:0;right:0;padding:14px 0;transition:.25s}
+.hl-nav.scrolled{background:rgba(255,255,255,.94);backdrop-filter:blur(18px);box-shadow:0 8px 30px rgba(16,24,40,.08)}
+.hl-nav-inner{display:flex;align-items:center;justify-content:space-between}
+.hl-logo{display:flex;align-items:center;gap:10px;color:var(--ink);font-weight:800;font-size:19px}
+.hl-logo-icon{width:40px;height:40px;border-radius:13px;display:grid;place-items:center;color:#fff;
+background:linear-gradient(135deg,var(--primary),var(--primary2));box-shadow:0 8px 24px rgba(91,92,226,.25)}
+.hl-logo span{color:var(--primary)}
+.hl-nav-links{display:flex;gap:26px;align-items:center}
+.hl-nav-links a{color:#525c6e;font-size:14px;font-weight:600}
+.hl-nav-links a:hover{color:var(--primary)}
+.hl-account{position:relative}.hl-account-btn{border:1px solid var(--line);background:#fff;border-radius:999px;
+padding:8px 13px;display:flex;align-items:center;gap:8px;font:600 13px var(--body);cursor:pointer;color:var(--ink)}
+.hl-avatar{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:#eef0ff;color:var(--primary);font-weight:800}
+.hl-dropdown{position:absolute;right:0;top:48px;width:245px;background:#fff;border:1px solid var(--line);border-radius:16px;
+box-shadow:var(--shadow);padding:8px;display:none}.hl-dropdown.open{display:block}
+.hl-dropdown a{display:flex;gap:10px;padding:11px 12px;border-radius:10px;color:#3a4354;font-size:13px}
+.hl-dropdown a:hover{background:var(--soft)}.hl-dropdown .divider{height:1px;background:var(--line);margin:7px 0}
+/* Hero */
+.app-hero{padding:142px 0 66px;background:
+radial-gradient(circle at 8% 15%,rgba(124,58,237,.22),transparent 32%),
+radial-gradient(circle at 92% 15%,rgba(91,92,226,.20),transparent 28%),
+linear-gradient(135deg,#182033,#182033 55%,#241b46);color:#fff;overflow:hidden}
+.app-hero-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:55px;align-items:end}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;padding:8px 13px;border:1px solid rgba(255,255,255,.14);
+background:rgba(255,255,255,.08);border-radius:999px;font-size:12px;color:#eef0ff}
+.eyebrow i{color:#6ce9a6}.app-hero h1{font:600 clamp(42px,5.6vw,66px)/1.04 var(--heading);
+margin:20px 0 15px;letter-spacing:-1.7px}.app-hero h1 span{color:#aeb1ff}
+.app-hero p{font-size:16px;line-height:1.8;color:#9aa3b2;max-width:650px;margin:0}
+.hero-summary{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.summary-box{padding:18px;border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.08);
+border-radius:18px;backdrop-filter:blur(10px)}.summary-box strong{display:block;font-size:28px}
+.summary-box span{font-size:11px;color:#aeb5c7}.summary-box i{color:#aeb1ff;margin-right:5px}
+/* Main */
+.app-main{background:#f7f9fc;padding:60px 0 90px}
+.section-heading{display:flex;justify-content:space-between;gap:20px;align-items:end;margin-bottom:25px}
+.kicker{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.14em;color:var(--primary);margin-bottom:8px}
+.section-heading h2{font:600 34px/1.15 var(--heading);margin:0}.section-heading p{color:var(--muted);margin:0;max-width:460px;font-size:13px;line-height:1.7}
+/* Filters */
+.toolbar{background:#fff;border:1px solid var(--line);border-radius:18px;padding:12px;display:flex;gap:10px;
+align-items:center;margin-bottom:22px;box-shadow:0 5px 20px rgba(16,24,40,.04)}
+.filter-btn{border:1px solid var(--line);background:#fff;color:#525c6e;padding:10px 14px;border-radius:10px;
+font:600 12px var(--body);cursor:pointer}.filter-btn.active,.filter-btn:hover{background:#eef0ff;border-color:#d8d9ff;color:var(--primary)}
+.search-box{margin-left:auto;position:relative}.search-box i{position:absolute;left:12px;top:11px;color:#9aa3b2}
+.search-box input{width:220px;border:1px solid var(--line);border-radius:10px;padding:10px 12px 10px 34px;outline:none;font:13px var(--body)}
+.search-box input:focus{border-color:#aeb1ff;box-shadow:0 0 0 3px #eef0ff}
+/* Application cards */
+.application-list{display:grid;gap:16px}
+.application-card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:16px;display:grid;
+grid-template-columns:210px 1fr;gap:22px;box-shadow:0 6px 22px rgba(16,24,40,.045);transition:.22s}
+.application-card:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:#d6d8ff}
+.property-image{height:190px;border-radius:16px;overflow:hidden;background:linear-gradient(135deg,#ddd,#eee);position:relative}
+.property-image img{width:100%;height:100%;object-fit:cover;display:block}.image-tag{position:absolute;left:10px;top:10px;
+background:rgba(16,24,40,.75);color:#fff;padding:5px 8px;border-radius:8px;font-size:10px;font-weight:700}
+.application-content{min-width:0}.card-top{display:flex;justify-content:space-between;gap:15px;align-items:start}
+.property-title{font-size:18px;font-weight:800;margin:0 0 5px}.location{font-size:12px;color:var(--muted)}
+.location i{color:var(--primary);margin-right:5px}.status{display:inline-flex;align-items:center;gap:5px;padding:6px 10px;
+border-radius:999px;font-size:10px;font-weight:800;white-space:nowrap}.status-pending{background:#fff6ed;color:#b54708}
+.status-active{background:#ecfdf3;color:#027a48}.status-inactive{background:#f2f4f7;color:#687386}.status-completed{background:#eef0ff;color:#5146cd}
+.card-meta{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:20px 0;padding:16px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.meta-item span{display:block;font-size:10px;color:#9aa3b2;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+.meta-item strong{font-size:13px;color:#3a4354}.meta-item strong i{color:var(--primary);margin-right:4px}
+.progress{margin-bottom:17px}.progress-head{display:flex;justify-content:space-between;font-size:11px;margin-bottom:7px}
+.progress-head span{color:var(--muted)}.progress-track{height:6px;background:#edf0f5;border-radius:999px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--primary),var(--primary2));border-radius:999px}
+.card-actions{display:flex;justify-content:space-between;align-items:center;gap:10px}.application-id{font-size:10px;color:#9aa3b2}
+.actions{display:flex;gap:8px}.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;border-radius:10px;
+padding:10px 14px;font-size:11px;font-weight:800;transition:.2s}.btn-primary{background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff;
+box-shadow:0 7px 18px rgba(91,92,226,.18)}.btn-secondary{background:#fff;color:#3a4354;border:1px solid var(--line)}
+.btn:hover{transform:translateY(-1px)}
+/* Timeline / info */
+.journey-panel{margin-top:30px;background:#fff;border:1px solid var(--line);border-radius:22px;padding:27px}
+.journey-title{font-size:16px;font-weight:800;margin-bottom:23px}.timeline{display:grid;grid-template-columns:repeat(5,1fr);gap:0}
+.timeline-step{position:relative;text-align:center}.timeline-step:not(:last-child):after{content:"";position:absolute;
+top:16px;left:50%;right:-50%;height:2px;background:#e4e7ec;z-index:0}.timeline-step.done:not(:last-child):after{background:linear-gradient(90deg,var(--primary),#c7c9ff)}
+.timeline-dot{position:relative;z-index:1;margin:0 auto 10px;width:33px;height:33px;border-radius:50%;display:grid;place-items:center;
+background:#f2f4f7;color:#9aa3b2;border:3px solid #fff;box-shadow:0 0 0 1px #e4e7ec;font-size:11px}
+.timeline-step.done .timeline-dot{background:var(--primary);color:#fff;box-shadow:0 0 0 1px var(--primary)}
+.timeline-step.current .timeline-dot{background:#fff;color:var(--primary);box-shadow:0 0 0 2px var(--primary)}
+.timeline-step strong{display:block;font-size:11px}.timeline-step span{font-size:10px;color:#9aa3b2}
+/* CTA */
+.cta{margin-top:35px;border-radius:25px;padding:36px;background:linear-gradient(135deg,#151a31,#30245a);color:#fff;
+display:flex;align-items:center;justify-content:space-between;gap:25px}.cta h2{font:600 29px var(--heading);margin:0 0 7px}.cta p{color:#9aa3b2;margin:0;font-size:12px}
+.cta .btn{background:#fff;color:#182033;white-space:nowrap}
+/* Empty state */
+.empty{background:#fff;border:1px dashed #d0d5dd;border-radius:20px;text-align:center;padding:55px 20px}.empty-icon{
+width:58px;height:58px;border-radius:17px;background:#eef0ff;color:var(--primary);display:grid;place-items:center;
+font-size:23px;margin:0 auto 15px}.empty h3{margin:0 0 6px;font-size:17px}.empty p{color:var(--muted);font-size:13px;margin:0 0 20px}
+/* Footer */
+.footer{background:#182033;color:#9aa3b2;padding:50px 0 22px}.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:35px}
+.footer .hl-logo{color:#fff}.footer p{font-size:11px;line-height:1.8;max-width:300px}.footer h4{color:#fff;font-size:12px;margin:5px 0 14px}
+.footer a{display:block;color:#9aa3b2;font-size:11px;margin:9px 0}.footer a:hover{color:#fff}.footer-bottom{border-top:1px solid rgba(255,255,255,.08);
+margin-top:30px;padding-top:18px;font-size:10px;display:flex;justify-content:space-between}
+/* Mobile */
+@media(max-width:900px){.hl-nav-links{display:none}.app-hero-grid{grid-template-columns:1fr}.hero-summary{max-width:500px}
+.application-card{grid-template-columns:170px 1fr}.property-image{height:180px}.card-meta{grid-template-columns:repeat(2,1fr)}
+.footer-grid{grid-template-columns:1fr 1fr}.timeline-step strong{font-size:10px}}
+@media(max-width:620px){.hl-container{width:min(100% - 28px,1160px)}.hl-account-btn #navUserName{display:none}
+.app-hero{padding:120px 0 48px}.app-hero h1{font-size:43px}.hero-summary{grid-template-columns:1fr 1fr}
+.app-main{padding:40px 0 65px}.section-heading{display:block}.section-heading p{margin-top:10px}
+.toolbar{overflow:auto}.search-box{margin-left:0}.search-box input{width:180px}
+.application-card{grid-template-columns:1fr;gap:15px}.property-image{height:205px}.card-top{display:block}.status{margin-top:10px}
+.card-meta{margin:16px 0}.card-actions{display:block}.actions{margin-top:12px}.actions .btn{flex:1}.actions{display:flex}
+.journey-panel{padding:20px;overflow:auto}.timeline{min-width:600px}.cta{display:block;padding:30px}.cta .btn{margin-top:18px}
+.footer-grid{grid-template-columns:1fr}.footer-bottom{display:block}.footer-bottom span{display:block;margin-top:6px}}
     </style>
 </head>
 <body>
-    <nav class="navbar" id="navbar">
-        <div class="nav-container">
-            <a href="/" class="logo">
+  <nav class="hl-nav" id="hlNav">
+    <div class="hl-container hl-nav-inner">
+      <a class="hl-logo" href="home"><span class="hl-logo-icon"><i class="fas fa-house"></i></span>Heaven<span>Lease</span></a>
+      <div class="hl-nav-links">
+        <a href="properties">Find a Home</a>
+        <a href="map">Property Map</a>
+        <a href="application-status">Application Status</a>
+        <a href="how-it-works">How It Works</a>
+      </div>
+      <div class="hl-account">
+        <button class="hl-account-btn" id="accountBtn" aria-expanded="false">
+          <span class="hl-avatar" id="navAvatar">G</span><span id="navUserName">Guest</span><i class="fas fa-chevron-down"></i>
+        </button>
+        <div class="hl-dropdown" id="accountDropdown">
+          <a href="home"><i class="fas fa-house"></i> Main Home</a>
+          <a href="dashboard"><i class="fas fa-gauge-high"></i> My Dashboard</a>
+          <a href="edit-profile"><i class="fas fa-user"></i> Profile &amp; Settings</a>
+          <a href="saved-properties"><i class="fas fa-heart"></i> Saved Properties</a>
+          <a href="messages"><i class="fas fa-comments"></i> Messages</a>
+          <div class="divider"></div>
+          <a href="contact"><i class="fas fa-life-ring"></i> Contact Support</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <main>
+    <section class="app-hero">
+      <div class="hl-container app-hero-grid">
+        <div>
+          <span class="eyebrow"><i class="fas fa-circle-check"></i> Your rental journey · clear &amp; connected</span>
+          <h1>Every application, <span>in one place.</span></h1>
+          <p>Keep track of property visits, rental applications and active leases without losing the details that matter.</p>
+        </div>
+        <div class="hero-summary">
+          <div class="summary-box"><strong id="summaryTotal">0</strong><span><i class="fas fa-layer-group"></i> Total applications</span></div>
+          <div class="summary-box"><strong id="summaryPending">0</strong><span><i class="fas fa-hourglass-half"></i> In progress</span></div>
+          <div class="summary-box"><strong id="summaryApproved">0</strong><span><i class="fas fa-circle-check"></i> Approved</span></div>
+          <div class="summary-box"><strong id="summaryActive">0</strong><span><i class="fas fa-key"></i> Active leases</span></div>
+        </div>
+      </div>
+    </section>
+    <section class="app-main">
+      <div class="hl-container">
+        <div class="section-heading">
+          <div><div class="kicker">Your activity</div><h2>Application History</h2></div>
+          <p>See where each property journey stands and jump directly into the next action.</p>
+        </div>
+        <div class="toolbar">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="pending">In Progress</button>
+          <button class="filter-btn" data-filter="approved">Approved</button>
+          <button class="filter-btn" data-filter="active">Active Leases</button>
+          <div class="search-box"><i class="fas fa-search"></i><input id="searchInput" placeholder="Search properties..." aria-label="Search properties"></div>
+        </div>
+        <div id="historyWrap" class="application-list"></div>
+        <div class="journey-panel">
+          <div class="journey-title">How your rental journey moves forward</div>
+          <div class="timeline">
+            <div class="timeline-step done"><div class="timeline-dot"><i class="fas fa-search"></i></div><strong>Discover</strong><span>Find a home</span></div>
+            <div class="timeline-step done"><div class="timeline-dot"><i class="fas fa-calendar-check"></i></div><strong>Tour</strong><span>Visit property</span></div>
+            <div class="timeline-step current"><div class="timeline-dot"><i class="fas fa-file-lines"></i></div><strong>Apply</strong><span>Submit details</span></div>
+            <div class="timeline-step"><div class="timeline-dot"><i class="fas fa-circle-check"></i></div><strong>Approval</strong><span>Owner review</span></div>
+            <div class="timeline-step"><div class="timeline-dot"><i class="fas fa-key"></i></div><strong>Move in</strong><span>Start living</span></div>
+          </div>
+        </div>
+        <div class="cta">
+          <div><h2>Still looking for the right home?</h2><p>Explore verified listings and start another property journey.</p></div>
+          <a class="btn" href="properties"><i class="fas fa-magnifying-glass"></i> Explore Homes</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="footer">
+<div class="container">
+    <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
+        <div class="footer-brand">
+            <a href="home" class="logo">
                 <div class="logo-icon"><i class="fas fa-home"></i></div>
                 <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
-            <div class="nav-actions">
-                <div class="user-menu" id="userMenu">
-                    <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu">
-                        <span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span>
-                        <span id="navUserName">Account</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </button>
-                    <div class="user-dropdown" id="profileDropdown">
-                        <a href="home" id="mainHomeLink"><i class="fas fa-home"></i> Main Home</a>
-                        <a href="edit-profile" id="myProfileLink"><i class="fas fa-user"></i> My Profile &amp; Settings</a>
-                        <a href="payment"><i class="fas fa-credit-card"></i> Access Pass</a>
-                    </div>
-                </div>
-            </div>
+            <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>
         </div>
-    </nav>
-    <section class="page-header">
-        <div class="container">
-            <div class="ph-icon"><i class="fas fa-clock-rotate-left"></i></div>
-            <h1>Application History</h1>
-            <p>Past and current applications, all in one place.</p>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Explore</strong>
+            <a href="properties" style="color:inherit;text-decoration:none;">Find a Home</a>
+            <a href="map" style="color:inherit;text-decoration:none;">Property Map</a>
+            <a href="how-it-works" style="color:inherit;text-decoration:none;">How It Works</a>
+            <a href="about" style="color:inherit;text-decoration:none;">About Us</a>
         </div>
-    </section>
-
-    <section class="page-section" style="padding-top:20px;">
-        <div class="container" style="max-width: 980px;">
-            <div class="section-head" style="text-align:center;margin-bottom:28px;"><h2>Your Application History</h2></div>
-            <div id="historyWrap">
-                <p style="text-align:center;color:var(--gray-400);padding:40px 0;"><i class="fas fa-spinner fa-spin"></i> Loading history…</p>
-            </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Company</strong>
+            <a href="careers" style="color:inherit;text-decoration:none;">Careers</a>
+            <a href="press" style="color:inherit;text-decoration:none;">Press</a>
+            <a href="blog" style="color:inherit;text-decoration:none;">Blog</a>
+            <a href="contact" style="color:inherit;text-decoration:none;">Contact</a>
         </div>
-    </section>
-
-    <section class="page-cta">
-        <div class="container">
-            <div class="cta-banner">
-                <h2>Ready to continue?</h2>
-                <p>Head back to your dashboard or browse the next step.</p>
-                                <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
-                    <a href="application-status" class="btn btn-lg"><i class="fas fa-hourglass-half"></i> Check Application Status</a>
-                    <a href="properties" class="btn btn-lg"><i class="fas fa-building"></i> Browse Properties</a>
-                    <a href="dashboard" class="btn btn-lg"><i class="fas fa-gauge-high"></i> My Dashboard</a>
-                    <a href="dashboard" class="btn btn-lg ghost"><i class="fas fa-gauge-high"></i> My Dashboard</a>
-                </div>
-            </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">For Owners</strong>
+            <a href="list-property" style="color:inherit;text-decoration:none;">List Your Property</a>
+            <a href="properties-management" style="color:inherit;text-decoration:none;">Owner Dashboard</a>
+            <a href="payment" style="color:inherit;text-decoration:none;">Pricing &amp; Upgrade</a>
+            <a href="owner-resources" style="color:inherit;text-decoration:none;">Owner Resources</a>
         </div>
-    </section>
-
-<script src="api.js?v=20260913a"></script>
-    <script src="script.js?v=20260913a"></script>
-    <script>
-        (function() {
-            'use strict';
-            const user = api.getUser();
-
-            function badge(s) {
-                const map = { 'pending': ['status-pending','Pending'], 'confirmed': ['status-active','Confirmed'],
-                              'approved': ['status-active','Approved'], 'declined': ['status-inactive','Declined'],
-                              'cancelled': ['status-inactive','Cancelled'], 'completed': ['status-inactive','Completed'],
-                              'active': ['status-completed','Active'], 'terminated': ['status-inactive','Terminated'] };
-                const m = map[(s||'').toLowerCase()] || ['status-inactive', s || '—'];
-                return '<span class="status ' + m[0] + '">' + api.escapeHtml(m[1]) + '</span>';
-            }
-            function fmtDate(s) { if (!s) return '—'; const d = new Date(s); return isNaN(d) ? s : d; }
-
-            async function loadHistory() {
-                const wrap = document.getElementById('historyWrap');
-                try {
-                    if (!user || !user.id) { wrap.innerHTML = '<div style="text-align:center;padding:40px;color:var(--gray-500);">Please log in to view your history.</div>'; return; }
-                    let bookings = await api.getBookingsByTenant(user.id).catch(() => []);
-                    let leases = await api.getLeasesByTenant(user.id).catch(() => []);
-                    if (!Array.isArray(bookings)) bookings = [];
-                    if (!Array.isArray(leases)) leases = [];
-                    if (bookings.length === 0 && leases.length === 0) {
-                        wrap.innerHTML = '<div style="text-align:center;padding:60px 20px;background:var(--white);border:2px dashed var(--gray-200);border-radius:var(--radius-xl);">'
-                            + '<i class="fas fa-clock-rotate-left" style="font-size:56px;color:var(--gray-300);"></i>'
-                            + '<h3 style="margin:16px 0 6px;color:var(--dark);">No applications yet</h3>'
-                            + '<p style="color:var(--gray-500);margin-bottom:20px;">Tour requests and leases you have created will appear here.</p>'
-                            + '<a href="properties" class="btn btn-primary" style="display:inline-flex;gap:8px;"><i class="fas fa-building"></i> Browse Properties</a></div>';
-                        return;
-                    }
-                    const rows = [];
-                    bookings.forEach(b => {
-                        rows.push('<div style="background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:18px 22px;margin-bottom:12px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:center;box-shadow:var(--shadow-sm);">'
-                            + '<div><strong style="color:var(--dark);">' + api.escapeHtml(b.propertyTitle || ('Property #' + b.propertyId)) + '</strong> ' + badge(b.status)
-                            + '<div style="font-size:12px;color:var(--gray-400);margin-top:6px;">Tour request · ' + api.escapeHtml(fmtDate(b.tourDate)) + ' · ' + api.escapeHtml(b.tourTime || '') + '</div></div>'
-                            + '<a class="btn btn-sm btn-secondary" href="application-status?id=' + b.id + '"><i class="fas fa-hourglass-half"></i> Track</a></div>');
-                    });
-                    leases.forEach(l => {
-                        rows.push('<div style="background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:18px 22px;margin-bottom:12px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:center;box-shadow:var(--shadow-sm);">'
-                            + '<div><strong style="color:var(--dark);">Lease · ' + api.escapeHtml(l.propertyTitle || ('#' + l.id)) + '</strong> ' + badge(l.status)
-                            + '<div style="font-size:12px;color:var(--gray-400);margin-top:6px;">Owner: ' + api.escapeHtml(l.ownerName || ('#' + l.ownerId)) + '</div></div>'
-                            + '<a class="btn btn-sm btn-secondary" href="lease-details?id=' + l.id + '"><i class="fas fa-file-contract"></i> Lease</a></div>');
-                    });
-                    wrap.innerHTML = rows.join('');
-                } catch (e) {
-                    wrap.innerHTML = '<div style="text-align:center;padding:40px;color:var(--gray-500);">' + api.escapeHtml(e.message || 'Could not load history.') + '</div>';
-                }
-            }
-
-            loadHistory();
-        })();
-    </script>
+    </div>
+    <div class="footer-bottom" style="justify-content:center;margin-top:28px;">
+        <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
+    </div>
+</div>
+</footer>
+  <script src="js/api.js?v=20260913a"></script>
+  <script src="js/core.js?v=20260913a"></script>
+  <script src="demo/demo-data.js?v=20260913a"></script>
+<script src="js/pages/application-history.js?v=20260913a"></script>
 </body>
 </html>

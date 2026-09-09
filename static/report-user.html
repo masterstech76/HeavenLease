@@ -8,43 +8,463 @@
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
     <link rel="stylesheet" href="styles.css?v=20260909a">
     <style>
-        .page-header { background: rgba(255,255,255,0.45); backdrop-filter: blur(6px); padding: 140px 0 70px; text-align: center; position: relative; overflow: hidden; }
-        .page-header h1 { font-family: var(--font-heading); font-size: 46px; font-weight: 700; color: var(--dark); margin-bottom: 12px; }
-        .page-header p { font-size: 17px; color: var(--gray-500); max-width: 640px; margin: 0 auto; }
-        .page-header .ph-icon { width: 68px; height: 68px; border-radius: 18px; background: var(--gradient); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 28px; margin: 0 auto 18px; box-shadow: var(--shadow-primary); }
-        .page-section { padding: 70px 0 90px; }
-        .page-section .section-head { text-align: center; margin-bottom: 44px; }
-        .page-section .section-head h2 { font-family: var(--font-heading); font-size: 30px; font-weight: 700; color: var(--dark); }
-        .feature-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 26px; }
-        .feature-card { background: rgba(255,255,255,0.92); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 28px; transition: var(--transition); box-shadow: var(--shadow-sm); }
-        .feature-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--primary); }
-        .feature-card .fc-icon { width: 52px; height: 52px; border-radius: 14px; background: var(--gradient-soft); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 14px; }
-        .feature-card h3 { font-size: 17px; font-weight: 600; color: var(--dark); margin-bottom: 6px; }
-        .feature-card p { font-size: 14px; color: var(--gray-500); line-height: 1.6; margin: 0; }
-        .page-cta { padding: 0 0 90px; }
-        .cta-banner { background: var(--gradient); border-radius: var(--radius-xl); padding: 44px 32px; text-align: center; color: #fff; }
-        .cta-banner h2 { font-family: var(--font-heading); font-size: 28px; margin-bottom: 8px; }
-        .cta-banner p { opacity: 0.92; margin-bottom: 20px; }
-        .cta-banner .btn { background: #fff; color: var(--primary); font-weight: 600; }
-        .cta-banner .btn.ghost { background: transparent; border: 1px solid #fff; color: #fff; }
-        @media (max-width: 900px) { .feature-grid { grid-template-columns: 1fr; } }
-        @media (max-width: 768px) { .page-header { padding: 120px 0 50px; } .page-header h1 { font-size: 34px; } }
+        :root {
+            --report-ink: #17211b;
+            --report-muted: #66736c;
+            --report-line: rgba(23, 33, 27, .12);
+            --report-card: rgba(255, 255, 255, .96);
+            --report-dark: #142019;
+            --report-accent: #8a6a43;
+            --report-accent-soft: #f2eadf;
+            --report-shadow: 0 24px 70px rgba(19, 31, 24, .13);
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            color: var(--report-ink);
+            background:
+                linear-gradient(rgba(248,246,241,.86), rgba(248,246,241,.92)),
+                url("https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=2200&q=85")
+                center/cover fixed;
+            font-family: Inter, sans-serif;
+        }
+        .navbar {
+            position: fixed;
+            inset: 0 0 auto;
+            z-index: 1000;
+            background:
+                linear-gradient(90deg, rgba(10,18,14,.93), rgba(19,29,23,.84)),
+                url("https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=2200&q=82")
+                center 44%/cover;
+            border-bottom: 1px solid rgba(255,255,255,.13);
+            box-shadow: 0 12px 34px rgba(0,0,0,.16);
+            backdrop-filter: blur(12px);
+        }
+        .nav-container {
+            width: min(1180px, calc(100% - 40px));
+            min-height: 78px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 11px;
+            color: #fff;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 43px;
+            height: 43px;
+            border-radius: 13px;
+            display: grid;
+            place-items: center;
+            background: linear-gradient(145deg, #b99162, #755637);
+            color: #fff;
+            box-shadow: 0 10px 24px rgba(0,0,0,.22);
+        }
+        .logo-text {
+            font-size: 22px;
+            line-height: 1;
+            font-weight: 800;
+            letter-spacing: -.7px;
+        }
+        .logo-text span { color: #d7b487; }
+        .nav-actions { display: flex; align-items: center; }
+        .user-menu { position: relative; }
+        .user-menu-trigger {
+            min-height: 46px;
+            border: 1px solid rgba(255,255,255,.17);
+            border-radius: 999px;
+            padding: 5px 13px 5px 6px;
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            background: rgba(255,255,255,.08);
+            color: #fff;
+            cursor: pointer;
+            font: inherit;
+            transition: .2s ease;
+        }
+        .user-menu-trigger:hover,
+        .user-menu-trigger:focus-visible {
+            background: rgba(255,255,255,.15);
+            outline: none;
+        }
+        .user-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: rgba(255,255,255,.15);
+        }
+        .user-dropdown {
+            position: absolute;
+            right: 0;
+            top: calc(100% + 12px);
+            width: 245px;
+            padding: 8px;
+            border: 1px solid var(--report-line);
+            border-radius: 17px;
+            background: rgba(255,255,255,.98);
+            box-shadow: 0 22px 60px rgba(15,25,20,.18);
+        }
+        .user-dropdown a {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding: 12px 13px;
+            border-radius: 11px;
+            color: var(--report-ink);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .user-dropdown a:hover { background: #f4f1eb; }
+        .user-dropdown i { width: 18px; color: var(--report-accent); text-align: center; }
+        .report-hero {
+            position: relative;
+            min-height: 520px;
+            padding: 158px 0 92px;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            background:
+                linear-gradient(90deg, rgba(11,21,16,.82), rgba(11,21,16,.48) 58%, rgba(11,21,16,.30)),
+                url("https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=2200&q=88")
+                center/cover;
+        }
+        .report-hero::after {
+            content: "";
+            position: absolute;
+            inset: auto 0 0;
+            height: 110px;
+            background: linear-gradient(transparent, rgba(248,246,241,.96));
+        }
+        .hero-inner {
+            position: relative;
+            z-index: 1;
+            width: min(1180px, calc(100% - 40px));
+            margin: 0 auto;
+        }
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border: 1px solid rgba(255,255,255,.22);
+            border-radius: 999px;
+            background: rgba(255,255,255,.09);
+            color: #f4eadc;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: .09em;
+            text-transform: uppercase;
+            backdrop-filter: blur(8px);
+        }
+        .hero-icon {
+            width: 70px;
+            height: 70px;
+            margin: 22px 0 18px;
+            border-radius: 21px;
+            display: grid;
+            place-items: center;
+            background: linear-gradient(145deg, #b68b5a, #765536);
+            color: #fff;
+            font-size: 27px;
+            box-shadow: 0 18px 38px rgba(0,0,0,.25);
+        }
+        .report-hero h1 {
+            max-width: 760px;
+            margin: 0 0 15px;
+            color: #fff;
+            font-family: "Playfair Display", serif;
+            font-size: clamp(42px, 6vw, 70px);
+            line-height: 1.02;
+            letter-spacing: -1.7px;
+        }
+        .report-hero p {
+            max-width: 630px;
+            margin: 0;
+            color: rgba(255,255,255,.82);
+            font-size: 18px;
+            line-height: 1.7;
+        }
+        .report-area {
+            position: relative;
+            z-index: 2;
+            padding: 0 0 100px;
+        }
+        .report-layout {
+            width: min(1080px, calc(100% - 40px));
+            margin: -55px auto 0;
+            display: grid;
+            grid-template-columns: minmax(0, 1.35fr) minmax(280px, .65fr);
+            gap: 25px;
+            align-items: start;
+        }
+        .report-card,
+        .trust-card {
+            border: 1px solid var(--report-line);
+            border-radius: 25px;
+            background: var(--report-card);
+            box-shadow: var(--report-shadow);
+        }
+        .report-card { padding: clamp(26px, 4vw, 42px); }
+        .card-kicker {
+            margin: 0 0 8px;
+            color: var(--report-accent);
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: .11em;
+            text-transform: uppercase;
+        }
+        .report-card h2,
+        .trust-card h2 {
+            margin: 0;
+            font-family: "Playfair Display", serif;
+            color: var(--report-ink);
+        }
+        .report-card h2 { font-size: 32px; }
+        .card-intro { margin: 9px 0 27px; color: var(--report-muted); line-height: 1.65; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #3b4740;
+            font-size: 13px;
+            font-weight: 800;
+        }
+        .field-wrap { position: relative; }
+        .field-wrap i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #8b968f;
+            pointer-events: none;
+        }
+        .field-wrap input,
+        .field-wrap select,
+        .field-wrap textarea {
+            width: 100%;
+            border: 1px solid #dce1dc;
+            border-radius: 14px;
+            background: #fff;
+            color: var(--report-ink);
+            font: inherit;
+            font-size: 14px;
+            transition: .2s ease;
+            outline: none;
+        }
+        .field-wrap input,
+        .field-wrap select {
+            min-height: 51px;
+            padding: 12px 15px 12px 44px;
+        }
+        .field-wrap textarea {
+            min-height: 135px;
+            padding: 14px 15px;
+            resize: vertical;
+            line-height: 1.6;
+        }
+        .field-wrap input:focus,
+        .field-wrap select:focus,
+        .field-wrap textarea:focus {
+            border-color: #9a7750;
+            box-shadow: 0 0 0 4px rgba(154,119,80,.11);
+        }
+        .submit-btn {
+            width: 100%;
+            min-height: 54px;
+            margin-top: 2px;
+            border: 0;
+            border-radius: 14px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            background: linear-gradient(135deg, #9a754d, #6f5033);
+            color: #fff;
+            font: inherit;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 14px 27px rgba(111,80,51,.22);
+            transition: transform .2s ease, box-shadow .2s ease;
+        }
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 18px 34px rgba(111,80,51,.28);
+        }
+        .trust-card {
+            position: sticky;
+            top: 105px;
+            padding: 27px;
+            background:
+                linear-gradient(rgba(20,32,25,.94), rgba(20,32,25,.94)),
+                url("https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=1000&q=80")
+                center/cover;
+            color: #fff;
+            overflow: hidden;
+        }
+        .trust-card h2 { color: #fff; font-size: 25px; margin-bottom: 10px; }
+        .trust-card > p { margin: 0 0 21px; color: rgba(255,255,255,.72); line-height: 1.65; font-size: 14px; }
+        .trust-list { display: grid; gap: 13px; margin: 0; padding: 0; list-style: none; }
+        .trust-list li {
+            display: flex;
+            gap: 11px;
+            align-items: flex-start;
+            padding: 13px 0;
+            border-top: 1px solid rgba(255,255,255,.1);
+            color: rgba(255,255,255,.84);
+            font-size: 13px;
+            line-height: 1.55;
+        }
+        .trust-list i {
+            width: 24px;
+            height: 24px;
+            flex: 0 0 24px;
+            border-radius: 8px;
+            display: grid;
+            place-items: center;
+            background: rgba(214,180,137,.16);
+            color: #d9b98f;
+        }
+        .next-step {
+            width: min(1080px, calc(100% - 40px));
+            margin: 25px auto 0;
+            padding: 44px;
+            border-radius: 27px;
+            text-align: center;
+            color: #fff;
+            background:
+                linear-gradient(100deg, rgba(17,28,22,.92), rgba(17,28,22,.67)),
+                url("https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1800&q=85")
+                center/cover;
+            box-shadow: 0 25px 65px rgba(17,28,22,.16);
+        }
+        .next-step h2 {
+            margin: 0 0 8px;
+            font-family: "Playfair Display", serif;
+            font-size: 32px;
+        }
+        .next-step p {
+            margin: 0 auto 22px;
+            max-width: 650px;
+            color: rgba(255,255,255,.78);
+            line-height: 1.6;
+        }
+        .next-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 11px;
+        }
+        .next-links a {
+            min-height: 45px;
+            padding: 11px 16px;
+            border: 1px solid rgba(255,255,255,.18);
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #fff;
+            color: #705234;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 800;
+            transition: .2s ease;
+        }
+        .next-links a:hover { transform: translateY(-2px); }
+        .next-links a.ghost { background: transparent; color: #fff; }
+        footer {
+            position: relative;
+            z-index: 3;
+            background: #111a15 !important;
+            color: rgba(255,255,255,.78);
+            border-top: 1px solid rgba(255,255,255,.08);
+        }
+        .footer-inner {
+            width: min(1180px, calc(100% - 40px));
+            margin: 0 auto;
+            padding: 52px 0 28px;
+        }
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 21px;
+        }
+        .footer-copy {
+            max-width: 560px;
+            margin: 14px 0 27px;
+            color: rgba(255,255,255,.58);
+            line-height: 1.7;
+            font-size: 13px;
+        }
+        .footer-bottom {
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,.08);
+            color: rgba(255,255,255,.45);
+            font-size: 12px;
+        }
+        @media (max-width: 900px) {
+            .report-layout { grid-template-columns: 1fr; }
+            .trust-card { position: static; }
+        }
+        @media (max-width: 680px) {
+            .nav-container,
+            .hero-inner,
+            .report-layout,
+            .next-step,
+            .footer-inner { width: min(100% - 28px, 1180px); }
+            .nav-container { min-height: 70px; }
+            .logo-text { font-size: 20px; }
+            .user-menu-trigger > span:last-of-type,
+            .user-menu-trigger > i:last-child { display: none; }
+            .report-hero {
+                min-height: 490px;
+                padding: 135px 0 85px;
+            }
+            .report-hero h1 { font-size: 43px; }
+            .report-hero p { font-size: 16px; }
+            .report-layout { margin-top: -42px; }
+            .report-card { padding: 24px 20px; border-radius: 21px; }
+            .trust-card { border-radius: 21px; padding: 23px 20px; }
+            .next-step { padding: 34px 20px; border-radius: 21px; }
+            .next-step h2 { font-size: 28px; }
+            .next-links a { width: 100%; justify-content: center; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                scroll-behavior: auto !important;
+                transition-duration: .01ms !important;
+                animation-duration: .01ms !important;
+            }
+        }
     </style>
 </head>
 <body>
     <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <a href="/" class="logo">
+            <a href="/" class="logo" aria-label="HeavenLease home">
                 <div class="logo-icon"><i class="fas fa-home"></i></div>
                 <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
             <div class="nav-actions">
                 <div class="user-menu" id="userMenu">
-                    <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu">
+                    <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu" aria-expanded="false">
                         <span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span>
                         <span id="navUserName">Account</span>
                         <i class="fas fa-chevron-down"></i>
@@ -58,76 +478,127 @@
             </div>
         </div>
     </nav>
-    <section class="page-header">
-        <div class="container">
-            <div class="ph-icon"><i class="fas fa-user-slash"></i></div>
-            <h1>Report a User</h1>
-            <p>Keep the community safe and accountable.</p>
-        </div>
-    </section>
-
-    <section class="page-section" style="padding-top:20px;">
-        <div class="container" style="max-width: 720px;">
-            <div class="section-head" style="text-align:center;margin-bottom:24px;"><h2>Report a User</h2></div>
-            <form id="reportForm" style="background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-xl);padding:28px 30px;box-shadow:var(--shadow-sm);">
-                <div class="form-group" style="margin-bottom:16px;">
-                    <label style="display:block;font-size:13px;font-weight:600;color:var(--gray-600);margin-bottom:6px;">User ID</label>
-                    <input id="userId" type="number" required placeholder="User being reported" style="width:100%;padding:12px 16px;border:1px solid var(--gray-200);border-radius:var(--radius-md);font-size:14px;">
+    <main>
+        <section class="report-hero">
+            <div class="hero-inner">
+                <span class="eyebrow"><i class="fas fa-shield-halved"></i> Community safety</span>
+                <div class="hero-icon"><i class="fas fa-user-slash"></i></div>
+                <h1>Report a User</h1>
+                <p>Keep the community safe and accountable. Share the details of a policy concern and our safety team can review it confidentially.</p>
+            </div>
+        </section>
+        <section class="report-area" aria-labelledby="report-heading">
+            <div class="report-layout">
+                <div class="report-card">
+                    <p class="card-kicker">Private report</p>
+                    <h2 id="report-heading">Tell us what happened</h2>
+                    <p class="card-intro">Provide the user ID, select the closest reason, and describe the issue clearly so the report can be reviewed.</p>
+                    <form id="reportForm">
+                        <div class="form-group">
+                            <label for="userId">User ID</label>
+                            <div class="field-wrap">
+                                <i class="fas fa-id-card"></i>
+                                <input id="userId" type="number" required placeholder="User being reported" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="reason">Reason</label>
+                            <div class="field-wrap">
+                                <i class="fas fa-flag"></i>
+                                <select id="reason">
+                                    <option value="Harassment">Harassment</option>
+                                    <option value="Scam">Scam / fraud attempt</option>
+                                    <option value="Fake identity">Fake identity</option>
+                                    <option value="Spam">Spam / unwanted contact</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="details">Details</label>
+                            <div class="field-wrap">
+                                <textarea id="details" rows="4" required placeholder="Describe what happened..."></textarea>
+                            </div>
+                        </div>
+                        <button type="submit" class="submit-btn">
+                            <i class="fas fa-user-slash"></i>
+                            Submit Report
+                        </button>
+                    </form>
                 </div>
-                <div class="form-group" style="margin-bottom:16px;">
-                    <label style="display:block;font-size:13px;font-weight:600;color:var(--gray-600);margin-bottom:6px;">Reason</label>
-                    <select id="reason" style="width:100%;padding:12px 16px;border:1px solid var(--gray-200);border-radius:var(--radius-md);font-size:14px;">
-                        <option value="Harassment">Harassment</option>
-                        <option value="Scam">Scam / fraud attempt</option>
-                        <option value="Fake identity">Fake identity</option>
-                        <option value="Spam">Spam / unwanted contact</option>
-                        <option value="Other">Other</option>
-                    </select>
-                </div>
-                <div class="form-group" style="margin-bottom:20px;">
-                    <label style="display:block;font-size:13px;font-weight:600;color:var(--gray-600);margin-bottom:6px;">Details</label>
-                    <textarea id="details" rows="4" required style="width:100%;padding:12px 16px;border:1px solid var(--gray-200);border-radius:var(--radius-md);font-size:14px;font-family:inherit;" placeholder="Describe what happened..."></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary" style="width:100%;display:inline-flex;justify-content:center;gap:8px;"><i class="fas fa-user-slash"></i> Submit Report</button>
-            </form>
-        </div>
-    </section>
-
-    <section class="page-cta">
-        <div class="container">
-            <div class="cta-banner">
+                <aside class="trust-card">
+                    <h2>Help protect the community</h2>
+                    <p>Clear, factual reports help HeavenLease review concerns responsibly and keep interactions safer for everyone.</p>
+                    <ul class="trust-list">
+                        <li>
+                            <i class="fas fa-lock"></i>
+                            <span>Share only the details needed to explain the issue.</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-file-circle-check"></i>
+                            <span>Choose the reason that best matches what happened.</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-comments"></i>
+                            <span>Describe specific behavior, messages, or circumstances.</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-shield-halved"></i>
+                            <span>Reports are submitted through the existing HeavenLease reporting flow.</span>
+                        </li>
+                    </ul>
+                </aside>
+            </div>
+            <div class="next-step">
                 <h2>Ready to continue?</h2>
-                <p>Head back to your dashboard or browse the next step.</p>
-                                <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
-                    <a href="write-review" class="btn btn-lg"><i class="fas fa-pen"></i> Write a Review</a>
-                    <a href="report-property" class="btn btn-lg"><i class="fas fa-flag"></i> Report a Property</a>
-                    <a href="dashboard" class="btn btn-lg"><i class="fas fa-gauge-high"></i> My Dashboard</a>
-                    <a href="dashboard" class="btn btn-lg ghost"><i class="fas fa-gauge-high"></i> My Dashboard</a>
+                <p>Head back to your dashboard or browse another community action.</p>
+                <div class="next-links">
+                    <a href="write-review"><i class="fas fa-pen"></i> Write a Review</a>
+                    <a href="report-property"><i class="fas fa-flag"></i> Report a Property</a>
+                    <a href="dashboard"><i class="fas fa-gauge-high"></i> My Dashboard</a>
                 </div>
             </div>
+        </section>
+    </main>
+    <footer class="footer">
+<div class="container">
+    <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
+        <div class="footer-brand">
+            <a href="home" class="logo">
+                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <span class="logo-text">Heaven<span>Lease</span></span>
+            </a>
+            <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>
         </div>
-    </section>
-
-<script src="api.js?v=20260913a"></script>
-    <script src="script.js?v=20260913a"></script>
-    <script>
-        (function() {
-            'use strict';
-            const form = document.getElementById('reportForm');
-            if(form){
-                form.addEventListener('submit',async function(ev){
-                    ev.preventDefault();
-                    try{
-                        const uid=document.getElementById('userId').value;
-                        const reason=document.getElementById('reason').value;
-                        const details=document.getElementById('details').value;
-                        await api.createTicket('report_user','Report user #'+uid+' — '+reason,'User ID: '+uid+'\nReason: '+reason+'\n\n'+details);
-                        showToast('Report submitted. Our safety team will review it confidentially.','success');
-                        form.reset();
-                    }catch(e){showToast(e.message||'Report submission failed.','error');}
-                });
-            }
-        })();
-    </script>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Explore</strong>
+            <a href="properties" style="color:inherit;text-decoration:none;">Find a Home</a>
+            <a href="map" style="color:inherit;text-decoration:none;">Property Map</a>
+            <a href="how-it-works" style="color:inherit;text-decoration:none;">How It Works</a>
+            <a href="about" style="color:inherit;text-decoration:none;">About Us</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Company</strong>
+            <a href="careers" style="color:inherit;text-decoration:none;">Careers</a>
+            <a href="press" style="color:inherit;text-decoration:none;">Press</a>
+            <a href="blog" style="color:inherit;text-decoration:none;">Blog</a>
+            <a href="contact" style="color:inherit;text-decoration:none;">Contact</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">For Owners</strong>
+            <a href="list-property" style="color:inherit;text-decoration:none;">List Your Property</a>
+            <a href="properties-management" style="color:inherit;text-decoration:none;">Owner Dashboard</a>
+            <a href="payment" style="color:inherit;text-decoration:none;">Pricing &amp; Upgrade</a>
+            <a href="owner-resources" style="color:inherit;text-decoration:none;">Owner Resources</a>
+        </div>
+    </div>
+    <div class="footer-bottom" style="justify-content:center;margin-top:28px;">
+        <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
+    </div>
+</div>
+</footer>
+    <script src="js/api.js?v=20260913a"></script>
+    <script src="js/core.js?v=20260913a"></script>
+    <script src="js/pages/report.js?v=20260913a"></script>
 </body>
 </html>

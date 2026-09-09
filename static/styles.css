@@ -17,7 +17,7 @@
     --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.4), 0 2px 4px -1px rgba(0,0,0,0.3);
     --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.4), 0 4px 6px -2px rgba(0,0,0,0.3);
     --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.4), 0 10px 10px -5px rgba(0,0,0,0.3);
-    --shadow-primary: 0 10px 25px -5px rgba(79, 70, 229, 0.6);
+    --shadow-primary: 0 10px 25px -5px rgba(91, 92, 226, 0.6);
     color-scheme: dark;
 }
 
@@ -54,35 +54,35 @@
 
 /* ===== CSS RESET & VARIABLES ===== */
 :root {
-    --primary: #4F46E5;
-    --primary-dark: #4338CA;
-    --primary-light: #EEF2FF;
-    --secondary: #10B981;
-    --secondary-dark: #059669;
+    --primary: #5B5CE2;
+    --primary-dark: #4445C5;
+    --primary-light: #EEF0FF;
+    --secondary: #18A878;
+    --secondary-dark: #0F8A63;
     --accent: #F59E0B;
-    --dark: #0F172A;
-    --dark-2: #1E293B;
-    --gray-50: #F8FAFC;
-    --gray-100: #F1F5F9;
-    --gray-200: #E2E8F0;
-    --gray-300: #CBD5E1;
-    --gray-400: #94A3B8;
-    --gray-500: #64748B;
-    --gray-600: #475569;
-    --gray-700: #334155;
-    --gray-800: #1E293B;
+    --dark: #182033;
+    --dark-2: #2A3350;
+    --gray-50: #F7F8FC;
+    --gray-100: #EEF0F5;
+    --gray-200: #E4E7EE;
+    --gray-300: #D4D8E2;
+    --gray-400: #9AA3B2;
+    --gray-500: #687386;
+    --gray-600: #525C6E;
+    --gray-700: #3A4354;
+    --gray-800: #242C3E;
     --white: #FFFFFF;
-    --gradient: linear-gradient(135deg, #4F46E5 0%, #7C3AED 50%, #10B981 100%);
-    --gradient-soft: linear-gradient(135deg, #EEF2FF 0%, #F0FDF4 100%);
-    --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
-    --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
-    --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
-    --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
-    --shadow-primary: 0 10px 25px -5px rgba(79, 70, 229, 0.4);
-    --radius-sm: 8px;
-    --radius-md: 12px;
-    --radius-lg: 16px;
-    --radius-xl: 24px;
+    --gradient: linear-gradient(135deg, #5B5CE2 0%, #4445C5 50%, #18A878 100%);
+    --gradient-soft: linear-gradient(135deg, #EEF0FF 0%, #EEF7F3 100%);
+    --shadow-sm: 0 1px 3px rgba(24,32,51,0.08);
+    --shadow-md: 0 4px 6px -1px rgba(24,32,51,0.08), 0 2px 4px -1px rgba(24,32,51,0.05);
+    --shadow-lg: 0 10px 15px -3px rgba(24,32,51,0.08), 0 4px 6px -2px rgba(24,32,51,0.04);
+    --shadow-xl: 0 20px 25px -5px rgba(24,32,51,0.08), 0 10px 10px -5px rgba(24,32,51,0.04);
+    --shadow-primary: 0 10px 25px -5px rgba(91,92,226,0.4);
+    --radius-sm: 10px;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+    --radius-xl: 28px;
     --radius-full: 9999px;
     --font-heading: 'Playfair Display', serif;
     --font-body: 'Inter', sans-serif;
@@ -320,23 +320,19 @@ input, select, textarea {
 .logo-icon {
     width: 40px;
     height: 40px;
-    background-color: transparent;
-    background-image: url('logo.svg');
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
     border-radius: var(--radius-md);
     display: flex;
     align-items: center;
     justify-content: center;
+    color: #fff;
     box-shadow: var(--shadow-primary);
 }
 
 .logo-icon i {
-    display: none;
-}
-
-.logo-text {
+    font-size: 18px;
+    color: #fff;
+}.logo-text {
     font-family: var(--font-heading);
     font-size: 24px;
     font-weight: 700;
@@ -2959,6 +2955,76 @@ img, iframe, svg, table, pre, .map-container, video {
     .plan-card, .job-card, .culture-card, .info-card, .hcard {
         max-width: 100% !important;
         width: 100% !important;
+    }
+}
+
+/* ============================================================================
+   PHASE F — MOBILE TOUCH TARGETS + SMALL-SCREEN COMFORT
+   Applies the 44px minimum tap size (WCAG AAA) to the shared chrome and keeps
+   the account dropdown inside the viewport on narrow phones.
+   ------------------------------------------------------------------------- */
+
+/* 7) Account dropdown must never overflow the phone viewport. */
+@media (max-width: 480px) {
+    .user-dropdown {
+        width: min(240px, calc(100vw - 28px)) !important;
+        right: 0 !important;
+        max-height: 80vh;
+        overflow-y: auto;
+    }
+}
+
+/* 8) 44px touch targets for the shared nav + primary controls on touch sizes. */
+@media (hover: none), (max-width: 768px) {
+    .user-menu-trigger {
+        min-height: 44px;
+        padding: 8px 12px;
+    }
+    .user-dropdown a {
+        min-height: 44px;
+        padding: 12px 14px;
+    }
+    .nav-actions .btn-ghost,
+    .nav-actions .btn-primary {
+        min-height: 44px;
+    }
+    button,
+    .btn,
+    .btn-primary,
+    .btn-ghost,
+    .btn-secondary,
+    .btn-auth,
+    input[type="submit"] {
+        min-height: 44px;
+    }
+    input,
+    select,
+    textarea {
+        min-height: 44px;
+        font-size: 16px; /* prevents iOS zoom-on-focus */
+    }
+}
+
+/* 9) Buttons go full-width on very small phones for easier tapping. */
+@media (max-width: 600px) {
+    .btn,
+    .btn-primary,
+    .btn-ghost,
+    .btn-secondary,
+    .btn-auth {
+        width: 100% !important;
+        justify-content: center;
+        white-space: normal;
+    }
+}
+
+/* 10) Tables without a wrapper scroll inside their parent instead of
+       stretching the layout on the smallest screens. */
+@media (max-width: 640px) {
+    table:not([class*="table-responsive"]) {
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
     }
 }
 

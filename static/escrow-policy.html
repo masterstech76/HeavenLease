@@ -8,36 +8,429 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
     <link rel="stylesheet" href="styles.css?v=20260909a">
     <style>
-        .page-header { background: var(--gradient-soft); padding: 140px 0 80px; text-align: center; position: relative; overflow: hidden; }
-        .page-header h1 { font-family: var(--font-heading); font-size: 48px; font-weight: 700; color: var(--dark); margin-bottom: 16px; }
-        .page-header p { font-size: 18px; color: var(--gray-500); max-width: 600px; margin: 0 auto; }
-        .page-header .breadcrumb { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 16px; font-size: 14px; color: var(--gray-500); }
-        .page-header .breadcrumb a { color: var(--primary); }
-        .page-header .breadcrumb i { font-size: 12px; color: var(--gray-400); }
-        .legal-section { padding: 80px 0; }
-        .legal-content { max-width: 800px; margin: 0 auto; }
-        .legal-content h2 { font-family: var(--font-heading); font-size: 24px; font-weight: 700; color: var(--dark); margin: 40px 0 16px; }
-        .legal-content h2:first-child { margin-top: 0; }
-        .legal-content p { font-size: 15px; color: var(--gray-500); line-height: 1.8; margin-bottom: 16px; }
-        .legal-content ul { margin-bottom: 16px; padding-left: 20px; }
-        .legal-content ul li { font-size: 15px; color: var(--gray-500); line-height: 1.8; margin-bottom: 8px; }
-        .legal-content .last-updated { font-size: 13px; color: var(--gray-400); margin-bottom: 40px; }
-        @media (max-width: 768px) { .page-header { padding: 120px 0 50px; } .page-header h1 { font-size: 36px; } }
+        :root{
+            --ep-primary:#6d4aff;
+            --ep-primary-dark:#5534d4;
+            --ep-green:#15956f;
+            --ep-ink:#182033;
+            --ep-muted:#687386;
+            --ep-border:#e5e9f0;
+            --ep-soft:#f5f7fb;
+            --ep-shadow:0 20px 55px rgba(15,23,42,.09);
+        }
+        *{box-sizing:border-box}
+        html{scroll-behavior:smooth}
+        body{
+            margin:0;
+            background:#f4f6fa;
+            color:var(--ep-ink);
+            font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+        }
+        .navbar{
+            background:rgba(255,255,255,.99)!important;
+            box-shadow:0 8px 30px rgba(15,23,42,.09)!important;
+            backdrop-filter:blur(14px);
+            -webkit-backdrop-filter:blur(14px);
+            z-index:1000;
+        }
+        .escrow-page{
+            min-height:100vh;
+            padding:104px 0 78px;
+            position:relative;
+            overflow:hidden;
+            background:
+                linear-gradient(180deg,rgba(244,247,251,.94),rgba(244,247,251,.985)),
+                url("https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=2200&q=85")
+                center/cover fixed;
+        }
+        .escrow-page:before{
+            content:"";
+            position:absolute;
+            width:540px;height:540px;
+            border-radius:50%;
+            background:rgba(109,74,255,.075);
+            filter:blur(8px);
+            left:-270px;top:100px;
+            pointer-events:none;
+        }
+        .escrow-page:after{
+            content:"";
+            position:absolute;
+            width:460px;height:460px;
+            border-radius:50%;
+            background:rgba(21,149,111,.06);
+            filter:blur(8px);
+            right:-230px;top:700px;
+            pointer-events:none;
+        }
+        .ep-container{
+            width:min(1080px,calc(100% - 40px));
+            margin:0 auto;
+            position:relative;
+            z-index:1;
+        }
+        .ep-hero{
+            max-width:860px;
+            margin:0 auto 38px;
+            text-align:center;
+        }
+        .ep-eyebrow{
+            display:inline-flex;
+            align-items:center;
+            gap:8px;
+            padding:8px 14px;
+            border-radius:999px;
+            background:rgba(255,255,255,.92);
+            border:1px solid rgba(109,74,255,.14);
+            color:var(--ep-primary);
+            font-size:12px;
+            font-weight:800;
+            letter-spacing:.08em;
+            text-transform:uppercase;
+            box-shadow:0 8px 25px rgba(15,23,42,.06);
+            margin-bottom:17px;
+        }
+        .ep-hero h1{
+            margin:0 0 13px;
+            font-family:"Playfair Display",Georgia,serif;
+            font-size:clamp(38px,5vw,58px);
+            line-height:1.06;
+            letter-spacing:-.035em;
+        }
+        .ep-gradient{
+            background:linear-gradient(135deg,var(--ep-primary),#9b6dff 50%,#1a9c78);
+            -webkit-background-clip:text;
+            background-clip:text;
+            color:transparent;
+        }
+        .ep-hero p{
+            max-width:690px;
+            margin:0 auto;
+            color:var(--ep-muted);
+            font-size:17px;
+            line-height:1.75;
+        }
+        .ep-breadcrumb{
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            flex-wrap:wrap;
+            gap:9px;
+            margin-top:18px;
+            font-size:13px;
+            color:#8a94a5;
+        }
+        .ep-breadcrumb a{
+            color:var(--ep-primary);
+            text-decoration:none;
+            font-weight:700;
+        }
+        .ep-breadcrumb i{font-size:10px}
+        .ep-highlights{
+            display:grid;
+            grid-template-columns:repeat(3,1fr);
+            gap:16px;
+            max-width:920px;
+            margin:0 auto 42px;
+        }
+        .ep-highlight{
+            background:rgba(255,255,255,.96);
+            border:1px solid var(--ep-border);
+            border-radius:18px;
+            padding:20px;
+            display:flex;
+            gap:13px;
+            align-items:center;
+            box-shadow:0 12px 35px rgba(15,23,42,.06);
+        }
+        .ep-highlight-icon{
+            width:44px;height:44px;flex:0 0 44px;
+            display:grid;place-items:center;
+            border-radius:14px;
+            background:#f0ecff;
+            color:var(--ep-primary);
+        }
+        .ep-highlight:nth-child(2) .ep-highlight-icon{
+            background:#e8f8f2;color:var(--ep-green);
+        }
+        .ep-highlight:nth-child(3) .ep-highlight-icon{
+            background:#fff5e7;color:#c47b19;
+        }
+        .ep-highlight strong{
+            display:block;
+            font-size:14px;
+            margin-bottom:3px;
+        }
+        .ep-highlight span{
+            display:block;
+            color:var(--ep-muted);
+            font-size:12px;
+            line-height:1.45;
+        }
+        .ep-layout{
+            display:grid;
+            grid-template-columns:230px minmax(0,1fr);
+            gap:25px;
+            align-items:start;
+        }
+        .ep-toc{
+            position:sticky;
+            top:95px;
+            background:rgba(255,255,255,.94);
+            border:1px solid var(--ep-border);
+            border-radius:20px;
+            padding:18px;
+            box-shadow:0 14px 40px rgba(15,23,42,.07);
+        }
+        .ep-toc-title{
+            font-size:11px;
+            font-weight:800;
+            text-transform:uppercase;
+            letter-spacing:.08em;
+            color:#8a94a5;
+            padding:2px 9px 11px;
+        }
+        .ep-toc a{
+            display:block;
+            padding:8px 9px;
+            border-radius:9px;
+            color:#687386;
+            text-decoration:none;
+            font-size:12px;
+            line-height:1.35;
+            transition:.18s ease;
+        }
+        .ep-toc a:hover{
+            color:var(--ep-primary);
+            background:#f2efff;
+            transform:translateX(2px);
+        }
+        .ep-document{
+            background:rgba(255,255,255,.97);
+            border:1px solid var(--ep-border);
+            border-radius:24px;
+            padding:34px 38px;
+            box-shadow:var(--ep-shadow);
+        }
+        .ep-document-head{
+            display:flex;
+            align-items:flex-start;
+            gap:15px;
+            padding-bottom:25px;
+            margin-bottom:6px;
+            border-bottom:1px solid #edf0f4;
+        }
+        .ep-document-icon{
+            width:50px;height:50px;flex:0 0 50px;
+            display:grid;place-items:center;
+            border-radius:15px;
+            background:linear-gradient(135deg,#eee9ff,#f8f5ff);
+            color:var(--ep-primary);
+            font-size:20px;
+        }
+        .ep-document-head h2{
+            margin:0 0 5px;
+            font-family:"Playfair Display",Georgia,serif;
+            font-size:26px;
+        }
+        .ep-document-head p{
+            margin:0;
+            color:#8a94a5;
+            font-size:12px;
+        }
+        .ep-section{
+            padding:24px 0 6px;
+            scroll-margin-top:100px;
+        }
+        .ep-section h3{
+            display:flex;
+            align-items:center;
+            gap:10px;
+            margin:0 0 10px;
+            font-size:17px;
+            line-height:1.35;
+        }
+        .ep-section h3 .num{
+            width:30px;height:30px;
+            flex:0 0 30px;
+            display:grid;place-items:center;
+            border-radius:9px;
+            background:#f0ecff;
+            color:var(--ep-primary);
+            font-size:11px;
+            font-weight:800;
+        }
+        .ep-section p{
+            margin:0 0 12px 40px;
+            color:var(--ep-muted);
+            font-size:14px;
+            line-height:1.82;
+        }
+        .ep-section + .ep-section{
+            border-top:1px solid #f0f2f5;
+        }
+        .ep-note{
+            margin:20px 0 0 40px;
+            padding:15px 17px;
+            border-radius:13px;
+            background:#f7f8fb;
+            border:1px solid #e9edf3;
+            color:#657084;
+            font-size:12px;
+            line-height:1.65;
+        }
+        .ep-contact{
+            margin-top:26px;
+            padding:20px;
+            border-radius:16px;
+            background:linear-gradient(135deg,#f3efff,#f4faf8);
+            border:1px solid #e5e2f8;
+        }
+        .ep-contact strong{font-size:14px}
+        .ep-contact p{
+            margin:6px 0 0;
+            color:#687386;
+            font-size:13px;
+            line-height:1.65;
+        }
+        .ep-contact a{
+            color:var(--ep-primary);
+            font-weight:700;
+            text-decoration:none;
+        }
+        .footer{
+            background:#182033!important;
+            color:#d1d5db!important;
+            opacity:1!important;
+            border:0!important;
+        }
+        .footer .logo-text{color:#fff!important}
+        .footer p{color:#b9c0cc!important}
+        @media(max-width:900px){
+            .ep-layout{grid-template-columns:1fr}
+            .ep-toc{position:relative;top:auto}
+            .ep-toc a{display:inline-block;margin:2px 3px}
+        }
+        @media(max-width:760px){
+            .escrow-page{padding-top:92px}
+            .ep-container{width:min(100% - 28px,1080px)}
+            .ep-highlights{grid-template-columns:1fr}
+            .ep-document{padding:25px 21px}
+            .ep-document-head h2{font-size:23px}
+            .ep-section p{margin-left:0}
+            .ep-note{margin-left:0}
+        }
+        @media(max-width:520px){
+            .ep-hero h1{font-size:36px}
+            .ep-hero p{font-size:15px}
+            .ep-breadcrumb{font-size:12px}
+            .ep-toc{padding:14px}
+            .ep-section h3{font-size:15px}
+            .ep-document-head{gap:11px}
+        }
     </style>
+<style id="modern-visual-overrides">
+:root{
+  --ep-primary:#6657e8; --ep-primary-dark:#4f42c7; --ep-green:#15956f;
+  --ep-ink:#182033; --ep-muted:#687386; --ep-border:#e4e8ef;
+  --ep-soft:#f4f6fb; --ep-shadow:0 22px 65px rgba(15,23,42,.11);
+}
+body{
+  background:
+    linear-gradient(180deg,rgba(244,247,251,.90),rgba(244,247,251,.96)),
+    url("https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=2200&q=85")
+    center/cover fixed;
+}
+.navbar{
+  background:#10172b!important;
+  color:#fff!important;
+  border-bottom:1px solid rgba(255,255,255,.10)!important;
+  box-shadow:0 10px 34px rgba(0,0,0,.20)!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
+.navbar.scrolled{background:#0b1122!important}
+.navbar .logo-text{color:#fff}
+.navbar .user-menu-trigger{color:#fff!important}
+.escrow-page{
+  padding-top:112px!important;
+  background:
+    linear-gradient(135deg,rgba(246,248,252,.90),rgba(244,247,251,.965)),
+    url("https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=2400&q=85")
+    center/cover fixed!important;
+}
+.ep-hero{
+  padding:22px 0 10px;
+}
+.ep-eyebrow{
+  background:#fff!important;
+  box-shadow:0 10px 28px rgba(15,23,42,.08)!important;
+}
+.ep-hero h1{letter-spacing:-.045em}
+.ep-highlights{margin-top:8px}
+.ep-highlight{
+  background:rgba(255,255,255,.98)!important;
+  box-shadow:0 15px 40px rgba(15,23,42,.075)!important;
+  transition:transform .2s ease,box-shadow .2s ease;
+}
+.ep-highlight:hover{transform:translateY(-4px);box-shadow:0 20px 48px rgba(15,23,42,.12)!important}
+.ep-toc{
+  background:#182033!important;color:#fff!important;
+  border-color:#273247!important;box-shadow:0 18px 48px rgba(15,23,42,.16)!important;
+}
+.ep-toc-title{color:#9ca8ba!important}
+.ep-toc a{color:#c5ccda!important}
+.ep-toc a:hover{background:#222c40!important;color:#fff!important}
+.ep-document{
+  background:rgba(255,255,255,.985)!important;
+  box-shadow:var(--ep-shadow)!important;
+  border-radius:26px!important;
+}
+.ep-document-head{
+  position:relative;
+}
+.ep-document-head:after{
+  content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;
+  background:linear-gradient(90deg,var(--ep-primary),#8e78ff,var(--ep-green));
+  border-radius:2px;
+}
+.ep-section{
+  transition:background .2s ease;
+}
+.ep-section:target{
+  background:linear-gradient(90deg,rgba(102,87,232,.045),transparent);
+  border-radius:14px;
+  padding-left:12px;padding-right:12px;
+}
+.footer{
+  background:#0b1020!important;color:#d7deea!important;
+  opacity:1!important;border:0!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.07)!important;
+}
+.footer .logo-text{color:#fff!important}
+.footer p{color:#aeb7c7!important}
+.back-to-top{
+  background:var(--ep-primary)!important;
+  box-shadow:0 12px 30px rgba(102,87,232,.34)!important;
+}
+@media(max-width:760px){
+  .escrow-page{padding-top:95px!important}
+  .ep-document{border-radius:20px!important}
+}
+</style>
 </head>
 <body>
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <a href="/" class="logo">
                 <div class="logo-icon"><i class="fas fa-home"></i></div>
-<span class="logo-text">Heaven<span>Lease</span></span>
+                <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
-            
             <div class="nav-actions">
-                                <div class="user-menu" id="userMenu">
+                <div class="user-menu" id="userMenu">
                     <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu">
                         <span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span>
                         <span id="navUserName">Account</span>
@@ -65,134 +458,193 @@
                         <a href="how-it-works"><i class="fas fa-circle-question"></i> How It Works</a>
                         <a href="about"><i class="fas fa-building"></i> About Us</a>
                         <a href="blog"><i class="fas fa-newspaper"></i> Blog</a>
-<a href="comfort-scores"><i class="fas fa-chart-simple"></i> Type &amp; Voice Search</a>
-                                                <a href="contact"><i class="fas fa-envelope"></i> Contact &amp; Support</a>
+                        <a href="comfort-scores"><i class="fas fa-chart-simple"></i> Type &amp; Voice Search</a>
+                        <a href="contact"><i class="fas fa-envelope"></i> Contact &amp; Support</a>
                         <div class="dropdown-divider"></div>
                         <a href="login" id="signInLink" class="hide-when-auth"><i class="fas fa-arrow-right-to-bracket"></i> Sign In</a>
                         <a href="#" id="logoutLink" class="logout-link hide-when-guest"><i class="fas fa-sign-out-alt"></i> Logout</a>
                     </div>
                 </div>
-</div>
+            </div>
         </div>
     </nav>
-
-    <section class="page-header">
-        <div class="container">
-            <h1>Escrow <span class="gradient-text">Policy</span></h1>
-            <p>How your security deposit is protected with HeavenLease.</p>
-            <div class="breadcrumb">
-                <a href="/">Home</a>
-                <i class="fas fa-chevron-right"></i>
-                <span>Escrow Policy</span>
-            </div>
+    <main class="escrow-page">
+        <div class="ep-container">
+            <section class="ep-hero">
+                <div class="ep-eyebrow"><i class="fas fa-shield-halved"></i> Deposit protection</div>
+                <h1>Escrow <span class="ep-gradient">Policy</span></h1>
+                <p>How your security deposit is protected with HeavenLease — clearly held, traceable, and released according to agreed tenancy conditions.</p>
+                <div class="ep-breadcrumb">
+                    <a href="/">Home</a>
+                    <i class="fas fa-chevron-right"></i>
+                    <span>Escrow Policy</span>
+                </div>
+            </section>
+            <section class="ep-highlights" aria-label="Escrow benefits">
+                <div class="ep-highlight">
+                    <div class="ep-highlight-icon"><i class="fas fa-lock"></i></div>
+                    <div><strong>Protected funds</strong><span>Deposit handling is clearly separated from ordinary tenancy payments.</span></div>
+                </div>
+                <div class="ep-highlight">
+                    <div class="ep-highlight-icon"><i class="fas fa-file-circle-check"></i></div>
+                    <div><strong>Clear conditions</strong><span>Release and deduction conditions are documented for both parties.</span></div>
+                </div>
+                <div class="ep-highlight">
+                    <div class="ep-highlight-icon"><i class="fas fa-scale-balanced"></i></div>
+                    <div><strong>Fair process</strong><span>Disputed deposits remain subject to review instead of unilateral release.</span></div>
+                </div>
+            </section>
+            <section class="ep-layout">
+                <aside class="ep-toc" aria-label="Policy sections">
+                    <div class="ep-toc-title">On this page</div>
+                    <a href="#s1">1. What Is Escrow?</a>
+                    <a href="#s2">2. How It Works</a>
+                    <a href="#s3">3. Tenant Protection</a>
+                    <a href="#s4">4. Owner Protection</a>
+                    <a href="#s5">5. Security Deposits</a>
+                    <a href="#s6">6. Deposit Release</a>
+                    <a href="#s7">7. Deductions</a>
+                    <a href="#s8">8. Disputes</a>
+                    <a href="#s9">9. Fees</a>
+                    <a href="#s10">10. Your Rights</a>
+                    <a href="#s11">11. Changes</a>
+                    <a href="#s12">12. Contact</a>
+                    <a href="#s13">13. Not Investment Advice</a>
+                </aside>
+                <article class="ep-document">
+                    <div class="ep-document-head">
+                        <div class="ep-document-icon"><i class="fas fa-file-shield"></i></div>
+                        <div>
+                            <h2>HeavenLease Escrow Policy</h2>
+                            <p>Last Updated: August 27, 2026</p>
+                        </div>
+                    </div>
+                    <section class="ep-section" id="s1">
+                        <h3><span class="num">01</span> What Is Escrow?</h3>
+                        <p>Escrow is a secure holding account where a security deposit is kept until the conditions of the tenancy are satisfied. On HeavenLease, escrow protects deposits between tenants and owners so neither side bears the risk of misuse.</p>
+                        <p>Instead of a tenant handing a deposit directly to an owner, the funds are held safely and independently. They are released only when the agreed conditions are met, and every step leaves a clear, traceable record.</p>
+                        <p>Escrow protects both sides: it gives the tenant confidence that the deposit is safe, and it gives the owner certainty that real, verified funds are committed to the tenancy.</p>
+                    </section>
+                    <section class="ep-section" id="s2">
+                        <h3><span class="num">02</span> How Escrow Works on HeavenLease</h3>
+                        <p>When a tenancy is agreed, the tenant pays the security deposit into a regulated escrow account rather than to the owner directly. The funds are clearly linked to that specific tenancy.</p>
+                        <p>At move-in, the tenant and owner complete a property inspection. At move-out, a final joint inspection is completed. When the agreed conditions are satisfied, the deposit is released to the owner or returned to the tenant, after any agreed deductions.</p>
+                        <p>Every stage is recorded, so there is a single, auditable account of how the deposit moved and why.</p>
+                    </section>
+                    <section class="ep-section" id="s3">
+                        <h3><span class="num">03</span> Protection for Tenants</h3>
+                        <p>Your deposit is not handed to the owner to spend. It is held securely and returned at a satisfactory move-out, so a valid refund cannot simply be withheld.</p>
+                        <p>If the property does not match the listing or written agreement, you can raise a dispute before release, and the funds remain in escrow while it is reviewed.</p>
+                        <p>A fair, photographed move-out inspection means deductions are limited to clearly documented damage or unpaid bills, never routine wear and tear.</p>
+                    </section>
+                    <section class="ep-section" id="s4">
+                        <h3><span class="num">04</span> Protection for Owners</h3>
+                        <p>As an owner, you receive the deposit when the agreed conditions are satisfied — no chasing tenants for the deposit and no wondering where the money is.</p>
+                        <p>Legitimate deductions for real damage or arrears are settled and recorded from the held deposit rather than being fought over later.</p>
+                        <p>Escrow gives owners certainty that the funds are real, committed, and will arrive on a clear, documented basis.</p>
+                    </section>
+                    <section class="ep-section" id="s5">
+                        <h3><span class="num">05</span> Security Deposits and the Escrow Account</h3>
+                        <p>Deposits that would normally sit with one party now sit in a controlled, independent account, with clear records for the tenant, the owner and the platform.</p>
+                        <p>The deposit amount, who holds it, the timeline, and the release conditions are all stated in the escrow agreement and the lease template, so there is no ambiguity about the money.</p>
+                        <p>Funds are kept identifiable to their tenancy at all times, so there is never confusion about which deposit belongs to which property.</p>
+                    </section>
+                    <section class="ep-section" id="s6">
+                        <h3><span class="num">06</span> When Is the Deposit Released?</h3>
+                        <p>The deposit is released only when the agreed conditions are satisfied. This normally means the move-out inspection is complete and the tenant and owner have confirmed, or any dispute has been resolved.</p>
+                        <p>On a clean move-out with no deductions, the deposit is returned to the tenant promptly after inspection. When there are legitimate deductions, the deducted amount goes to the owner and the balance is returned to the tenant.</p>
+                        <p>If the tenancy continues, the deposit stays in escrow until the tenancy actually ends.</p>
+                    </section>
+                    <section class="ep-section" id="s7">
+                        <h3><span class="num">07</span> Deductions and Normal Wear and Tear</h3>
+                        <p>Owners may deduct from the deposit only for genuine damage beyond normal wear and tear, or for unpaid bills or arrears that are real and evidenced.</p>
+                        <p>Normal wear and tear — such as light fading, minor scuffs, or ordinary day-to-day use — is not a valid deduction. Evidence is required before any amount is taken from the deposit.</p>
+                        <p>HeavenLease encourages a joint, photographed move-out inspection so any deductions are transparent and agreed at the time of move-out.</p>
+                    </section>
+                    <section class="ep-section" id="s8">
+                        <h3><span class="num">08</span> How Disputes Work</h3>
+                        <p>If the parties cannot agree on releasing a deposit, either party can raise a dispute. The funds stay in escrow while it is investigated, and neither side can take the money on their own.</p>
+                        <p>We invite evidence from both parties, such as photos, the signed agreement and written communication, and we review it fairly.</p>
+                        <p>We aim to reach a clear, reasoned outcome within a defined number of business days and record the result so both parties have a full trail.</p>
+                    </section>
+                    <section class="ep-section" id="s9">
+                        <h3><span class="num">09</span> Fees and Charges</h3>
+                        <p>Escrow protection is provided as part of the standard lease process on HeavenLease. In some cases, a small documented processing fee may apply, and it is always shown clearly before you proceed.</p>
+                        <p>We never add hidden fees to a tenant deposit or an owner's release. Where a fee exists it is stated separately and transparently.</p>
+                    </section>
+                    <section class="ep-section" id="s10">
+                        <h3><span class="num">10</span> Your Rights Are Not Reduced by Escrow</h3>
+                        <p>Escrow does not take away the legal rights that tenants and owners would otherwise have. It makes the deposit reliable, traceable and equally accountable for both parties.</p>
+                        <p>Both sides remain free to pursue a dispute through the courts or alternative processes where that is available, and the escrow records are preserved to support any such process.</p>
+                    </section>
+                    <section class="ep-section" id="s11">
+                        <h3><span class="num">11</span> Changes to Escrow Policy</h3>
+                        <p>We may update this policy from time to time to reflect how escrow is provided, or changes in technology or law. We will update the Last Updated date and notify you of meaningful changes.</p>
+                        <p>For an active tenancy, the escrow terms in force at the time the tenancy began apply, and we will give you the opportunity to review before a change affects you.</p>
+                    </section>
+                    <section class="ep-section" id="s12">
+                        <h3><span class="num">12</span> How to Contact the Escrow Team</h3>
+                        <p>If you have any question about escrow, contact us support and we will respond as quickly as possible and guide you through each step of the deposit process.</p>
+                        <p>Every escrow enquiry and dispute is kept confidential, handled fairly, and documented so the outcome is clear to both parties.</p>
+                        <div class="ep-contact">
+                            <strong><i class="fas fa-envelope"></i> Escrow support</strong>
+                            <p>For questions about the deposit process, contact HeavenLease support through your usual support channel or email <a href="mailto:support@heavenlease.in">support@heavenlease.in</a>.</p>
+                        </div>
+                    </section>
+                    <section class="ep-section" id="s13">
+                        <h3><span class="num">13</span> Not Savings or Investment Advice</h3>
+                        <p>Escrow on HeavenLease is a mechanism for securely managing a deposit within a tenancy. It is not a savings account, deposit instrument, or investment product, and it does not earn interest for you.</p>
+                        <p>This policy is general information and not legal advice. For a matter about a specific property or local law, please consult a qualified professional.</p>
+                        <div class="ep-note"><i class="fas fa-circle-info"></i> This page describes the stated HeavenLease escrow policy. Specific lease and escrow agreements may contain additional terms that apply to an individual tenancy.</div>
+                    </section>
+                </article>
+            </section>
         </div>
-    </section>
-
-    <section class="legal-section">
-        <div class="container">
-            <div class="legal-content">
-                <p class="last-updated">Last Updated: August 27, 2026</p>
-                <h2>1. What Is Escrow?</h2>
-                <p>Escrow is a secure holding account where a security deposit is kept until the conditions of the tenancy are satisfied. On HeavenLease, escrow protects deposits between tenants and owners so neither side bears the risk of misuse.</p>
-                <p>Instead of a tenant handing a deposit directly to an owner, the funds are held safely and independently. They are released only when the agreed conditions are met, and every step leaves a clear, traceable record.</p>
-                <p>Escrow protects both sides: it gives the tenant confidence that the deposit is safe, and it gives the owner certainty that real, verified funds are committed to the tenancy.</p>
-                <h2>2. How Escrow Works on HeavenLease</h2>
-                <p>When a tenancy is agreed, the tenant pays the security deposit into a regulated escrow account rather than to the owner directly. The funds are clearly linked to that specific tenancy.</p>
-                <p>At move-in, the tenant and owner complete a property inspection. At move-out, a final joint inspection is completed. When the agreed conditions are satisfied, the deposit is released to the owner or returned to the tenant, after any agreed deductions.</p>
-                <p>Every stage is recorded, so there is a single, auditable account of how the deposit moved and why.</p>
-                <h2>3. Protection for Tenants</h2>
-                <p>Your deposit is not handed to the owner to spend. It is held securely and returned at a satisfactory move-out, so a valid refund cannot simply be withheld.</p>
-                <p>If the property does not match the listing or written agreement, you can raise a dispute before release, and the funds remain in escrow while it is reviewed.</p>
-                <p>A fair, photographed move-out inspection means deductions are limited to clearly documented damage or unpaid bills, never routine wear and tear.</p>
-                <h2>4. Protection for Owners</h2>
-                <p>As an owner, you receive the deposit when the agreed conditions are satisfied — no chasing tenants for the deposit and no wondering where the money is.</p>
-                <p>Legitimate deductions for real damage or arrears are settled and recorded from the held deposit rather than being fought over later.</p>
-                <p>Escrow gives owners certainty that the funds are real, committed, and will arrive on a clear, documented basis.</p>
-                <h2>5. Security Deposits and the Escrow Account</h2>
-                <p>Deposits that would normally sit with one party now sit in a controlled, independent account, with clear records for the tenant, the owner and the platform.</p>
-                <p>The deposit amount, who holds it, the timeline, and the release conditions are all stated in the escrow agreement and the lease template, so there is no ambiguity about the money.</p>
-                <p>Funds are kept identifiable to their tenancy at all times, so there is never confusion about which deposit belongs to which property.</p>
-                <h2>6. When Is the Deposit Released?</h2>
-                <p>The deposit is released only when the agreed conditions are satisfied. This normally means the move-out inspection is complete and the tenant and owner have confirmed, or any dispute has been resolved.</p>
-                <p>On a clean move-out with no deductions, the deposit is returned to the tenant promptly after inspection. When there are legitimate deductions, the deducted amount goes to the owner and the balance is returned to the tenant.</p>
-                <p>If the tenancy continues, the deposit stays in escrow until the tenancy actually ends.</p>
-                <h2>7. Deductions and Normal Wear and Tear</h2>
-                <p>Owners may deduct from the deposit only for genuine damage beyond normal wear and tear, or for unpaid bills or arrears that are real and evidenced.</p>
-                <p>Normal wear and tear — such as light fading, minor scuffs, or ordinary day-to-day use — is not a valid deduction. Evidence is required before any amount is taken from the deposit.</p>
-                <p>HeavenLease encourages a joint, photographed move-out inspection so any deductions are transparent and agreed at the time of move-out.</p>
-                <h2>8. How Disputes Work</h2>
-                <p>If the parties cannot agree on releasing a deposit, either party can raise a dispute. The funds stay in escrow while it is investigated, and neither side can take the money on their own.</p>
-                <p>We invite evidence from both parties, such as photos, the signed agreement and written communication, and we review it fairly.</p>
-                <p>We aim to reach a clear, reasoned outcome within a defined number of business days and record the result so both parties have a full trail.</p>
-                <h2>9. Fees and Charges</h2>
-                <p>Escrow protection is provided as part of the standard lease process on HeavenLease. In some cases, a small documented processing fee may apply, and it is always shown clearly before you proceed.</p>
-                <p>We never add hidden fees to a tenant deposit or an owner's release. Where a fee exists it is stated separately and transparently.</p>
-                <h2>10. Your Rights Are Not Reduced by Escrow</h2>
-                <p>Escrow does not take away the legal rights that tenants and owners would otherwise have. It makes the deposit reliable, traceable and equally accountable for both parties.</p>
-                <p>Both sides remain free to pursue a dispute through the courts or alternative processes where that is available, and the escrow records are preserved to support any such process.</p>
-                <h2>11. Changes to Escrow Policy</h2>
-                <p>We may update this policy from time to time to reflect how escrow is provided, or changes in technology or law. We will update the Last Updated date and notify you of meaningful changes.</p>
-                <p>For an active tenancy, the escrow terms in force at the time the tenancy began apply, and we will give you the opportunity to review before a change affects you.</p>
-                <h2>12. How to Contact the Escrow Team</h2>
-                <p>If you have any question about escrow, contact us support and we will respond as quickly as possible and guide you through each step of the deposit process.</p>
-                <p>Every escrow enquiry and dispute is kept confidential, handled fairly, and documented so the outcome is clear to both parties.</p>
-                <h2>13. Not Savings or Investment Advice</h2>
-                <p>Escrow on HeavenLease is a mechanism for securely managing a deposit within a tenancy. It is not a savings account, deposit instrument, or investment product, and it does not earn interest for you.</p>
-                <p>This policy is general information and not legal advice. For a matter about a specific property or local law, please consult a qualified professional.</p>
-            </div>
-        </div>
-    </section>
-
+    </main>
     <footer class="footer">
-        <div class="container">
-            <div class="footer-grid" style="grid-template-columns: 1fr; text-align: center;">
-                <div class="footer-brand">
-                    <a href="/" class="logo">
-                        <div class="logo-icon"><i class="fas fa-home"></i></div>
-                        <span class="logo-text">Heaven<span>Lease</span></span>
-                    </a>
-                    <p style="margin: 10px auto; max-width: 300px;">Simple steps to your perfect stay. Direct owner rentals with zero broker fees and comfort-first search.</p></div>
-            </div>
-            <div class="footer-bottom" style="justify-content: center;">
-                <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
-            </div>
+<div class="container">
+    <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
+        <div class="footer-brand">
+            <a href="home" class="logo">
+                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <span class="logo-text">Heaven<span>Lease</span></span>
+            </a>
+            <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>
         </div>
-    </footer>
-
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Explore</strong>
+            <a href="properties" style="color:inherit;text-decoration:none;">Find a Home</a>
+            <a href="map" style="color:inherit;text-decoration:none;">Property Map</a>
+            <a href="how-it-works" style="color:inherit;text-decoration:none;">How It Works</a>
+            <a href="about" style="color:inherit;text-decoration:none;">About Us</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Company</strong>
+            <a href="careers" style="color:inherit;text-decoration:none;">Careers</a>
+            <a href="press" style="color:inherit;text-decoration:none;">Press</a>
+            <a href="blog" style="color:inherit;text-decoration:none;">Blog</a>
+            <a href="contact" style="color:inherit;text-decoration:none;">Contact</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">For Owners</strong>
+            <a href="list-property" style="color:inherit;text-decoration:none;">List Your Property</a>
+            <a href="properties-management" style="color:inherit;text-decoration:none;">Owner Dashboard</a>
+            <a href="payment" style="color:inherit;text-decoration:none;">Pricing &amp; Upgrade</a>
+            <a href="owner-resources" style="color:inherit;text-decoration:none;">Owner Resources</a>
+        </div>
+    </div>
+    <div class="footer-bottom" style="justify-content:center;margin-top:28px;">
+        <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
+    </div>
+</div>
+</footer>
     <button class="back-to-top" id="backToTop" aria-label="Back to top">
         <i class="fas fa-arrow-up"></i>
     </button>
+    <script src="js/api.js?v=20260913a"></script>
+    <script src="js/core.js?v=20260913a"></script>
+    
 
-    <script src="api.js?v=20260913a"></script>
-    <script src="script.js?v=20260913a"></script>
-    <script>
-        // Note: navbar, hamburger, navLinks, backToTop are already declared in script.js
-
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) navbar.classList.add('scrolled');
-            else navbar.classList.remove('scrolled');
-            if (window.scrollY > 500) backToTop.classList.add('visible');
-            else backToTop.classList.remove('visible');
-        });
-
-        if (hamburger) hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            navLinks.classList.toggle('active');
-        });
-
-        if (hamburger && navLinks) {
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.addEventListener('click', () => {
-                    hamburger.classList.remove('active');
-                    navLinks.classList.remove('active');
-                });
-            });
-        }
-
-        backToTop.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-    </script>
+<script src="js/pages/escrow-policy.js?v=20260913a"></script>
 </body>
 </html>
-

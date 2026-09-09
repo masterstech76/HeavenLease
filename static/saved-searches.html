@@ -3,47 +3,423 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Save property searches and set alerts.">
-    <title>Saved Searches — HeavenLease</title>
-    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <meta name="description" content="Your saved favorite properties on HeavenLease.">
+    <title>Saved Properties — HeavenLease</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
     <link rel="stylesheet" href="styles.css?v=20260909a">
-    <style>
-        .page-header { background: rgba(255,255,255,0.45); backdrop-filter: blur(6px); padding: 140px 0 70px; text-align: center; position: relative; overflow: hidden; }
-        .page-header h1 { font-family: var(--font-heading); font-size: 46px; font-weight: 700; color: var(--dark); margin-bottom: 12px; }
-        .page-header p { font-size: 17px; color: var(--gray-500); max-width: 640px; margin: 0 auto; }
-        .page-header .ph-icon { width: 68px; height: 68px; border-radius: 18px; background: var(--gradient); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 28px; margin: 0 auto 18px; box-shadow: var(--shadow-primary); }
-        .page-section { padding: 70px 0 90px; }
-        .page-section .section-head { text-align: center; margin-bottom: 44px; }
-        .page-section .section-head h2 { font-family: var(--font-heading); font-size: 30px; font-weight: 700; color: var(--dark); }
-        .feature-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 26px; }
-        .feature-card { background: rgba(255,255,255,0.92); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 28px; transition: var(--transition); box-shadow: var(--shadow-sm); }
-        .feature-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--primary); }
-        .feature-card .fc-icon { width: 52px; height: 52px; border-radius: 14px; background: var(--gradient-soft); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 14px; }
-        .feature-card h3 { font-size: 17px; font-weight: 600; color: var(--dark); margin-bottom: 6px; }
-        .feature-card p { font-size: 14px; color: var(--gray-500); line-height: 1.6; margin: 0; }
-        .page-cta { padding: 0 0 90px; }
-        .cta-banner { background: var(--gradient); border-radius: var(--radius-xl); padding: 44px 32px; text-align: center; color: #fff; }
-        .cta-banner h2 { font-family: var(--font-heading); font-size: 28px; margin-bottom: 8px; }
-        .cta-banner p { opacity: 0.92; margin-bottom: 20px; }
-        .cta-banner .btn { background: #fff; color: var(--primary); font-weight: 600; }
-        .cta-banner .btn.ghost { background: transparent; border: 1px solid #fff; color: #fff; }
-        @media (max-width: 900px) { .feature-grid { grid-template-columns: 1fr; } }
-        @media (max-width: 768px) { .page-header { padding: 120px 0 50px; } .page-header h1 { font-size: 34px; } }
-    </style>
+    
+<style>
+:root{
+    --ink:#182033;
+    --muted:#687386;
+    --gold:#b8864b;
+    --gold-dark:#8d6538;
+    --cream:#ffffff;
+    --dark:#182033;
+    --white:#ffffff;
+    --line:#e4e7ee;
+    --shadow:0 18px 50px rgba(16,24,32,.13);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+    margin:0;
+    color:var(--ink);
+    font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    background:#eeeae3;
+}
+a{text-decoration:none}
+button,a{-webkit-tap-highlight-color:transparent}
+/* Header */
+.navbar{
+    position:fixed !important;
+    top:0;left:0;right:0;
+    z-index:1000;
+    min-height:78px;
+    background:
+        linear-gradient(90deg,rgba(8,13,18,.96),rgba(8,13,18,.72)),
+        url("https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=2200&q=85")
+        center/cover !important;
+    border-bottom:1px solid rgba(255,255,255,.14);
+    box-shadow:0 10px 35px rgba(0,0,0,.18);
+}
+.navbar.scrolled{
+    box-shadow:0 14px 42px rgba(0,0,0,.28);
+}
+.nav-container{
+    width:min(1240px,calc(100% - 32px));
+    min-height:78px;
+    margin:auto;
+    display:flex !important;
+    align-items:center;
+    justify-content:space-between;
+}
+.logo{
+    display:inline-flex !important;
+    align-items:center;
+    gap:10px;
+    color:#fff !important;
+}
+.logo-icon{
+    width:42px;height:42px;
+    display:grid;place-items:center;
+    border-radius:13px;
+    color:#e0b477;
+    background:rgba(255,255,255,.10);
+    border:1px solid rgba(255,255,255,.24);
+}
+.logo-text{
+    color:#fff;
+    font-family:"Playfair Display",Georgia,serif;
+    font-size:25px;
+    font-weight:700;
+}
+.logo-text span{color:#d9aa6d}
+.nav-actions{margin-left:auto}
+.user-menu{position:relative}
+.user-menu-trigger{
+    min-height:46px;
+    display:inline-flex;
+    align-items:center;
+    gap:9px;
+    padding:5px 12px 5px 6px;
+    border:1px solid rgba(255,255,255,.20);
+    border-radius:999px;
+    background:rgba(255,255,255,.09);
+    color:#fff;
+    font:inherit;
+    font-weight:600;
+    cursor:pointer;
+}
+.user-menu-trigger:hover,
+.user-menu-trigger:focus-visible{
+    background:rgba(255,255,255,.16);
+    outline:none;
+}
+.user-avatar{
+    width:34px;height:34px;
+    display:grid;place-items:center;
+    border-radius:50%;
+    background:#f4eadc;
+    color:#75512c;
+}
+.user-menu-trigger>i{font-size:10px;opacity:.75}
+.user-dropdown{
+    position:absolute;
+    top:calc(100% + 10px);
+    right:0;
+    width:min(330px,calc(100vw - 24px));
+    max-height:min(72vh,620px);
+    overflow:auto;
+    padding:8px;
+    border:1px solid #e3ddd4;
+    border-radius:18px;
+    background:#fff;
+    box-shadow:0 25px 70px rgba(0,0,0,.25);
+}
+.user-dropdown a{
+    display:flex;
+    align-items:center;
+    gap:11px;
+    padding:11px 12px;
+    border-radius:10px;
+    color:#35404b;
+    font-size:13px;
+}
+.user-dropdown a i{width:18px;text-align:center;color:var(--gold)}
+.user-dropdown a:hover{background:#f6f2ec;color:var(--dark)}
+.dropdown-divider{height:1px;margin:7px 5px;background:#e8e2d9}
+.logout-link:hover{color:#b42318 !important;background:#fff1ef !important}
+/* Page */
+.saved-page{
+    min-height:100vh;
+    padding:116px 18px 70px;
+    position:relative;
+    isolation:isolate;
+    background:
+        linear-gradient(rgba(242,239,233,.90),rgba(242,239,233,.96)),
+        url("https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=2200&q=85")
+        center/cover fixed;
+}
+.saved-page:after{
+    content:"";
+    position:absolute;
+    inset:0;
+    z-index:-1;
+    background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(242,239,233,.42));
+}
+.saved-container{width:min(1240px,100%);margin:auto}
+.back-link{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:22px;
+    padding:9px 13px;
+    border:1px solid var(--line);
+    border-radius:999px;
+    background:rgba(255,255,255,.78);
+    color:#59636e;
+    font-size:13px;
+    font-weight:600;
+    box-shadow:0 7px 22px rgba(20,28,38,.06);
+}
+.back-link:hover{color:var(--gold-dark);transform:translateX(-2px)}
+.saved-header{
+    position:relative;
+    overflow:hidden;
+    margin-bottom:28px;
+    padding:42px 22px;
+    text-align:center;
+    border-radius:26px;
+    background:
+        linear-gradient(110deg,rgba(10,16,22,.94),rgba(10,16,22,.56)),
+        url("https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1800&q=85")
+        center/cover;
+    box-shadow:var(--shadow);
+}
+.saved-header h1{
+    margin:0 0 8px;
+    color:#fff;
+    font-family:"Playfair Display",Georgia,serif;
+    font-size:clamp(34px,5vw,52px);
+}
+.saved-header h1 i{color:#e6b3aa;margin-right:8px}
+.saved-header p{margin:0;color:rgba(255,255,255,.78);font-size:15px}
+.saved-count{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    margin-top:18px;
+    padding:9px 15px;
+    border:1px solid rgba(255,255,255,.18);
+    border-radius:999px;
+    background:rgba(255,255,255,.10);
+    color:#fff;
+    font-size:13px;
+}
+.saved-count i{color:#e0b477}
+/* Cards */
+.saved-grid{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:22px;
+}
+.saved-card{
+    overflow:hidden;
+    border:1px solid rgba(20,28,38,.10);
+    border-radius:22px;
+    background:#fff;
+    box-shadow:0 12px 36px rgba(20,28,38,.10);
+    transition:transform .25s ease,box-shadow .25s ease;
+}
+.saved-card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 22px 52px rgba(20,28,38,.16);
+}
+.saved-card .card-image{
+    height:220px;
+    position:relative;
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(135deg,#d9d0c4,#eee9e1);
+    color:var(--gold);
+}
+.saved-card .card-image:after{
+    content:"";
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    background:linear-gradient(180deg,transparent 45%,rgba(0,0,0,.20));
+}
+.saved-card .card-image>img{
+    width:100%;height:100%;
+    object-fit:cover;
+    display:block;
+    transition:transform .45s ease;
+}
+.saved-card:hover .card-image>img{transform:scale(1.04)}
+.saved-card .card-image>i{font-size:46px;opacity:.55}
+.remove-btn{
+    position:absolute;
+    z-index:2;
+    top:13px;right:13px;
+    width:40px;height:40px;
+    display:grid;place-items:center;
+    border:1px solid rgba(255,255,255,.60);
+    border-radius:50%;
+    background:rgba(255,255,255,.95);
+    color:#b42318;
+    cursor:pointer;
+    box-shadow:0 8px 24px rgba(0,0,0,.16);
+}
+.remove-btn:hover{background:#b42318;color:#fff}
+.saved-card .card-body{padding:20px}
+.saved-card .card-body h3{
+    margin:0 0 7px;
+    color:var(--dark);
+    font-family:"Playfair Display",Georgia,serif;
+    font-size:21px;
+}
+.saved-card .loc{
+    margin:0 0 14px;
+    color:var(--muted);
+    font-size:13px;
+    line-height:1.45;
+}
+.saved-card .loc i{color:var(--gold);margin-right:5px}
+.saved-card .price{
+    margin-bottom:14px;
+    color:var(--gold-dark);
+    font-size:22px;
+    font-weight:800;
+}
+.saved-card .price small{color:#8a9198;font-size:12px;font-weight:500}
+.amenities{
+    display:flex;
+    flex-wrap:wrap;
+    gap:7px;
+    min-height:29px;
+    margin-bottom:18px;
+}
+.amenity{
+    padding:5px 9px;
+    border:1px solid #e8e2d9;
+    border-radius:999px;
+    background:#faf8f4;
+    color:#626b74;
+    font-size:11px;
+    font-weight:600;
+}
+.card-actions{display:flex;gap:9px}
+.card-actions .btn{
+    flex:1;
+    min-height:43px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:7px;
+    padding:10px 12px;
+    border-radius:11px;
+    font-size:12px;
+    font-weight:700;
+}
+.card-actions .btn-primary{background:var(--gold);border:1px solid var(--gold);color:#fff}
+.card-actions .btn-primary:hover{background:var(--gold-dark);border-color:var(--gold-dark)}
+.card-actions .btn-outline{background:#fff;border:1px solid #d9d3ca;color:#424b54}
+.card-actions .btn-outline:hover{border-color:var(--gold);color:var(--gold-dark);background:#fbf8f3}
+/* Empty */
+.empty-state{
+    padding:72px 22px;
+    text-align:center;
+    border:1px dashed #cfc8bd;
+    border-radius:25px;
+    background:rgba(255,255,255,.94);
+    box-shadow:0 12px 38px rgba(20,28,38,.08);
+}
+.empty-state i{
+    display:inline-grid;
+    place-items:center;
+    width:76px;height:76px;
+    margin-bottom:17px;
+    border-radius:50%;
+    background:#f5efe7;
+    color:#b9aa96;
+    font-size:30px;
+}
+.empty-state h2{
+    margin:0 0 8px;
+    color:var(--dark);
+    font-family:"Playfair Display",Georgia,serif;
+    font-size:28px;
+}
+.empty-state p{
+    max-width:520px;
+    margin:0 auto 24px;
+    color:var(--muted);
+    font-size:14px;
+    line-height:1.7;
+}
+.empty-state .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:12px 18px;
+    border-radius:11px;
+    background:var(--gold);
+    color:#fff;
+    font-size:13px;
+    font-weight:700;
+}
+/* Footer */
+.hl-footer{
+    padding:34px 20px;
+    background:#101820;
+    color:#aeb6bf;
+    border-top:1px solid rgba(255,255,255,.08);
+}
+.hl-footer-inner{
+    width:min(1240px,100%);
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:22px;
+}
+.hl-footer-brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:#fff;
+    font-family:"Playfair Display",Georgia,serif;
+    font-size:20px;
+}
+.hl-footer-brand i{color:#d2a66d}
+.hl-footer-links{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:8px 18px}
+.hl-footer-links a{color:#aeb6bf;font-size:12px}
+.hl-footer-links a:hover{color:#fff}
+@media(max-width:1050px){
+    .saved-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:700px){
+    .nav-container{width:calc(100% - 22px);min-height:70px}
+    .navbar{min-height:70px}
+    .logo-text{font-size:21px}
+    .logo-icon{width:38px;height:38px}
+    .user-menu-trigger>span:nth-child(2){display:none}
+    .saved-page{
+        padding:94px 12px 52px;
+        background-attachment:scroll;
+    }
+    .saved-header{padding:32px 16px;border-radius:21px}
+    .saved-header h1{font-size:34px}
+    .saved-grid{grid-template-columns:1fr;gap:16px}
+    .saved-card .card-image{height:205px}
+    .hl-footer-inner{flex-direction:column;align-items:flex-start}
+    .hl-footer-links{justify-content:flex-start}
+}
+@media(prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *,*:before,*:after{transition:none!important;animation:none!important}
+}
+</style>
 </head>
 <body>
+    <!-- ===== NAVIGATION ===== -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <a href="/" class="logo">
+            <a href="home" class="logo">
                 <div class="logo-icon"><i class="fas fa-home"></i></div>
                 <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
+            
             <div class="nav-actions">
-                <div class="user-menu" id="userMenu">
+                
+                                <div class="user-menu" id="userMenu">
                     <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu">
                         <span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span>
                         <span id="navUserName">Account</span>
@@ -53,85 +429,97 @@
                         <a href="home" id="mainHomeLink"><i class="fas fa-home"></i> Main Home</a>
                         <a href="edit-profile" id="myProfileLink"><i class="fas fa-user"></i> My Profile &amp; Settings</a>
                         <a href="payment"><i class="fas fa-credit-card"></i> Access Pass</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="properties"><i class="fas fa-building"></i> Browse Properties</a>
+                        <a href="map"><i class="fas fa-map-location-dot"></i> Property Map</a>
+                        <a href="comfort-scores"><i class="fas fa-gauge-high"></i> Comfort Scores</a>
+                        <a href="saved-properties"><i class="fas fa-heart"></i> Saved Properties</a>
+                        <a href="list-property"><i class="fas fa-key"></i> List Your Property</a>
+                        <a href="tenant-screening"><i class="fas fa-user-check"></i> Tenant Screening</a>
+                        <a href="owner-resources"><i class="fas fa-toolbox"></i> Owner Resources</a>
+                        <a href="buy-sell"><i class="fas fa-tag"></i> Buy / Sell</a>
+                        <a href="possession"><i class="fas fa-key"></i> Possession &amp; Handover</a>
+                        <a href="lease-signing"><i class="fas fa-file-signature"></i> Leases &amp; Signing</a>
+                        <a href="tour-booking"><i class="fas fa-calendar-check"></i> Tour Bookings</a>
+                        <a href="messages"><i class="fas fa-comments"></i> Messages</a>
+                        <a href="notifications"><i class="fas fa-bell"></i> Notifications</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="how-it-works"><i class="fas fa-circle-question"></i> How It Works</a>
+                        <a href="about"><i class="fas fa-building"></i> About Us</a>
+                        <a href="blog"><i class="fas fa-newspaper"></i> Blog</a>
+<a href="comfort-scores"><i class="fas fa-chart-simple"></i> Type &amp; Voice Search</a>
+                                                <a href="contact"><i class="fas fa-envelope"></i> Contact &amp; Support</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="login" id="signInLink" class="hide-when-auth"><i class="fas fa-arrow-right-to-bracket"></i> Sign In</a>
+                        <a href="#" id="logoutLink" class="logout-link hide-when-guest"><i class="fas fa-sign-out-alt"></i> Logout</a>
                     </div>
                 </div>
-            </div>
+</div>
         </div>
     </nav>
-    <section class="page-header">
-        <div class="container">
-            <div class="ph-icon"><i class="fas fa-bookmark"></i></div>
-            <h1>Saved Searches</h1>
-            <p>Save the searches that matter and get alerts on new matches.</p>
-        </div>
-    </section>
-
-    <section class="page-section" style="padding-top:20px;">
-        <div class="container" style="max-width: 900px;">
-            <div class="section-head" style="text-align:center;margin-bottom:24px;"><h2>Saved Properties & Searches</h2></div>
-            <p style="text-align:center;color:var(--gray-500);font-size:14px;margin:-14px 0 26px;">Your saved properties (favorites) are listed here so you can quickly re-open them.</p>
-            <div id="savedWrap">
-                <p style="text-align:center;color:var(--gray-400);padding:40px 0;"><i class="fas fa-spinner fa-spin"></i> Loading saved properties…</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="page-cta">
-        <div class="container">
-            <div class="cta-banner">
-                <h2>Ready to continue?</h2>
-                <p>Head back to your dashboard or browse the next step.</p>
-                                <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
-                    <a href="properties" class="btn btn-lg"><i class="fas fa-building"></i> Browse Properties</a>
-                    <a href="saved-properties" class="btn btn-lg"><i class="fas fa-heart"></i> Saved Properties</a>
-                    <a href="dashboard" class="btn btn-lg"><i class="fas fa-gauge-high"></i> My Dashboard</a>
-                    <a href="dashboard" class="btn btn-lg ghost"><i class="fas fa-gauge-high"></i> My Dashboard</a>
+    <!-- ===== SAVED PROPERTIES PAGE ===== -->
+    <section class="saved-page">
+        <div class="saved-container">
+            <a href="properties" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Properties
+            </a>
+            <div class="saved-header">
+                <h1><i class="fas fa-heart"></i> Saved Properties</h1>
+                <p>Your favorite homes, all in one place</p>
+                <div class="saved-count">
+                    <i class="fas fa-bookmark"></i> <span id="savedCount">0</span> saved properties
                 </div>
             </div>
+            <div id="savedGrid" class="saved-grid"></div>
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <i class="fas fa-heart-crack"></i>
+                <h2>No Saved Properties Yet</h2>
+                <p>Tap the heart icon on any property to save it here for quick access.</p>
+                <a href="properties" class="btn btn-primary">
+                    <i class="fas fa-search"></i> Browse Properties
+                </a>
+            </div>
         </div>
     </section>
-
-<script src="api.js?v=20260913a"></script>
-    <script src="script.js?v=20260913a"></script>
-    <script>
-        (function() {
-            'use strict';
-            const wrap = document.getElementById('savedWrap');
-            function money(n){return '₹'+Math.round(Number(n)||0).toLocaleString('en-IN');}
-
-            async function loadSaved(){
-                try{
-                    if(!api.isAuthenticated()){wrap.innerHTML='<div style="text-align:center;padding:40px;color:var(--gray-500);">Please <a href="login">log in</a> to view your saved properties.</div>';return;}
-                    let favs = await api.getFavorites();
-                    if(!Array.isArray(favs))favs=[];
-                    if(favs.length===0){wrap.innerHTML='<div style="text-align:center;padding:60px 20px;background:var(--white);border:2px dashed var(--gray-200);border-radius:var(--radius-xl);">'
-                        +'<i class="fas fa-bookmark" style="font-size:56px;color:var(--gray-300);"></i>'
-                        +'<h3 style="margin:16px 0 6px;color:var(--dark);">Nothing saved yet</h3>'
-                        +'<p style="color:var(--gray-500);margin-bottom:20px;">Save properties you like and they will show up here.</p>'
-                        +'<a href="properties" class="btn btn-primary" style="display:inline-flex;gap:8px;"><i class="fas fa-building"></i> Browse Properties</a></div>';return;}
-                    const cards=[];
-                    for(const f of favs){
-                        try{
-                            const p=await api.getProperty(f.propertyId);
-                            if(!p||!p.id)continue;
-                            cards.push('<div style="background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:16px 20px;margin-bottom:10px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:center;box-shadow:var(--shadow-sm);">'
-                                +'<div><strong style="color:var(--dark);">'+api.escapeHtml(p.title||('Property #'+p.id))+'</strong>'
-                                +'<div style="font-size:12px;color:var(--gray-400);margin-top:4px;">'+api.escapeHtml([p.locality,p.city].filter(Boolean).join(', '))+' · '+money(p.rentAmount||p.price)+'/mo</div></div>'
-                                +'<div style="display:flex;gap:8px;align-items:center;">'
-                                +'<a class="btn btn-sm btn-secondary" href="property-detail?id='+p.id+'"><i class="fas fa-eye"></i> View</a>'
-                                +'<button class="btn btn-sm btn-danger" onclick="unsave('+f.id+')"><i class="fas fa-heart-broken"></i> Remove</button>'
-                                +'</div></div>');
-                        }catch(e){/* skip */}
-                    }
-                    wrap.innerHTML=cards.join('')||'<div style="text-align:center;padding:40px;color:var(--gray-500);">Could not load saved properties.</div>';
-                }catch(e){wrap.innerHTML='<div style="text-align:center;padding:40px;color:var(--gray-500);">'+api.escapeHtml(e.message||'Could not load saved properties.')+'</div>';}
-            }
-            window.unsave=async function(id){
-                try{await api.removeFavorite(id);showToast('Removed from saved.','success');loadSaved();}
-                catch(e){showToast(e.message||'Remove failed.','error');}
-            };
-            loadSaved();
-        })();
-    </script>
+    <script src="js/api.js?v=20260913a"></script>
+    <script src="js/core.js?v=20260913a"></script>
+    <script src="js/pages/saved-properties.js?v=20260913a"></script>
+<footer class="footer">
+<div class="container">
+    <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
+        <div class="footer-brand">
+            <a href="home" class="logo">
+                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <span class="logo-text">Heaven<span>Lease</span></span>
+            </a>
+            <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Explore</strong>
+            <a href="properties" style="color:inherit;text-decoration:none;">Find a Home</a>
+            <a href="map" style="color:inherit;text-decoration:none;">Property Map</a>
+            <a href="how-it-works" style="color:inherit;text-decoration:none;">How It Works</a>
+            <a href="about" style="color:inherit;text-decoration:none;">About Us</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Company</strong>
+            <a href="careers" style="color:inherit;text-decoration:none;">Careers</a>
+            <a href="press" style="color:inherit;text-decoration:none;">Press</a>
+            <a href="blog" style="color:inherit;text-decoration:none;">Blog</a>
+            <a href="contact" style="color:inherit;text-decoration:none;">Contact</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">For Owners</strong>
+            <a href="list-property" style="color:inherit;text-decoration:none;">List Your Property</a>
+            <a href="properties-management" style="color:inherit;text-decoration:none;">Owner Dashboard</a>
+            <a href="payment" style="color:inherit;text-decoration:none;">Pricing &amp; Upgrade</a>
+            <a href="owner-resources" style="color:inherit;text-decoration:none;">Owner Resources</a>
+        </div>
+    </div>
+    <div class="footer-bottom" style="justify-content:center;margin-top:28px;">
+        <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
+    </div>
+</div>
+</footer>
 </body>
 </html>

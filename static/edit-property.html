@@ -1,220 +1,162 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Edit an existing property listing.">
-    <title>Edit Property — HeavenLease</title>
-    <link rel="icon" href="favicon.svg" type="image/svg+xml">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="styles.css?v=20260909a">
-    <style>
-        .page-header { background: rgba(255,255,255,0.45); backdrop-filter: blur(6px); padding: 140px 0 70px; text-align: center; position: relative; overflow: hidden; }
-        .page-header h1 { font-family: var(--font-heading); font-size: 46px; font-weight: 700; color: var(--dark); margin-bottom: 12px; }
-        .page-header p { font-size: 17px; color: var(--gray-500); max-width: 640px; margin: 0 auto; }
-        .page-header .ph-icon { width: 68px; height: 68px; border-radius: 18px; background: var(--gradient); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 28px; margin: 0 auto 18px; box-shadow: var(--shadow-primary); }
-        .page-section { padding: 70px 0 90px; }
-        .page-section .section-head { text-align: center; margin-bottom: 44px; }
-        .page-section .section-head h2 { font-family: var(--font-heading); font-size: 30px; font-weight: 700; color: var(--dark); }
-        .feature-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 26px; }
-        .feature-card { background: rgba(255,255,255,0.92); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 28px; transition: var(--transition); box-shadow: var(--shadow-sm); }
-        .feature-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--primary); }
-        .feature-card .fc-icon { width: 52px; height: 52px; border-radius: 14px; background: var(--gradient-soft); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 14px; }
-        .feature-card h3 { font-size: 17px; font-weight: 600; color: var(--dark); margin-bottom: 6px; }
-        .feature-card p { font-size: 14px; color: var(--gray-500); line-height: 1.6; margin: 0; }
-        .page-cta { padding: 0 0 90px; }
-        .cta-banner { background: var(--gradient); border-radius: var(--radius-xl); padding: 44px 32px; text-align: center; color: #fff; }
-        .cta-banner h2 { font-family: var(--font-heading); font-size: 28px; margin-bottom: 8px; }
-        .cta-banner p { opacity: 0.92; margin-bottom: 20px; }
-        .cta-banner .btn { background: #fff; color: var(--primary); font-weight: 600; }
-        .cta-banner .btn.ghost { background: transparent; border: 1px solid #fff; color: #fff; }
-        @media (max-width: 900px) { .feature-grid { grid-template-columns: 1fr; } }
-        @media (max-width: 768px) { .page-header { padding: 120px 0 50px; } .page-header h1 { font-size: 34px; } }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Edit an existing property listing.">
+<title>Edit Property — HeavenLease</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
+<link rel="stylesheet" href="styles.css?v=20260909a">
+<style>
+:root{--ep-bg:#f4f7fb;--ep-card:rgba(255,255,255,.97);--ep-line:#e5e7eb;--ep-text:#182033;--ep-muted:#687386background:var(;--ep-bg);color:var(--ep-text)}
+.navbar{background:rgba(255,255,255,.98)!important;box-shadow:0 8px 30px rgba(15,23,42,.09);backdrop-filter:blur(14px);z-index:100}
+.edit-page{min-height:100vh;padding:104px 0 70px;position:relative;overflow:hidden;background:linear-gradient(180deg,rgba(244,247,251,.94),rgba(244,247,251,.98)),url("https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=2200&q=85") center/cover fixed}
+.edit-page:before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 10% 8%,rgba(99,102,241,.12),transparent 30%),radial-gradient(circle at 92% 35%,rgba(14,165,233,.08),transparent 27%)}
+.edit-container{max-width:900px;margin:auto;padding:28px 20px;position:relative;z-index:1}
+.page-intro{display:flex;align-items:center;gap:20px;padding:28px;margin-bottom:22px;border-radius:26px;background:rgba(255,255,255,.93);border:1px solid rgba(255,255,255,.9);box-shadow:0 18px 55px rgba(15,23,42,.10)}
+.intro-icon{width:70px;height:70px;border-radius:21px;background:var(--gradient);color:#fff;display:flex;align-items:center;justify-content:center;font-size:27px;box-shadow:0 14px 30px rgba(79,70,229,.22);flex-shrink:0}
+.page-intro h1{font-family:var(--font-heading);font-size:31px;margin:0 0 6px;color:var(--dark)}
+.page-intro p{margin:0;color:var(--ep-muted);font-size:14px;line-height:1.6}
+.editor-card{background:var(--ep-card);border:1px solid var(--ep-line);border-radius:24px;padding:30px;box-shadow:0 14px 42px rgba(15,23,42,.08)}
+.card-title{display:flex;align-items:center;gap:11px;margin:0 0 22px;font-size:19px;color:var(--dark)}
+.card-title i{color:var(--primary)}
+.load-panel{display:grid;grid-template-columns:1fr auto;gap:12px;padding:18px;border-radius:18px;background:#f7f8fc;border:1px solid var(--ep-line);margin-bottom:24px}
+.field{margin-bottom:18px}
+.field label{display:block;font-size:12px;font-weight:700;color:#525c6e;margin-bottom:8px;text-transform:uppercase;letter-spacing:.03em}
+.field input,.field select{width:100%;padding:13px 15px;border:1px solid var(--ep-line);border-radius:13px;background:#fff;font-size:14px;color:#3a4354;transition:.2s;font-family:inherit}
+.field input:focus,.field select:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 4px rgba(79,70,229,.09)}
+.field input::placeholder{color:#9aa3b2}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.section-label{font-size:13px;font-weight:800;color:var(--dark);margin:25px 0 15px;padding-top:20px;border-top:1px solid var(--ep-line)}
+.toggle-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:4px 0 20px}
+.toggle{display:flex;align-items:center;gap:10px;padding:13px 15px;border:1px solid var(--ep-line);border-radius:13px;background:#f7f8fc;color:#525c6e;font-size:14px;font-weight:600;cursor:pointer}
+.toggle input{width:17px;height:17px;accent-color:var(--primary)}
+.save-btn{width:100%;display:inline-flex;justify-content:center;gap:8px;padding:14px;border-radius:13px;font-size:14px}
+.page-cta{padding:0 0 90px;position:relative;z-index:1}
+.cta-banner{background:var(--gradient);border-radius:26px;padding:42px 28px;text-align:center;color:#fff;box-shadow:0 18px 50px rgba(79,70,229,.18)}
+.cta-banner h2{font-family:var(--font-heading);font-size:28px;margin:0 0 8px}
+.cta-banner p{margin:0 0 20px;opacity:.92}
+.cta-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.cta-banner .btn{background:#fff;color:var(--primary);font-weight:700}
+.site-footer{background:#182033!important;color:#d1d5db!important;opacity:1!important;border:0!important}
+@media(max-width:700px){.edit-page{padding-top:92px}.edit-container{padding:18px 14px}.page-intro{padding:22px;align-items:flex-start}.intro-icon{width:58px;height:58px;font-size:22px}.page-intro h1{font-size:27px}.editor-card{padding:21px}.load-panel,.grid-2,.grid-3,.toggle-grid{grid-template-columns:1fr}.load-panel .btn{width:100%}}
+</style>
 </head>
 <body>
-    <nav class="navbar" id="navbar">
-        <div class="nav-container">
-            <a href="/" class="logo">
+<nav class="navbar" id="navbar">
+<div class="nav-container">
+<a href="/" class="logo"><div class="logo-icon"><i class="fas fa-home"></i></div><span class="logo-text">Heaven<span>Lease</span></span></a>
+<div class="nav-actions"><div class="user-menu" id="userMenu">
+<button class="user-menu-trigger" id="profileBtn" aria-label="Account menu"><span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span><span id="navUserName">Account</span><i class="fas fa-chevron-down"></i></button>
+<div class="user-dropdown" id="profileDropdown">
+<a href="home" id="mainHomeLink"><i class="fas fa-home"></i> Main Home</a>
+<a href="edit-profile" id="myProfileLink"><i class="fas fa-user"></i> My Profile &amp; Settings</a>
+<a href="payment"><i class="fas fa-credit-card"></i> Access Pass</a>
+</div></div></div></div>
+</nav>
+<main class="edit-page">
+<div class="edit-container">
+<section class="page-intro">
+<div class="intro-icon"><i class="fas fa-pen-to-square"></i></div>
+<div><h1>Edit Property</h1><p>Update your listing details, availability and comfort information without leaving the page.</p></div>
+</section>
+<section class="editor-card">
+<h2 class="card-title"><i class="fas fa-house-circle-check"></i> Property Listing Editor</h2>
+<form id="propForm">
+<div class="load-panel">
+<div class="field" style="margin:0"><label for="pId">Property ID</label><input id="pId" type="number" required min="1" placeholder="e.g. 12"></div>
+<button type="button" class="btn btn-secondary" onclick="loadProp()" style="align-self:end;min-height:46px;display:inline-flex;gap:8px;align-items:center;justify-content:center"><i class="fas fa-download"></i> Load Listing</button>
+</div>
+<div id="editFields" style="display:none">
+<div class="section-label">Basic information</div>
+<div class="field"><label for="fTitle">Title</label><input id="fTitle" type="text" placeholder="Beautiful 2 BHK apartment"></div>
+<div class="grid-2">
+<div class="field"><label for="fRent">Rent (₹ / month)</label><input id="fRent" type="number" min="0"></div>
+<div class="field"><label for="fDeposit">Deposit (₹)</label><input id="fDeposit" type="number" min="0"></div>
+</div>
+<div class="grid-2">
+<div class="field"><label for="fBhk">BHK</label><input id="fBhk" type="number" min="0"></div>
+<div class="field"><label for="fType">Property Type</label><input id="fType" type="text" placeholder="Apartment / Villa / Studio"></div>
+</div>
+<div class="grid-2">
+<div class="field"><label for="fLocality">Locality</label><input id="fLocality" type="text"></div>
+<div class="field"><label for="fCity">City</label><input id="fCity" type="text"></div>
+</div>
+<div class="section-label">Comfort scores</div>
+<div class="grid-3">
+<div class="field"><label for="fQuiet">Quietness %</label><input id="fQuiet" type="number" min="0" max="100"></div>
+<div class="field"><label for="fSun">Sunlight %</label><input id="fSun" type="number" min="0" max="100"></div>
+<div class="field"><label for="fCommute">Commute %</label><input id="fCommute" type="number" min="0" max="100"></div>
+</div>
+<div class="section-label">Property features</div>
+<div class="toggle-grid">
+<label class="toggle"><input id="fPet" type="checkbox"> <i class="fas fa-paw"></i> Pet friendly</label>
+<label class="toggle"><input id="fFurn" type="checkbox"> <i class="fas fa-couch"></i> Furnished</label>
+</div>
+<div class="section-label">Listing status</div>
+<div class="field"><label for="fStatus">Status</label><select id="fStatus"><option value="active">Active</option><option value="pending">Pending</option><option value="inactive">Inactive</option></select></div>
+<button type="submit" class="btn btn-primary save-btn"><i class="fas fa-floppy-disk"></i> Save Changes</button>
+</div>
+</form>
+</section>
+</div>
+</main>
+<section class="page-cta">
+<div class="container">
+<div class="cta-banner">
+<h2>Ready to continue?</h2><p>Manage your other listings or return to your dashboard.</p>
+<div class="cta-actions">
+<a href="properties-management" class="btn btn-lg"><i class="fas fa-house-circle-check"></i> Manage Properties</a>
+<a href="list-property" class="btn btn-lg"><i class="fas fa-plus"></i> List a Property</a>
+<a href="dashboard" class="btn btn-lg"><i class="fas fa-gauge-high"></i> My Dashboard</a>
+</div>
+</div>
+</div>
+</section>
+<footer class="footer">
+<div class="container">
+    <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
+        <div class="footer-brand">
+            <a href="home" class="logo">
                 <div class="logo-icon"><i class="fas fa-home"></i></div>
                 <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
-            <div class="nav-actions">
-                <div class="user-menu" id="userMenu">
-                    <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu">
-                        <span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span>
-                        <span id="navUserName">Account</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </button>
-                    <div class="user-dropdown" id="profileDropdown">
-                        <a href="home" id="mainHomeLink"><i class="fas fa-home"></i> Main Home</a>
-                        <a href="edit-profile" id="myProfileLink"><i class="fas fa-user"></i> My Profile &amp; Settings</a>
-                        <a href="payment"><i class="fas fa-credit-card"></i> Access Pass</a>
-                    </div>
-                </div>
-            </div>
+            <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>
         </div>
-    </nav>
-    <section class="page-header">
-        <div class="container">
-            <div class="ph-icon"><i class="fas fa-pen-to-square"></i></div>
-            <h1>Edit Property</h1>
-            <p>Update any part of your live listing and see a preview before saving.</p>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Explore</strong>
+            <a href="properties" style="color:inherit;text-decoration:none;">Find a Home</a>
+            <a href="map" style="color:inherit;text-decoration:none;">Property Map</a>
+            <a href="how-it-works" style="color:inherit;text-decoration:none;">How It Works</a>
+            <a href="about" style="color:inherit;text-decoration:none;">About Us</a>
         </div>
-    </section>
-
-    <section class="page-section" style="padding-top:20px;">
-        <div class="container" style="max-width: 760px;">
-            <div class="section-head" style="text-align:center;margin-bottom:24px;"><h2>Edit Your Listing</h2></div>
-            <form id="propForm" style="background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-xl);padding:28px 30px;box-shadow:var(--shadow-sm);">
-                <div class="form-group" style="margin-bottom:16px;">
-                    <label style="display:block;font-size:13px;font-weight:600;color:var(--gray-600);margin-bottom:6px;">Property ID</label>
-                    <input id="pId" type="number" required placeholder="e.g. 12" style="width:100%;padding:12px 16px;border:1px solid var(--gray-200);border-radius:var(--radius-md);font-size:14px;">
-                    <button type="button" class="btn btn-secondary" style="margin-top:10px;" onclick="loadProp()"><i class="fas fa-download"></i> Load Listing</button>
-                </div>
-                <div id="editFields" style="display:none;">
-                    <div class="form-group" style="margin-bottom:16px;">
-                        <label style="display:block;font-size:13px;font-weight:600;color:var(--gray-600);margin-bottom:6px;">Title</label>
-                        <input id="fTitle" type="text" style="width:100%;padding:12px 16px;border:1px solid var(--gray-200);border-radius:var(--radius-md);font-size:14px;">
-                    </div>
-                    <div class="form-group" style="margin-bottom:16px;">
-                        <label style="display:block;font-size:13px;font-weight:600;color:var(--gray-600);margin-bottom:6px;">Rent (₹/month)</label>
-                        <input id="fRent" type="number" min="0" style="width:100%;padding:12px 16px;border:1px solid var(--gray-200);border-radius:var(--radius-md);font-size:14px;">
-                    </div>
-                    <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
-                        <div class="form-group">
-                            <label style="display:block;font-size:13px;font-weight:600;color:var(--gray-600);margin-bottom:6px;">BHK</label>
-                            <input id="fBhk" type="number" min="0" style="width:100%;padding:12px 16px;border:1px solid var(--gray-200);border-radius:var(--radius-md);font-size:14px;">
-                        </div>
-                        <div class="form-group">
-                            <label style="display:block;font-size:13px;font-weight:600;color:var(--gray-600);margin-bottom:6px;">Type</label>
-                            <input id="fType" type="text" placeholder="Apartment / Villa / Studio" style="width:100%;padding:12px 16px;border:1px solid var(--gray-200);border-radius:var(--radius-md);font-size:14px;">
-                        </div>
-                    </div>
-                    <div class="form-group" style="margin-bottom:16px;">
-                        <label style="display:block;font-size:13px;font-weight:600;color:var(--gray-600);margin-bottom:6px;">Locality</label>
-                        <input id="fLocality" type="text" style="width:100%;padding:12px 16px;border:1px solid var(--gray-200);border-radius:var(--radius-md);font-size:14px;">
-                    </div>
-                    <div class="form-group" style="margin-bottom:16px;">
-                        <label style="display:block;font-size:13px;font-weight:600;color:var(--gray-600);margin-bottom:6px;">City</label>
-                        <input id="fCity" type="text" style="width:100%;padding:12px 16px;border:1px solid var(--gray-200);border-radius:var(--radius-md);font-size:14px;">
-                    </div>
-                    <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:16px;">
-                        <div class="form-group">
-                            <label style="display:block;font-size:13px;font-weight:600;color:var(--gray-600);margin-bottom:6px;">Quietness %</label>
-                            <input id="fQuiet" type="number" min="0" max="100" style="width:100%;padding:12px 16px;border:1px solid var(--gray-200);border-radius:var(--radius-md);font-size:14px;">
-                        </div>
-                        <div class="form-group">
-                            <label style="display:block;font-size:13px;font-weight:600;color:var(--gray-600);margin-bottom:6px;">Sunlight %</label>
-                            <input id="fSun" type="number" min="0" max="100" style="width:100%;padding:12px 16px;border:1px solid var(--gray-200);border-radius:var(--radius-md);font-size:14px;">
-                        </div>
-                        <div class="form-group">
-                            <label style="display:block;font-size:13px;font-weight:600;color:var(--gray-600);margin-bottom:6px;">Commute %</label>
-                            <input id="fCommute" type="number" min="0" max="100" style="width:100%;padding:12px 16px;border:1px solid var(--gray-200);border-radius:var(--radius-md);font-size:14px;">
-                        </div>
-                    </div>
-                    <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
-                        <label style="font-size:14px;color:var(--gray-600);display:flex;align-items:center;gap:8px;"><input id="fPet" type="checkbox"> Pet friendly</label>
-                        <label style="font-size:14px;color:var(--gray-600);display:flex;align-items:center;gap:8px;"><input id="fFurn" type="checkbox"> Furnished</label>
-                    </div>
-                    <div class="form-group" style="margin-bottom:20px;">
-                        <label style="display:block;font-size:13px;font-weight:600;color:var(--gray-600);margin-bottom:6px;">Status</label>
-                        <select id="fStatus" style="width:100%;padding:12px 16px;border:1px solid var(--gray-200);border-radius:var(--radius-md);font-size:14px;">
-                            <option value="active">Active</option>
-                            <option value="pending">Pending</option>
-                            <option value="inactive">Inactive</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="btn btn-primary" style="width:100%;display:inline-flex;justify-content:center;gap:8px;"><i class="fas fa-floppy-disk"></i> Save Changes</button>
-                </div>
-            </form>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Company</strong>
+            <a href="careers" style="color:inherit;text-decoration:none;">Careers</a>
+            <a href="press" style="color:inherit;text-decoration:none;">Press</a>
+            <a href="blog" style="color:inherit;text-decoration:none;">Blog</a>
+            <a href="contact" style="color:inherit;text-decoration:none;">Contact</a>
         </div>
-    </section>
-
-    <section class="page-cta">
-        <div class="container">
-            <div class="cta-banner">
-                <h2>Ready to continue?</h2>
-                <p>Head back to your dashboard or browse the next step.</p>
-                                <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
-                    <a href="properties-management" class="btn btn-lg"><i class="fas fa-house-circle-check"></i> Manage Properties</a>
-                    <a href="list-property" class="btn btn-lg"><i class="fas fa-plus"></i> List a Property</a>
-                    <a href="dashboard" class="btn btn-lg"><i class="fas fa-gauge-high"></i> My Dashboard</a>
-                    <a href="dashboard" class="btn btn-lg ghost"><i class="fas fa-gauge-high"></i> My Dashboard</a>
-                </div>
-            </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">For Owners</strong>
+            <a href="list-property" style="color:inherit;text-decoration:none;">List Your Property</a>
+            <a href="properties-management" style="color:inherit;text-decoration:none;">Owner Dashboard</a>
+            <a href="payment" style="color:inherit;text-decoration:none;">Pricing &amp; Upgrade</a>
+            <a href="owner-resources" style="color:inherit;text-decoration:none;">Owner Resources</a>
         </div>
-    </section>
-
-<script src="api.js?v=20260913a"></script>
-    <script src="script.js?v=20260913a"></script>
-    <script>
-        (function() {
-            'use strict';
-            const form=document.getElementById('propForm');
-            const editFields=document.getElementById('editFields');
-            let currentId=null;
-
-            function fill(p){
-                currentId=p.id;
-                document.getElementById('fTitle').value=p.title||'';
-                document.getElementById('fRent').value=p.rentAmount||'';
-                document.getElementById('fDeposit').value=p.deposit||'';
-                document.getElementById('fBhk').value=p.bhk||'';
-                document.getElementById('fType').value=p.propertyType||'';
-                document.getElementById('fLocality').value=p.locality||'';
-                document.getElementById('fCity').value=p.city||'';
-                document.getElementById('fQuiet').value=p.quietness!=null?p.quietness:'';
-                document.getElementById('fSun').value=p.sunlight!=null?p.sunlight:'';
-                document.getElementById('fCommute').value=p.commute!=null?p.commute:'';
-                document.getElementById('fPet').checked=!!p.petFriendly;
-                document.getElementById('fFurn').checked=!!p.furnished;
-                document.getElementById('fStatus').value=(p.status||'active').toLowerCase();
-                editFields.style.display='block';
-            }
-            window.loadProp=async function(){
-                const id=Number(document.getElementById('pId').value||0);
-                if(!id){showToast('Enter a property ID first.','error');return;}
-                try{
-                    const p=await api.getProperty(id);
-                    if(!p||!p.id){showToast('Property not found.','error');return;}
-                    fill(p);
-                }catch(e){showToast(e.message||'Could not load property.','error');}
-            };
-            if(form){
-                form.addEventListener('submit',async function(ev){
-                    ev.preventDefault();
-                    if(!currentId){showToast('Load a property first.','error');return;}
-                    try{
-                        const payload={
-                            title:document.getElementById('fTitle').value,
-                            rentAmount:Number(document.getElementById('fRent').value)||0,
-                            deposit:Number(document.getElementById('fDeposit').value)||0,
-                            bhk:Number(document.getElementById('fBhk').value)||0,
-                            propertyType:document.getElementById('fType').value,
-                            locality:document.getElementById('fLocality').value,
-                            city:document.getElementById('fCity').value,
-                            quietness:Number(document.getElementById('fQuiet').value)||0,
-                            sunlight:Number(document.getElementById('fSun').value)||0,
-                            commute:Number(document.getElementById('fCommute').value)||0,
-                            petFriendly:document.getElementById('fPet').checked,
-                            furnished:document.getElementById('fFurn').checked,
-                            status:document.getElementById('fStatus').value
-                        };
-                        await api.updateProperty(currentId,payload);
-                        showToast('Property updated!','success');
-                    }catch(e){showToast(e.message||'Save failed.','error');}
-                });
-            }
-            (function(){
-                const q=new URLSearchParams(window.location.search);
-                const id=q.get('id');
-                if(id){document.getElementById('pId').value=id;loadProp();}
-            })();
-        })();
-    </script>
+    </div>
+    <div class="footer-bottom" style="justify-content:center;margin-top:28px;">
+        <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
+    </div>
+</div>
+</footer>
+<script src="js/api.js?v=20260913a"></script>
+<script src="js/core.js?v=20260913a"></script>
+<script src="js/pages/edit-property.js?v=20260913a"></script>
 </body>
 </html>

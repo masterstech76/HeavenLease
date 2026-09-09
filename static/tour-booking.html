@@ -8,51 +8,452 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
     <link rel="stylesheet" href="styles.css?v=20260909a">
     <style>
-        .tb-page { min-height: 100vh; background: var(--gradient-soft); padding: 120px 24px 60px; position: relative; overflow: hidden; }
-        .tb-page::before { content: ''; position: absolute; top: -200px; right: -200px; width: 500px; height: 500px; background: radial-gradient(circle, rgba(79, 70, 229, 0.15) 0%, transparent 70%); border-radius: 50%; }
-        .tb-page::after { content: ''; position: absolute; bottom: -200px; left: -200px; width: 500px; height: 500px; background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, transparent 70%); border-radius: 50%; }
-        .tb-container { max-width: 720px; margin: 0 auto; position: relative; z-index: 1; }
-        .tb-header { text-align: center; margin-bottom: 32px; }
-        .tb-header h1 { font-family: var(--font-heading); font-size: 36px; font-weight: 700; color: var(--dark); }
-        .tb-header h1 i { color: var(--primary); }
-        .tb-header p { color: var(--gray-500); font-size: 15px; margin-top: 8px; }
-
-        .tb-card { background: var(--white); border-radius: var(--radius-xl); box-shadow: var(--shadow-xl); border: 1px solid var(--gray-200); overflow: hidden; }
-        .tb-card .card-head { padding: 20px 28px; border-bottom: 1px solid var(--gray-200); display: flex; align-items: center; gap: 12px; }
-        .tb-card .card-head h2 { font-size: 18px; font-weight: 600; color: var(--dark); }
-        .tb-card .card-head i { color: var(--primary); }
-        .tb-card .card-body { padding: 28px; }
-
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; font-size: 13px; font-weight: 600; color: var(--gray-600); margin-bottom: 8px; }
-        .form-group input, .form-group select { width: 100%; padding: 12px 16px; border: 1px solid var(--gray-200); border-radius: var(--radius-md); background: var(--gray-50); font-size: 14px; color: var(--gray-700); transition: var(--transition); }
-        .form-group input:focus, .form-group select:focus { outline: none; border-color: var(--primary); background: var(--white); box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); }
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-
-        .time-slots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-        .time-slot { padding: 12px; border: 2px solid var(--gray-200); border-radius: var(--radius-md); text-align: center; cursor: pointer; font-size: 13px; font-weight: 500; color: var(--gray-600); transition: var(--transition); background: var(--white); }
-        .time-slot:hover { border-color: var(--primary); background: var(--primary-light); }
-        .time-slot.selected { border-color: var(--primary); background: var(--primary-light); color: var(--primary); box-shadow: var(--shadow-primary); }
-
-        .summary-box { background: var(--gray-50); border-radius: var(--radius-lg); padding: 20px; margin-top: 24px; }
-        .summary-box .summary-row { display: flex; justify-content: space-between; padding: 8px 0; font-size: 14px; color: var(--gray-600); }
-        .summary-box .summary-row strong { color: var(--dark); }
-        .summary-box .summary-row.total { border-top: 1px solid var(--gray-200); margin-top: 8px; padding-top: 12px; font-weight: 600; color: var(--dark); }
-
-        .submit-area { text-align: center; margin-top: 24px; }
-        .submit-area .btn { padding: 14px 40px; font-size: 16px; }
-
-        .success-screen { display: none; text-align: center; padding: 60px 24px; }
+        :root {
+            --hl-ink: #182033;
+            --hl-muted: #687386;
+            --hl-cream: #f4f1ea;
+            --hl-card: #ffffff;
+            --hl-line: #e4e7ee;
+            --hl-green: #18a878;
+            --hl-green-dark: #0f8a63;
+            --hl-gold: #5b5ce2;
+            --hl-shadow: 0 26px 70px rgba(20,33,31,.13);
+        }
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            margin: 0;
+            color: var(--hl-ink);
+            font-family: "Inter", system-ui, sans-serif;
+            background:
+                linear-gradient(rgba(248,246,241,.92), rgba(244,241,234,.96)),
+                url("https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=2200&q=80") center/cover fixed;
+        }
+        a { color: inherit; }
+        /* ===== IMAGE-BACKED PREMIUM NAVBAR ===== */
+        .navbar {
+            position: fixed;
+            inset: 0 0 auto;
+            z-index: 1000;
+            background:
+                linear-gradient(90deg, rgba(8,22,19,.96), rgba(12,30,26,.78)),
+                url("https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1800&q=82") center/cover;
+            border-bottom: 1px solid rgba(255,255,255,.12);
+            box-shadow: 0 12px 35px rgba(0,0,0,.17);
+            backdrop-filter: blur(12px);
+        }
+        .nav-container {
+            min-height: 78px;
+            width: min(1240px, calc(100% - 40px));
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+        .navbar .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 11px;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 41px;
+            height: 41px;
+            border-radius: 13px;
+            display: grid;
+            place-items: center;
+            color: #fff;
+            background: linear-gradient(145deg, #d5ad72, #9a6d35);
+            box-shadow: 0 8px 24px rgba(0,0,0,.22);
+        }
+        .logo-text {
+            color: #fff;
+            font-size: 21px;
+            font-weight: 800;
+            letter-spacing: -.04em;
+        }
+        .logo-text span { color: #d8b27a; }
+        .user-menu-trigger {
+            min-height: 47px;
+            padding: 6px 12px 6px 7px;
+            border-radius: 999px;
+            border: 1px solid rgba(255,255,255,.19);
+            background: rgba(255,255,255,.08);
+            color: #fff;
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            cursor: pointer;
+            font: inherit;
+            font-weight: 600;
+            transition: .2s ease;
+        }
+        .user-menu-trigger:hover,
+        .user-menu-trigger:focus-visible {
+            background: rgba(255,255,255,.15);
+            border-color: rgba(255,255,255,.32);
+            outline: none;
+        }
+        .user-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: rgba(255,255,255,.15);
+            color: #e8c58f;
+        }
+        .user-menu-trigger .fa-chevron-down {
+            font-size: 10px;
+            opacity: .7;
+        }
+        .user-dropdown {
+            top: calc(100% + 12px) !important;
+            right: 0 !important;
+            min-width: 255px;
+            max-height: min(72vh, 620px);
+            overflow-y: auto;
+            padding: 8px !important;
+            border-radius: 17px !important;
+            background: #fff !important;
+            border: 1px solid var(--hl-line) !important;
+            box-shadow: 0 24px 60px rgba(0,0,0,.2) !important;
+        }
+        .user-dropdown a {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding: 11px 13px !important;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 13px;
+        }
+        .user-dropdown a:hover {
+            background: #f0f5f2 !important;
+            color: var(--hl-green-dark) !important;
+        }
+        .user-dropdown i { width: 17px; color: var(--hl-green); }
+        .dropdown-divider { opacity: .7; }
+        /* ===== TOUR BOOKING EXPERIENCE ===== */
+        .tb-page {
+            min-height: 100vh;
+            padding: 132px 20px 75px;
+            position: relative;
+            overflow: hidden;
+            background:
+                linear-gradient(135deg, rgba(247,245,239,.94), rgba(238,244,240,.90)),
+                url("https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=2200&q=82") center/cover;
+        }
+        .tb-page::before {
+            content: "";
+            position: absolute;
+            top: -260px;
+            right: -210px;
+            width: 610px;
+            height: 610px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(201,155,90,.18), transparent 68%);
+            pointer-events: none;
+        }
+        .tb-page::after {
+            content: "";
+            position: absolute;
+            bottom: -280px;
+            left: -250px;
+            width: 650px;
+            height: 650px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(46,102,87,.16), transparent 68%);
+            pointer-events: none;
+        }
+        .tb-container {
+            width: min(850px, 100%);
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 24px;
+            padding: 9px 13px;
+            border-radius: 999px;
+            color: #596762;
+            background: rgba(255,255,255,.65);
+            border: 1px solid rgba(20,33,31,.09);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            transition: .2s ease;
+        }
+        .back-link:hover {
+            transform: translateX(-2px);
+            color: var(--hl-green-dark);
+            background: #fffdf9;
+        }
+        .tb-header {
+            position: relative;
+            overflow: hidden;
+            min-height: 235px;
+            margin-bottom: 24px;
+            padding: 38px 42px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            border-radius: 27px;
+            color: #fff;
+            box-shadow: var(--hl-shadow);
+            background:
+                linear-gradient(180deg, rgba(10,30,25,.12), rgba(10,30,25,.88)),
+                url("https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1600&q=85") center/cover;
+        }
+        .tb-header::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(120deg, rgba(46,102,87,.2), transparent 50%);
+            pointer-events: none;
+        }
+        .tb-header h1 {
+            position: relative;
+            z-index: 1;
+            margin: 0;
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: clamp(38px, 6vw, 56px);
+            line-height: 1.04;
+            letter-spacing: -.035em;
+            color: #fff;
+        }
+        .tb-header h1 i {
+            color: #e3bd82;
+            font-size: .62em;
+            vertical-align: .1em;
+            margin-right: 7px;
+        }
+        .tb-header p {
+            position: relative;
+            z-index: 1;
+            margin: 11px 0 0;
+            color: rgba(255,255,255,.78);
+            font-size: 14px;
+        }
+        .tb-card {
+            overflow: hidden;
+            border: 1px solid var(--hl-line);
+            border-radius: 24px;
+            background: var(--hl-card);
+            box-shadow: var(--hl-shadow);
+        }
+        .tb-card .card-head {
+            min-height: 68px;
+            padding: 18px 29px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #fff;
+            border-bottom: 1px solid var(--hl-line);
+        }
+        .tb-card .card-head i {
+            width: 37px;
+            height: 37px;
+            display: grid;
+            place-items: center;
+            border-radius: 11px;
+            background: #e8f0ec;
+            color: var(--hl-green);
+        }
+        .tb-card .card-head h2 {
+            margin: 0;
+            font-size: 17px;
+            font-weight: 700;
+        }
+        .tb-card .card-body {
+            padding: 31px;
+        }
+        .form-group { margin-bottom: 22px; }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #45534f;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: .04em;
+            text-transform: uppercase;
+        }
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            min-height: 49px;
+            padding: 12px 15px;
+            border: 1px solid rgba(20,33,31,.13);
+            border-radius: 13px;
+            background: #f7f8f5;
+            color: var(--hl-ink);
+            font: inherit;
+            font-size: 14px;
+            transition: .2s ease;
+        }
+        .form-group input:hover,
+        .form-group select:hover { border-color: rgba(46,102,87,.3); }
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            background: #fff;
+            border-color: var(--hl-green);
+            box-shadow: 0 0 0 4px rgba(46,102,87,.10);
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        .time-slot {
+            min-height: 49px;
+            padding: 12px 8px;
+            display: grid;
+            place-items: center;
+            border: 1px solid rgba(20,33,31,.13);
+            border-radius: 12px;
+            background: #fff;
+            color: #56645f;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s ease;
+        }
+        .time-slot:hover {
+            transform: translateY(-1px);
+            border-color: var(--hl-green);
+            background: #f1f6f3;
+        }
+        .time-slot.selected {
+            border-color: var(--hl-green);
+            background: #e5efe9;
+            color: var(--hl-green-dark);
+            box-shadow: 0 7px 18px rgba(46,102,87,.12);
+        }
+        .summary-box {
+            margin-top: 27px;
+            padding: 18px 20px;
+            border: 1px solid rgba(46,102,87,.12);
+            border-radius: 16px;
+            background: linear-gradient(135deg, #edf4f0, #f8f6ef);
+        }
+        .summary-box .summary-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 9px 0;
+            color: #61706a;
+            font-size: 13px;
+        }
+        .summary-box .summary-row strong {
+            max-width: 65%;
+            color: var(--hl-ink);
+            text-align: right;
+            overflow-wrap: anywhere;
+        }
+        .summary-box .summary-row.total {
+            margin-top: 8px;
+            padding-top: 13px;
+            border-top: 1px solid rgba(20,33,31,.10);
+            color: var(--hl-ink);
+            font-weight: 700;
+        }
+        .summary-box .summary-row.total strong { color: var(--hl-green); }
+        .submit-area {
+            margin-top: 25px;
+            text-align: center;
+        }
+        .submit-area .btn {
+            width: 100%;
+            min-height: 53px;
+            border-radius: 14px;
+            font-size: 15px;
+            font-weight: 800;
+            box-shadow: 0 12px 25px rgba(23,63,53,.17);
+        }
+        .submit-area .btn-primary {
+            background: var(--hl-green-dark);
+            border-color: var(--hl-green-dark);
+        }
+        .submit-area .btn-primary:hover {
+            transform: translateY(-2px);
+        }
+        .success-screen {
+            display: none;
+            padding: 60px 30px;
+            text-align: center;
+        }
         .success-screen.show { display: block; }
-        .success-icon { width: 80px; height: 80px; background: #D1FAE5; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 36px; color: var(--secondary-dark); }
-        .success-screen h2 { font-family: var(--font-heading); font-size: 28px; color: var(--dark); margin-bottom: 8px; }
-        .success-screen p { color: var(--gray-500); margin-bottom: 24px; }
-        .back-link { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: var(--gray-500); margin-bottom: 24px; transition: var(--transition); }
-        .back-link:hover { color: var(--primary); }
-        @media (max-width: 768px) { .form-row { grid-template-columns: 1fr; } .time-slots { grid-template-columns: repeat(2, 1fr); } .tb-header h1 { font-size: 28px; } }
+        .success-icon {
+            width: 84px;
+            height: 84px;
+            margin: 0 auto 21px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            background: #e0f0e8;
+            color: var(--hl-green);
+            font-size: 34px;
+            box-shadow: 0 12px 30px rgba(46,102,87,.12);
+        }
+        .success-screen h2 {
+            margin: 0 0 9px;
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: 30px;
+        }
+        .success-screen p {
+            max-width: 520px;
+            margin: 0 auto 25px;
+            color: var(--hl-muted);
+            line-height: 1.7;
+        }
+        .success-screen .btn {
+            min-height: 49px;
+            border-radius: 13px;
+            font-weight: 700;
+        }
+        .success-screen .btn-primary {
+            background: var(--hl-green-dark);
+            border-color: var(--hl-green-dark);
+        }
+        /* Mobile */
+        @media (max-width: 768px) {
+            .nav-container { width: calc(100% - 28px); min-height: 70px; }
+            .tb-page { padding: 106px 14px 50px; }
+            .tb-header { min-height: 285px; padding: 28px 23px; border-radius: 21px; }
+            .tb-header h1 { font-size: 38px; }
+            .tb-card { border-radius: 19px; }
+            .tb-card .card-body { padding: 23px 19px; }
+            .form-row { grid-template-columns: 1fr; gap: 0; }
+            .time-slots { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 480px) {
+            .navbar .logo-text { font-size: 18px; }
+            .logo-icon { width: 36px; height: 36px; }
+            #navUserName { display: none; }
+            .user-menu-trigger { padding-right: 8px; }
+            .user-dropdown { min-width: min(285px, calc(100vw - 24px)); right: -4px !important; }
+            .tb-header { min-height: 300px; }
+            .tb-header h1 { font-size: 34px; }
+            .tb-header p { font-size: 13px; line-height: 1.55; }
+            .tb-card .card-head { padding: 16px 19px; }
+            .time-slots { gap: 8px; }
+            .time-slot { min-height: 46px; font-size: 12px; }
+            .summary-box .summary-row { align-items: flex-start; }
+            .success-screen { padding: 48px 21px; }
+        }
     </style>
 </head>
 <body>
@@ -104,19 +505,16 @@
 </div>
         </div>
     </nav>
-
     <!-- ===== TOUR BOOKING PAGE ===== -->
-    <section class="tb-page">
+    <main class="tb-page">
         <div class="tb-container">
             <a href="properties" class="back-link">
                 <i class="fas fa-arrow-left"></i> Back to Properties
             </a>
-
             <div class="tb-header">
                 <h1><i class="fas fa-calendar-check"></i> Book a Tour</h1>
                 <p>Schedule a visit to see your dream home in person</p>
             </div>
-
             <div class="tb-card" id="bookingCard">
                 <div class="card-head">
                     <i class="fas fa-home"></i>
@@ -154,14 +552,12 @@
                         <label>Phone Number</label>
                         <input type="tel" id="tourPhone" placeholder="+91 98765 43210">
                     </div>
-
                     <div class="summary-box">
                         <div class="summary-row"><span>Property</span><strong id="sumProperty">—</strong></div>
                         <div class="summary-row"><span>Date</span><strong id="sumDate">—</strong></div>
                         <div class="summary-row"><span>Time</span><strong id="sumTime">—</strong></div>
                         <div class="summary-row total"><span>Tour Fee</span><strong>Free</strong></div>
                     </div>
-
                     <div class="submit-area">
                         <button class="btn btn-primary btn-lg" id="bookTourBtn" onclick="bookTour()">
                             <i class="fas fa-check"></i> Confirm Tour Booking
@@ -169,7 +565,6 @@
                     </div>
                 </div>
             </div>
-
             <!-- SUCCESS -->
             <div class="tb-card">
                 <div class="success-screen" id="successScreen">
@@ -185,139 +580,46 @@
                 </div>
             </div>
         </div>
-    </section>
-
-    <script src="api.js?v=20260913a"></script>
-    <script src="script.js?v=20260913a"></script>
-    <script>
-        (function() {
-        // Navbar
-        const navbar = document.getElementById('navbar');
-        const hamburger = document.getElementById('hamburger');
-        const navLinks = document.getElementById('navLinks');
-
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) navbar.classList.add('scrolled');
-            else navbar.classList.remove('scrolled');
-        });
-
-        if (hamburger) hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            navLinks.classList.toggle('active');
-        });
-
-        if (hamburger && navLinks) {
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.addEventListener('click', () => {
-                    hamburger.classList.remove('active');
-                    navLinks.classList.remove('active');
-                });
-            });
-        }
-
-        // Live property list — load from the real backend; local `properties` is empty.
-        const select = document.getElementById('propertySelect');
-        let liveProperties = [];
-        function populateSelect(list) {
-            list.forEach(p => {
-                const opt = document.createElement('option');
-                opt.value = p.id;
-                opt.textContent = (p.title || 'Property') + ' — ' + (p.location || p.city || '');
-                select.appendChild(opt);
-            });
-            // Pre-select from URL param (after options exist)
-            const propParam = new URLSearchParams(window.location.search).get('property');
-            if (propParam) {
-                const match = list.find(p => (p.title || '').toLowerCase().includes(propParam.toLowerCase()));
-                if (match) select.value = match.id;
-            }
-            updateSummary();
-        }
-        fetchApiProperties(0, 200).then(list => {
-            liveProperties = list;
-            populateSelect(list);
-        }).catch(() => populateSelect([]));
-
-        let selectedTime = '';
-
-        window.selectTime = function(el) {
-            document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
-            el.classList.add('selected');
-            selectedTime = el.getAttribute('data-time');
-            updateSummary();
-        };
-
-        function updateSummary() {
-            const prop = liveProperties.find(p => Number(p.id) === Number(select.value));
-            document.getElementById('sumProperty').textContent = prop ? (prop.title || 'Property') : '—';
-            document.getElementById('sumDate').textContent = document.getElementById('tourDate').value || '—';
-            document.getElementById('sumTime').textContent = selectedTime || '—';
-        }
-
-        select.addEventListener('change', updateSummary);
-        document.getElementById('tourDate').addEventListener('change', updateSummary);
-
-        window.bookTour = function() {
-            if (!select.value) {
-                showToast('Please select a property.', 'error');
-                return;
-            }
-            if (!document.getElementById('tourDate').value) {
-                showToast('Please select a tour date.', 'error');
-                return;
-            }
-            if (!selectedTime) {
-                showToast('Please select a preferred time.', 'error');
-                return;
-            }
-            if (!document.getElementById('tourName').value || !document.getElementById('tourPhone').value) {
-                showToast('Please fill in your name and phone number.', 'error');
-                return;
-            }
-            if (!api.isAuthenticated()) {
-                showToast('Please sign in to book a tour.', 'error');
-                setTimeout(() => { window.location.href = 'login?redirect=tour-booking'; }, 1200);
-                return;
-            }
-
-            const prop = liveProperties.find(p => Number(p.id) === Number(select.value));
-            const user = api.getUser();
-            const payload = {
-                propertyId: Number(select.value),
-                tenantId: user ? Number(user.id) : 0,
-                ownerId: prop ? Number(prop.ownerId) || 0 : 0,
-                tourDate: document.getElementById('tourDate').value,
-                tourTime: selectedTime,
-                tenantName: document.getElementById('tourName').value,
-                tenantPhone: document.getElementById('tourPhone').value,
-                message: '',
-                propertyTitle: prop ? (prop.title || 'Property') : 'Property'
-            };
-
-            const btn = document.getElementById('bookTourBtn');
-            const original = btn.innerHTML;
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Booking...';
-
-            api.createBooking(payload)
-                .then(() => {
-                    document.getElementById('bookingCard').style.display = 'none';
-                    document.getElementById('successScreen').classList.add('show');
-                    document.getElementById('successText').textContent = 'Your tour for ' + (prop ? prop.title : 'Property') + ' on ' + document.getElementById('tourDate').value + ' at ' + selectedTime + ' has been requested. The owner will confirm shortly.';
-                    showToast('Tour booked successfully! 🎉', 'success');
-                })
-                .catch(err => {
-                    showToast((err && err.message) || 'Booking failed. Please verify your email/phone.', 'error');
-                })
-                .finally(() => {
-                    btn.disabled = false;
-                    btn.innerHTML = original;
-                });
-        };
-
-        updateSummary();
-        })();
-    </script>
+    </main>
+    <script src="js/api.js?v=20260913a"></script>
+    <script src="js/core.js?v=20260913a"></script>
+    <script src="js/pages/tour-booking.js?v=20260913a"></script>
+<footer class="footer">
+<div class="container">
+    <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
+        <div class="footer-brand">
+            <a href="home" class="logo">
+                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <span class="logo-text">Heaven<span>Lease</span></span>
+            </a>
+            <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Explore</strong>
+            <a href="properties" style="color:inherit;text-decoration:none;">Find a Home</a>
+            <a href="map" style="color:inherit;text-decoration:none;">Property Map</a>
+            <a href="how-it-works" style="color:inherit;text-decoration:none;">How It Works</a>
+            <a href="about" style="color:inherit;text-decoration:none;">About Us</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Company</strong>
+            <a href="careers" style="color:inherit;text-decoration:none;">Careers</a>
+            <a href="press" style="color:inherit;text-decoration:none;">Press</a>
+            <a href="blog" style="color:inherit;text-decoration:none;">Blog</a>
+            <a href="contact" style="color:inherit;text-decoration:none;">Contact</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">For Owners</strong>
+            <a href="list-property" style="color:inherit;text-decoration:none;">List Your Property</a>
+            <a href="properties-management" style="color:inherit;text-decoration:none;">Owner Dashboard</a>
+            <a href="payment" style="color:inherit;text-decoration:none;">Pricing &amp; Upgrade</a>
+            <a href="owner-resources" style="color:inherit;text-decoration:none;">Owner Resources</a>
+        </div>
+    </div>
+    <div class="footer-bottom" style="justify-content:center;margin-top:28px;">
+        <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
+    </div>
+</div>
+</footer>
 </body>
 </html>
-

@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Please log in to continue - HeavenLease">
     <title>Please log in to continue | HeavenLease</title>
+<link rel="stylesheet" href="styles.css?v=20260909a">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
@@ -55,7 +56,7 @@
         .error-brand .logo-icon {
             width: 48px;
             height: 48px;
-            background: linear-gradient(135deg, #4F46E5, #10B981);
+            background: linear-gradient(135deg, #5b5ce2, #10B981);
             border-radius: 14px;
             display: flex;
             align-items: center;
@@ -69,8 +70,8 @@
             font-size: 28px;
             font-weight: 700;
         }
-        .error-brand .logo-text span { color: #818CF8; }
-        .error-code { font-size: 120px; font-weight: 800; font-family: 'Playfair Display', serif; line-height: 1; background: linear-gradient(135deg, #818CF8, #10B981); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 16px; }
+        .error-brand .logo-text span { color: #5b5ce2; }
+        .error-code { font-size: 120px; font-weight: 800; font-family: 'Playfair Display', serif; line-height: 1; background: linear-gradient(135deg, #5b5ce2, #10B981); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 16px; }
         .error-title { font-size: 28px; font-weight: 700; margin-bottom: 12px; }
         .error-desc { font-size: 16px; color: rgba(255, 255, 255, 0.7); max-width: 400px; margin: 0 auto 32px; line-height: 1.6; }
         .error-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
@@ -78,7 +79,7 @@
             padding: 14px 28px;
             border: none;
             border-radius: 10px;
-            background: linear-gradient(135deg, #4F46E5, #6366F1);
+            background: linear-gradient(135deg, #5b5ce2, #5b5ce2);
             color: #fff;
             font-size: 15px;
             font-weight: 600;
@@ -126,13 +127,10 @@
             <div class="logo-icon"><i class="fas fa-home"></i></div>
             <span class="logo-text">Heaven<span>Lease</span></span>
         </div>
-
         <div class='error-code'>401</div>
         <h1 class='error-title'>Please log in to continue</h1>
         <p class='error-desc'>You need to be signed in to view this page. Your session may have expired, or the page is restricted to logged-in members.</p>
-
         <div class='error-actions'><a href='login' class='btn-primary-error'><i class='fas fa-arrow-right-to-bracket'></i> Log In</a><a href='/' class='btn-outline-error'><i class='fas fa-home'></i> Back Home</a><a href='properties' class='btn-outline-error'><i class='fas fa-search'></i> Browse Homes</a></div>
-
         <p class="error-footer">&copy; 2026 HeavenLease. All rights reserved.</p>
     </div>
 </body>

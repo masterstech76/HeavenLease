@@ -1,773 +1,356 @@
 <!DOCTYPE html>
-<html lang="en" class="lp">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="HeavenLease — India's broker-free rental platform. Find rental homes directly from verified owners. Comfort-first search, escrow-protected deposits, zero broker fees.">
-    <title>HeavenLease — Rent Directly From Verified Owners, No Broker Fees</title>
-    <link rel="icon" href="favicon.svg" type="image/svg+xml">
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#151A33">
-    <link rel="canonical" href="https://heavenlease.in/">
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="HeavenLease">
-    <meta property="og:title" content="HeavenLease — Rent Directly From Verified Owners">
-    <meta property="og:description" content="Comfort-first rental search. Verified owners, escrow-protected deposits, zero broker fees.">
-    <meta property="og:url" content="https://heavenlease.in/">
-    <meta property="og:image" content="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1200&q=80">
-    <meta name="twitter:card" content="summary_large_image">
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "RealEstateAgent",
-      "name": "HeavenLease",
-      "url": "https://heavenlease.in",
-      "logo": "https://heavenlease.in/favicon.svg",
-      "description": "Rental marketplace connecting tenants directly with verified property owners. No broker fees, comfort-first search.",
-      "address": { "@type": "PostalAddress", "addressCountry": "IN" }
-    }
-    </script>
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "HeavenLease",
-      "url": "https://heavenlease.in",
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": "https://heavenlease.in/properties?location={query}",
-        "query-input": "required name=query"
-      }
-/* ===== NAVBAR ===== */
-        #navbar {
-            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-            background: rgba(11, 16, 32, 0.82);
-            backdrop-filter: blur(14px);
-            border-bottom: 1px solid rgba(129, 140, 248, 0.18);
-            transition: background .3s, box-shadow .3s;
-        }
-        #navbar.scrolled { background: rgba(11, 16, 32, 0.94); box-shadow: 0 10px 24px rgba(15, 23, 42, 0.35); }
-        .nav-inner {
-            max-width: 1200px; margin: 0 auto; padding: 0 24px;
-            display: flex; align-items: center; justify-content: space-between; height: 70px; gap: 18px;
-        }
-        .nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-        .nav-brand .brand-mark {
-            width: 40px; height: 40px; border-radius: 12px;
-            background: linear-gradient(135deg, #4F46E5, #10B981);
-            display: flex; align-items: center; justify-content: center; color: #fff; font-size: 18px;
-            box-shadow: 0 8px 20px rgba(79, 70, 229, .35);
-        }
-        .nav-brand .brand-text { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; color: #fff; }
-        .nav-brand .brand-text span { color: #A5B4FC; }
-        .nav-links-lp { display: flex; align-items: center; gap: 8px; list-style: none; margin: 0; }
-        .nav-links-lp a {
-            color: rgba(255,255,255,.85); text-decoration: none; font-size: 14.5px; font-weight: 500;
-            padding: 8px 14px; border-radius: 10px; transition: all .2s;
-        }
-        .nav-links-lp a:hover { background: rgba(129,140,248,.14); color: #fff; }
-        .nav-cta { display: flex; align-items: center; gap: 10px; }
-        .nav-cta .btn-signin {
-            background: transparent; border: 1px solid rgba(255,255,255,.35); color: #fff;
-            padding: 9px 18px; border-radius: 10px; font-size: 14px; font-weight: 600;
-            text-decoration: none; display: inline-flex; align-items: center; gap: 7px; transition: all .2s;
-        }
-        .nav-cta .btn-signin:hover { background: rgba(255,255,255,.12); }
-        .nav-cta .btn-signup {
-            background: linear-gradient(135deg, #4F46E5, #10B981); color: #fff; border: none;
-            padding: 10px 20px; border-radius: 10px; font-size: 14px; font-weight: 700;
-            text-decoration: none; display: inline-flex; align-items: center; gap: 7px;
-            box-shadow: 0 6px 18px rgba(79,70,229,.35); transition: all .2s;
-        }
-        .nav-cta .btn-signup:hover { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(79,70,229,.4); }
-        .nav-burger {
-            display: none; background: none; border: 1px solid rgba(255,255,255,.3);
-            border-radius: 8px; padding: 8px 11px; color: #fff; font-size: 17px; cursor: pointer;
-        }
-        .nav-mobile-menu {
-            display: none; position: absolute; top: 70px; left: 0; right: 0; z-index: 999;
-            background: rgba(11,16,32,.97); border-bottom: 1px solid rgba(129,140,248,.25);
-            padding: 16px 24px; flex-direction: column; gap: 6px;
-        }
-        .nav-mobile-menu a { color: #fff; text-decoration: none; padding: 11px 14px; border-radius: 8px; font-size: 15px; font-weight: 500; }
-        .nav-mobile-menu a:hover { background: rgba(129,140,248,.15); }
-        .nav-mobile-menu .mobile-actions { display: flex; gap: 10px; margin-top: 10px; }
-        .nav-mobile-menu .mobile-actions a {
-            flex: 1; text-align: center; padding: 11px; border-radius: 10px; font-weight: 600;
-            background: rgba(255,255,255,.08); color: #fff; text-decoration: none;
-        }
-        .nav-mobile-menu .mobile-actions a.accent { background: linear-gradient(135deg, #4F46E5, #10B981); }
-    }
-    </script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="styles.css?v=20260920a">
-/* ===== HERO ===== */
-        .hero-lp {
-            position: relative; padding: 128px 0 96px; overflow: hidden;
-            background: linear-gradient(135deg, #0b1020 0%, #1e1b4b 55%, #312e81 100%);
-        }
-        .hero-lp::before {
-            content: ''; position: absolute; inset: 0; pointer-events: none;
-            background: radial-gradient(circle at 12% 18%, rgba(129,140,248,.18) 0%, transparent 42%),
-                        radial-gradient(circle at 88% 20%, rgba(16,185,129,.14) 0%, transparent 40%),
-                        radial-gradient(circle at 60% 90%, rgba(79,70,229,.15) 0%, transparent 45%);
-        }
-        .hero-lp::after {
-            content: ''; position: absolute; inset: 0; pointer-events: none;
-            background-image: linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
-                              linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
-            background-size: 44px 44px;
-        }
-        .hero-grid { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: grid; grid-template-columns: 1.05fr .95fr; gap: 56px; align-items: center; position: relative; z-index: 2; }
-        .hero-badge {
-            display: inline-flex; align-items: center; gap: 8px;
-            background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.22);
-            color: #fff; padding: 7px 15px; border-radius: 999px; font-size: 13px; font-weight: 600;
-        }
-        .hero-badge i { color: #34D399; font-size: 11px; }
-        .hero-title-lp { font-family: 'Playfair Display', serif; font-size: 54px; font-weight: 700; color: #fff; line-height: 1.12; margin: 20px 0 16px; }
-        .hero-title-lp .grad {
-            background: linear-gradient(135deg, #A5B4FC, #34D399);
-            -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
-        }
-        .hero-sub-lp { font-size: 17px; color: rgba(255,255,255,.78); line-height: 1.65; max-width: 560px; margin: 0 0 26px; }
-        .hero-search {
-            display: grid; grid-template-columns: 1fr .55fr .55fr auto; gap: 0; align-items: stretch;
-            background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.25);
-            border-radius: 16px; overflow: hidden; backdrop-filter: blur(8px);
-        }
-        .hero-search .field { position: relative; }
-        .hero-search .field i { position: absolute; left: 12px; top: 18px; color: rgba(255,255,255,.45); font-size: 13px; }
-        .hero-search .field input, .hero-search .field select {
-            width: 100%; height: 52px; padding: 0 16px 0 34px; background: rgba(11,16,32,.6);
-            border: none; color: #fff; font-size: 14.5px; outline: none;
-        }
-        .hero-search .field select option { background: #1e1b4b; color: #fff; }
-        .hero-search button {
-            border: none; padding: 0 22px; font-size: 15px; font-weight: 700; color: #fff; cursor: pointer;
-            background: linear-gradient(135deg, #4F46E5, #10B981); display: inline-flex; align-items: center; gap: 8px;
-        }
-        .hero-search button:hover { filter: brightness(1.08); }
-    <style>
-        :root {
-            --lp-indigo: #4F46E5; --lp-indigo-soft: #818CF8; --lp-emerald: #10B981;
-            --lp-ink: #0f172a; --lp-muted: #64748b; --lp-border: #e2e8f0;
-            --lp-gradient: linear-gradient(135deg, #4F46E5, #10B981);
-/* ===== HERO VISUAL ===== */
-        .hero-proof { display: flex; flex-wrap: wrap; gap: 22px; margin-top: 24px; }
-        .hero-proof .proof { display: flex; align-items: center; gap: 9px; color: rgba(255,255,255,.85); font-size: 13.5px; font-weight: 600; }
-        .hero-proof .proof i { color: #34D399; }
-        .hero-visual-lp { position: relative; }
-        .listing-mock { border-radius: 22px; overflow: hidden; box-shadow: 0 24px 60px rgba(15,23,42,.45); background: #0f172a; border: 1px solid rgba(129,140,248,.25); }
-        .listing-mock .mock-img {
-            height: 230px; display: flex; align-items: flex-end; padding: 18px; position: relative;
-            background: linear-gradient(135deg, #312e81 0%, #4F46E5 55%, #10B981 130%);
-        }
-        .listing-mock .mock-img::before {
-            content: ''; position: absolute; inset: 0;
-            background: radial-gradient(circle at 70% 25%, rgba(255,255,255,.22) 0%, transparent 55%);
-        }
-        .mock-badge {
-            position: absolute; top: 14px; left: 14px; display: inline-flex; align-items: center; gap: 6px;
-            background: rgba(16,185,129,.18); border: 1px solid rgba(16,185,129,.4); color: #6EE7B7;
-            font-size: 12px; font-weight: 700; padding: 5px 11px; border-radius: 999px;
-        }
-        .mock-badge i { font-size: 11px; }
-        .mock-price { position: absolute; bottom: 14px; left: 14px; color: #fff; font-size: 22px; font-weight: 700; }
-        .mock-price small { font-size: 13px; color: rgba(255,255,255,.7); }
-        .listing-mock .mock-body { padding: 18px 20px; }
-        .mock-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: #fff; margin: 0 0 4px; }
-        .mock-loc { font-size: 13px; color: rgba(255,255,255,.6); margin: 0 0 14px; }
-        .mock-loc i { font-size: 11px; margin-right: 5px; }
-        .mock-comfort { display: flex; gap: 8px; flex-wrap: wrap; }
-        .mock-comfort span {
-            font-size: 12px; color: #A5B4FC; background: rgba(129,140,248,.14);
-            border-radius: 999px; padding: 4px 11px; display: inline-flex; align-items: center; gap: 5px;
-        }
-        .mock-comfort span i { font-size: 10px; }
-        .chip {
-            position: absolute; display: flex; align-items: center; gap: 8px;
-            background: rgba(15,23,42,.88); border: 1px solid rgba(129,140,248,.35);
-            border-radius: 14px; padding: 10px 14px; color: #fff; font-size: 13px; font-weight: 600;
-            box-shadow: 0 12px 26px rgba(15,23,42,.5); z-index: 3;
-        }
-        .chip i { color: #34D399; }
-        .chip-1 { top: -6px; right: 34px; }
-        .chip-2 { bottom: -18px; left: 28px; }
-/* ===== SECTION HEADERS ===== */
-        .lp-section { padding: 90px 0; }
-        .lp-section.alt { background: linear-gradient(180deg, #f8fafc, #eef2ff); }
-        .lp-container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
-        .lp-head .lp-kicker {
-            display: inline-flex; align-items: center; gap: 7px;
-            font-size: 12.5px; font-weight: 700; color: #4F46E5; letter-spacing: .04em;
-            background: rgba(79,70,229,.1); padding: 6px 12px; border-radius: 999px;
-        }
-        .lp-head h2 { font-family: 'Playfair Display', serif; font-size: 38px; font-weight: 700; color: #0f172a; margin: 16px 0 10px; line-height: 1.2; }
-        .lp-head h2 .grad {
-            background: linear-gradient(135deg, #4F46E5, #10B981);
-            -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
-        }
-        .lp-head p { font-size: 16px; color: #64748b; max-width: 640px; line-height: 1.65; }
-/* ===== FEATURED PROPERTIES ===== */
-        .lpf-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 44px; }
-        .lpf-card {
-            background: #fff; border: 1px solid #e2e8f0; border-radius: 20px; overflow: hidden;
-            transition: transform .25s, box-shadow .25s; cursor: pointer;
-        }
-        .lpf-card:hover { transform: translateY(-5px); box-shadow: 0 18px 40px rgba(79,70,229,.16); }
-        .lpf-card .lpf-img { height: 172px; background: linear-gradient(135deg, #312e81, #4F46E5); position: relative; }
-        .lpf-card .lpf-img::before {
-            content: ''; position: absolute; inset: 0;
-            background: radial-gradient(circle at 25% 30%, rgba(255,255,255,.24) 0%, transparent 60%);
-        }
-        .lpf-card .lpf-img i { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); color: rgba(255,255,255,.6); font-size: 30px; }
-        .lpf-card .lpf-price { position: absolute; left: 12px; bottom: 10px; color: #fff; font-size: 17px; font-weight: 700; }
-        .lpf-card .lpf-body { padding: 14px 18px; }
-        .lpf-card .lpf-title { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; color: #0f172a; margin: 0 0 6px; }
-        .lpf-card .lpf-loc { font-size: 12.5px; color: #64748b; margin: 0 0 12px; }
-        .lpf-card .lpf-loc i { font-size: 11px; margin-right: 5px; }
-        .lpf-card .lpf-badges { display: flex; gap: 8px; }
-        .lpf-card .lpf-badges span {
-            font-size: 10.5px; font-weight: 600; color: #4F46E5; background: rgba(79,70,229,.1);
-            padding: 3px 9px; border-radius: 999px; display: inline-flex; align-items: center; gap: 4px;
-        }
-        .lpf-card .lpf-badges span i { font-size: 9px; }
-        .lpf-more { text-align: center; margin-top: 36px; }
-        .lpf-more a {
-            display: inline-flex; align-items: center; gap: 8px; text-decoration: none;
-            background: #fff; border: 1.5px solid #4F46E5; color: #4F46E5;
-            padding: 12px 26px; border-radius: 12px; font-size: 15px; font-weight: 700; transition: all .2s;
-        }
-        .lpf-more a:hover { background: #4F46E5; color: #fff; box-shadow: 0 10px 22px rgba(79,70,229,.25); }
-/* ===== TRUST STRIP ===== */
-        .trust-grid-lp { display: grid; grid-template-columns: repeat(4, 1fr); gap: 26px; margin-top: 40px; }
-        .trust-cell {
-            background: #fff; border: 1px solid #e2e8f0; border-radius: 18px; padding: 26px 22px;
-            text-align: center; transition: transform .2s, box-shadow .2s;
-        }
-        .trust-cell:hover { transform: translateY(-3px); box-shadow: 0 14px 30px rgba(79,70,229,.14); }
-        .trust-cell .t-ic {
-            width: 52px; height: 52px; margin: 0 auto 14px; border-radius: 14px;
-            background: linear-gradient(135deg, #4F46E5, #10B981); color: #fff; font-size: 20px;
-            display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 20px rgba(79,70,229,.2);
-        }
-        .trust-cell h3 { font-size: 16px; font-weight: 700; color: #0f172a; margin: 0 0 8px; }
-        .trust-cell p { font-size: 13px; color: #64748b; line-height: 1.55; margin: 0; }
-        }
-/* ===== HOW IT WORKS ===== */
-        .hiw-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 40px; }
-        .hiw-step { position: relative; text-align: center; padding: 28px 18px; }
-        .hiw-step .step-no {
-            position: absolute; top: 8px; right: 12px; font-size: 12px; font-weight: 800;
-            color: #4F46E5; background: rgba(79,70,229,.12); padding: 3px 10px; border-radius: 999px;
-        }
-        .hiw-step .hiw-ic {
-            width: 58px; height: 58px; margin: 0 auto 14px; border-radius: 16px;
-            background: linear-gradient(135deg, #4F46E5, #10B981); color: #fff; font-size: 23px;
-            display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 20px rgba(79,70,229,.18);
-        }
-        .hiw-step h3 { font-size: 15.5px; font-weight: 700; color: #0f172a; margin: 0 0 8px; }
-        .hiw-step p { font-size: 13px; color: #64748b; line-height: 1.55; margin: 0; }
-        .hiw-step::after { content: '→'; position: absolute; top: 50%; right: -17px; color: #cbd5e1; font-size: 18px; }
-        .hiw-step:last-child::after { content: ''; }
-/* ===== SCREENING / OWNER TOOLS ===== */
-        .tools-grid3-lp { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; margin-top: 40px; }
-        .tool-card {
-            display: block; text-decoration: none; background: #fff; border: 1px solid #e2e8f0;
-            border-radius: 18px; padding: 28px 22px; transition: transform .2s, box-shadow .2s, border-color .2s;
-        }
-        .tool-card:hover { transform: translateY(-4px); box-shadow: 0 16px 34px rgba(79,70,229,.15); border-color: #c7d2fe; }
-        .tool-card .tool-ic {
-            width: 50px; height: 50px; border-radius: 13px; display: flex; align-items: center; justify-content: center;
-            font-size: 19px; color: #fff; background: var(--lp-gradient); box-shadow: 0 8px 18px rgba(79,70,229,.18);
-        }
-        .tool-card h3 { font-size: 16px; font-weight: 700; color: #0f172a; margin: 14px 0 8px; }
-        .tool-card p { font-size: 13px; color: #64748b; line-height: 1.55; margin: 0 0 14px; }
-        .tool-card .tool-cta { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; color: #4F46E5; }
-/* ===== TESTIMONIALS ===== */
-        .testi-grid-lp { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; margin-top: 40px; }
-        .testi-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 18px; padding: 26px 22px; box-shadow: 0 2px 6px rgba(15,23,42,.04); }
-        .testi-card .quote { font-size: 14.5px; color: #334155; line-height: 1.6; margin: 0 0 18px; }
-        .testi-card .qstars { color: #F59E0B; font-size: 13px; letter-spacing: 2px; margin-bottom: 6px; }
-        .testi-card .qwho { display: flex; align-items: center; gap: 10px; }
-        .testi-card .qavatar {
-            width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            background: var(--lp-gradient); color: #fff; font-size: 15px; font-weight: 700; flex-shrink: 0;
-        }
-        .testi-card .qwho strong { font-size: 14px; color: #0f172a; display: block; }
-        .testi-card .qwho small { font-size: 12px; color: #94a3b8; }
-/* ===== CTA ===== */
-        .cta-dark { background: linear-gradient(135deg, #0b1020, #1e1b4b 60%, #312e81); position: relative; overflow: hidden; border-radius: 26px; padding: 70px 40px; text-align: center; color: #fff; }
-        .cta-dark::before {
-            content: ''; position: absolute; inset: 0;
-            background: radial-gradient(circle at 25% 30%, rgba(129,140,248,.22) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 80%, rgba(16,185,129,.2) 0%, transparent 50%);
-        }
-        .cta-dark h2 { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 700; margin: 0 0 12px; }
-        .cta-dark p { font-size: 16px; color: rgba(255,255,255,.8); max-width: 560px; margin: 0 auto 28px; line-height: 1.6; }
-        .cta-dark .cta-btns { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
-        .cta-dark .cta-primary {
-            display: inline-flex; align-items: center; gap: 9px; text-decoration: none;
-            background: linear-gradient(135deg, #4F46E5, #10B981); color: #fff; border: none;
-            padding: 14px 30px; border-radius: 12px; font-size: 16px; font-weight: 700;
-            box-shadow: 0 10px 24px rgba(79,70,229,.35); transition: all .2s;
-        }
-        .cta-dark .cta-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 30px rgba(79,70,229,.45); }
-        .cta-dark .cta-secondary {
-            display: inline-flex; align-items: center; gap: 9px; text-decoration: none;
-            background: transparent; border: 1.5px solid rgba(255,255,255,.4); color: #fff;
-            padding: 13px 28px; border-radius: 12px; font-size: 15.5px; font-weight: 600; transition: all .2s;
-        }
-        .cta-dark .cta-secondary:hover { background: rgba(255,255,255,.12); }
-/* ===== FOOTER ===== */
-        .foot-lp { background: #0b1020; color: #cbd5e1; padding: 52px 0 26px; }
-        .foot-lp .foot-grid { display: grid; grid-template-columns: 1.3fr 1fr 1fr 1fr; gap: 36px; }
-        .foot-lp h4 { color: #fff; font-size: 14.5px; font-weight: 700; margin: 0 0 14px; }
-        .foot-lp ul { list-style: none; margin: 0; padding: 0; }
-        .foot-lp ul li { margin-bottom: 9px; }
-        .foot-lp ul li a { color: #cbd5e1; text-decoration: none; font-size: 13.5px; transition: color .2s; }
-        .foot-lp ul li a:hover { color: #A5B4FC; }
-        .foot-lp .foot-brand { margin: 0 0 16px; }
-        .foot-lp .foot-brand .fb-title { font-family: 'Playfair Display', serif; font-size: 21px; font-weight: 700; color: #fff; }
-        .foot-lp .foot-brand .fb-title span { color: #A5B4FC; }
-        .foot-lp .foot-brand p { font-size: 13px; line-height: 1.6; margin: 10px 0 0; }
-        .foot-lp .foot-bottom { text-align: center; color: #64748b; font-size: 12.5px; padding: 18px 0 0; border-top: 1px solid rgba(255,255,255,.08); }
-
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 1024px) {
-            .hero-grid { grid-template-columns: 1fr; }
-            .hero-visual-lp { display: none; }
-            .nav-links-lp { display: none; }
-            .nav-cta .btn-signup { display: none; }
-            .nav-burger { display: inline-flex; }
-            .trust-grid-lp { grid-template-columns: repeat(2, 1fr); }
-            .hiw-grid { grid-template-columns: repeat(2, 1fr); }
-            .hiw-step::after { content: ''; }
-            .testi-grid-lp { grid-template-columns: repeat(2, 1fr); }
-            .foot-lp .foot-grid { grid-template-columns: 1fr 1fr; }
-        }
-        @media (max-width: 768px) {
-            .hero-title-lp { font-size: 36px; }
-            .hero-search { grid-template-columns: 1fr; }
-            .hero-search button { height: 50px; width: 100%; }
-            .lpf-grid { grid-template-columns: 1fr; }
-            .tools-grid3-lp { grid-template-columns: 1fr; }
-            .trust-grid-lp { grid-template-columns: 1fr; }
-            .hiw-grid { grid-template-columns: 1fr; }
-            .testi-grid-lp { grid-template-columns: 1fr; }
-            .lp-section { padding: 64px 0; }
-            .lp-head h2 { font-size: 28px; }
-        }
-        .hero-search .field select { appearance: none; -webkit-appearance: none; }
-
-        /* ===== LANDING-PAGE OVERRIDES (neutralise shared styles.css) ===== */
-        /* styles.css loads first and paints a full-viewport white body::before overlay
-           (85% white) to keep text readable on its light pages. That overlay washes
-           out this dark landing page. Give our hero/footer their own stacking
-           contexts (position/z-index) so they paint ABOVE the overlay, and clear the
-           page-level background so it never fights the hero gradient. */
-        html.lp {
-            background: #0b1020;
-        }
-        body.lp {
-            background: #0b1020;
-            background-image: none;
-        }
-        body.lp::before {
-            content: none;
-        }
-        .hero-lp, .cta-dark, .foot-lp {
-            position: relative;
-            z-index: 1;
-            isolation: isolate;
-            background-clip: padding-box;
-        }
-    </style>
-<body class="lp">
-    <nav id="navbar">
-        <div class="nav-inner">
-            <a class="nav-brand" href="/">
-                <div class="brand-mark"><i class="fas fa-home"></i></div>
-                <div class="brand-text">Heaven<span>Lease</span></div>
-            </a>
-            <ul class="nav-links-lp">
-                <li><a href="#properties">Properties</a></li>
-                <li><a href="#how-it-works">How It Works</a></li>
-                <li><a href="#trust">Trust &amp; Safety</a></li>
-                <li><a href="#tools">Owner Tools</a></li>
-                <li><a href="blog">Blog</a></li>
-            </ul>
-            <div class="nav-cta">
-                <a class="btn-signin" href="login"><i class="fas fa-user"></i> Sign In</a>
-                <a class="btn-signup" href="signup"><i class="fas fa-user-plus"></i> Create Account</a>
-                <button class="nav-burger" id="lpBurger" aria-label="Open menu"><i class="fas fa-bars"></i></button>
-            </div>
-        </div>
-        <div class="nav-mobile-menu" id="lpMobileMenu">
-            <a href="#properties">Properties</a>
-            <a href="#how-it-works">How It Works</a>
-            <a href="#trust">Trust &amp; Safety</a>
-            <a href="#tools">Owner Tools</a>
-            <a href="blog">Blog</a>
-            <div class="mobile-actions">
-                <a href="login">Sign In</a>
-                <a href="signup" class="accent">Create Account</a>
-            </div>
-        </div>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="HeavenLease - Discover homes you'll love.">
+<title>HeavenLease | Find Your Place</title>
+<link rel="stylesheet" href="styles.css?v=20260909a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
+<style>
+:root{
+  --primary:#5b5ce2;
+  --primary-dark:#4445c5;
+  --green:#18a878;
+  --ink:#182033;
+  --muted:#687386;
+  --light:#f6f7fb;
+  --border:#e6e8ef;
+  --white:#ffffff;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Inter,sans-serif;color:var(--ink);background:var(--light);line-height:1.5}
+a{text-decoration:none;color:inherit}
+button,input,select{font:inherit}
+.container{width:min(1180px,calc(100% - 40px));margin:auto}
+/* NAVBAR: separate background image */
+.header{
+  position:sticky;top:0;z-index:1000;
+  background:
+    linear-gradient(90deg,rgba(12,18,38,.96),rgba(38,36,91,.90)),
+    url("https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1800&q=85")
+    center/cover;
+  border-bottom:1px solid rgba(255,255,255,.12);
+}
+.nav{height:78px;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:11px;color:#fff}
+.logo-icon{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(135deg,#6869ef,#15a978);box-shadow:0 8px 25px rgba(0,0,0,.25)}
+.logo-name{font:700 27px "Playfair Display",serif}.logo-name span{color:#aeb1ff}
+.links{display:flex;gap:28px;color:#e9e9f2;font-size:14px}
+.links a:hover{color:#fff}
+.nav-right{display:flex;align-items:center;gap:9px}
+.login{color:#fff;padding:10px 14px;font-size:14px}
+.btn{border:0;border-radius:10px;padding:12px 18px;cursor:pointer;font-weight:700;transition:.2s}
+.btn-primary{background:var(--primary);color:#fff;box-shadow:0 8px 20px rgba(91,92,226,.22)}
+.btn-primary:hover{background:var(--primary-dark);transform:translateY(-2px)}
+.menu{display:none;color:#fff;font-size:22px;cursor:pointer}
+/* HERO BODY: deliberately different image */
+.hero{
+  min-height:650px;color:#fff;display:flex;align-items:center;
+  background:
+    linear-gradient(90deg,rgba(9,15,31,.94) 0%,rgba(22,24,65,.80) 48%,rgba(22,24,65,.42) 100%),
+    url("https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2200&q=90")
+    center/cover fixed;
+}
+.hero-inner{padding:85px 0 95px}
+.badge{display:inline-flex;gap:8px;align-items:center;padding:8px 13px;border:1px solid rgba(255,255,255,.2);border-radius:50px;background:rgba(255,255,255,.1);font-size:12px;margin-bottom:22px}
+.hero h1{font:700 clamp(44px,6vw,72px)/1.04 "Playfair Display",serif;max-width:780px}
+.hero h1 span{color:#b1b3ff}
+.hero-copy{max-width:650px;color:#d7d9e5;margin:22px 0 32px;font-size:16px}
+/* SEARCH */
+.search{
+  max-width:920px;background:#fff;border-radius:17px;padding:9px;
+  display:grid;grid-template-columns:1.4fr 1fr 1fr auto;gap:7px;
+  box-shadow:0 25px 60px rgba(0,0,0,.28)
+}
+.field{display:flex;align-items:center;gap:10px;background:#f6f7fb;border-radius:11px;padding:10px 13px}
+.field i{color:var(--primary)}
+.field small{display:block;color:#9298a8;font-size:10px;margin-bottom:2px}
+.field input,.field select{border:0;outline:0;background:transparent;width:100%;font-size:13px;font-weight:600;color:var(--ink)}
+.search-btn{border:0;border-radius:11px;background:var(--primary);color:#fff;padding:0 20px;font-weight:700;cursor:pointer}
+.search-btn:hover{background:var(--primary-dark)}
+.stats{display:flex;gap:45px;margin-top:38px}
+.stat strong{font-size:25px;display:block}.stat span{font-size:12px;color:#bfc2d0}
+/* CONTENT */
+.section{padding:88px 0}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:30px;margin-bottom:36px}
+.kicker{font-size:11px;letter-spacing:1.7px;text-transform:uppercase;color:var(--primary);font-weight:800;margin-bottom:8px}
+h2{font:600 39px/1.15 "Playfair Display",serif}
+.section-head p{max-width:510px;color:var(--muted);font-size:14px}
+/* CARDS */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.card{background:#fff;border:1px solid var(--border);border-radius:17px;overflow:hidden;transition:.25s;box-shadow:0 8px 25px rgba(20,28,50,.04)}
+.card:hover{transform:translateY(-6px);box-shadow:0 20px 45px rgba(20,28,50,.11)}
+.photo{height:230px;position:relative;overflow:hidden}
+.photo img{width:100%;height:100%;object-fit:cover;transition:.45s}.card:hover img{transform:scale(1.05)}
+.tag{position:absolute;top:13px;left:13px;background:#fff;color:var(--primary);padding:6px 9px;border-radius:7px;font-size:10px;font-weight:800}
+.heart{position:absolute;top:12px;right:12px;width:38px;height:38px;border:0;border-radius:50%;background:#fff;cursor:pointer;color:#6c7180;box-shadow:0 5px 15px rgba(0,0,0,.13)}
+.heart.active{color:#e54868}
+.card-body{padding:19px}.price{font-size:21px;font-weight:800}.price span{font-size:12px;color:#888;font-weight:500}
+.card-title{font-size:15px;font-weight:700;margin:7px 0}.location{font-size:12px;color:var(--muted);margin-bottom:15px}
+.meta{display:flex;gap:14px;padding-top:13px;border-top:1px solid #edf0f4;color:#626a7c;font-size:11px}
+.meta i{color:var(--primary);margin-right:4px}
+/* CATEGORIES */
+.categories{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.category{height:180px;border-radius:16px;overflow:hidden;position:relative;color:#fff;background-size:cover;background-position:center;display:flex;align-items:end;padding:20px}
+.category:after{content:"";position:absolute;inset:0;background:linear-gradient(transparent,rgba(8,12,25,.8))}
+.category div{position:relative;z-index:1}.category h3{font-size:18px}.category p{font-size:11px;color:#d9dce5}
+/* HOW IT WORKS */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:25px}
+.step{background:#fff;border:1px solid var(--border);border-radius:16px;padding:28px}
+.step-icon{width:48px;height:48px;border-radius:13px;background:#eef0ff;color:var(--primary);display:grid;place-items:center;margin-bottom:18px;font-size:18px}
+.step h3{font-size:16px;margin-bottom:8px}.step p{font-size:13px;color:var(--muted)}
+/* CTA */
+.cta{margin-bottom:85px;border-radius:22px;padding:65px 40px;text-align:center;color:#fff;background:
+linear-gradient(90deg,rgba(35,37,105,.94),rgba(91,92,226,.88)),
+url("https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1800&q=85") center/cover}
+.cta h2{color:#fff;margin-bottom:12px}.cta p{color:#e2e3f1;max-width:600px;margin:0 auto 25px;font-size:14px}
+/* FOOTER: SOLID, NOT TRANSPARENT */
+.footer{background:#101625;color:#b8bdca;padding:60px 0 25px}
+.footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:45px}
+.footer .logo{margin-bottom:14px}.footer-copy{font-size:12px;max-width:310px;color:#858c9e}
+.footer h4{color:#fff;font-size:13px;margin-bottom:16px}
+.footer a{display:block;font-size:12px;margin:9px 0;color:#969daf}.footer a:hover{color:#fff}
+.footer-bottom{border-top:1px solid #252c3c;margin-top:45px;padding-top:20px;display:flex;justify-content:space-between;font-size:11px}
+.social{display:flex;gap:12px}.social a{display:grid;place-items:center;width:32px;height:32px;border-radius:8px;background:#1b2232;color:#cbd0db;margin:0}
+/* TOAST */
+.toast{position:fixed;right:20px;bottom:20px;background:#171e2e;color:#fff;padding:13px 17px;border-radius:10px;font-size:12px;box-shadow:0 12px 30px rgba(0,0,0,.25);opacity:0;transform:translateY(15px);pointer-events:none;transition:.25s;z-index:2000}
+.toast.show{opacity:1;transform:translateY(0)}
+/* RESPONSIVE */
+@media(max-width:900px){
+  .links{display:none}.menu{display:block}
+  .nav-right .login,.nav-right .btn{display:none}
+  .grid{grid-template-columns:repeat(2,1fr)}
+  .categories{grid-template-columns:repeat(2,1fr)}
+  .search{grid-template-columns:1fr 1fr}
+  .search-btn{height:48px}
+  .footer-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:600px){
+  .container{width:min(100% - 28px,1180px)}
+  .hero{min-height:auto;background-attachment:scroll}
+  .hero-inner{padding:65px 0 70px}
+  .hero h1{font-size:44px}
+  .hero-copy{font-size:14px}
+  .search{grid-template-columns:1fr;padding:8px}
+  .search-btn{height:50px}
+  .stats{gap:20px;flex-wrap:wrap}
+  .section{padding:65px 0}
+  .section-head{display:block}.section-head p{margin-top:14px}
+  h2{font-size:32px}
+  .grid,.steps{grid-template-columns:1fr}
+  .categories{grid-template-columns:1fr 1fr}
+  .category{height:145px;padding:14px}
+  .footer-grid{grid-template-columns:1fr}
+  .footer-bottom{display:block}.footer-bottom .social{margin-top:15px}
+}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="container nav">
+    <a class="logo" href="home">
+      <div class="logo-icon"><i class="fa-solid fa-house"></i></div>
+      <div class="logo-name">Heaven<span>Lease</span></div>
+    </a>
+    <nav class="links">
+      <a href="#properties">Properties</a>
+      <a href="#categories">Categories</a>
+      <a href="#how">How it works</a>
+      <a href="#about">About</a>
     </nav>
+    <div class="nav-right">
+      <a class="login" href="login">Sign in</a>
+      <a class="btn btn-primary" href="list-property">List a Property</a>
+      <div class="menu" onclick="toggleMenu()"><i class="fa-solid fa-bars"></i></div>
+    </div>
+  </div>
+</header>
+<main>
+<section class="hero">
+  <div class="container hero-inner">
+    <div class="badge"><i class="fa-solid fa-sparkles"></i> A better way to find your next home</div>
+    <h1>Find a place you'll <span>love to live.</span></h1>
+    <p class="hero-copy">
+      Discover beautiful homes, apartments and spaces from trusted property owners.
+      Search smarter and find a home that fits your lifestyle.
+    </p>
+    <form class="search" id="searchForm">
+      <div class="field">
+        <i class="fa-solid fa-location-dot"></i>
+        <div style="width:100%">
+          <small>Location</small>
+          <input id="location" type="text" placeholder="City or neighbourhood">
+        </div>
+      </div>
+      <div class="field">
+        <i class="fa-solid fa-building"></i>
+        <div style="width:100%">
+          <small>Property type</small>
+          <select id="type">
+            <option value="">Any property</option>
+            <option>Apartment</option>
+            <option>House</option>
+            <option>Villa</option>
+            <option>Studio</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <i class="fa-solid fa-wallet"></i>
+        <div style="width:100%">
+          <small>Monthly budget</small>
+          <select id="budget">
+            <option value="">Any budget</option>
+            <option value="15000">Under ₹15,000</option>
+            <option value="30000">Under ₹30,000</option>
+            <option value="50000">Under ₹50,000</option>
+          </select>
+        </div>
+      </div>
+      <button class="search-btn" type="submit">
+        <i class="fa-solid fa-magnifying-glass"></i> Search
+      </button>
+    </form>
+    <div class="stats">
+      <div class="stat"><strong>12k+</strong><span>Active listings</span></div>
+      <div class="stat"><strong>8.5k+</strong><span>Happy renters</span></div>
+      <div class="stat"><strong>420+</strong><span>Verified owners</span></div>
+    </div>
+  </div>
+</section>
 
-    <!-- ===== HERO ===== -->
-    <header class="hero-lp" id="top">
-        <div class="hero-grid">
-            <div>
-                <span class="hero-badge"><i class="fas fa-circle-check"></i> India's Broker-Free Rental Marketplace</span>
-                <h1 class="hero-title-lp">Rent Your Perfect Home <span class="grad">Directly From Verified Owners</span></h1>
-                <p class="hero-sub-lp">Search by comfort, budget and location — not just price. Escrow-protected deposits, verified owners, zero broker fees.</p>
-                <form class="hero-search" id="heroSearchForm" onsubmit="return heroSearch(event)">
-                    <div class="field">
-                        <i class="fas fa-location-dot"></i>
-                        <input type="text" id="heroLocation" placeholder="City or locality" autocomplete="off">
-                    </div>
-                    <div class="field">
-                        <i class="fas fa-indian-rupee-sign"></i>
-                        <select id="heroBudget" aria-label="Budget">
-                            <option value="">Any budget</option>
-                            <option value="10000">Under ₹10,000</option>
-                            <option value="20000">Under ₹20,000</option>
-                            <option value="30000">Under ₹30,000</option>
-                            <option value="50000">Under ₹50,000</option>
-                        </select>
-                    </div>
-                    <div class="field">
-                        <i class="fas fa-house-user"></i>
-                        <select id="heroBhk" aria-label="BHK">
-                            <option value="">Any BHK</option>
-                            <option value="1">1 BHK</option>
-                            <option value="2">2 BHK</option>
-                            <option value="3">3 BHK</option>
-                            <option value="4">4+ BHK</option>
-                        </select>
-                    </div>
-                    <button type="submit"><i class="fas fa-magnifying-glass"></i> Search</button>
-                </form>
-                <div class="hero-proof">
-                    <span class="proof"><i class="fas fa-circle-check"></i> Verified Owners</span>
-                    <span class="proof"><i class="fas fa-shield-halved"></i> Escrow Protected</span>
-                    <span class="proof"><i class="fas fa-badge-percent"></i> Zero Broker Fees</span>
-                </div>
-            </div>
-            <div class="hero-visual-lp">
-                <div class="chip chip-1"><i class="fas fa-shield-halved"></i> Escrow Protected</div>
-                <div class="listing-mock">
-                    <div class="mock-img">
-                        <span class="mock-badge"><i class="fas fa-circle-check"></i> Verified Owner</span>
-                        <div class="mock-price">₹22,000 <small>/month</small></div>
-                    </div>
-                    <div class="mock-body">
-                        <div class="mock-title">2 BHK Skyline Heights</div>
-                        <p class="mock-loc"><i class="fas fa-location-dot"></i> Hiranandani, Powai, Mumbai</p>
-                        <div class="mock-comfort">
-                            <span><i class="fas fa-volume-low"></i> Quiet 82%</span>
-                            <span><i class="fas fa-sun"></i> Sun 74%</span>
-                            <span><i class="fas fa-car"></i> Commute 65%</span>
-                            <span><i class="fas fa-dog"></i> Pet Friendly</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="chip chip-2"><i class="fas fa-circle-check"></i> Owner Verified</div>
-            </div>
-        </div>
-    </header>
-<!-- ===== FEATURED PROPERTIES ===== -->
-    <section class="lp-section" id="properties">
-        <div class="lp-container">
-            <div class="lp-head">
-                <span class="lp-kicker"><i class="fas fa-building"></i> FEATURED LISTINGS</span>
-                <h2>Homes Matched to Your <span class="grad">Comfort</span></h2>
-                <p>Fresh listings from verified owners, ranked by how well they match what matters to you.</p>
-            </div>
-            <div class="lpf-grid" id="lpFeaturedGrid">
-                <div class="lpf-card" style="min-height:150px;">
-                    <div class="lpf-img"></div>
-                    <div class="lpf-body"><div class="lpf-title">&nbsp;</div><div class="lpf-loc">&nbsp;</div></div>
-                </div>
-            </div>
-            <div class="lpf-more">
-                <a href="properties"><i class="fas fa-building"></i> Browse All Properties</a>
-            </div>
-        </div>
-    </section>
+<section class="section" id="properties">
+<div class="container">
+  <div class="section-head">
+    <div>
+      <div class="kicker">Featured homes</div>
+      <h2>Places worth coming home to.</h2>
+    </div>
+    <p>Explore a handpicked selection of comfortable, stylish and well-located properties.</p>
+  </div>
+  <div class="grid" id="propertyGrid">
+      <!-- Filled by index.js from window.HL_DEMO_DATA.properties or the Properties API -->
+  </div>
+</div>
+</section>
 
-    <!-- ===== TRUST &amp; SAFETY ===== -->
-    <section class="lp-section alt" id="trust">
-        <div class="lp-container">
-            <div class="lp-head">
-                <span class="lp-kicker"><i class="fas fa-shield-halved"></i> TRUST &amp; SAFETY</span>
-                <h2>Built for <span class="grad">Tenants &amp; Owners</span></h2>
-                <p>Every rental on HeavenLease is protected from search to signed lease.</p>
-            </div>
-            <div class="trust-grid-lp">
-                <div class="trust-cell">
-                    <div class="t-ic"><i class="fas fa-circle-check"></i></div>
-                    <h3>Verified Owners</h3>
-                    <p>Every owner passes document verification before listing.</p>
-                </div>
-                <div class="trust-cell">
-                    <div class="t-ic"><i class="fas fa-shield-halved"></i></div>
-                    <h3>Escrow Protection</h3>
-                    <p>Deposits are held securely and released only on mutual agreement.</p>
-                </div>
-                <div class="trust-cell">
-                    <div class="t-ic"><i class="fas fa-badge-percent"></i></div>
-                    <h3>Zero Broker Fees</h3>
-                    <p>Connect directly with owners. No middlemen, no hidden charges.</p>
-                </div>
-                <div class="trust-cell">
-                    <div class="t-ic"><i class="fas fa-gauge-high"></i></div>
-                    <h3>Comfort-First Search</h3>
-                    <p>Quietness, sunlight, commute and pet policy — rated per home.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-<!-- ===== HOW IT WORKS ===== -->
-    <section class="lp-section" id="how-it-works">
-        <div class="lp-container">
-            <div class="lp-head">
-                <span class="lp-kicker"><i class="fas fa-route"></i> HOW IT WORKS</span>
-                <h2>Your New Home Is <span class="grad">4 Steps Away</span></h2>
-                <p>From search to signed lease in days — not weeks.</p>
-            </div>
-            <div class="hiw-grid">
-                <div class="hiw-step">
-                    <span class="step-no">01</span>
-                    <div class="hiw-ic"><i class="fas fa-sliders"></i></div>
-                    <h3>Comfort-First Search</h3>
-                    <p>Filter by budget, pet policy, quietness, sunlight, and commute.</p>
-                </div>
-                <div class="hiw-step">
-                    <span class="step-no">02</span>
-                    <div class="hiw-ic"><i class="fas fa-vr-cardboard"></i></div>
-                    <h3>Virtual Verification</h3>
-                    <p>Review verified photos, tours, and complete owner profiles.</p>
-                </div>
-                <div class="hiw-step">
-                    <span class="step-no">03</span>
-                    <div class="hiw-ic"><i class="fas fa-comments"></i></div>
-                    <h3>Direct Owner Contact</h3>
-                    <p>Chat in-app, ask questions, and book tours without sharing numbers.</p>
-                </div>
-                <div class="hiw-step">
-                    <span class="step-no">04</span>
-                    <div class="hiw-ic"><i class="fas fa-file-signature"></i></div>
-                    <h3>Digital Lease &amp; Move-In</h3>
-                    <p>Sign agreements online and pay deposits into escrow.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-<!-- ===== SCREENING / OWNER TOOLS ===== -->
-    <section class="lp-section alt" id="tools">
-        <div class="lp-container">
-            <div class="lp-head">
-                <span class="lp-kicker"><i class="fas fa-user-shield"></i> SCREENING &amp; OWNER TOOLS</span>
-                <h2>Rent With Confidence, <span class="grad">Own With Ease</span></h2>
-                <p>Identity checks, credit and employment screening for tenants — pricing guides, tax tools and resources for owners.</p>
-            </div>
-            <div class="tools-grid3-lp">
-                <a href="tenant-screening" class="tool-card">
-                    <div class="tool-ic"><i class="fas fa-user-shield"></i></div>
-                    <h3>Tenant Screening</h3>
-                    <p>Verify identity, employment and credit before approving applicants.</p>
-                    <span class="tool-cta">Screen a Tenant <i class="fas fa-arrow-right"></i></span>
-                </a>
-                <a href="identity-verification" class="tool-card">
-                    <div class="tool-ic"><i class="fas fa-id-badge"></i></div>
-                    <h3>Identity Verification</h3>
-                    <p>Confirm who you rent to or list with using government-ID checks.</p>
-                    <span class="tool-cta">Verify Identity <i class="fas fa-arrow-right"></i></span>
-                </a>
-                <a href="background-check" class="tool-card">
-                    <div class="tool-ic"><i class="fas fa-magnifying-glass"></i></div>
-                    <h3>Background Checks</h3>
-                    <p>Run clean, respectful background and credit checks on applicants.</p>
-                    <span class="tool-cta">Run a Check <i class="fas fa-arrow-right"></i></span>
-                </a>
-                <a href="owner-resources" class="tool-card">
-                    <div class="tool-ic"><i class="fas fa-book-open"></i></div>
-                    <h3>Owner Resources</h3>
-                    <p>Practical advice from first listing to smooth move-out.</p>
-                    <span class="tool-cta">Explore Resources <i class="fas fa-arrow-right"></i></span>
-                </a>
-                <a href="rent-pricing-guide" class="tool-card">
-                    <div class="tool-ic"><i class="fas fa-chart-line"></i></div>
-                    <h3>Rent Pricing Guide</h3>
-                    <p>Price your property right with market data and local insights.</p>
-                    <span class="tool-cta">Compare Pricing <i class="fas fa-arrow-right"></i></span>
-                </a>
-                <a href="owner-guides" class="tool-card">
-                    <div class="tool-ic"><i class="fas fa-file-signature"></i></div>
-                    <h3>Owner Guides &amp; Support</h3>
-                    <p>Lease templates, tax &amp; accounting tips, and dedicated owner support.</p>
-                    <span class="tool-cta">Read Guides <i class="fas fa-arrow-right"></i></span>
-                </a>
-            </div>
-        </div>
-    </section>
-<!-- ===== TESTIMONIALS ===== -->
-    <section class="lp-section" id="testimonials">
-        <div class="lp-container">
-            <div class="lp-head">
-                <span class="lp-kicker"><i class="fas fa-comments"></i> WHY PEOPLE CHOOSE US</span>
-                <h2>Loved by <span class="grad">Tenants &amp; Owners</span></h2>
-            </div>
-            <div class="testi-grid-lp">
-                <div class="testi-card">
-                    <div class="qstars">★★★★★</div>
-                    <p class="quote">“Found a 2BHK in Powai within a week. Comfort scores were spot-on — no broker, no haggling.”</p>
-                    <div class="qwho"><div class="qavatar">A</div><div><strong>Ananya S.</strong><small>Tenant · Mumbai</small></div></div>
-                </div>
-                <div class="testi-card">
-                    <div class="qstars">★★★★★</div>
-                    <p class="quote">“Escrow held my security deposit safely. Both sides could see exactly where things stood.”</p>
-                    <div class="qwho"><div class="qavatar">R</div><div><strong>Rohit M.</strong><small>Owner · Bengaluru</small></div></div>
-                </div>
-                <div class="testi-card">
-                    <div class="qstars">★★★★★</div>
-                    <p class="quote">“Listing my flat took minutes, and the tenant applications were pre-screened for me.”</p>
-                    <div class="qwho"><div class="qavatar">P</div><div><strong>Priya K.</strong><small>Owner · Pune</small></div></div>
-                </div>
-            </div>
-        </div>
-    </section>
+<section class="section" id="categories" style="padding-top:10px">
+<div class="container">
+  <div class="section-head">
+    <div>
+      <div class="kicker">Browse by lifestyle</div>
+      <h2>Find your kind of space.</h2>
+    </div>
+    <p>From compact city studios to spacious family homes, explore properties built around the way you live.</p>
+  </div>
+  <div class="categories">
+    <a class="category" href="properties"
+       style="background-image:url('https://images.unsplash.com/photo-1554995207-c18c203602cb?auto=format&fit=crop&w=900&q=85')">
+      <div><h3>Apartments</h3><p>4,820 properties</p></div>
+    </a>
+    <a class="category" href="properties"
+       style="background-image:url('https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=900&q=85')">
+      <div><h3>Houses</h3><p>2,140 properties</p></div>
+    </a>
+    <a class="category" href="properties"
+       style="background-image:url('https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=900&q=85')">
+      <div><h3>Villas</h3><p>860 properties</p></div>
+    </a>
+    <a class="category" href="properties"
+       style="background-image:url('https://images.unsplash.com/photo-1598928506311-c55ded91a20c?auto=format&fit=crop&w=900&q=85')">
+      <div><h3>Studios</h3><p>1,670 properties</p></div>
+    </a>
+  </div>
+</div>
+</section>
 
-    <!-- ===== CTA ===== -->
-    <section class="lp-section">
-        <div class="lp-container">
-            <div class="cta-dark">
-                <h2>Ready to Find Your <span style="color:#A5B4FC;">Perfect Stay?</span></h2>
-                <p>Join tenants and owners who've ditched the brokers. Your next home is one search away.</p>
-                <div class="cta-btns">
-                    <a class="cta-primary" href="signup"><i class="fas fa-user-plus"></i> Create Free Account</a>
-                    <a class="cta-secondary" href="how-it-works"><i class="fas fa-circle-question"></i> How It Works</a>
-                </div>
-            </div>
-        </div>
-    </section>
-<!-- ===== FOOTER ===== -->
-    <footer class="foot-lp">
-        <div class="lp-container">
-            <div class="foot-grid">
-                <div class="foot-brand">
-                    <div class="fb-title">Heaven<span>Lease</span></div>
-                    <p>India's broker-free rental platform. Find homes directly from verified owners with comfort-first search and escrow-protected deposits.</p>
-                </div>
-                <div>
-                    <h4>Explore</h4>
-                    <ul>
-                        <li><a href="properties">Browse Rentals</a></li>
-                        <li><a href="map">Property Map</a></li>
-                        <li><a href="comfort-scores">Comfort Scores</a></li>
-                        <li><a href="pricing">Pricing</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4>Company</h4>
-                    <ul>
-                        <li><a href="about">About Us</a></li>
-                        <li><a href="blog">Blog</a></li>
-                        <li><a href="contact">Contact</a></li>
-                        <li><a href="careers">Careers</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4>Legal</h4>
-                    <ul>
-                        <li><a href="terms">Terms of Service</a></li>
-                        <li><a href="privacy">Privacy Policy</a></li>
-                        <li><a href="cookies">Cookie Policy</a></li>
-                        <li><a href="escrow-policy">Escrow Policy</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="foot-bottom">© 2026 HeavenLease · All rights reserved · Made in India</div>
-        </div>
-    </footer>
+<section class="section" id="how">
+<div class="container">
+  <div class="section-head">
+    <div>
+      <div class="kicker">Simple process</div>
+      <h2>Rent without the headache.</h2>
+    </div>
+    <p>Everything you need to move from searching to settled in one simple experience.</p>
+  </div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+      <h3>1. Search</h3>
+      <p>Tell us where you want to live, your budget and the kind of property you need.</p>
+    </div>
+    <div class="step">
+      <div class="step-icon"><i class="fa-solid fa-shield-halved"></i></div>
+      <h3>2. Compare &amp; verify</h3>
+      <p>Review property details, amenities and verified listings before making a decision.</p>
+    </div>
+    <div class="step">
+      <div class="step-icon"><i class="fa-solid fa-key"></i></div>
+      <h3>3. Move in</h3>
+      <p>Connect with the owner, complete your application and get ready for your new home.</p>
+    </div>
+  </div>
+</div>
+</section>
 
-    <script>
-        // Mobile menu toggle
-        const lpBurger = document.getElementById('lpBurger');
-        const lpMobileMenu = document.getElementById('lpMobileMenu');
-        if (lpBurger && lpMobileMenu) {
-            lpBurger.addEventListener('click', () => {
-                const open = lpMobileMenu.style.display === 'flex';
-                lpMobileMenu.style.display = open ? 'none' : 'flex';
-            });
-        }
-        // Navbar scrolled state
-        const navbarEl = document.getElementById('navbar');
-        if (navbarEl) {
-            window.addEventListener('scroll', () => {
-                navbarEl.classList.toggle('scrolled', window.scrollY > 24);
-            }, { passive: true });
-        }
-        // Hero search -> properties.html with query params
-        window.heroSearch = function (e) {
-            e.preventDefault();
-            const loc = (document.getElementById('heroLocation')?.value || '').trim();
-            const budget = document.getElementById('heroBudget')?.value || '';
-            const bhk = document.getElementById('heroBhk')?.value || '';
-            const params = new URLSearchParams();
-            if (loc) params.set('location', loc);
-            if (budget) params.set('budget', budget);
-            if (bhk) params.set('bhk', bhk);
-            const qs = params.toString();
-            window.location.href = 'properties' + (qs ? ('?' + qs) : '');
-            return false;
-        };
-    </script>
-    <script src="api.js"></script>
-    <script>
-        // Live featured properties (same contract as the old landing page)
-        (function () {
-            const grid = document.getElementById('lpFeaturedGrid');
-            if (!grid || typeof api === 'undefined') return;
-            const esc = (typeof escapeHtml === 'function') ? escapeHtml : (s => String(s || ''));
-            async function load() {
-                try {
-                    let list = [];
-                    try { list = await api.getProperties(0, 6); } catch (e) { list = []; }
-                    if (!Array.isArray(list) || list.length === 0) {
-                        grid.innerHTML = '<div style="text-align:center;padding:44px 20px;color:var(--lp-muted);"><i class="fas fa-building" style="font-size:30px;display:block;margin-bottom:12px;"></i><p>New listings are added daily. Start browsing now.</p></div>';
-                        return;
-                    }
-                    grid.innerHTML = list.slice(0, 6).map(p => {
-                        const price = p.price !== undefined && p.price !== null ? p.price : (p.rentAmount || 0);
-                        const loc = [p.city, p.locality || p.address].filter(Boolean).join(', ') || (p.location || '');
-                        const bhk = p.bhk ? (p.bhk + ' BHK') : ((p.bedrooms || 0) ? (p.bedrooms + ' BHK') : 'Home');
-                        const badges = [];
-                        badges.push('<span><i class="fas fa-circle-check"></i> Verified</span>');
-                        if (p.comfortScore) badges.push('<span><i class="fas fa-gauge-high"></i> ' + esc(p.comfortScore) + '</span>');
-                        return '<div class="lpf-card" data-id="' + p.id + '" onclick="window.location.href=\'property-detail?id=' + p.id + '\'">'
-                            + '<div class="lpf-img"><i class="fas fa-building"></i>'
-                            + '<div class="lpf-price">₹' + new Intl.NumberFormat('en-IN').format(price || 0) + '<small style="font-size:11px;">/mo</small></div>'
-                            + '</div>'
-                            + '<div class="lpf-body">'
-                            + '<div class="lpf-title">' + esc(p.title || bhk) + '</div>'
-                            + '<div class="lpf-loc"><i class="fas fa-location-dot"></i> ' + esc(loc || 'Location on request') + '</div>'
-                            + '<div class="lpf-badges">' + badges.join('') + '</div>'
-                            + '</div></div>';
-                    }).join('');
-                } catch (e) {
-                    grid.innerHTML = '';
-                }
-            }
-            load();
-        })();
-    </script>
+<section class="container">
+  <div class="cta">
+    <h2>Have a property to rent?</h2>
+    <p>Put your property in front of thousands of people actively looking for their next home.</p>
+    <button class="btn btn-primary" onclick="toast('Property listing flow opened.');">
+      List your property <i class="fa-solid fa-arrow-right"></i>
+    </button>
+  </div>
+</section>
+</main>
+
+<!-- SOLID FOOTER -->
+<footer class="footer">
+<div class="container">
+    <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
+        <div class="footer-brand">
+            <a href="home" class="logo">
+                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <span class="logo-text">Heaven<span>Lease</span></span>
+            </a>
+            <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Explore</strong>
+            <a href="properties" style="color:inherit;text-decoration:none;">Find a Home</a>
+            <a href="map" style="color:inherit;text-decoration:none;">Property Map</a>
+            <a href="how-it-works" style="color:inherit;text-decoration:none;">How It Works</a>
+            <a href="about" style="color:inherit;text-decoration:none;">About Us</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Company</strong>
+            <a href="careers" style="color:inherit;text-decoration:none;">Careers</a>
+            <a href="press" style="color:inherit;text-decoration:none;">Press</a>
+            <a href="blog" style="color:inherit;text-decoration:none;">Blog</a>
+            <a href="contact" style="color:inherit;text-decoration:none;">Contact</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">For Owners</strong>
+            <a href="list-property" style="color:inherit;text-decoration:none;">List Your Property</a>
+            <a href="properties-management" style="color:inherit;text-decoration:none;">Owner Dashboard</a>
+            <a href="payment" style="color:inherit;text-decoration:none;">Pricing &amp; Upgrade</a>
+            <a href="owner-resources" style="color:inherit;text-decoration:none;">Owner Resources</a>
+        </div>
+    </div>
+    <div class="footer-bottom" style="justify-content:center;margin-top:28px;">
+        <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
+    </div>
+</div>
+</footer>
+<div class="toast" id="toast"></div>
+<script src="demo/demo-data.js"></script>
+<script src="js/api.js?v=20260913a"></script>
+<script src="js/core.js?v=20260913a"></script>
+<script src="js/pages/index.js?v=20260913a"></script>
 </body>
 </html>

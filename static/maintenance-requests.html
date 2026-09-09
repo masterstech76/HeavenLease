@@ -9,36 +9,411 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
     <link rel="stylesheet" href="styles.css?v=20260909a">
     <style>
-        .page-header { background: rgba(255,255,255,0.45); backdrop-filter: blur(6px); padding: 140px 0 70px; text-align: center; position: relative; overflow: hidden; }
-        .page-header h1 { font-family: var(--font-heading); font-size: 46px; font-weight: 700; color: var(--dark); margin-bottom: 12px; }
-        .page-header p { font-size: 17px; color: var(--gray-500); max-width: 640px; margin: 0 auto; }
-        .page-header .ph-icon { width: 68px; height: 68px; border-radius: 18px; background: var(--gradient); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 28px; margin: 0 auto 18px; box-shadow: var(--shadow-primary); }
-        .page-section { padding: 70px 0 90px; }
-        .page-section .section-head { text-align: center; margin-bottom: 44px; }
-        .page-section .section-head h2 { font-family: var(--font-heading); font-size: 30px; font-weight: 700; color: var(--dark); }
-        .feature-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 26px; }
-        .feature-card { background: rgba(255,255,255,0.92); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 28px; transition: var(--transition); box-shadow: var(--shadow-sm); }
-        .feature-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--primary); }
-        .feature-card .fc-icon { width: 52px; height: 52px; border-radius: 14px; background: var(--gradient-soft); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 14px; }
-        .feature-card h3 { font-size: 17px; font-weight: 600; color: var(--dark); margin-bottom: 6px; }
-        .feature-card p { font-size: 14px; color: var(--gray-500); line-height: 1.6; margin: 0; }
-        .page-cta { padding: 0 0 90px; }
-        .cta-banner { background: var(--gradient); border-radius: var(--radius-xl); padding: 44px 32px; text-align: center; color: #fff; }
-        .cta-banner h2 { font-family: var(--font-heading); font-size: 28px; margin-bottom: 8px; }
-        .cta-banner p { opacity: 0.92; margin-bottom: 20px; }
-        .cta-banner .btn { background: #fff; color: var(--primary); font-weight: 600; }
-        .cta-banner .btn.ghost { background: transparent; border: 1px solid #fff; color: #fff; }
-        @media (max-width: 900px) { .feature-grid { grid-template-columns: 1fr; } }
-        @media (max-width: 768px) { .page-header { padding: 120px 0 50px; } .page-header h1 { font-size: 34px; } }
+        :root {
+            --mr-ink: #17221d;
+            --mr-muted: #66736c;
+            --mr-line: rgba(25, 45, 35, .11);
+            --mr-surface: rgba(255,255,255,.94);
+            --mr-dark: #102019;
+            --mr-accent: #2f7d5b;
+            --mr-accent-dark: #205d42;
+            --mr-soft: #eaf4ee;
+            --mr-shadow: 0 18px 55px rgba(19, 37, 28, .10);
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            color: var(--mr-ink);
+            background:
+                linear-gradient(rgba(245, 242, 235, .88), rgba(245, 242, 235, .94)),
+                url("https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=2200&q=85") center/cover fixed;
+            font-family: Inter, sans-serif;
+        }
+        .navbar {
+            position: fixed !important;
+            inset: 0 0 auto;
+            z-index: 1000;
+            background:
+                linear-gradient(90deg, rgba(8,19,14,.96), rgba(20,43,31,.90)),
+                url("https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2200&q=85") center/cover;
+            border-bottom: 1px solid rgba(255,255,255,.13);
+            box-shadow: 0 10px 35px rgba(0,0,0,.18);
+            backdrop-filter: blur(14px);
+        }
+        .navbar .nav-container {
+            min-height: 78px;
+        }
+        .logo-text { color: #fff !important; }
+        .logo-text span { color: #9ce2ba !important; }
+        .logo-icon {
+            box-shadow: 0 8px 24px rgba(0,0,0,.22);
+        }
+        .user-menu-trigger {
+            color: #fff !important;
+            background: rgba(255,255,255,.08) !important;
+            border: 1px solid rgba(255,255,255,.14) !important;
+            border-radius: 999px !important;
+            padding: 8px 13px 8px 8px !important;
+        }
+        .user-menu-trigger:hover {
+            background: rgba(255,255,255,.14) !important;
+        }
+        .user-dropdown {
+            border: 1px solid rgba(255,255,255,.12);
+            box-shadow: 0 20px 55px rgba(0,0,0,.22);
+        }
+        .maintenance-hero {
+            min-height: 520px;
+            padding: 165px 0 92px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            background:
+                linear-gradient(90deg, rgba(8,22,15,.90) 0%, rgba(8,22,15,.69) 48%, rgba(8,22,15,.42) 100%),
+                url("https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=2200&q=88") center/cover;
+        }
+        .maintenance-hero::after {
+            content: "";
+            position: absolute;
+            inset: auto 0 0;
+            height: 120px;
+            background: linear-gradient(transparent, rgba(245,242,235,.92));
+            pointer-events: none;
+        }
+        .hero-inner {
+            position: relative;
+            z-index: 1;
+            max-width: 1120px;
+            width: min(1120px, calc(100% - 40px));
+            margin: 0 auto;
+        }
+        .hero-copy {
+            max-width: 760px;
+            color: #fff;
+        }
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            padding: 8px 13px;
+            margin-bottom: 18px;
+            border-radius: 999px;
+            background: rgba(255,255,255,.12);
+            border: 1px solid rgba(255,255,255,.18);
+            color: #d7f5e3;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            backdrop-filter: blur(10px);
+        }
+        .hero-copy h1 {
+            margin: 0 0 16px;
+            font-family: "Playfair Display", serif;
+            font-size: clamp(42px, 6vw, 70px);
+            line-height: 1.02;
+            letter-spacing: -.035em;
+            color: #fff;
+        }
+        .hero-copy p {
+            max-width: 670px;
+            margin: 0;
+            color: rgba(255,255,255,.84);
+            font-size: 18px;
+            line-height: 1.75;
+        }
+        .hero-metrics {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 28px;
+        }
+        .metric {
+            min-width: 155px;
+            padding: 13px 16px;
+            border-radius: 15px;
+            background: rgba(255,255,255,.10);
+            border: 1px solid rgba(255,255,255,.15);
+            backdrop-filter: blur(10px);
+        }
+        .metric strong {
+            display: block;
+            font-size: 16px;
+            color: #fff;
+            margin-bottom: 3px;
+        }
+        .metric span {
+            color: rgba(255,255,255,.66);
+            font-size: 12px;
+        }
+        .queue-section {
+            position: relative;
+            z-index: 2;
+            padding: 34px 0 80px;
+        }
+        .queue-shell {
+            max-width: 1120px;
+            width: min(1120px, calc(100% - 40px));
+            margin: 0 auto;
+        }
+        .queue-intro {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            gap: 24px;
+            margin-bottom: 22px;
+        }
+        .section-kicker {
+            color: var(--mr-accent);
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            margin-bottom: 7px;
+        }
+        .queue-intro h2 {
+            margin: 0;
+            font-family: "Playfair Display", serif;
+            font-size: 34px;
+            letter-spacing: -.025em;
+        }
+        .queue-intro p {
+            margin: 8px 0 0;
+            color: var(--mr-muted);
+            font-size: 14px;
+        }
+        .queue-hint {
+            padding: 12px 15px;
+            border-radius: 14px;
+            background: rgba(255,255,255,.74);
+            border: 1px solid var(--mr-line);
+            color: var(--mr-muted);
+            font-size: 12px;
+            box-shadow: 0 8px 25px rgba(22,42,31,.05);
+        }
+        #requestsWrap {
+            min-height: 100px;
+        }
+        .request-list {
+            display: grid;
+            gap: 14px;
+        }
+        .request-card {
+            position: relative;
+            overflow: hidden;
+            padding: 22px;
+            background: var(--mr-surface);
+            border: 1px solid var(--mr-line);
+            border-radius: 20px;
+            box-shadow: 0 12px 35px rgba(24,43,33,.07);
+            transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+        }
+        .request-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(47,125,91,.28);
+            box-shadow: var(--mr-shadow);
+        }
+        .request-card::before {
+            content: "";
+            position: absolute;
+            inset: 0 auto 0 0;
+            width: 4px;
+            background: linear-gradient(#2f7d5b, #76b796);
+        }
+        .request-main {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 22px;
+        }
+        .request-content {
+            flex: 1;
+            min-width: 0;
+        }
+        .request-title-row {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 9px;
+            margin-bottom: 7px;
+        }
+        .request-title {
+            font-size: 17px;
+            font-weight: 800;
+            color: var(--mr-ink);
+        }
+        .request-description {
+            margin: 0 0 13px;
+            color: #59665f;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .request-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px 14px;
+            color: #78837d;
+            font-size: 12px;
+        }
+        .request-meta span {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .request-actions {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            gap: 8px;
+            flex: 0 0 auto;
+        }
+        .request-actions .btn {
+            white-space: nowrap;
+            border-radius: 10px;
+        }
+        .status {
+            display: inline-flex !important;
+            align-items: center;
+            padding: 5px 9px;
+            border-radius: 999px;
+            font-size: 10px !important;
+            font-weight: 800;
+            letter-spacing: .05em;
+            text-transform: uppercase;
+        }
+        .status-active { background: #e5f5eb !important; color: #24724c !important; }
+        .status-pending { background: #fff3d9 !important; color: #976b19 !important; }
+        .status-completed { background: #e7f0ff !important; color: #3863a0 !important; }
+        .status-inactive { background: #f0f1f0 !important; color: #707872 !important; }
+        .loading-card, .empty-card, .error-card {
+            background: rgba(255,255,255,.92);
+            border: 1px solid var(--mr-line);
+            border-radius: 22px;
+            padding: 52px 24px;
+            text-align: center;
+            box-shadow: var(--mr-shadow);
+        }
+        .state-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 16px;
+            border-radius: 18px;
+            display: grid;
+            place-items: center;
+            background: var(--mr-soft);
+            color: var(--mr-accent);
+            font-size: 25px;
+        }
+        .loading-card p, .empty-card p, .error-card p {
+            color: var(--mr-muted);
+            margin: 7px auto 20px;
+            max-width: 500px;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+        .empty-card h3, .error-card h3 {
+            margin: 0;
+            font-size: 21px;
+        }
+        .next-section {
+            padding: 0 0 90px;
+        }
+        .next-panel {
+            max-width: 1120px;
+            width: min(1120px, calc(100% - 40px));
+            margin: 0 auto;
+            min-height: 280px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 28px;
+            padding: 48px;
+            color: #fff;
+            background:
+                linear-gradient(90deg, rgba(10,29,20,.96), rgba(19,59,40,.86)),
+                url("https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=2000&q=85") center/cover;
+            box-shadow: 0 22px 65px rgba(12,31,22,.20);
+        }
+        .next-panel::after {
+            content: "";
+            position: absolute;
+            right: -100px;
+            top: -130px;
+            width: 360px;
+            height: 360px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,.13);
+            box-shadow: 0 0 0 55px rgba(255,255,255,.025), 0 0 0 110px rgba(255,255,255,.018);
+        }
+        .next-panel-inner {
+            position: relative;
+            z-index: 1;
+            max-width: 720px;
+        }
+        .next-panel h2 {
+            margin: 0 0 10px;
+            font-family: "Playfair Display", serif;
+            font-size: 34px;
+        }
+        .next-panel p {
+            margin: 0 0 24px;
+            color: rgba(255,255,255,.72);
+            line-height: 1.65;
+            max-width: 650px;
+        }
+        .cta-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .cta-actions .btn {
+            border-radius: 11px;
+            font-weight: 700;
+        }
+        .cta-actions .btn:not(.ghost) {
+            background: #fff;
+            color: var(--mr-accent-dark);
+        }
+        .cta-actions .btn.ghost {
+            border: 1px solid rgba(255,255,255,.38);
+            color: #fff;
+            background: rgba(255,255,255,.06);
+        }
+        footer {
+            background: #0b1712 !important;
+            color: rgba(255,255,255,.74);
+            border-top: 1px solid rgba(255,255,255,.08);
+        }
+        @media (max-width: 800px) {
+            .maintenance-hero { min-height: 500px; padding: 140px 0 80px; }
+            .hero-copy h1 { font-size: 46px; }
+            .queue-intro { align-items: flex-start; flex-direction: column; }
+            .request-main { flex-direction: column; }
+            .request-actions { justify-content: flex-start; width: 100%; }
+            .next-panel { padding: 36px 28px; }
+        }
+        @media (max-width: 560px) {
+            .hero-inner, .queue-shell, .next-panel { width: min(100% - 24px, 1120px); }
+            .maintenance-hero { padding: 125px 0 68px; }
+            .hero-copy h1 { font-size: 38px; }
+            .hero-copy p { font-size: 15px; }
+            .hero-metrics { display: grid; grid-template-columns: 1fr 1fr; }
+            .metric { min-width: 0; }
+            .queue-section { padding-top: 24px; }
+            .queue-intro h2, .next-panel h2 { font-size: 28px; }
+            .request-card { padding: 19px; }
+            .request-actions .btn { flex: 1 1 auto; }
+            .next-panel { border-radius: 22px; padding: 30px 22px; }
+        }
     </style>
 </head>
 <body>
     <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <a href="/" class="logo">
+            <a href="/" class="logo" aria-label="HeavenLease home">
                 <div class="logo-icon"><i class="fas fa-home"></i></div>
                 <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
@@ -58,114 +433,103 @@
             </div>
         </div>
     </nav>
-    <section class="page-header">
-        <div class="container">
-            <div class="ph-icon"><i class="fas fa-toolbox"></i></div>
-            <h1>Maintenance Requests</h1>
-            <p>Review, assign and track maintenance across your properties.</p>
-        </div>
-    </section>
-
-    <section class="page-section">
-        <div class="container" style="max-width: 860px;">
-            <div class="section-head" style="text-align:center;margin-bottom:28px;"><h2>Your Maintenance Queue</h2></div>
-            <div id="requestsWrap">
-                <p style="text-align:center;color:var(--gray-400);padding:40px 0;"><i class="fas fa-spinner fa-spin"></i> Loading requests…</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="page-cta">
-        <div class="container">
-            <div class="cta-banner">
-                <h2>Ready to continue?</h2>
-                <p>Head back to your dashboard or browse the next step.</p>
-                                <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
-                    <a href="maintenance-request" class="btn btn-lg"><i class="fas fa-plus"></i> New Request</a>
-                    <a href="maintenance-management" class="btn btn-lg"><i class="fas fa-screwdriver-wrench"></i> Maintenance Management</a>
-                    <a href="dashboard" class="btn btn-lg"><i class="fas fa-gauge-high"></i> My Dashboard</a>
-                    <a href="dashboard" class="btn btn-lg ghost"><i class="fas fa-gauge-high"></i> My Dashboard</a>
+    <main>
+        <section class="maintenance-hero">
+            <div class="hero-inner">
+                <div class="hero-copy">
+                    <div class="eyebrow"><i class="fas fa-screwdriver-wrench"></i> Property Care Center</div>
+                    <h1>Maintenance Requests</h1>
+                    <p>Review, assign and track maintenance across your properties from one clear, organized queue.</p>
+                    <div class="hero-metrics">
+                        <div class="metric">
+                            <strong><i class="fas fa-list-check"></i> Centralized</strong>
+                            <span>All requests in one place</span>
+                        </div>
+                        <div class="metric">
+                            <strong><i class="fas fa-arrows-rotate"></i> Live updates</strong>
+                            <span>Status changes sync instantly</span>
+                        </div>
+                        <div class="metric">
+                            <strong><i class="fas fa-building"></i> Property-wide</strong>
+                            <span>Keep every issue organized</span>
+                        </div>
+                    </div>
                 </div>
             </div>
+        </section>
+        <section class="queue-section">
+            <div class="queue-shell">
+                <div class="queue-intro">
+                    <div>
+                        <div class="section-kicker">Operations</div>
+                        <h2>Your Maintenance Queue</h2>
+                        <p>Review open issues, update progress and close completed requests.</p>
+                    </div>
+                    <div class="queue-hint"><i class="fas fa-shield-halved"></i> Only authorized owner actions are shown.</div>
+                </div>
+                <div id="requestsWrap">
+                    <div class="loading-card">
+                        <div class="state-icon"><i class="fas fa-spinner fa-spin"></i></div>
+                        <h3>Loading requests</h3>
+                        <p>We’re gathering the latest maintenance activity for your properties.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="next-section">
+            <div class="next-panel">
+                <div class="next-panel-inner">
+                    <div class="eyebrow"><i class="fas fa-compass"></i> Next step</div>
+                    <h2>Keep property care moving.</h2>
+                    <p>Create a new maintenance request, open the full maintenance management area, or return to your dashboard.</p>
+                    <div class="cta-actions">
+                        <a href="maintenance-request" class="btn btn-lg"><i class="fas fa-plus"></i> New Request</a>
+                        <a href="maintenance-management" class="btn btn-lg ghost"><i class="fas fa-screwdriver-wrench"></i> Maintenance Management</a>
+                        <a href="dashboard" class="btn btn-lg ghost"><i class="fas fa-gauge-high"></i> My Dashboard</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer class="footer">
+<div class="container">
+    <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
+        <div class="footer-brand">
+            <a href="home" class="logo">
+                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <span class="logo-text">Heaven<span>Lease</span></span>
+            </a>
+            <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>
         </div>
-    </section>
-
-<script src="api.js?v=20260913a"></script>
-    <script src="script.js?v=20260913a"></script>
-    <script>
-        (function() {
-            const user = api.getUser();
-            if (user && user.role) {
-                const link = document.getElementById('myProfileLink');
-                if (link) link.href = 'edit-profile';
-            }
-
-            const wrap = document.getElementById('requestsWrap');
-
-            function statusBadge(status) {
-                const map = { 'OPEN': ['status-active', 'Open'], 'IN_PROGRESS': ['status-pending', 'In Progress'], 'DONE': ['status-completed', 'Done'], 'CANCELLED': ['status-inactive', 'Cancelled'], 'ESCROW_DISPUTED': ['status-pending', 'Disputed'] };
-                const m = map[status] || ['status-inactive', status];
-                return '<span class="status ' + m[0] + '">' + api.escapeHtml(m[1]) + '</span>';
-            }
-
-            async function load() {
-                try {
-                    let list = [];
-                    list = await api.getMyMaintenanceRequests().catch(() => []);
-                    if (!Array.isArray(list)) list = [];
-                    if (list.length === 0) {
-                        wrap.innerHTML = '<div style="text-align:center;padding:60px 20px;background:var(--white);border:2px dashed var(--gray-200);border-radius:var(--radius-xl);">' +
-                            '<i class="fas fa-toolbox" style="font-size:56px;color:var(--gray-300);"></i>' +
-                            '<h3 style="margin:16px 0 6px;color:var(--dark);">No maintenance requests yet</h3>' +
-                            '<p style="color:var(--gray-500);margin-bottom:20px;">When a tenant reports an issue it will show up here.</p>' +
-                            '<a href="maintenance-request" class="btn btn-primary" style="display:inline-flex;gap:8px;"><i class="fas fa-plus"></i> New Request</a>' +
-                            '</div>';
-                        return;
-                    }
-                    wrap.innerHTML = list.map(r => {
-                        const mineOwner = (user && ['OWNER','VERIFIED_OWNER','ADMIN'].includes(user.role));
-                        const actions = [];
-                        if (mineOwner && r.status === 'OPEN') actions.push('<button class="btn btn-sm btn-secondary" onclick="setStatus(' + r.id + ',\'IN_PROGRESS\')"><i class="fas fa-play"></i> Start</button>');
-                        if (mineOwner && (r.status === 'OPEN' || r.status === 'IN_PROGRESS')) {
-                            actions.push('<button class="btn btn-sm btn-primary" onclick="setStatus(' + r.id + ',\'DONE\')"><i class="fas fa-check"></i> Mark Done</button>');
-                            actions.push('<button class="btn btn-sm ghost" onclick="setStatus(' + r.id + ',\'CANCELLED\')"><i class="fas fa-ban"></i> Cancel</button>');
-                        }
-                        return '<div style="background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:22px 24px;margin-bottom:14px;box-shadow:var(--shadow-sm);">' +
-                            '<div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;">' +
-                                '<div style="flex:1;min-width:220px;">' +
-                                    '<strong style="font-size:16px;color:var(--dark);">' + api.escapeHtml(r.subject || 'Untitled') + '</strong> ' + statusBadge(r.status) +
-                                    '<p style="margin:8px 0 4px;color:var(--gray-600);font-size:14px;line-height:1.5;">' + api.escapeHtml(r.description || '') + '</p>' +
-                                    '<div style="font-size:12px;color:var(--gray-400);">' +
-                                        '<i class="fas fa-building"></i> ' + api.escapeHtml(r.propertyTitle || ('Property #' + r.propertyId)) +
-                                        ' &nbsp;·&nbsp; <i class="fas fa-tags"></i> ' + api.escapeHtml(r.category || 'OTHER') +
-                                        ' &nbsp;·&nbsp; <i class="fas fa-gauge"></i> ' + api.escapeHtml(r.priority || 'NORMAL') +
-                                        (r.resolutionNote ? ' &nbsp;·&nbsp; <i class="fas fa-sticky-note"></i> ' + api.escapeHtml(r.resolutionNote) : '') +
-                                        (r.tenantName ? ' &nbsp;·&nbsp; <i class="fas fa-user"></i> ' + api.escapeHtml(r.tenantName) : '') +
-                                        (r.createdAt ? ' &nbsp;·&nbsp; <i class="fas fa-clock"></i> ' + api.escapeHtml(new Date(r.createdAt).toLocaleDateString('en-IN', { day:'numeric', month:'short' })) : '') +
-                                    '</div>' +
-                                '</div>' +
-                                (actions.length ? '<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">' + actions.join('') + '</div>' : '') +
-                            '</div>' +
-                        '</div>';
-                    }).join('');
-                } catch (e) {
-                    wrap.innerHTML = '<p style="text-align:center;color:var(--gray-400);padding:40px 0;">Could not load requests.</p>';
-                }
-            }
-
-            window.setStatus = async function(id, status) {
-                const note = status === 'DONE' ? prompt('Resolution note (optional):') : '';
-                try {
-                    await api.updateMaintenanceRequestStatus(id, status, note || '');
-                    showToast('Request updated to ' + status + '.', 'success');
-                    load();
-                } catch (error) {
-                    showToast(error.message || 'Failed to update.', 'error');
-                }
-            };
-
-            load();
-        })();
-    </script>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Explore</strong>
+            <a href="properties" style="color:inherit;text-decoration:none;">Find a Home</a>
+            <a href="map" style="color:inherit;text-decoration:none;">Property Map</a>
+            <a href="how-it-works" style="color:inherit;text-decoration:none;">How It Works</a>
+            <a href="about" style="color:inherit;text-decoration:none;">About Us</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Company</strong>
+            <a href="careers" style="color:inherit;text-decoration:none;">Careers</a>
+            <a href="press" style="color:inherit;text-decoration:none;">Press</a>
+            <a href="blog" style="color:inherit;text-decoration:none;">Blog</a>
+            <a href="contact" style="color:inherit;text-decoration:none;">Contact</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">For Owners</strong>
+            <a href="list-property" style="color:inherit;text-decoration:none;">List Your Property</a>
+            <a href="properties-management" style="color:inherit;text-decoration:none;">Owner Dashboard</a>
+            <a href="payment" style="color:inherit;text-decoration:none;">Pricing &amp; Upgrade</a>
+            <a href="owner-resources" style="color:inherit;text-decoration:none;">Owner Resources</a>
+        </div>
+    </div>
+    <div class="footer-bottom" style="justify-content:center;margin-top:28px;">
+        <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
+    </div>
+</div>
+</footer>
+    <script src="js/api.js?v=20260913a"></script>
+    <script src="js/core.js?v=20260913a"></script>
+    <script src="js/pages/maintenance-requests.js?v=20260913a"></script>
 </body>
 </html>

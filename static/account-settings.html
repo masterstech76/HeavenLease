@@ -1,127 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="General account settings and preferences.">
-    <title>Account Settings — HeavenLease</title>
-    <link rel="icon" href="favicon.svg" type="image/svg+xml">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="styles.css?v=20260909a">
-    <style>
-        .page-header { background: rgba(255,255,255,0.45); backdrop-filter: blur(6px); padding: 140px 0 70px; text-align: center; position: relative; overflow: hidden; }
-        .page-header h1 { font-family: var(--font-heading); font-size: 46px; font-weight: 700; color: var(--dark); margin-bottom: 12px; }
-        .page-header p { font-size: 17px; color: var(--gray-500); max-width: 640px; margin: 0 auto; }
-        .page-header .ph-icon { width: 68px; height: 68px; border-radius: 18px; background: var(--gradient); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 28px; margin: 0 auto 18px; box-shadow: var(--shadow-primary); }
-        .page-section { padding: 70px 0 90px; }
-        .page-section .section-head { text-align: center; margin-bottom: 44px; }
-        .page-section .section-head h2 { font-family: var(--font-heading); font-size: 30px; font-weight: 700; color: var(--dark); }
-        .feature-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 26px; }
-        .feature-card { background: rgba(255,255,255,0.92); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 28px; transition: var(--transition); box-shadow: var(--shadow-sm); }
-        .feature-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--primary); }
-        .feature-card .fc-icon { width: 52px; height: 52px; border-radius: 14px; background: var(--gradient-soft); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 14px; }
-        .feature-card h3 { font-size: 17px; font-weight: 600; color: var(--dark); margin-bottom: 6px; }
-        .feature-card p { font-size: 14px; color: var(--gray-500); line-height: 1.6; margin: 0; }
-        .page-cta { padding: 0 0 90px; }
-        .cta-banner { background: var(--gradient); border-radius: var(--radius-xl); padding: 44px 32px; text-align: center; color: #fff; }
-        .cta-banner h2 { font-family: var(--font-heading); font-size: 28px; margin-bottom: 8px; }
-        .cta-banner p { opacity: 0.92; margin-bottom: 20px; }
-        .cta-banner .btn { background: #fff; color: var(--primary); font-weight: 600; }
-        .cta-banner .btn.ghost { background: transparent; border: 1px solid #fff; color: #fff; }
-        @media (max-width: 900px) { .feature-grid { grid-template-columns: 1fr; } }
-        @media (max-width: 768px) { .page-header { padding: 120px 0 50px; } .page-header h1 { font-size: 34px; } }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Manage your HeavenLease account, preferences and security.">
+<title>Account Settings — HeavenLease</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
+<link rel="stylesheet" href="styles.css?v=20260913a">
+<style>
+:root{--as-ink:#182033;--as-muted:#687386;--as-line:#e4e7ec;--as-soft:#f7f8fc;--as-primary:#5b5ce2;--as-primary2:#4445c5;--as-dark:#182033;--as-radius:22px;--as-shadow:0 18px 55px rgba(16,24,40,.09);}
+*{box-sizing:border-box}body{margin:0;background:#f8f9fc;color:var(--as-ink);font-family:Inter,system-ui,sans-serif}a{text-decoration:none}
+.as-container{width:min(1120px,calc(100% - 36px));margin:auto}
+.as-nav{position:fixed;z-index:1000;top:0;left:0;right:0;background:rgba(255,255,255,.9);backdrop-filter:blur(18px);border-bottom:1px solid rgba(228,231,236,.7)}
+.as-nav-inner{height:72px;display:flex;align-items:center;justify-content:space-between}
+.as-logo{display:flex;align-items:center;gap:10px;color:var(--as-ink);font-weight:800;font-size:19px}.as-logo em{font-style:normal;color:var(--as-primary)}
+.as-logo-icon{width:39px;height:39px;border-radius:12px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,var(--as-primary),var(--as-primary2))}
+.as-user{position:relative}.as-user-btn{border:1px solid var(--as-line);background:#fff;border-radius:999px;padding:6px 11px 6px 6px;display:flex;align-items:center;gap:9px;cursor:pointer;font:600 13px Inter;color:var(--as-ink)}
+.as-avatar{width:31px;height:31px;border-radius:50%;display:grid;place-items:center;background:#eef0ff;color:var(--as-primary);font-weight:800}
+.as-menu{position:absolute;right:0;top:48px;width:240px;background:#fff;border:1px solid var(--as-line);border-radius:16px;padding:8px;box-shadow:var(--as-shadow);display:none}.as-menu.open{display:block}
+.as-menu a{display:flex;gap:10px;padding:11px;border-radius:10px;color:#3a4354;font-size:13px}.as-menu a:hover{background:var(--as-soft)}.as-menu .active{background:#eef0ff;color:var(--as-primary);font-weight:700}
+.as-main{padding:120px 0 80px}.as-breadcrumb{font-size:12px;color:var(--as-muted);margin-bottom:22px}.as-breadcrumb a{color:var(--as-primary)}
+.as-title{display:flex;justify-content:space-between;gap:25px;align-items:end;margin-bottom:28px}.as-title h1{font:600 clamp(34px,5vw,48px)/1.1 "Playfair Display",serif;margin:0 0 9px}.as-title p{color:var(--as-muted);margin:0;font-size:14px;line-height:1.7}
+.as-layout{display:grid;grid-template-columns:250px 1fr;gap:22px}.as-side{background:#fff;border:1px solid var(--as-line);border-radius:20px;padding:10px;height:max-content;position:sticky;top:94px}.as-side button{width:100%;border:0;background:transparent;padding:13px 12px;border-radius:12px;text-align:left;display:flex;align-items:center;gap:10px;font:600 13px Inter;color:#525c6e;cursor:pointer}.as-side button:hover{background:var(--as-soft)}.as-side button.active{background:#eef0ff;color:var(--as-primary)}.as-side i{width:18px;text-align:center}.as-content{min-width:0}.as-panel{display:none;background:#fff;border:1px solid var(--as-line);border-radius:22px;padding:28px;box-shadow:0 8px 35px rgba(16,24,40,.04)}.as-panel.active{display:block}.as-panel-head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;padding-bottom:22px;border-bottom:1px solid var(--as-line);margin-bottom:22px}.as-panel h2{font-size:19px;margin:0 0 6px}.as-panel-head p{margin:0;color:var(--as-muted);font-size:12px;line-height:1.6}
+.as-profile{display:flex;align-items:center;gap:18px;background:linear-gradient(135deg,#f4f3ff,#fafafa);border:1px solid #e9e8ff;border-radius:18px;padding:20px;margin-bottom:20px}.as-big-avatar{width:72px;height:72px;flex:none;border-radius:20px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,var(--as-primary),var(--as-primary2));font-size:25px;font-weight:800}.as-profile strong{display:block;font-size:17px}.as-profile span{display:block;color:var(--as-muted);font-size:12px;margin-top:4px}.as-badge{display:inline-flex!important;width:max-content;background:#ecfdf3;color:#027a48!important;border-radius:999px;padding:5px 9px;margin-top:9px!important;font-weight:700}
+.as-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}.as-info{border:1px solid var(--as-line);border-radius:15px;padding:16px}.as-info label{display:block;color:#9aa3b2;font-size:10px;text-transform:uppercase;letter-spacing:.08em;font-weight:800;margin-bottom:7px}.as-info div{font-size:13px;color:#3a4354;word-break:break-word}
+.as-action-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.as-btn{border:0;border-radius:11px;padding:11px 15px;font:700 12px Inter;cursor:pointer;display:inline-flex;align-items:center;gap:8px}.as-btn-primary{background:var(--as-primary);color:#fff}.as-btn-secondary{background:#f2f4f7;color:#3a4354}.as-btn-danger{background:#fff1f3;color:#c01048}
+.as-setting{display:flex;justify-content:space-between;align-items:center;gap:18px;padding:17px 0;border-bottom:1px solid var(--as-line)}.as-setting:last-child{border-bottom:0}.as-setting h3{font-size:14px;margin:0 0 5px}.as-setting p{font-size:12px;color:var(--as-muted);margin:0;line-height:1.5}
+.as-toggle{width:44px;height:25px;border:0;border-radius:99px;background:#d0d5dd;position:relative;cursor:pointer;flex:none;transition:.2s}.as-toggle:after{content:"";position:absolute;width:19px;height:19px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s;box-shadow:0 1px 4px rgba(0,0,0,.15)}.as-toggle.on{background:var(--as-primary)}.as-toggle.on:after{transform:translateX(19px)}
+.as-security-card{display:flex;gap:14px;align-items:flex-start;padding:17px;border:1px solid var(--as-line);border-radius:15px;margin-bottom:12px}.as-security-icon{width:42px;height:42px;border-radius:12px;background:#eef0ff;color:var(--as-primary);display:grid;place-items:center;flex:none}.as-security-card h3{margin:0 0 4px;font-size:14px}.as-security-card p{margin:0;color:var(--as-muted);font-size:12px;line-height:1.5}
+.as-toast{position:fixed;right:20px;bottom:20px;background:#182033;color:#fff;border-radius:12px;padding:12px 15px;font-size:12px;box-shadow:var(--as-shadow);opacity:0;transform:translateY(15px);pointer-events:none;transition:.2s;z-index:3000}.as-toast.show{opacity:1;transform:none}
+.as-danger{border:1px solid #fecdca;background:#fffafa;border-radius:16px;padding:18px;margin-top:22px}.as-danger h3{margin:0 0 5px;font-size:14px;color:#b42318}.as-danger p{margin:0;color:#687386;font-size:12px;line-height:1.6}
+@media(max-width:820px){.as-layout{grid-template-columns:1fr}.as-side{position:static;display:grid;grid-template-columns:repeat(3,1fr);gap:4px}.as-side button{justify-content:center;text-align:center;flex-direction:column;gap:5px;padding:10px 5px;font-size:10px}.as-side i{width:auto}.as-title{display:block}.as-title .as-btn{margin-top:15px}}
+@media(max-width:560px){.as-container{width:min(100% - 24px,1120px)}.as-nav-inner{height:64px}.as-user-btn span:not(.as-avatar){display:none}.as-main{padding-top:100px}.as-grid{grid-template-columns:1fr}.as-panel{padding:20px}.as-side{grid-template-columns:1fr 1fr 1fr}.as-profile{align-items:flex-start}.as-big-avatar{width:60px;height:60px}}
+</style>
 </head>
 <body>
-    <nav class="navbar" id="navbar">
-        <div class="nav-container">
-            <a href="/" class="logo">
+<nav class="as-nav">
+  <div class="as-container as-nav-inner">
+    <a href="home" class="as-logo"><span class="as-logo-icon"><i class="fas fa-house"></i></span>Heaven<em>Lease</em></a>
+    <div class="as-user">
+      <button class="as-user-btn" id="userBtn"><span class="as-avatar" id="navAvatar">U</span><span id="navName">Account</span><i class="fas fa-chevron-down"></i></button>
+      <div class="as-menu" id="userMenu">
+        <a href="home"><i class="fas fa-house"></i> Main Home</a>
+        <a href="dashboard"><i class="fas fa-gauge-high"></i> Dashboard</a>
+        <a href="edit-profile"><i class="fas fa-user"></i> Edit Profile</a>
+        <a href="payment"><i class="fas fa-credit-card"></i> Access Pass</a>
+        <a href="messages"><i class="fas fa-comments"></i> Messages</a>
+        <div style="height:1px;background:#e4e7ec;margin:6px 0"></div>
+        <a href="#" id="logoutBtn"><i class="fas fa-arrow-right-from-bracket"></i> Logout</a>
+      </div>
+    </div>
+  </div>
+</nav>
+<main class="as-main">
+  <div class="as-container">
+    <div class="as-breadcrumb"><a href="home">Home</a> <i class="fas fa-chevron-right" style="font-size:8px;margin:0 6px"></i> Account Settings</div>
+    <div class="as-title">
+      <div><h1>Account settings</h1><p>Manage your profile, security and communication preferences in one place.</p></div>
+      <a href="dashboard" class="as-btn as-btn-secondary"><i class="fas fa-gauge-high"></i> Open dashboard</a>
+    </div>
+    <div class="as-layout">
+      <aside class="as-side">
+        <button class="active" data-tab="account"><i class="fas fa-user"></i> Account</button>
+        <button data-tab="preferences"><i class="fas fa-sliders"></i> Preferences</button>
+        <button data-tab="security"><i class="fas fa-shield-halved"></i> Security</button>
+      </aside>
+      <section class="as-content">
+        <div class="as-panel active" id="panel-account">
+          <div class="as-panel-head"><div><h2>Account overview</h2><p>Your account details are loaded from the HeavenLease account API.</p></div><a href="edit-profile" class="as-btn as-btn-primary"><i class="fas fa-pen"></i> Edit profile</a></div>
+          <div id="accountLoading" style="padding:35px;text-align:center;color:#9aa3b2"><i class="fas fa-spinner fa-spin"></i> Loading your account…</div>
+          <div id="accountData" style="display:none">
+            <div class="as-profile"><div class="as-big-avatar" id="bigAvatar">U</div><div><strong id="fullName">HeavenLease User</strong><span id="username">—</span><span class="as-badge" id="verifyBadge"><i class="fas fa-circle-check"></i>&nbsp; Verified</span></div></div>
+            <div class="as-grid">
+              <div class="as-info"><label>Email</label><div id="email">—</div></div>
+              <div class="as-info"><label>Phone</label><div id="phone">—</div></div>
+              <div class="as-info"><label>Account type</label><div id="role">—</div></div>
+              <div class="as-info"><label>Account ID</label><div id="accountId">—</div></div>
+            </div>
+            <div class="as-action-row"><a href="edit-profile" class="as-btn as-btn-secondary"><i class="fas fa-user-pen"></i> Update profile</a><a href="payment" class="as-btn as-btn-secondary"><i class="fas fa-credit-card"></i> Manage access</a></div>
+          </div>
+        </div>
+        <div class="as-panel" id="panel-preferences">
+          <div class="as-panel-head"><div><h2>Preferences</h2><p>These display preferences are saved locally in this browser. Notification delivery remains managed by your existing notification page.</p></div></div>
+          <div class="as-setting"><div><h3>Property recommendations</h3><p>Show personalized home recommendations where supported.</p></div><button class="as-toggle" data-pref="recommendations" aria-label="Property recommendations"></button></div>
+          <div class="as-setting"><div><h3>Saved-search alerts</h3><p>Keep your preference ready for saved property search updates.</p></div><button class="as-toggle" data-pref="searchAlerts" aria-label="Saved-search alerts"></button></div>
+          <div class="as-setting"><div><h3>Compact interface</h3><p>Prefer tighter cards and spacing across this settings page.</p></div><button class="as-toggle" data-pref="compact" aria-label="Compact interface"></button></div>
+          <div class="as-action-row"><a href="notification-settings" class="as-btn as-btn-primary"><i class="fas fa-bell"></i> Notification settings</a><button class="as-btn as-btn-secondary" id="resetPrefs"><i class="fas fa-rotate-left"></i> Reset preferences</button></div>
+        </div>
+        <div class="as-panel" id="panel-security">
+          <div class="as-panel-head"><div><h2>Security</h2><p>Use the dedicated security page for password and authentication changes.</p></div></div>
+          <div class="as-security-card"><div class="as-security-icon"><i class="fas fa-key"></i></div><div><h3>Password & sign-in</h3><p>Change your password and review sign-in protection using the existing HeavenLease security flow.</p><div class="as-action-row"><a href="security-settings" class="as-btn as-btn-primary">Open security settings</a></div></div></div>
+          <div class="as-security-card"><div class="as-security-icon"><i class="fas fa-mobile-screen-button"></i></div><div><h3>Two-factor authentication</h3><p>Configure additional account protection if your account supports it.</p><div class="as-action-row"><a href="security-settings" class="as-btn as-btn-secondary">Manage 2FA</a></div></div></div>
+          <div class="as-danger"><h3>Need to leave HeavenLease?</h3><p>Sign out from this device using the button below. Your existing authentication handler is used when available.</p><div class="as-action-row"><button class="as-btn as-btn-danger" id="securityLogout"><i class="fas fa-right-from-bracket"></i> Sign out</button></div></div>
+        </div>
+      </section>
+    </div>
+  </div>
+</main>
+<div class="as-toast" id="toast"></div>
+<script src="js/api.js?v=20260913a"></script>
+<script src="js/core.js?v=20260913a"></script>
+<script src="js/pages/account-settings.js?v=20260913a"></script>
+<footer class="footer">
+<div class="container">
+    <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
+        <div class="footer-brand">
+            <a href="home" class="logo">
                 <div class="logo-icon"><i class="fas fa-home"></i></div>
                 <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
-            <div class="nav-actions">
-                <div class="user-menu" id="userMenu">
-                    <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu">
-                        <span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span>
-                        <span id="navUserName">Account</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </button>
-                    <div class="user-dropdown" id="profileDropdown">
-                        <a href="home" id="mainHomeLink"><i class="fas fa-home"></i> Main Home</a>
-                        <a href="edit-profile" id="myProfileLink"><i class="fas fa-user"></i> My Profile &amp; Settings</a>
-                        <a href="payment"><i class="fas fa-credit-card"></i> Access Pass</a>
-                    </div>
-                </div>
-            </div>
+            <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>
         </div>
-    </nav>
-    <section class="page-header">
-        <div class="container">
-            <div class="ph-icon"><i class="fas fa-sliders"></i></div>
-            <h1>Account Settings</h1>
-            <p>Manage your personal details, preferences and account.</p>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Explore</strong>
+            <a href="properties" style="color:inherit;text-decoration:none;">Find a Home</a>
+            <a href="map" style="color:inherit;text-decoration:none;">Property Map</a>
+            <a href="how-it-works" style="color:inherit;text-decoration:none;">How It Works</a>
+            <a href="about" style="color:inherit;text-decoration:none;">About Us</a>
         </div>
-    </section>
-
-    <section class="page-section" style="padding-top:20px;">
-        <div class="container" style="max-width: 820px;">
-            <div class="section-head" style="text-align:center;margin-bottom:24px;"><h2>Your Account</h2></div>
-            <div id="acctWrap">
-                <p style="text-align:center;color:var(--gray-400);padding:40px 0;"><i class="fas fa-spinner fa-spin"></i> Loading account…</p>
-            </div>
-            <div class="feature-grid" style="margin-top:30px;">
-                <div class="feature-card"><div class="fc-icon"><i class="fas fa-user-pen"></i></div><h3>Profile</h3><p>Name, phone, photo and bio.</p><a href="edit-profile" class="btn btn-sm btn-secondary" style="margin-top:12px;display:inline-flex;gap:6px;"><i class="fas fa-pen"></i> Edit Profile</a></div>
-                <div class="feature-card"><div class="fc-icon"><i class="fas fa-shield-halved"></i></div><h3>Security</h3><p>Password and 2FA settings.</p><a href="security-settings" class="btn btn-sm btn-secondary" style="margin-top:12px;display:inline-flex;gap:6px;"><i class="fas fa-key"></i> Security</a></div>
-                <div class="feature-card"><div class="fc-icon"><i class="fas fa-bell"></i></div><h3>Notifications</h3><p>Choose what you hear about.</p><a href="notification-settings" class="btn btn-sm btn-secondary" style="margin-top:12px;display:inline-flex;gap:6px;"><i class="fas fa-bell"></i> Preferences</a></div>
-            </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Company</strong>
+            <a href="careers" style="color:inherit;text-decoration:none;">Careers</a>
+            <a href="press" style="color:inherit;text-decoration:none;">Press</a>
+            <a href="blog" style="color:inherit;text-decoration:none;">Blog</a>
+            <a href="contact" style="color:inherit;text-decoration:none;">Contact</a>
         </div>
-    </section>
-
-    <section class="page-cta">
-        <div class="container">
-            <div class="cta-banner">
-                <h2>Ready to continue?</h2>
-                <p>Head back to your dashboard or browse the next step.</p>
-                                <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
-                    <a href="security-settings" class="btn btn-lg"><i class="fas fa-shield-halved"></i> Security Settings</a>
-                    <a href="notification-settings" class="btn btn-lg"><i class="fas fa-bell"></i> Notification Settings</a>
-                    <a href="dashboard" class="btn btn-lg"><i class="fas fa-gauge-high"></i> My Dashboard</a>
-                    <a href="dashboard" class="btn btn-lg ghost"><i class="fas fa-gauge-high"></i> My Dashboard</a>
-                </div>
-            </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">For Owners</strong>
+            <a href="list-property" style="color:inherit;text-decoration:none;">List Your Property</a>
+            <a href="properties-management" style="color:inherit;text-decoration:none;">Owner Dashboard</a>
+            <a href="payment" style="color:inherit;text-decoration:none;">Pricing &amp; Upgrade</a>
+            <a href="owner-resources" style="color:inherit;text-decoration:none;">Owner Resources</a>
         </div>
-    </section>
-
-<script src="api.js?v=20260913a"></script>
-    <script src="script.js?v=20260913a"></script>
-    <script>
-        (function() {
-            'use strict';
-            async function loadAccount(){
-                const wrap=document.getElementById('acctWrap');
-                try{
-                    const me=await api.getMe();
-                    if(!me||!me.id){wrap.innerHTML='<div style="text-align:center;padding:40px;color:var(--gray-500);">Please <a href="login">log in</a> to view your account.</div>';return;}
-                    const role=(me.role||'').replace(/_/g,' ').toLowerCase();
-                    wrap.innerHTML='<div style="background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-xl);padding:28px 30px;box-shadow:var(--shadow-sm);display:flex;gap:22px;flex-wrap:wrap;align-items:center;">'
-                        +'<div style="width:84px;height:84px;border-radius:50%;background:var(--gradient);color:#fff;display:flex;align-items:center;justify-content:center;font-size:34px;flex-shrink:0;">'+api.escapeHtml(((me.fullName||me.username||'U').charAt(0)).toUpperCase())+'</div>'
-                        +'<div style="flex:1;min-width:220px;">'
-                        +'<h3 style="margin:0 0 6px;color:var(--dark);">'+api.escapeHtml(me.fullName||me.username||'HeavenLease User')+'</h3>'
-                        +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 20px;font-size:14px;color:var(--gray-500);margin-top:8px;">'
-                        +'<span><i class="fas fa-envelope" style="width:16px;color:var(--primary);"></i> '+api.escapeHtml(me.email||'—')+'</span>'
-                        +'<span><i class="fas fa-phone" style="width:16px;color:var(--primary);"></i> '+api.escapeHtml(me.phone||'—')+'</span>'
-                        +'<span><i class="fas fa-user-tag" style="width:16px;color:var(--primary);"></i> '+api.escapeHtml(role)+'</span>'
-                        +'<span><i class="fas fa-id-badge" style="width:16px;color:var(--primary);"></i> '+(me.verified?'Verified':'Not verified')+'</span>'
-                        +'</div></div>'
-                        +'<a href="edit-profile" class="btn btn-secondary" style="display:inline-flex;gap:8px;"><i class="fas fa-user-pen"></i> Edit Profile</a>'
-                        +'</div>';
-                }catch(e){wrap.innerHTML='<div style="text-align:center;padding:40px;color:var(--gray-500);">'+api.escapeHtml(e.message||'Could not load account.')+'</div>';}
-            }
-            loadAccount();
-        })();
-    </script>
+    </div>
+    <div class="footer-bottom" style="justify-content:center;margin-top:28px;">
+        <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
+    </div>
+</div>
+</footer>
 </body>
 </html>

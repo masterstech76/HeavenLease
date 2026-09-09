@@ -8,46 +8,202 @@
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
     <link rel="stylesheet" href="styles.css?v=20260909a">
     <style>
-        .page-header { background: rgba(255,255,255,0.45); backdrop-filter: blur(6px); padding: 140px 0 70px; text-align: center; position: relative; overflow: hidden; }
-        .page-header h1 { font-family: var(--font-heading); font-size: 46px; font-weight: 700; color: var(--dark); margin-bottom: 12px; }
-        .page-header p { font-size: 17px; color: var(--gray-500); max-width: 640px; margin: 0 auto; }
-        .page-header .ph-icon { width: 68px; height: 68px; border-radius: 18px; background: var(--gradient); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 28px; margin: 0 auto 18px; box-shadow: var(--shadow-primary); }
-        .page-section { padding: 70px 0 90px; }
-        .page-section .section-head { text-align: center; margin-bottom: 44px; }
-        .page-section .section-head h2 { font-family: var(--font-heading); font-size: 30px; font-weight: 700; color: var(--dark); }
-        .feature-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 26px; }
-        .feature-card { background: rgba(255,255,255,0.92); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 28px; transition: var(--transition); box-shadow: var(--shadow-sm); }
-        .feature-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--primary); }
-        .feature-card .fc-icon { width: 52px; height: 52px; border-radius: 14px; background: var(--gradient-soft); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 14px; }
-        .feature-card h3 { font-size: 17px; font-weight: 600; color: var(--dark); margin-bottom: 6px; }
-        .feature-card p { font-size: 14px; color: var(--gray-500); line-height: 1.6; margin: 0; }
-        .page-cta { padding: 0 0 90px; }
-        .cta-banner { background: var(--gradient); border-radius: var(--radius-xl); padding: 44px 32px; text-align: center; color: #fff; }
-        .cta-banner h2 { font-family: var(--font-heading); font-size: 28px; margin-bottom: 8px; }
-        .cta-banner p { opacity: 0.92; margin-bottom: 20px; }
-        .cta-banner .btn { background: #fff; color: var(--primary); font-weight: 600; }
-        .cta-banner .btn.ghost { background: transparent; border: 1px solid #fff; color: #fff; }
-        @media (max-width: 900px) { .feature-grid { grid-template-columns: 1fr; } }
-        @media (max-width: 768px) { .page-header { padding: 120px 0 50px; } .page-header h1 { font-size: 34px; } }
+        :root{
+            --hl-ink:#182033;
+            --hl-muted:#687386;
+            --hl-line:#e4e7ee;
+            --hl-card:#ffffff;
+            --hl-green:#18a878;
+            --hl-green-dark:#0f8a63;
+            --hl-gold:#5b5ce2;
+            --hl-shadow:0 24px 70px rgba(20,38,30,.13);
+            --hl-soft-shadow:0 10px 30px rgba(20,38,30,.08);
+            --hl-radius:24px;
+        }
+        *{box-sizing:border-box}
+        html{scroll-behavior:smooth}
+        body{
+            margin:0;
+            color:var(--hl-ink);
+            background:
+                linear-gradient(rgba(247,246,241,.90),rgba(247,246,241,.94)),
+                url("https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=2200&q=85") center/cover fixed;
+            font-family:Inter,system-ui,sans-serif;
+        }
+        a{text-decoration:none}
+        .container{width:min(1120px,calc(100% - 40px));margin:auto}
+        /* Premium image-backed navigation */
+        .navbar{
+            position:relative!important;
+            top:auto!important;
+            z-index:50;
+            color:#fff;
+            background:
+                linear-gradient(90deg,rgba(7,17,13,.94),rgba(12,29,22,.80)),
+                url("https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=2200&q=85") center 48%/cover;
+            border-bottom:1px solid rgba(255,255,255,.13);
+            box-shadow:0 12px 36px rgba(0,0,0,.18);
+        }
+        .navbar:after{
+            content:"";position:absolute;inset:auto 0 0;height:1px;
+            background:linear-gradient(90deg,transparent,rgba(210,181,125,.65),transparent);
+        }
+        .nav-container{
+            width:min(1200px,calc(100% - 40px));
+            min-height:78px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:20px;
+        }
+        .logo{display:flex;align-items:center;gap:12px;color:#fff}
+        .logo-icon{
+            width:42px;height:42px;border-radius:13px;display:grid;place-items:center;
+            background:linear-gradient(145deg,#c8a15f,#8f6b36);
+            box-shadow:0 8px 20px rgba(0,0,0,.22);
+        }
+        .logo-text{font-family:"Playfair Display",serif;font-size:25px;letter-spacing:-.3px}
+        .logo-text span{color:#5b5ce2}
+        .nav-actions{display:flex;align-items:center}
+        .user-menu{position:relative}
+        .user-menu-trigger{
+            border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.08);color:#fff;
+            border-radius:999px;padding:8px 13px 8px 8px;display:flex;align-items:center;gap:9px;
+            cursor:pointer;font:600 13px Inter;backdrop-filter:blur(10px);transition:.2s;
+        }
+        .user-menu-trigger:hover{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.30)}
+        .user-avatar{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.16)}
+        .user-menu-trigger>.fa-chevron-down{font-size:10px;opacity:.7;margin-left:2px}
+        .user-dropdown{
+            position:absolute;right:0;top:calc(100% + 10px);width:235px;padding:8px;
+            border:1px solid rgba(255,255,255,.12);border-radius:16px;background:#fff;
+            box-shadow:0 20px 50px rgba(0,0,0,.20);display:none;
+        }
+        .user-menu:hover .user-dropdown,.user-menu:focus-within .user-dropdown{display:block}
+        .user-dropdown a{display:flex;gap:11px;align-items:center;color:#27352f;padding:11px 12px;border-radius:11px;font-size:13px;font-weight:600}
+        .user-dropdown a:hover{background:#f0f5f1;color:var(--hl-green)}
+        .user-dropdown i{width:17px;text-align:center;color:var(--hl-green)}
+        /* Hero */
+        .security-hero{
+            min-height:420px;display:grid;place-items:center;text-align:center;color:#fff;position:relative;overflow:hidden;
+            background:
+                linear-gradient(180deg,rgba(9,22,16,.55),rgba(9,22,16,.84)),
+                url("https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=2200&q=85") center/cover;
+        }
+        .security-hero:before{
+            content:"";position:absolute;width:520px;height:520px;border-radius:50%;
+            border:1px solid rgba(255,255,255,.12);top:-300px;left:50%;transform:translateX(-50%);
+        }
+        .hero-inner{position:relative;padding:70px 0 80px}
+        .eyebrow{
+            display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border:1px solid rgba(255,255,255,.18);
+            background:rgba(255,255,255,.09);border-radius:999px;font-size:11px;font-weight:800;
+            letter-spacing:.12em;text-transform:uppercase;backdrop-filter:blur(8px);margin-bottom:18px;
+        }
+        .hero-icon{
+            width:72px;height:72px;border-radius:22px;margin:0 auto 20px;display:grid;place-items:center;
+            background:linear-gradient(145deg,rgba(255,255,255,.22),rgba(255,255,255,.08));
+            border:1px solid rgba(255,255,255,.20);font-size:28px;box-shadow:0 16px 40px rgba(0,0,0,.20)
+        }
+        .security-hero h1{font-family:"Playfair Display",serif;font-size:clamp(42px,6vw,64px);line-height:1;margin:0 0 16px}
+        .security-hero p{max-width:620px;margin:0 auto;color:rgba(255,255,255,.82);font-size:16px;line-height:1.7}
+        /* Main */
+        .main-content{padding:70px 0 90px}
+        .security-layout{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(300px,.75fr);gap:28px;align-items:start}
+        .panel{
+            background:var(--hl-card);border:1px solid var(--hl-line);border-radius:var(--hl-radius);
+            box-shadow:var(--hl-shadow);overflow:hidden;backdrop-filter:blur(12px)
+        }
+        .panel-head{padding:30px 32px 22px;border-bottom:1px solid var(--hl-line)}
+        .panel-kicker{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--hl-green);margin-bottom:8px}
+        .panel-head h2{font-family:"Playfair Display",serif;font-size:30px;margin:0 0 8px}
+        .panel-head p{color:var(--hl-muted);font-size:13px;line-height:1.6;margin:0}
+        #pwdForm{padding:28px 32px 32px}
+        .form-group{margin-bottom:18px}
+        .form-group label{display:block;font-size:12px;font-weight:700;color:#435049;margin-bottom:8px}
+        .input-wrap{position:relative}
+        .input-wrap i{position:absolute;left:15px;top:50%;transform:translateY(-50%);color:#839089;font-size:14px}
+        .input-wrap input{
+            width:100%;height:50px;border:1px solid #dce3de;border-radius:14px;background:#fbfcfb;
+            padding:0 15px 0 43px;font:500 14px Inter;color:var(--hl-ink);outline:none;transition:.2s;
+        }
+        .input-wrap input:focus{border-color:#5c987e;box-shadow:0 0 0 4px rgba(35,107,80,.10);background:#fff}
+        .form-hint{font-size:11px;color:#7a8780;margin-top:7px}
+        #pwdForm .btn{
+            width:100%;min-height:52px;border:0;border-radius:14px;display:inline-flex;align-items:center;justify-content:center;gap:9px;
+            background:linear-gradient(135deg,var(--hl-green),#2d8464);color:#fff;font:700 13px Inter;
+            cursor:pointer;box-shadow:0 10px 24px rgba(35,107,80,.22);transition:.2s
+        }
+        #pwdForm .btn:hover{transform:translateY(-1px);box-shadow:0 14px 28px rgba(35,107,80,.27)}
+        /* Security feature cards */
+        .feature-stack{display:grid;gap:13px}
+        .feature-card{
+            display:flex;gap:16px;align-items:flex-start;padding:20px;background:rgba(255,255,255,.88);
+            border:1px solid var(--hl-line);border-radius:18px;box-shadow:var(--hl-soft-shadow);transition:.2s
+        }
+        .feature-card:hover{transform:translateY(-2px);border-color:rgba(35,107,80,.28)}
+        .fc-icon{width:45px;height:45px;flex:0 0 45px;border-radius:13px;display:grid;place-items:center;background:#edf5f0;color:var(--hl-green)}
+        .feature-card h3{font-size:14px;margin:1px 0 6px}
+        .feature-card p{font-size:12px;line-height:1.55;color:var(--hl-muted);margin:0}
+        .security-note{margin-top:15px;padding:16px 18px;border-radius:16px;background:#f2eee5;color:#6d624f;font-size:11px;line-height:1.6}
+        .security-note i{margin-right:7px}
+        /* CTA */
+        .page-cta{padding:0 0 90px}
+        .cta-banner{
+            position:relative;overflow:hidden;border-radius:28px;padding:42px 34px;color:#fff;
+            background:linear-gradient(120deg,rgba(18,51,39,.98),rgba(27,91,67,.94)),
+                url("https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1800&q=80") center/cover;
+            box-shadow:0 25px 60px rgba(20,50,38,.20)
+        }
+        .cta-banner:after{content:"";position:absolute;width:330px;height:330px;border-radius:50%;border:1px solid rgba(255,255,255,.10);right:-120px;top:-160px}
+        .cta-content{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:center;gap:30px}
+        .cta-banner h2{font-family:"Playfair Display",serif;font-size:30px;margin:0 0 8px}
+        .cta-banner p{color:rgba(255,255,255,.76);font-size:13px;margin:0;line-height:1.6}
+        .cta-links{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:10px}
+        .cta-links .btn{
+            min-height:44px;padding:0 15px;border-radius:12px;display:inline-flex;align-items:center;gap:8px;
+            background:#fff;color:#174c3a;font-size:12px;font-weight:800
+        }
+        .cta-links .btn.ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.30)}
+        /* Opaque footer treatment */
+        footer,.footer{
+            background:#182033!important;color:#dbe5df!important;opacity:1!important;
+        }
+        @media(max-width:900px){
+            .security-layout{grid-template-columns:1fr}
+            .cta-content{flex-direction:column;align-items:flex-start}
+            .cta-links{justify-content:flex-start}
+        }
+        @media(max-width:640px){
+            .container,.nav-container{width:min(100% - 28px,1120px)}
+            .nav-container{min-height:70px}
+            .logo-text{font-size:22px}
+            .user-menu-trigger>span:not(.user-avatar),.user-menu-trigger>.fa-chevron-down{display:none}
+            .security-hero{min-height:390px}
+            .hero-inner{padding:62px 0}
+            .security-hero h1{font-size:42px}
+            .main-content{padding:48px 0 65px}
+            .panel-head,#pwdForm{padding-left:21px;padding-right:21px}
+            .cta-banner{padding:30px 22px}
+            .cta-banner h2{font-size:26px}
+            .cta-links{display:grid;width:100%;grid-template-columns:1fr}
+            .cta-links .btn{justify-content:center}
+        }
     </style>
 </head>
 <body>
     <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <a href="/" class="logo">
+            <a href="/" class="logo" aria-label="HeavenLease home">
                 <div class="logo-icon"><i class="fas fa-home"></i></div>
                 <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
             <div class="nav-actions">
                 <div class="user-menu" id="userMenu">
-                    <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu">
+                    <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu" aria-haspopup="true">
                         <span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span>
                         <span id="navUserName">Account</span>
-                        <i class="fas fa-chevron-down"></i>
+                        <i class="fas fa-chevron-down" aria-hidden="true"></i>
                     </button>
                     <div class="user-dropdown" id="profileDropdown">
                         <a href="home" id="mainHomeLink"><i class="fas fa-home"></i> Main Home</a>
@@ -58,81 +214,127 @@
             </div>
         </div>
     </nav>
-    <section class="page-header">
-        <div class="container">
-            <div class="ph-icon"><i class="fas fa-shield-halved"></i></div>
+    <header class="security-hero">
+        <div class="hero-inner container">
+            <div class="eyebrow"><i class="fas fa-lock"></i> Account protection</div>
+            <div class="hero-icon"><i class="fas fa-shield-halved"></i></div>
             <h1>Security Settings</h1>
             <p>Keep your account secure with the latest protections.</p>
         </div>
-    </section>
-
-    <section class="page-section" style="padding-top:20px;">
-        <div class="container" style="max-width: 720px;">
-            <div class="section-head" style="text-align:center;margin-bottom:24px;"><h2>Change Password</h2></div>
-            <form id="pwdForm" style="background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-xl);padding:28px 30px;box-shadow:var(--shadow-sm);">
-                <div class="form-group" style="margin-bottom:16px;">
-                    <label style="display:block;font-size:13px;font-weight:600;color:var(--gray-600);margin-bottom:6px;">Current Password</label>
-                    <input id="pwdCurrent" type="password" required autocomplete="current-password" style="width:100%;padding:12px 16px;border:1px solid var(--gray-200);border-radius:var(--radius-md);font-size:14px;">
-                </div>
-                <div class="form-group" style="margin-bottom:16px;">
-                    <label style="display:block;font-size:13px;font-weight:600;color:var(--gray-600);margin-bottom:6px;">New Password (min 8 chars, letters + numbers)</label>
-                    <input id="pwdNew" type="password" required autocomplete="new-password" style="width:100%;padding:12px 16px;border:1px solid var(--gray-200);border-radius:var(--radius-md);font-size:14px;">
-                </div>
-                <div class="form-group" style="margin-bottom:20px;">
-                    <label style="display:block;font-size:13px;font-weight:600;color:var(--gray-600);margin-bottom:6px;">Confirm New Password</label>
-                    <input id="pwdConfirm" type="password" required autocomplete="new-password" style="width:100%;padding:12px 16px;border:1px solid var(--gray-200);border-radius:var(--radius-md);font-size:14px;">
-                </div>
-                <button type="submit" class="btn btn-primary" style="width:100%;display:inline-flex;justify-content:center;gap:8px;"><i class="fas fa-key"></i> Update Password</button>
-            </form>
-            <div class="feature-grid" style="margin-top:30px;">
-                <div class="feature-card"><div class="fc-icon"><i class="fas fa-shield-halved"></i></div><h3>2FA & Devices</h3><p>Phone OTP login doubles as two-factor when enabled.</p></div>
-                <div class="feature-card"><div class="fc-icon"><i class="fas fa-lock"></i></div><h3>Automatic Logout</h3><p>Sessions expire after 24 hours for your safety.</p></div>
-                <div class="feature-card"><div class="fc-icon"><i class="fas fa-triangle-exclamation"></i></div><h3>Deactivate</h3><p>Suspend or delete your account from Profile settings.</p></div>
+    </header>
+    <main>
+        <section class="main-content">
+            <div class="container security-layout">
+                <section class="panel" aria-labelledby="change-password-title">
+                    <div class="panel-head">
+                        <div class="panel-kicker">Password security</div>
+                        <h2 id="change-password-title">Change Password</h2>
+                        <p>Update your password regularly and use a combination of letters and numbers.</p>
+                    </div>
+                    <form id="pwdForm">
+                        <div class="form-group">
+                            <label for="pwdCurrent">Current Password</label>
+                            <div class="input-wrap">
+                                <i class="fas fa-key" aria-hidden="true"></i>
+                                <input id="pwdCurrent" type="password" required autocomplete="current-password" placeholder="Enter your current password">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="pwdNew">New Password</label>
+                            <div class="input-wrap">
+                                <i class="fas fa-lock" aria-hidden="true"></i>
+                                <input id="pwdNew" type="password" required autocomplete="new-password" placeholder="At least 8 characters">
+                            </div>
+                            <div class="form-hint">Minimum 8 characters, including letters and numbers.</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="pwdConfirm">Confirm New Password</label>
+                            <div class="input-wrap">
+                                <i class="fas fa-check-double" aria-hidden="true"></i>
+                                <input id="pwdConfirm" type="password" required autocomplete="new-password" placeholder="Re-enter your new password">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-key"></i> Update Password</button>
+                    </form>
+                </section>
+                <aside aria-label="Security protections">
+                    <div class="feature-stack">
+                        <article class="feature-card">
+                            <div class="fc-icon"><i class="fas fa-shield-halved"></i></div>
+                            <div><h3>2FA &amp; Devices</h3><p>Phone OTP login doubles as two-factor when enabled.</p></div>
+                        </article>
+                        <article class="feature-card">
+                            <div class="fc-icon"><i class="fas fa-clock"></i></div>
+                            <div><h3>Automatic Logout</h3><p>Sessions expire after 24 hours for your safety.</p></div>
+                        </article>
+                        <article class="feature-card">
+                            <div class="fc-icon"><i class="fas fa-triangle-exclamation"></i></div>
+                            <div><h3>Deactivate</h3><p>Suspend or delete your account from Profile settings.</p></div>
+                        </article>
+                    </div>
+                    <div class="security-note"><i class="fas fa-circle-info"></i>For account suspension or deletion, use your Profile settings.</div>
+                </aside>
             </div>
-        </div>
-    </section>
-
-    <section class="page-cta">
-        <div class="container">
-            <div class="cta-banner">
-                <h2>Ready to continue?</h2>
-                <p>Head back to your dashboard or browse the next step.</p>
-                                <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
-                    <a href="account-settings" class="btn btn-lg"><i class="fas fa-sliders"></i> Account Settings</a>
-                    <a href="notification-settings" class="btn btn-lg"><i class="fas fa-bell"></i> Notification Settings</a>
-                    <a href="dashboard" class="btn btn-lg"><i class="fas fa-gauge-high"></i> My Dashboard</a>
-                    <a href="dashboard" class="btn btn-lg ghost"><i class="fas fa-gauge-high"></i> My Dashboard</a>
+        </section>
+        <section class="page-cta">
+            <div class="container">
+                <div class="cta-banner">
+                    <div class="cta-content">
+                        <div>
+                            <div class="panel-kicker" style="color:#5b5ce2">More account controls</div>
+                            <h2>Ready to continue?</h2>
+                            <p>Head back to your dashboard or browse the next step.</p>
+                        </div>
+                        <div class="cta-links">
+                            <a href="account-settings" class="btn"><i class="fas fa-sliders"></i> Account Settings</a>
+                            <a href="notification-settings" class="btn"><i class="fas fa-bell"></i> Notification Settings</a>
+                            <a href="dashboard" class="btn"><i class="fas fa-gauge-high"></i> My Dashboard</a>
+                            <a href="dashboard" class="btn ghost"><i class="fas fa-gauge-high"></i> My Dashboard</a>
+                        </div>
+                    </div>
                 </div>
             </div>
+        </section>
+    </main>
+<script src="js/api.js?v=20260913a"></script>
+    <script src="js/core.js?v=20260913a"></script>
+    <script src="js/pages/security-settings.js?v=20260913a"></script>
+<footer class="footer">
+<div class="container">
+    <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
+        <div class="footer-brand">
+            <a href="home" class="logo">
+                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <span class="logo-text">Heaven<span>Lease</span></span>
+            </a>
+            <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>
         </div>
-    </section>
-
-<script src="api.js?v=20260913a"></script>
-    <script src="script.js?v=20260913a"></script>
-    <script>
-        (function() {
-            'use strict';
-            const form = document.getElementById('pwdForm');
-            if(form){
-                form.addEventListener('submit',async function(ev){
-                    ev.preventDefault();
-                    try{
-                        const cur=document.getElementById('pwdCurrent').value;
-                        const nw=document.getElementById('pwdNew').value;
-                        const conf=document.getElementById('pwdConfirm').value;
-                        if(nw.length<8||!/[A-Za-z]/.test(nw)||!/[0-9]/.test(nw)){showToast('Password must be min 8 chars with letters and numbers.','error');return;}
-                        if(nw!==conf){showToast('Passwords do not match.','error');return;}
-                        let cached=api.getUser()||{};
-                        let id=cached.id;
-                        if(!id){const me=await api.getMe();if(me&&me.id){id=me.id;cached={...cached,...me};}}
-                        if(!id){showToast('Could not identify your account.','error');return;}
-                        await api.updatePassword(id,nw,cur);
-                        showToast('Password updated successfully!','success');
-                        form.reset();
-                    }catch(e){showToast(e.message||'Password update failed.','error');}
-                });
-            }
-        })();
-    </script>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Explore</strong>
+            <a href="properties" style="color:inherit;text-decoration:none;">Find a Home</a>
+            <a href="map" style="color:inherit;text-decoration:none;">Property Map</a>
+            <a href="how-it-works" style="color:inherit;text-decoration:none;">How It Works</a>
+            <a href="about" style="color:inherit;text-decoration:none;">About Us</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Company</strong>
+            <a href="careers" style="color:inherit;text-decoration:none;">Careers</a>
+            <a href="press" style="color:inherit;text-decoration:none;">Press</a>
+            <a href="blog" style="color:inherit;text-decoration:none;">Blog</a>
+            <a href="contact" style="color:inherit;text-decoration:none;">Contact</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">For Owners</strong>
+            <a href="list-property" style="color:inherit;text-decoration:none;">List Your Property</a>
+            <a href="properties-management" style="color:inherit;text-decoration:none;">Owner Dashboard</a>
+            <a href="payment" style="color:inherit;text-decoration:none;">Pricing &amp; Upgrade</a>
+            <a href="owner-resources" style="color:inherit;text-decoration:none;">Owner Resources</a>
+        </div>
+    </div>
+    <div class="footer-bottom" style="justify-content:center;margin-top:28px;">
+        <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
+    </div>
+</div>
+</footer>
 </body>
 </html>

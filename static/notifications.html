@@ -7,62 +7,461 @@
     <title>Notifications — HeavenLease</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
     <link rel="stylesheet" href="styles.css?v=20260909a">
     <style>
-        .notif-page { min-height: 100vh; background: var(--gray-50); padding-top: 72px; }
-        .notif-container { max-width: 800px; margin: 0 auto; padding: 40px 24px; }
-        .notif-header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-bottom: 24px; }
-        .notif-header h1 { font-family: var(--font-heading); font-size: 32px; font-weight: 700; color: var(--dark); }
-        .notif-header h1 i { color: var(--primary); }
-        .notif-header p { color: var(--gray-500); font-size: 14px; margin-top: 4px; }
-        .notif-actions { display: flex; gap: 10px; }
-        .notif-actions .btn { font-size: 13px; padding: 8px 16px; }
-
-        .notif-list { display: flex; flex-direction: column; gap: 12px; }
-        .notif-item { background: var(--white); border-radius: var(--radius-lg); padding: 20px 24px; box-shadow: var(--shadow-sm); border: 1px solid var(--gray-200); display: flex; gap: 16px; transition: var(--transition); position: relative; }
-        .notif-item:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
-        .notif-item.unread { border-left: 4px solid var(--primary); background: var(--primary-light); }
-        .notif-icon { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
-        .notif-icon.blue { background: var(--primary-light); color: var(--primary); }
-        .notif-icon.green { background: #D1FAE5; color: var(--secondary-dark); }
-        .notif-icon.amber { background: #FEF3C7; color: #D97706; }
-        .notif-icon.red { background: #FEE2E2; color: #EF4444; }
-        .notif-icon.purple { background: #EDE9FE; color: #7C3AED; }
-        .notif-content { flex: 1; }
-        .notif-content strong { display: block; font-size: 15px; color: var(--dark); margin-bottom: 4px; }
-        .notif-content p { font-size: 14px; color: var(--gray-500); line-height: 1.5; }
-        .notif-content .notif-time { font-size: 12px; color: var(--gray-400); margin-top: 8px; display: flex; align-items: center; gap: 6px; }
-        .notif-content .notif-time i { font-size: 11px; }
-        .notif-item .notif-link { align-self: center; font-size: 13px; color: var(--primary); font-weight: 500; white-space: nowrap; }
-        .notif-item .notif-link:hover { text-decoration: underline; }
-
-        .empty-state { text-align: center; padding: 80px 20px; background: var(--white); border-radius: var(--radius-xl); border: 2px dashed var(--gray-200); }
-        .empty-state i { font-size: 64px; color: var(--gray-300); margin-bottom: 16px; }
-        .empty-state h2 { font-family: var(--font-heading); font-size: 24px; color: var(--dark); margin-bottom: 8px; }
-        .empty-state p { color: var(--gray-500); margin-bottom: 24px; }
-        .back-link { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: var(--gray-500); margin-bottom: 24px; transition: var(--transition); }
-        .back-link:hover { color: var(--primary); }
-        @media (max-width: 768px) { .notif-header h1 { font-size: 26px; } .notif-item { flex-wrap: wrap; } .notif-item .notif-link { width: 100%; text-align: right; } }
+        :root {
+            --hl-ink: #182033;
+            --hl-muted: #687386;
+            --hl-line: #e4e7ee;
+            --hl-gold: #5b5ce2;
+            --hl-gold-light: #d9bd9a;
+            --hl-dark: #182033;
+            --hl-shadow: 0 22px 60px rgba(18,29,25,.11);
+            --hl-radius: 24px;
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            color: var(--hl-ink);
+            background:
+                linear-gradient(180deg, rgba(241,244,241,.94), rgba(248,247,243,.98)),
+                url("https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=2200&q=85") center/cover fixed;
+        }
+        /* ===== PREMIUM IMAGE-BACKED NAVBAR ===== */
+        .navbar {
+            position: relative !important;
+            background:
+                linear-gradient(90deg, rgba(7,16,14,.96), rgba(16,28,24,.79)),
+                url("https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=2200&q=85") center/cover !important;
+            border-bottom: 1px solid rgba(255,255,255,.12);
+            box-shadow: 0 10px 30px rgba(0,0,0,.20);
+            z-index: 1000;
+        }
+        .navbar::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background: linear-gradient(90deg, rgba(255,255,255,.035), transparent 60%);
+        }
+        .nav-container {
+            position: relative;
+            z-index: 1;
+            min-height: 78px;
+        }
+        .logo-text { color: #fff !important; }
+        .logo-text span { color: var(--hl-gold-light) !important; }
+        .logo-icon {
+            box-shadow: 0 8px 22px rgba(0,0,0,.25);
+        }
+        .user-menu-trigger {
+            color: #fff !important;
+            background: rgba(255,255,255,.08) !important;
+            border: 1px solid rgba(255,255,255,.15) !important;
+            border-radius: 14px !important;
+            backdrop-filter: blur(12px);
+        }
+        /* ===== PAGE HERO ===== */
+        .notif-page {
+            min-height: calc(100vh - 78px);
+            padding: 0 0 96px;
+            background: transparent;
+        }
+        .notif-hero {
+            position: relative;
+            overflow: hidden;
+            min-height: 365px;
+            display: flex;
+            align-items: center;
+            color: #fff;
+            background:
+                linear-gradient(100deg, rgba(7,17,14,.94), rgba(14,29,24,.66)),
+                url("https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=2200&q=88") center/cover;
+        }
+        .notif-hero::before {
+            content: "";
+            position: absolute;
+            width: 430px;
+            height: 430px;
+            border-radius: 50%;
+            right: -130px;
+            top: -250px;
+            background: rgba(217,189,154,.14);
+            filter: blur(5px);
+        }
+        .notif-hero .notif-container {
+            position: relative;
+            z-index: 1;
+            padding-top: 68px;
+            padding-bottom: 68px;
+        }
+        .notif-container {
+            width: min(100% - 40px, 900px);
+            margin: 0 auto;
+        }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            margin: 0 0 25px;
+            color: rgba(255,255,255,.72);
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: .2s ease;
+        }
+        .back-link:hover {
+            color: #fff;
+            transform: translateX(-2px);
+        }
+        .hero-kicker {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 17px;
+            padding: 8px 13px;
+            border: 1px solid rgba(255,255,255,.18);
+            border-radius: 999px;
+            background: rgba(255,255,255,.08);
+            color: rgba(255,255,255,.82);
+            backdrop-filter: blur(12px);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: .13em;
+            text-transform: uppercase;
+        }
+        .notif-hero-grid {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: end;
+            gap: 30px;
+        }
+        .hero-title {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .hero-title-icon {
+            width: 58px;
+            height: 58px;
+            flex: 0 0 58px;
+            display: grid;
+            place-items: center;
+            border-radius: 18px;
+            color: #fff;
+            background: linear-gradient(135deg, #c49a6c, #8d633e);
+            box-shadow: 0 16px 38px rgba(0,0,0,.25);
+        }
+        .notif-hero h1 {
+            margin: 0;
+            color: #fff;
+            font-family: "Playfair Display", serif;
+            font-size: clamp(38px, 5vw, 56px);
+            line-height: 1.03;
+            letter-spacing: -.035em;
+        }
+        .notif-hero p {
+            margin: 10px 0 0 74px;
+            color: rgba(255,255,255,.72);
+            font-size: 15px;
+            line-height: 1.6;
+        }
+        .hero-status {
+            min-width: 155px;
+            padding: 17px 18px;
+            border: 1px solid rgba(255,255,255,.15);
+            border-radius: 17px;
+            background: rgba(255,255,255,.08);
+            backdrop-filter: blur(14px);
+        }
+        .hero-status-label {
+            display: block;
+            margin-bottom: 5px;
+            color: rgba(255,255,255,.55);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+        }
+        .hero-status strong {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            color: #fff;
+            font-size: 13px;
+        }
+        .hero-status strong i {
+            color: #a9d4b6;
+            font-size: 9px;
+        }
+        /* ===== NOTIFICATION CONTENT ===== */
+        .notif-content-area {
+            position: relative;
+            margin-top: -32px;
+            z-index: 2;
+        }
+        .notif-panel {
+            padding: 27px;
+            border: 1px solid var(--hl-line);
+            border-radius: var(--hl-radius);
+            background: rgba(255,255,255,.97);
+            box-shadow: var(--hl-shadow);
+        }
+        .notif-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 18px;
+            margin-bottom: 24px;
+            padding-bottom: 22px;
+            border-bottom: 1px solid #edf0ed;
+        }
+        .notif-header h2 {
+            margin: 0;
+            color: var(--hl-ink);
+            font-family: "Playfair Display", serif;
+            font-size: 28px;
+            letter-spacing: -.02em;
+        }
+        .notif-header h2 i {
+            color: var(--hl-gold);
+            font-family: "Inter", sans-serif;
+            font-size: 19px;
+        }
+        .notif-header p {
+            margin: 6px 0 0;
+            color: var(--hl-muted);
+            font-size: 13px;
+        }
+        .notif-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .notif-actions .btn {
+            min-height: 42px;
+            border-radius: 12px;
+            padding: 9px 15px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+        .notif-list {
+            display: flex;
+            flex-direction: column;
+            gap: 11px;
+        }
+        .notif-item {
+            position: relative;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 19px 20px;
+            overflow: hidden;
+            background: #fff;
+            border: 1px solid var(--hl-line);
+            border-radius: 17px;
+            box-shadow: 0 8px 25px rgba(20,31,27,.055);
+            transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+        }
+        .notif-item:hover {
+            transform: translateY(-2px);
+            border-color: rgba(167,123,77,.25);
+            box-shadow: 0 15px 35px rgba(20,31,27,.09);
+        }
+        .notif-item.unread {
+            border-left: 4px solid var(--hl-gold);
+            background: linear-gradient(90deg, #fbf8f3, #fff 35%);
+        }
+        .notif-icon {
+            width: 46px;
+            height: 46px;
+            flex: 0 0 46px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            color: var(--hl-gold);
+            background: #f3ede5;
+            font-size: 17px;
+        }
+        .notif-icon.blue {
+            background: #edf4f5;
+            color: var(--primary, #477d83);
+        }
+        .notif-icon.green {
+            background: #eaf5ee;
+            color: #3f8058;
+        }
+        .notif-icon.amber {
+            background: #fff5df;
+            color: #c17a19;
+        }
+        .notif-icon.red {
+            background: #fff0ee;
+            color: #c65347;
+        }
+        .notif-icon.purple {
+            background: #f1edfa;
+            color: #7653a7;
+        }
+        .notif-content {
+            flex: 1;
+            min-width: 0;
+        }
+        .notif-content strong {
+            display: block;
+            margin-bottom: 4px;
+            color: var(--hl-ink);
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        .notif-content p {
+            margin: 0;
+            color: #737e79;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+        .notif-content .notif-time {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 9px;
+            color: #9aa29f;
+            font-size: 11px;
+        }
+        .notif-content .notif-time i {
+            font-size: 10px;
+        }
+        .notif-item .notif-link {
+            align-self: center;
+            flex: 0 0 auto;
+            color: var(--hl-gold);
+            font-size: 12px;
+            font-weight: 800;
+            white-space: nowrap;
+            text-decoration: none;
+        }
+        .notif-item .notif-link:hover {
+            text-decoration: underline;
+        }
+        /* ===== EMPTY STATE ===== */
+        .empty-state {
+            padding: 66px 24px;
+            text-align: center;
+            background: linear-gradient(145deg, #fbfcfa, #f5f7f4);
+            border: 1px dashed rgba(23,33,31,.16);
+            border-radius: 19px;
+        }
+        .empty-state i {
+            display: block;
+            margin-bottom: 17px;
+            color: #b6bfbb;
+            font-size: 48px;
+        }
+        .empty-state h2 {
+            margin: 0 0 8px;
+            color: var(--hl-ink);
+            font-family: "Playfair Display", serif;
+            font-size: 25px;
+        }
+        .empty-state p {
+            margin: 0 auto 22px;
+            max-width: 430px;
+            color: var(--hl-muted);
+            font-size: 13px;
+            line-height: 1.6;
+        }
+        .empty-state .btn {
+            border-radius: 12px;
+        }
+        @media (max-width: 768px) {
+            .notif-container {
+                width: min(100% - 28px, 900px);
+            }
+            .notif-hero {
+                min-height: 400px;
+            }
+            .notif-hero .notif-container {
+                padding-top: 55px;
+                padding-bottom: 75px;
+            }
+            .notif-hero-grid {
+                grid-template-columns: 1fr;
+                align-items: start;
+            }
+            .hero-status {
+                width: max-content;
+            }
+            .notif-content-area {
+                margin-top: -45px;
+            }
+            .notif-panel {
+                padding: 20px 15px;
+                border-radius: 20px;
+            }
+            .notif-header {
+                align-items: flex-start;
+            }
+            .notif-header h2 {
+                font-size: 25px;
+            }
+            .notif-actions,
+            .notif-actions .btn {
+                width: 100%;
+            }
+            .notif-actions .btn {
+                justify-content: center;
+            }
+            .notif-item {
+                flex-wrap: wrap;
+                padding: 17px;
+            }
+            .notif-item .notif-link {
+                width: 100%;
+                text-align: right;
+                padding-top: 3px;
+            }
+        }
+        @media (max-width: 480px) {
+            .notif-hero h1 {
+                font-size: 38px;
+            }
+            .hero-title-icon {
+                width: 50px;
+                height: 50px;
+                flex-basis: 50px;
+            }
+            .notif-hero p {
+                margin-left: 0;
+            }
+            .notif-item {
+                gap: 12px;
+            }
+            .notif-icon {
+                width: 40px;
+                height: 40px;
+                flex-basis: 40px;
+                border-radius: 12px;
+            }
+        }
     </style>
 </head>
 <body>
     <!-- ===== NAVIGATION ===== -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <a href="home" class="logo">
+            <a href="home" class="logo" aria-label="HeavenLease home">
                 <div class="logo-icon"><i class="fas fa-home"></i></div>
-<span class="logo-text">Heaven<span>Lease</span></span>
+                <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
-            
             <div class="nav-actions">
-                
-                                <div class="user-menu" id="userMenu">
-                    <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu">
+                <div class="user-menu" id="userMenu">
+                    <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu" aria-haspopup="true" aria-expanded="false">
                         <span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span>
                         <span id="navUserName">Account</span>
-                        <i class="fas fa-chevron-down"></i>
+                        <i class="fas fa-chevron-down" aria-hidden="true"></i>
                     </button>
                     <div class="user-dropdown" id="profileDropdown">
                         <a href="home" id="mainHomeLink"><i class="fas fa-home"></i> Main Home</a>
@@ -86,159 +485,110 @@
                         <a href="how-it-works"><i class="fas fa-circle-question"></i> How It Works</a>
                         <a href="about"><i class="fas fa-building"></i> About Us</a>
                         <a href="blog"><i class="fas fa-newspaper"></i> Blog</a>
-<a href="comfort-scores"><i class="fas fa-chart-simple"></i> Type &amp; Voice Search</a>
-                                                <a href="contact"><i class="fas fa-envelope"></i> Contact &amp; Support</a>
+                        <a href="comfort-scores"><i class="fas fa-chart-simple"></i> Type &amp; Voice Search</a>
+                        <a href="contact"><i class="fas fa-envelope"></i> Contact &amp; Support</a>
                         <div class="dropdown-divider"></div>
                         <a href="login" id="signInLink" class="hide-when-auth"><i class="fas fa-arrow-right-to-bracket"></i> Sign In</a>
                         <a href="#" id="logoutLink" class="logout-link hide-when-guest"><i class="fas fa-sign-out-alt"></i> Logout</a>
                     </div>
                 </div>
-</div>
+            </div>
         </div>
     </nav>
-
     <!-- ===== NOTIFICATIONS PAGE ===== -->
     <div class="notif-page">
-        <div class="notif-container">
-            <a href="dashboard" class="back-link">
-                <i class="fas fa-arrow-left"></i> Back to Dashboard
-            </a>
-
-            <div class="notif-header">
-                <div>
-                    <h1><i class="fas fa-bell"></i> Notifications</h1>
-                    <p>Stay updated on your rental journey</p>
-                </div>
-                <div class="notif-actions">
-                    <button class="btn btn-outline" onclick="markAllRead()">
-                        <i class="fas fa-check-double"></i> Mark All Read
-                    </button>
-                </div>
-            </div>
-
-            <div class="notif-list" id="notifList"></div>
-
-            <div class="empty-state" id="emptyState" style="display: none;">
-                <i class="fas fa-bell-slash"></i>
-                <h2>No Notifications</h2>
-                <p>You're all caught up! New alerts will appear here.</p>
-                <a href="properties" class="btn btn-primary">
-                    <i class="fas fa-search"></i> Browse Properties
+        <header class="notif-hero">
+            <div class="notif-container">
+                <a href="dashboard" class="back-link">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
                 </a>
+                <div class="hero-kicker">
+                    <i class="fas fa-sparkles" aria-hidden="true"></i>
+                    Your HeavenLease activity
+                </div>
+                <div class="notif-hero-grid">
+                    <div>
+                        <div class="hero-title">
+                            <div class="hero-title-icon" aria-hidden="true">
+                                <i class="fas fa-bell"></i>
+                            </div>
+                            <h1>Notifications</h1>
+                        </div>
+                        <p>Stay updated on your rental journey</p>
+                    </div>
+                    <div class="hero-status">
+                        <span class="hero-status-label">Notification center</span>
+                        <strong><i class="fas fa-circle"></i> Live updates</strong>
+                    </div>
+                </div>
             </div>
+        </header>
+        <main class="notif-content-area">
+            <div class="notif-container">
+                <section class="notif-panel" aria-labelledby="notificationsHeading">
+                    <div class="notif-header">
+                        <div>
+                            <h2 id="notificationsHeading"><i class="fas fa-inbox" aria-hidden="true"></i> Recent activity</h2>
+                            <p>Tour confirmations, lease updates, payments, and other account alerts.</p>
+                        </div>
+                        <div class="notif-actions">
+                            <button type="button" class="btn btn-outline" onclick="markAllRead()">
+                                <i class="fas fa-check-double"></i> Mark All Read
+                            </button>
+                        </div>
+                    </div>
+                    <div class="notif-list" id="notifList"></div>
+                    <div class="empty-state" id="emptyState" style="display: none;">
+                        <i class="fas fa-bell-slash" aria-hidden="true"></i>
+                        <h2>No Notifications</h2>
+                        <p>You're all caught up! New alerts will appear here.</p>
+                        <a href="properties" class="btn btn-primary">
+                            <i class="fas fa-search"></i> Browse Properties
+                        </a>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script src="js/api.js?v=20260913a"></script>
+    <script src="js/core.js?v=20260913a"></script>
+    <script src="js/pages/notifications.js?v=20260913a"></script>
+<footer class="footer">
+<div class="container">
+    <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
+        <div class="footer-brand">
+            <a href="home" class="logo">
+                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <span class="logo-text">Heaven<span>Lease</span></span>
+            </a>
+            <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Explore</strong>
+            <a href="properties" style="color:inherit;text-decoration:none;">Find a Home</a>
+            <a href="map" style="color:inherit;text-decoration:none;">Property Map</a>
+            <a href="how-it-works" style="color:inherit;text-decoration:none;">How It Works</a>
+            <a href="about" style="color:inherit;text-decoration:none;">About Us</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Company</strong>
+            <a href="careers" style="color:inherit;text-decoration:none;">Careers</a>
+            <a href="press" style="color:inherit;text-decoration:none;">Press</a>
+            <a href="blog" style="color:inherit;text-decoration:none;">Blog</a>
+            <a href="contact" style="color:inherit;text-decoration:none;">Contact</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">For Owners</strong>
+            <a href="list-property" style="color:inherit;text-decoration:none;">List Your Property</a>
+            <a href="properties-management" style="color:inherit;text-decoration:none;">Owner Dashboard</a>
+            <a href="payment" style="color:inherit;text-decoration:none;">Pricing &amp; Upgrade</a>
+            <a href="owner-resources" style="color:inherit;text-decoration:none;">Owner Resources</a>
         </div>
     </div>
-
-    <script src="api.js?v=20260913a"></script>
-    <script src="script.js?v=20260913a"></script>
-    <script>
-        (function() {
-        // Navbar
-        const navbar = document.getElementById('navbar');
-        const hamburger = document.getElementById('hamburger');
-        const navLinks = document.getElementById('navLinks');
-
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) navbar.classList.add('scrolled');
-            else navbar.classList.remove('scrolled');
-        });
-
-        if (hamburger) hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            navLinks.classList.toggle('active');
-        });
-
-        if (hamburger && navLinks) {
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.addEventListener('click', () => {
-                    hamburger.classList.remove('active');
-                    navLinks.classList.remove('active');
-                });
-            });
-        }
-
-        // ===== REAL BACKEND NOTIFICATIONS =====
-        const user = api.getUser();
-
-        async function loadNotifications() {
-            try {
-                let list = [];
-                if (user && user.id) {
-                    list = await api.getNotificationsByUser(user.id).catch(() => []);
-                } else {
-                    list = await api.getNotifications().catch(() => []);
-                }
-                return Array.isArray(list) ? list : [];
-            } catch (e) {
-                return [];
-            }
-        }
-
-        // Normalize backend notification -> UI shape.
-        function normalize(n) {
-            return {
-                id: n.id,
-                unread: !n.read,
-                title: n.title || 'Notification',
-                text: n.message || '',
-                time: n.createdAt,
-                type: (n.type || 'INFO').toLowerCase(),
-                icon: (n.type || 'INFO').includes('DOCUMENT') ? 'fa-file-shield' :
-                      (n.type || 'INFO').toLowerCase() === 'error' ? 'fa-triangle-exclamation' : 'fa-bell',
-                link: 'home',
-                linkText: 'View'
-            };
-        }
-
-        let notifications = [];
-
-        async function renderNotifications() {
-            const list = document.getElementById('notifList');
-            const empty = document.getElementById('emptyState');
-            notifications = await loadNotifications();
-
-            if (!notifications.length) {
-                list.innerHTML = '';
-                empty.style.display = 'block';
-                return;
-            }
-            empty.style.display = 'none';
-
-            list.innerHTML = notifications.slice(0, 50).map(raw => {
-                const n = normalize(raw);
-                const timeStr = n.time ? new Date(n.time).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) : '';
-                return `
-                <div class="notif-item ${n.unread ? 'unread' : ''}">
-                    <div class="notif-icon"><i class="fas ${escapeHtml(n.icon)}"></i></div>
-                    <div class="notif-content">
-                        <strong>${escapeHtml(n.title)}</strong>
-                        <p>${escapeHtml(n.text)}</p>
-                        <div class="notif-time"><i class="fas fa-clock"></i> ${escapeHtml(timeStr)}</div>
-                    </div>
-                    <a href="${escapeHtml(n.link)}" class="notif-link">${escapeHtml(n.linkText)} →</a>
-                </div>
-            `;
-            }).join('');
-        }
-
-        window.markRead = async function(id) {
-            try { await api.markNotificationRead(id); } catch (e) {}
-            renderNotifications();
-        };
-
-        window.markAllRead = async function() {
-            try {
-                for (const n of notifications) {
-                    if (!n.read) await api.markNotificationRead(n.id).catch(() => {});
-                }
-                showToast('All notifications marked as read.', 'success');
-            } catch (e) {}
-            renderNotifications();
-        };
-
-        renderNotifications();
-        })();
-    </script>
+    <div class="footer-bottom" style="justify-content:center;margin-top:28px;">
+        <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
+    </div>
+</div>
+</footer>
 </body>
 </html>
-

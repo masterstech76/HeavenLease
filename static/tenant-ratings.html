@@ -3,55 +3,662 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Tenant ratings and reviews from previous landlords on HeavenLease. Rent to tenants with a proven reputation.">
+    <meta name="description" content="Tenant ratings and reviews from previous landlords on HeavenLease.">
     <title>Tenant Ratings — HeavenLease</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
     <link rel="stylesheet" href="styles.css?v=20260909a">
     <style>
-        .page-header { background: var(--gradient-soft); padding: 140px 0 60px; text-align: center; position: relative; overflow: hidden; }
-        .page-header h1 { font-family: var(--font-heading); font-size: 42px; font-weight: 700; color: var(--dark); margin-bottom: 14px; }
-        .page-header p { font-size: 17px; color: var(--gray-500); max-width: 640px; margin: 0 auto; }
-        .page-header .breadcrumb { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 16px; font-size: 14px; color: var(--gray-500); }
-        .page-header .breadcrumb a { color: var(--primary); }
-        .page-header .breadcrumb i { font-size: 12px; color: var(--gray-400); }
-        .content-section { padding: 72px 0; }
-        .content-block { max-width: 860px; margin: 0 auto 40px; }
-        .content-block h2 { font-family: var(--font-heading); font-size: 28px; font-weight: 700; color: var(--dark); margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
-        .content-block h2 i { color: var(--primary); font-size: 22px; }
-        .content-block p { font-size: 15px; color: var(--gray-500); line-height: 1.8; margin-bottom: 12px; }
-        .content-block ul { margin: 12px 0 16px; }
-        .content-block ul li { font-size: 14px; color: var(--gray-600); padding: 6px 0; display: flex; align-items: flex-start; gap: 10px; }
-        .content-block ul li i { color: var(--secondary); font-size: 13px; margin-top: 3px; }
-        .info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 1000px; margin: 0 auto 40px; }
-        .info-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 24px; transition: var(--transition); }
-        .info-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--primary); }
-        .info-card .icon { width: 48px; height: 48px; background: var(--gradient-soft); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 20px; color: var(--primary); margin-bottom: 14px; }
-        .info-card h3 { font-size: 16px; font-weight: 600; color: var(--dark); margin-bottom: 8px; }
-        .info-card p { font-size: 13px; color: var(--gray-500); line-height: 1.6; }
-        .cta-section { padding: 60px 0; }
-        .faq-item { max-width: 860px; margin: 0 auto 14px; background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 22px 26px; }
-        .faq-item h3 { font-size: 16px; font-weight: 600; color: var(--dark); margin-bottom: 8px; }
-        .faq-item p { font-size: 14px; color: var(--gray-500); line-height: 1.7; }
-        @media (max-width: 900px) { .info-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 768px) { .page-header { padding: 120px 0 44px; } .page-header h1 { font-size: 32px; } .info-grid { grid-template-columns: 1fr; } .content-block h2 { font-size: 22px; } }
-    </style></head>
+        :root {
+            --hl-navy: #182033;
+            --hl-navy-2: #0d3045;
+            --hl-sky: #5b5ce2;
+            --hl-sky-dark: #268fb8;
+            --hl-sky-soft: #e7f7fd;
+            --hl-ink: #182033;
+            --hl-muted: #687386;
+            --hl-line: #e4e7ee;
+            --hl-white: #ffffff;
+            --hl-shadow: 0 22px 65px rgba(14, 61, 82, .11);
+        }
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            margin: 0;
+            color: var(--hl-ink);
+            font-family: "Inter", sans-serif;
+            background:
+                linear-gradient(rgba(239,249,253,.92), rgba(232,246,251,.96)),
+                url("https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=2200&q=85")
+                center / cover fixed no-repeat;
+        }
+        a { text-decoration: none; }
+        button { font: inherit; }
+        /* ================= NAVBAR ================= */
+        .navbar {
+            position: relative !important;
+            top: 0 !important;
+            z-index: 1000;
+            min-height: 82px;
+            background:
+                linear-gradient(90deg, rgba(3,16,27,.98), rgba(8,37,53,.86)),
+                url("https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=2200&q=85")
+                center / cover no-repeat !important;
+            border-bottom: 1px solid rgba(255,255,255,.10);
+            box-shadow: 0 10px 34px rgba(0,18,30,.22);
+        }
+        .nav-container {
+            width: min(1180px, calc(100% - 40px)) !important;
+            min-height: 82px;
+            margin: auto !important;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+        .navbar .logo {
+            display: inline-flex !important;
+            align-items: center;
+            gap: 11px;
+            color: #fff !important;
+        }
+        .navbar .logo-icon {
+            width: 46px !important;
+            height: 46px !important;
+            display: grid !important;
+            place-items: center;
+            border-radius: 14px !important;
+            background: linear-gradient(145deg, #d7f6ff, #71c9ed) !important;
+            color: #182033 !important;
+            box-shadow: 0 9px 28px rgba(92,199,238,.24);
+        }
+        .navbar .logo-text {
+            color: #fff !important;
+            font-family: "Playfair Display", serif !important;
+            font-size: 27px !important;
+            font-weight: 700 !important;
+            letter-spacing: -.4px;
+        }
+        .navbar .logo-text span { color: var(--hl-sky) !important; }
+        .nav-actions { display: flex; align-items: center; }
+        .user-menu { position: relative; }
+        .user-menu-trigger {
+            min-height: 46px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 5px 12px 5px 6px;
+            border: 1px solid rgba(255,255,255,.15);
+            border-radius: 999px;
+            background: rgba(255,255,255,.08);
+            color: #fff;
+            cursor: pointer;
+            backdrop-filter: blur(12px);
+        }
+        .user-avatar {
+            width: 35px;
+            height: 35px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            color: var(--hl-sky);
+            background: rgba(139,218,248,.16);
+            border: 1px solid rgba(139,218,248,.32);
+        }
+        #navUserName {
+            font-size: 13px;
+            font-weight: 700;
+        }
+        .user-menu-trigger > .fa-chevron-down {
+            font-size: 10px;
+            color: rgba(255,255,255,.62);
+        }
+        .user-dropdown {
+            right: 0 !important;
+            top: calc(100% + 10px) !important;
+            width: 255px;
+            max-height: min(75vh, 620px);
+            overflow-y: auto;
+            padding: 8px;
+            border: 1px solid rgba(255,255,255,.13);
+            border-radius: 17px;
+            background: rgba(5,24,38,.98) !important;
+            box-shadow: 0 22px 55px rgba(0,0,0,.28);
+            backdrop-filter: blur(18px);
+        }
+        .user-dropdown a {
+            display: flex !important;
+            align-items: center;
+            gap: 11px;
+            padding: 10px 11px;
+            border-radius: 9px;
+            color: rgba(255,255,255,.82) !important;
+            font-size: 12px;
+            line-height: 1.35;
+        }
+        .user-dropdown a:hover {
+            color: #fff !important;
+            background: rgba(139,218,248,.10);
+        }
+        .user-dropdown a i {
+            width: 18px;
+            flex: 0 0 18px;
+            color: var(--hl-sky);
+            text-align: center;
+        }
+        .user-dropdown .dropdown-divider {
+            height: 1px;
+            margin: 7px 5px;
+            background: rgba(255,255,255,.09);
+        }
+        /* ================= HERO ================= */
+        .ratings-hero {
+            position: relative;
+            min-height: 445px;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            background:
+                linear-gradient(90deg, rgba(4,20,31,.94) 0%, rgba(7,34,50,.82) 48%, rgba(7,34,50,.43) 100%),
+                url("https://images.unsplash.com/photo-1560185008-b033106af5c3?auto=format&fit=crop&w=2200&q=85")
+                center / cover no-repeat;
+        }
+        .ratings-hero::after {
+            content: "";
+            position: absolute;
+            inset: auto 0 0;
+            height: 125px;
+            background: linear-gradient(transparent, rgba(232,246,251,.92));
+            pointer-events: none;
+        }
+        .hero-inner {
+            position: relative;
+            z-index: 1;
+            width: min(1180px, calc(100% - 40px));
+            margin: auto;
+            padding: 68px 0 86px;
+        }
+        .hero-copy { max-width: 760px; }
+        .hero-kicker {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 18px;
+            padding: 8px 13px;
+            border: 1px solid rgba(139,218,248,.28);
+            border-radius: 999px;
+            background: rgba(139,218,248,.10);
+            color: #bceeff;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .13em;
+            text-transform: uppercase;
+            backdrop-filter: blur(10px);
+        }
+        .hero-kicker i { font-size: 10px; }
+        .hero-title {
+            margin: 0 0 16px;
+            color: #fff;
+            font-family: "Playfair Display", serif;
+            font-size: clamp(43px, 6vw, 67px);
+            line-height: 1.03;
+            letter-spacing: -1.3px;
+        }
+        .hero-title span {
+            color: var(--hl-sky);
+        }
+        .hero-description {
+            max-width: 650px;
+            margin: 0;
+            color: rgba(255,255,255,.77);
+            font-size: 16px;
+            line-height: 1.75;
+        }
+        .hero-note {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            margin-top: 25px;
+            color: rgba(255,255,255,.62);
+            font-size: 11px;
+        }
+        .hero-note i { color: var(--hl-sky); }
+        /* ================= CONTENT ================= */
+        .content-section {
+            position: relative;
+            padding: 45px 0 80px;
+        }
+        .content-section::before {
+            content: "";
+            position: absolute;
+            top: -35px;
+            left: 50%;
+            width: 230px;
+            height: 230px;
+            border-radius: 50%;
+            transform: translateX(-50%);
+            background: rgba(139,218,248,.13);
+            filter: blur(10px);
+            pointer-events: none;
+        }
+        .content-container {
+            position: relative;
+            z-index: 1;
+            width: min(940px, calc(100% - 40px));
+            margin: auto;
+        }
+        .intro-panel {
+            margin-bottom: 25px;
+            padding: 30px 32px;
+            border: 1px solid rgba(255,255,255,.9);
+            border-radius: 23px;
+            background: rgba(255,255,255,.94);
+            box-shadow: var(--hl-shadow);
+        }
+        .intro-label {
+            margin-bottom: 9px;
+            color: var(--hl-sky-dark);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .13em;
+            text-transform: uppercase;
+        }
+        .intro-panel h2 {
+            margin: 0 0 9px;
+            color: var(--hl-navy);
+            font-family: "Playfair Display", serif;
+            font-size: 30px;
+        }
+        .intro-panel p {
+            margin: 0;
+            color: var(--hl-muted);
+            font-size: 14px;
+            line-height: 1.8;
+        }
+        .content-block {
+            margin-bottom: 16px;
+            padding: 28px 30px;
+            border: 1px solid rgba(255,255,255,.86);
+            border-radius: 21px;
+            background: rgba(255,255,255,.91);
+            box-shadow: 0 12px 34px rgba(17,67,88,.07);
+        }
+        .content-block:last-child { margin-bottom: 0; }
+        .block-heading {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            margin-bottom: 15px;
+        }
+        .block-icon {
+            width: 44px;
+            height: 44px;
+            flex: 0 0 44px;
+            display: grid;
+            place-items: center;
+            border-radius: 13px;
+            color: var(--hl-sky-dark);
+            background: var(--hl-sky-soft);
+        }
+        .content-block h2 {
+            margin: 0;
+            color: var(--hl-navy);
+            font-family: "Playfair Display", serif;
+            font-size: 24px;
+            line-height: 1.25;
+        }
+        .content-block p {
+            margin: 0 0 10px 57px;
+            color: var(--hl-muted);
+            font-size: 14px;
+            line-height: 1.8;
+        }
+        .content-block p:last-child { margin-bottom: 0; }
+        /* ================= FOOTER ================= */
+        .footer {
+            position: relative;
+            background: #06131f !important;
+            color: rgba(255,255,255,.64) !important;
+            border-top: 1px solid rgba(255,255,255,.08);
+        }
+        .footer .container {
+            width: min(1180px, calc(100% - 40px));
+            margin: auto;
+        }
+        .footer-grid {
+            padding: 42px 0 28px !important;
+        }
+        .footer .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: #fff !important;
+        }
+        .footer .logo-icon {
+            width: 40px !important;
+            height: 40px !important;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            background: linear-gradient(145deg, #d7f6ff, #71c9ed) !important;
+            color: #182033 !important;
+        }
+        .footer .logo-text {
+            color: #fff !important;
+            font-family: "Playfair Display", serif !important;
+            font-size: 23px !important;
+            font-weight: 700;
+        }
+        .footer .logo-text span { color: var(--hl-sky) !important; }
+        .footer-brand p {
+            color: rgba(255,255,255,.55) !important;
+            font-size: 12px !important;
+            line-height: 1.7;
+        }
+        .footer-bottom {
+            min-height: 55px;
+            border-top: 1px solid rgba(255,255,255,.08);
+            color: rgba(255,255,255,.48);
+        }
+        .footer-bottom p {
+            margin: 0;
+            font-size: 11px;
+        }
+        .footer-bottom .fa-heart { color: #8bdaf8; }
+        /* ================= BACK TO TOP ================= */
+        .back-to-top {
+            position: fixed;
+            right: 24px;
+            bottom: 24px;
+            z-index: 900;
+            width: 45px;
+            height: 45px;
+            display: grid;
+            place-items: center;
+            border: 1px solid rgba(255,255,255,.75);
+            border-radius: 13px;
+            background: rgba(7,26,41,.92);
+            color: #fff;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            box-shadow: 0 12px 28px rgba(4,23,35,.22);
+            transition: .22s ease;
+        }
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .back-to-top:hover {
+            background: #0d3045;
+            transform: translateY(-2px);
+        }
+        @media (max-width: 768px) {
+            body { background-attachment: scroll; }
+            .nav-container,
+            .hero-inner,
+            .content-container,
+            .footer .container {
+                width: calc(100% - 28px) !important;
+            }
+            .navbar,
+            .nav-container { min-height: 72px; }
+            .navbar .logo-icon {
+                width: 42px !important;
+                height: 42px !important;
+            }
+            .navbar .logo-text { font-size: 24px !important; }
+            #navUserName { display: none; }
+            .ratings-hero { min-height: 390px; }
+            .hero-inner {
+                padding: 52px 0 75px;
+            }
+            .hero-title { font-size: 44px; }
+            .hero-description { font-size: 14px; }
+            .content-section {
+                padding-top: 28px;
+                padding-bottom: 60px;
+            }
+            .intro-panel,
+            .content-block {
+                padding: 23px 20px;
+            }
+            .intro-panel h2 { font-size: 26px; }
+            .content-block h2 { font-size: 21px; }
+            .content-block p {
+                margin-left: 0;
+            }
+            .block-heading {
+                align-items: flex-start;
+            }
+            .footer-grid { padding-top: 34px !important; }
+        }
+        @media (max-width: 480px) {
+            .user-dropdown {
+                position: fixed !important;
+                right: 14px !important;
+                top: 68px !important;
+                width: calc(100vw - 28px);
+            }
+            .hero-title { font-size: 39px; }
+            .hero-description { line-height: 1.65; }
+            .block-icon {
+                width: 40px;
+                height: 40px;
+                flex-basis: 40px;
+            }
+            .content-block h2 { font-size: 20px; }
+            .back-to-top {
+                right: 15px;
+                bottom: 15px;
+            }
+        }
+        /* ============ LIVE RATINGS & REVIEWS ============ */
+        .ratings-live {
+            margin: 0 0 60px;
+        }
+        .ratings-live .content-block {
+            max-width: 860px;
+            margin: 0 auto;
+        }
+        .ratings-summary {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+            background: linear-gradient(135deg, #0b2233, #123f5a);
+            border-radius: 18px;
+            padding: 22px 24px;
+            margin: 20px 0 26px;
+            box-shadow: 0 16px 40px rgba(6, 26, 38, .18);
+        }
+        .ratings-stars {
+            font-size: 26px;
+            letter-spacing: 3px;
+            color: var(--hl-sky);
+        }
+        .ratings-num {
+            color: #fff;
+            font-size: 22px;
+            font-weight: 800;
+        }
+        .ratings-num small {
+            color: rgba(255, 255, 255, .75);
+            font-size: 14px;
+        }
+        .ratings-count {
+            color: rgba(255, 255, 255, .85);
+            font-size: 13px;
+            margin-top: 4px;
+        }
+        .ratings-write-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            background: linear-gradient(135deg, #9fe4ff, #5db9e0);
+            color: #182033;
+            font-weight: 700;
+            padding: 13px 18px;
+            border-radius: 12px;
+            text-decoration: none;
+            box-shadow: 0 10px 26px rgba(83, 182, 228, .28);
+        }
+        .ratings-write-btn:hover {
+            transform: translateY(-2px);
+        }
+        .ratings-list {
+            margin-top: 18px;
+        }
+        .ratings-item {
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+            background: var(--hl-white);
+            border: 1px solid var(--hl-line);
+            border-radius: 14px;
+            padding: 16px 18px;
+            margin-bottom: 12px;
+        }
+        .ratings-item .ri-avatar {
+            width: 40px;
+            height: 40px;
+            flex-basis: 40px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: linear-gradient(145deg, #d7f6ff, #71c9ed);
+            color: #182033;
+            font-weight: 700;
+            font-size: 16px;
+        }
+        .ratings-item .ri-body {
+            flex: 1;
+        }
+        .ratings-item .ri-name {
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--hl-ink);
+        }
+        .ratings-item .ri-stars {
+            color: #f5b301;
+            letter-spacing: 2px;
+            font-size: 15px;
+        }
+        .ratings-item .ri-date {
+            color: var(--hl-muted);
+            font-size: 12px;
+            margin-left: 8px;
+        }
+        .ratings-item .ri-comment {
+            margin-top: 6px;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #34485c;
+        }
+        .ratings-empty {
+            text-align: center;
+            padding: 28px 20px;
+            color: var(--hl-muted);
+            background: var(--hl-sky-soft);
+            border-radius: 14px;
+        }
+        .ratings-loading {
+            color: var(--hl-muted);
+            font-size: 14px;
+            text-align: center;
+            padding: 18px;
+        }
+        .ratings-form {
+            margin-top: 26px;
+            background: var(--hl-white);
+            border: 1px solid var(--hl-line);
+            border-radius: 18px;
+            padding: 22px 24px;
+        }
+        .ratings-form-title {
+            font-weight: 700;
+            font-size: 15px;
+            color: var(--hl-ink);
+            margin-bottom: 12px;
+        }
+        .ratings-star-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .ratings-star {
+            font-size: 30px;
+            cursor: pointer;
+            user-select: none;
+            color: var(--hl-ink);
+        }
+        .ratings-star:hover,
+        .ratings-star[aria-checked="true"] {
+            color: #f5b301;
+        }
+        .ratings-form textarea {
+            width: 100%;
+            border: 1px solid var(--hl-line);
+            border-radius: 10px;
+            padding: 10px 14px;
+            font: inherit;
+            resize: vertical;
+            background: var(--hl-white);
+            margin-bottom: 12px;
+        }
+        .ratings-submit {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #0d3045, #173f5c);
+            color: #fff;
+            font-weight: 700;
+            padding: 12px 20px;
+            border: 0;
+            border-radius: 11px;
+            cursor: pointer;
+        }
+        .ratings-submit:hover {
+            transform: translateY(-2px);
+        }
+        @media (max-width: 720px) {
+            .ratings-summary {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .ratings-write-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            .back-to-top {
+                transition: none;
+            }
+        }
+    </style>
+</head>
 <body>
     <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <a href="/" class="logo">
-                <div class="logo-icon"><i class="fas fa-home"></i></div>
+            <a href="/" class="logo" aria-label="HeavenLease home">
+                <div class="logo-icon"><i class="fas fa-home" aria-hidden="true"></i></div>
                 <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
-            
             <div class="nav-actions">
-                                <div class="user-menu" id="userMenu">
-                    <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu">
-                        <span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span>
+                <div class="user-menu" id="userMenu">
+                    <button type="button" class="user-menu-trigger" id="profileBtn" aria-label="Account menu" aria-haspopup="true">
+                        <span class="user-avatar">
+                            <i class="fas fa-user" id="navAvatarIcon" aria-hidden="true"></i>
+                        </span>
                         <span id="navUserName">Account</span>
-                        <i class="fas fa-chevron-down"></i>
+                        <i class="fas fa-chevron-down" aria-hidden="true"></i>
                     </button>
                     <div class="user-dropdown" id="profileDropdown">
                         <a href="home" id="mainHomeLink"><i class="fas fa-home"></i> Main Home</a>
@@ -75,106 +682,183 @@
                         <a href="how-it-works"><i class="fas fa-circle-question"></i> How It Works</a>
                         <a href="about"><i class="fas fa-building"></i> About Us</a>
                         <a href="blog"><i class="fas fa-newspaper"></i> Blog</a>
-<a href="comfort-scores"><i class="fas fa-chart-simple"></i> Type &amp; Voice Search</a>
-                                                <a href="contact"><i class="fas fa-envelope"></i> Contact &amp; Support</a>
+                        <a href="comfort-scores"><i class="fas fa-chart-simple"></i> Type &amp; Voice Search</a>
+                        <a href="contact"><i class="fas fa-envelope"></i> Contact &amp; Support</a>
                         <div class="dropdown-divider"></div>
                         <a href="login" id="signInLink" class="hide-when-auth"><i class="fas fa-arrow-right-to-bracket"></i> Sign In</a>
                         <a href="#" id="logoutLink" class="logout-link hide-when-guest"><i class="fas fa-sign-out-alt"></i> Logout</a>
                     </div>
                 </div>
-
-                
             </div>
         </div>
     </nav>
-    <section class="page-header">
-        <div class="container">
-            <h1>Tenant <span class="gradient-text">Ratings</span></h1>
-            <p>See how a tenant behaved in their previous rentals — rated by their past landlords.</p>
-            <div class="breadcrumb">
-                <a href="/">Home</a>
-                <i class="fas fa-chevron-right"></i>
-                <span>Tenant Screening · Tenant Ratings</span>
-            </div>
-        </div>
-    </section>
-
-    <section class="content-section">
-        <div class="container">
-                        <div class="content-block">
-                <h2><i class="fas fa-star"></i> What are Tenant Ratings?</h2>
-                <p>Tenant ratings are feedback left by previous landlords after a tenancy ends. They give you a real-world picture of how the tenant lived, paid and treated the property — from people who actually observed them.</p>
-            <p>It is like a credit score, but for rental behaviour. A well-rated tenant is far easier to trust with your home.</p>
-                
-            </div>
-            <div class="content-block">
-                <h2><i class="fas fa-clipboard-check"></i> How Ratings Are Collected</h2>
-                <p>After a tenancy ends, the outgoing landlord is invited to rate the tenant on the criteria above. Ratings are averaged and shown on the tenant's profile alongside identity, credit and employment badges.</p>
-            <p>Both sides can add a short comment for context, but comments are moderated and personal abuse is removed.</p>
-                
-            </div>
-            <div class="content-block">
-                <h2><i class="fas fa-scale-balanced"></i> Fairness and Accuracy</h2>
-                <p>Every rating is tied to a verified tenancy on the platform, which prevents fake or vendetta-based reviews. A tenant can reply to a rating once, so both sides of the story are visible.</p>
-            <p>Tenants keep ratings for life — a good rating is a genuine asset, and a bad one is a warning you can rely on.</p>
-                
-            </div>
-        </div>
-    </section>
-
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-grid" style="grid-template-columns: 1fr; text-align: center;">
-                <div class="footer-brand">
-                    <a href="/" class="logo">
-                        <div class="logo-icon"><i class="fas fa-home"></i></div>
-                        <span class="logo-text">Heaven<span>Lease</span></span>
-                    </a>
-                    <p style="margin: 10px auto; max-width: 300px;">Simple steps to your perfect stay. Direct owner rentals with zero broker fees and comfort-first search.</p>
+    <header class="ratings-hero">
+        <div class="hero-inner">
+            <div class="hero-copy">
+                <div class="hero-kicker">
+                    <i class="fas fa-shield-halved" aria-hidden="true"></i>
+                    Tenant screening
+                </div>
+                <h1 class="hero-title">
+                    Tenant <span>Ratings</span>
+                </h1>
+                <p class="hero-description">
+                    See how a tenant behaved in their previous rentals — rated by their past landlords.
+                </p>
+                <div class="hero-note">
+                    <i class="fas fa-circle-check" aria-hidden="true"></i>
+                    Ratings are presented as part of the tenant's rental history.
                 </div>
             </div>
-            <div class="footer-bottom" style="justify-content: center;">
-                <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
-            </div>
         </div>
-    </footer>
-
+    </header>
+    <main>
+        <section class="content-section">
+            <div class="content-container">
+                <div class="intro-panel">
+                    <div class="intro-label">Rental reputation</div>
+                    <h2>Understand a tenant's rental history</h2>
+                    <p>
+                        Tenant ratings are feedback left by previous landlords after a tenancy ends.
+                        They give you a real-world picture of how the tenant lived, paid and treated
+                        the property — from people who actually observed them.
+                    </p>
+                </div>
+                <article class="content-block">
+                    <div class="block-heading">
+                        <div class="block-icon" aria-hidden="true">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <h2>What are Tenant Ratings?</h2>
+                    </div>
+                    <p>
+                        Tenant ratings are feedback left by previous landlords after a tenancy ends.
+                        They give you a real-world picture of how the tenant lived, paid and treated
+                        the property — from people who actually observed them.
+                    </p>
+                    <p>
+                        It is like a credit score, but for rental behaviour. A well-rated tenant is
+                        far easier to trust with your home.
+                    </p>
+                </article>
+                <article class="content-block">
+                    <div class="block-heading">
+                        <div class="block-icon" aria-hidden="true">
+                            <i class="fas fa-clipboard-check"></i>
+                        </div>
+                        <h2>How Ratings Are Collected</h2>
+                    </div>
+                    <p>
+                        After a tenancy ends, the outgoing landlord is invited to rate the tenant on
+                        the criteria above. Ratings are averaged and shown on the tenant's profile
+                        alongside identity, credit and employment badges.
+                    </p>
+                    <p>
+                        Both sides can add a short comment for context, but comments are moderated
+                        and personal abuse is removed.
+                    </p>
+                </article>
+                <article class="content-block">
+                    <div class="block-heading">
+                        <div class="block-icon" aria-hidden="true">
+                            <i class="fas fa-scale-balanced"></i>
+                        </div>
+                        <h2>Fairness and Accuracy</h2>
+                    </div>
+                    <p>
+                        Every rating is tied to a verified tenancy on the platform, which prevents
+                        fake or vendetta-based reviews. A tenant can reply to a rating once, so both
+                        sides of the story are visible.
+                    </p>
+                    <p>
+                        Tenants keep ratings for life — a good rating is a genuine asset, and a bad
+                        one is a warning you can rely on.
+                    </p>
+                </article>
+                <!-- ============ LIVE RATINGS & REVIEWS ============ -->
+                <section class="ratings-live" id="ratingsSection">
+                    <div class="content-block">
+                        <div class="block-heading">
+                            <div class="block-icon" aria-hidden="true">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <h2>Ratings &amp; Reviews</h2>
+                        </div>
+                        <p>
+                            This page shows real feedback submitted through the platform. Reviewers are
+                            signed-in users with verified sessions, and every rating is tied to their
+                            account. Your rating appears here instantly.
+                        </p>
+                        <div class="ratings-summary">
+                            <div class="ratings-avg">
+                                <div class="ratings-stars" id="trAvgStars" aria-label="Average rating">☆☆☆☆☆</div>
+                                <div class="ratings-num"><span id="trAvgNum">—</span> <small>/ 5</small></div>
+                                <div class="ratings-count" id="trCount">—</div>
+                            </div>
+                            <a class="ratings-write-btn" href="write-review"><i class="fas fa-pen"></i> Write a Rating</a>
+                        </div>
+                        <div class="ratings-list" id="trList">
+                            <p class="ratings-loading">Loading ratings…</p>
+                        </div>
+                        <form class="ratings-form" id="trForm">
+                            <div class="ratings-form-title"><i class="fas fa-pen"></i> Rate your experience</div>
+                            <div class="ratings-star-row" id="trStarRow" role="radiogroup" aria-label="Your rating">
+                                <span class="ratings-star" data-v="1" role="radio" aria-label="1 star" tabindex="0">☆</span>
+                                <span class="ratings-star" data-v="2" role="radio" aria-label="2 stars" tabindex="0">☆</span>
+                                <span class="ratings-star" data-v="3" role="radio" aria-label="3 stars" tabindex="0">☆</span>
+                                <span class="ratings-star" data-v="4" role="radio" aria-label="4 stars" tabindex="0">☆</span>
+                                <span class="ratings-star" data-v="5" role="radio" aria-label="5 stars" tabindex="0">☆</span>
+                            </div>
+                            <textarea id="trComment" rows="3" maxlength="1000" placeholder="What did you like or dislike? (optional)"></textarea>
+                            <button type="submit" class="ratings-submit"><i class="fas fa-paper-plane"></i> Publish Rating</button>
+                        </form>
+                    </div>
+                </section>
+            </div>
+        </section>
+    </main>
+    <footer class="footer">
+<div class="container">
+    <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
+        <div class="footer-brand">
+            <a href="home" class="logo">
+                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <span class="logo-text">Heaven<span>Lease</span></span>
+            </a>
+            <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Explore</strong>
+            <a href="properties" style="color:inherit;text-decoration:none;">Find a Home</a>
+            <a href="map" style="color:inherit;text-decoration:none;">Property Map</a>
+            <a href="how-it-works" style="color:inherit;text-decoration:none;">How It Works</a>
+            <a href="about" style="color:inherit;text-decoration:none;">About Us</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Company</strong>
+            <a href="careers" style="color:inherit;text-decoration:none;">Careers</a>
+            <a href="press" style="color:inherit;text-decoration:none;">Press</a>
+            <a href="blog" style="color:inherit;text-decoration:none;">Blog</a>
+            <a href="contact" style="color:inherit;text-decoration:none;">Contact</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">For Owners</strong>
+            <a href="list-property" style="color:inherit;text-decoration:none;">List Your Property</a>
+            <a href="properties-management" style="color:inherit;text-decoration:none;">Owner Dashboard</a>
+            <a href="payment" style="color:inherit;text-decoration:none;">Pricing &amp; Upgrade</a>
+            <a href="owner-resources" style="color:inherit;text-decoration:none;">Owner Resources</a>
+        </div>
+    </div>
+    <div class="footer-bottom" style="justify-content:center;margin-top:28px;">
+        <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
+    </div>
+</div>
+</footer>
     <button class="back-to-top" id="backToTop" aria-label="Back to top">
-        <i class="fas fa-arrow-up"></i>
+        <i class="fas fa-arrow-up" aria-hidden="true"></i>
     </button>
-
-    <script src="api.js?v=20260913a"></script>
-    <script src="script.js?v=20260913a"></script>
-    <script>
-        const navbar = document.getElementById('navbar');
-        const hamburger = document.getElementById('hamburger');
-        const navLinks = document.getElementById('navLinks');
-        const backToTop = document.getElementById('backToTop');
-
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) navbar.classList.add('scrolled');
-            else navbar.classList.remove('scrolled');
-            if (window.scrollY > 500) backToTop.classList.add('visible');
-            else backToTop.classList.remove('visible');
-        });
-
-        if (hamburger) hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            navLinks.classList.toggle('active');
-        });
-
-        if (hamburger && navLinks) {
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.addEventListener('click', () => {
-                    hamburger.classList.remove('active');
-                    navLinks.classList.remove('active');
-                });
-            });
-        }
-
-        backToTop.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-    </script>
-</body>
+    <script src="js/api.js?v=20260913a"></script>
+    <script src="js/core.js?v=20260913a"></script>
+    <script src="js/pages/tenant-ratings.js?v=20260913a"></script>
+    </body>
 </html>

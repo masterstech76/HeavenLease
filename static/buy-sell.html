@@ -1,184 +1,210 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Buy or sell homes on HeavenLease - verified sellers, direct owner contact, no broker fee.">
-    <title>Buy &amp; Sell Homes - HeavenLease</title>
-    <link rel="icon" href="favicon.svg" type="image/svg+xml">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="styles.css?v=20260909a">
-<link rel="stylesheet" href="feature-panel.css?v=20260902a">
-    <style>
-        .bs-page-hero { background: linear-gradient(135deg,#0F172A 0%,#4F46E5 45%,#10B981 100%); color:#fff; padding:150px 0 90px; text-align:center; position:relative; overflow:hidden; }
-        .bs-page-hero .badge { display:inline-flex; align-items:center; gap:8px; background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.25); padding:8px 16px; border-radius:999px; font-size:13px; margin-bottom:20px; }
-        .bs-page-hero h1 { font-family:var(--font-heading); font-size:52px; font-weight:700; margin-bottom:16px; }
-        .bs-page-hero p { font-size:18px; opacity:0.92; max-width:660px; margin:0 auto; line-height:1.7; }
-        .bs-options { padding:70px 0; }
-        .bs-options .grid { display:grid; grid-template-columns:1fr 1fr; gap:32px; max-width:1000px; margin:0 auto; }
-        .bs-opt { border-radius:var(--radius-xl); padding:44px 38px; position:relative; overflow:hidden; color:#fff; box-shadow:var(--shadow-xl); transition:var(--transition); }
-        .bs-opt:hover { transform:translateY(-6px); }
-        .bs-opt.sell { background: linear-gradient(135deg,#065F46,#10B981); }
-        .bs-opt.buy { background: linear-gradient(135deg,#1E3A8A,#4F46E5); }
-        .bs-opt .big-icon { font-size:40px; opacity:0.9; margin-bottom:16px; }
-        .bs-opt h2 { font-family:var(--font-heading); font-size:30px; font-weight:700; margin-bottom:12px; color:#fff; }
-        .bs-opt p { font-size:15px; opacity:0.92; line-height:1.75; margin-bottom:26px; }
-        .bs-opt .btn { background:#fff; color:#0F172A; font-weight:600; }
-        .bs-opt .btn:hover { opacity:0.92; }
-        .bs-benefits { padding:70px 0; background:var(--gray-50); }
-        .bs-benefits .grid { display:grid; grid-template-columns:repeat(3,1fr); gap:28px; }
-        .benefit { background:var(--white); border-radius:var(--radius-lg); padding:32px; border:1px solid var(--gray-200); text-align:center; }
-        .benefit i { font-size:30px; color:var(--primary); margin-bottom:16px; }
-        .benefit h4 { font-size:18px; font-weight:700; color:var(--dark); margin-bottom:10px; }
-        .benefit p { font-size:14px; color:var(--gray-500); line-height:1.7; }
-        .bs-cta { padding:70px 0; text-align:center; background:var(--gradient); color:#fff; }
-        .bs-cta h2 { font-family:var(--font-heading); font-size:32px; margin-bottom:12px; color:#fff; }
-        .bs-cta .btn { background:#fff; color:var(--primary); font-weight:600; }
-        @media (max-width:768px){ .bs-page-hero h1{font-size:34px} .bs-options .grid,.bs-benefits .grid{grid-template-columns:1fr} }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="HeavenLease — a modern no-broker marketplace for buying and selling homes directly with owners.">
+<title>Buy & Sell Homes — HeavenLease</title>
+<link rel="stylesheet" href="styles.css?v=20260909a">
+<style>
+:root{
+  --ink:#182033;--muted:#687386;--line:#e4e7ee;--bg:#f6f7fb;--card:#ffffff;
+  --primary:#5b5ce2;--primary2:#5b5ce2;--green:#18a878;--green2:#18a878;
+  --radius:22px;--shadow:0 20px 60px rgba(15,23,42,.10);
+}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);background:var(--bg)}
+button,input,textarea,select{font:inherit}button,a{cursor:pointer}
+a{text-decoration:none;color:inherit}.container{width:min(1180px,calc(100% - 40px));margin:auto}
+.nav{height:76px;background:rgba(255,255,255,.88);backdrop-filter:blur(16px);border-bottom:1px solid rgba(226,232,240,.8);position:sticky;top:0;z-index:20}
+.nav-inner{height:100%;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px}.logo-mark{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--primary),var(--green2));display:grid;place-items:center;color:#fff}
+.logo span{color:var(--primary)}
+.nav-links{display:flex;gap:22px;color:#525c6e;font-size:14px}.nav-links a:hover{color:var(--primary)}
+.nav-actions{display:flex;gap:10px;align-items:center}.btn{border:0;border-radius:12px;padding:11px 16px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:.2s}.btn:hover{transform:translateY(-1px)}.btn-outline{background:#fff;border:1px solid var(--line);color:var(--ink)}.btn-primary{background:var(--primary);color:#fff}.btn-green{background:var(--green);color:#fff}.btn-lg{padding:14px 20px;border-radius:14px}
+.menu{display:none;background:none;border:0;font-size:22px}
+.hero{position:relative;overflow:hidden;padding:92px 0 70px;background:
+ radial-gradient(circle at 15% 20%,rgba(124,58,237,.28),transparent 32%),
+ radial-gradient(circle at 90% 35%,rgba(16,185,129,.22),transparent 30%),
+ linear-gradient(135deg,#182033,#1e1b4b 54%,#064e3b);color:#fff}
+.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:55px;align-items:center}.eyebrow{display:inline-flex;gap:8px;align-items:center;padding:7px 12px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);border-radius:999px;font-size:13px}
+h1{font-size:clamp(40px,5vw,68px);line-height:1.02;letter-spacing:-.045em;margin:20px 0}.hero p{font-size:18px;line-height:1.7;color:#dbe4f0;max-width:650px}.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}.trust{display:flex;gap:22px;flex-wrap:wrap;margin-top:30px;color:#d4d8e2;font-size:13px}.trust strong{color:#fff}
+.dashboard{background:rgba(255,255,255,.97);color:var(--ink);border:1px solid rgba(255,255,255,.3);border-radius:26px;padding:22px;box-shadow:0 30px 80px rgba(0,0,0,.25)}
+.dash-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.live{font-size:12px;color:var(--green);background:#ecfdf5;padding:6px 9px;border-radius:999px;font-weight:700}
+.search{border:1px solid var(--line);border-radius:16px;padding:13px;display:flex;gap:9px;align-items:center;margin-bottom:15px}.search input{border:0;outline:0;width:100%}.mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.mini{border:1px solid var(--line);border-radius:16px;padding:15px}.mini small{color:var(--muted)}.mini b{display:block;font-size:22px;margin-top:5px}
+.section{padding:80px 0}.section-head{text-align:center;max-width:720px;margin:0 auto 40px}.section-head h2{font-size:38px;letter-spacing:-.035em;margin:0 0 12px}.section-head p{color:var(--muted);line-height:1.7}
+.path-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}.path{border-radius:26px;padding:34px;position:relative;overflow:hidden;box-shadow:var(--shadow);min-height:300px;color:#fff}.path.sell{background:linear-gradient(145deg,#065f46,#10b981)}.path.buy{background:linear-gradient(145deg,#4445c5,#5b5ce2)}.path .icon{width:52px;height:52px;border-radius:16px;background:rgba(255,255,255,.15);display:grid;place-items:center;font-size:24px}.path h3{font-size:29px;margin:22px 0 10px}.path p{color:rgba(255,255,255,.9);line-height:1.7;max-width:470px}.path .decor{position:absolute;width:190px;height:190px;border-radius:50%;border:30px solid rgba(255,255,255,.07);right:-60px;bottom:-60px}
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.feature{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:25px}.feature-icon{color:var(--primary);font-size:23px}.feature h4{margin:15px 0 7px;font-size:17px}.feature p{margin:0;color:var(--muted);line-height:1.65;font-size:14px}
+.workflow{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.step{padding:25px 20px}.num{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:#eef0ff;color:var(--primary);font-weight:800}.step h4{margin:15px 0 7px}.step p{font-size:14px;line-height:1.6;color:var(--muted)}
+.cta{padding:70px 0}.cta-box{border-radius:28px;padding:50px;text-align:center;color:#fff;background:linear-gradient(135deg,#4445c5,#5b5ce2 55%,#059669);box-shadow:var(--shadow)}.cta-box h2{font-size:38px;margin:0 0 10px}.cta-box p{color:#eef0ff;margin:0 0 25px}
+.help{background:#fff;border-top:1px solid var(--line);padding:60px 0}.help-grid{display:grid;grid-template-columns:.75fr 1.25fr;gap:30px;align-items:start}.help h2{margin-top:0}.help p{color:var(--muted);line-height:1.7}.form{border:1px solid var(--line);border-radius:22px;padding:22px}.field{margin-bottom:13px}.field label{display:block;font-size:13px;font-weight:700;margin-bottom:6px}.field input,.field textarea,.field select{width:100%;padding:12px 13px;border:1px solid var(--line);border-radius:12px;outline:0}.field textarea{min-height:120px;resize:vertical}.field input:focus,.field textarea:focus,.field select:focus{border-color:#5b5ce2;box-shadow:0 0 0 3px #eef0ff}.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.notice{display:none;margin-top:12px;padding:11px 13px;border-radius:12px;background:#ecfdf5;color:#047857;font-size:13px}
+.modal{position:fixed;inset:0;background:rgba(15,23,42,.62);display:none;align-items:center;justify-content:center;padding:20px;z-index:50}.modal.open{display:flex}.modal-card{background:#fff;width:min(620px,100%);border-radius:24px;padding:25px;max-height:90vh;overflow:auto}.modal-head{display:flex;justify-content:space-between;gap:20px;align-items:start}.close{border:0;background:#eef0f5;border-radius:10px;width:36px;height:36px}.choice-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:22px 0}.choice{border:1px solid var(--line);padding:18px;border-radius:16px;text-align:left;background:#fff}.choice:hover{border-color:#5b5ce2;background:#f8faff}.choice strong{display:block;margin-bottom:5px}.choice span{font-size:13px;color:var(--muted)}
+.toast{position:fixed;right:20px;bottom:20px;background:#182033;color:#fff;padding:13px 16px;border-radius:12px;box-shadow:var(--shadow);display:none;z-index:70;font-size:14px}
+footer{padding:28px 0;border-top:1px solid var(--line);color:#687386;font-size:13px}.footer-inner{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap}
+@media(max-width:900px){.nav-links{display:none}.menu{display:block}.nav-actions .btn-outline{display:none}.hero-grid,.help-grid{grid-template-columns:1fr}.features{grid-template-columns:1fr 1fr}.steps{grid-template-columns:1fr 1fr}}
+@media(max-width:650px){.container{width:min(100% - 28px,1180px)}.hero{padding:65px 0 50px}.path-grid,.features,.steps,.mini-grid,.form-row{grid-template-columns:1fr}.section{padding:60px 0}.cta-box{padding:35px 22px}.cta-box h2,.section-head h2{font-size:30px}.hero-actions .btn{width:100%}.nav{height:68px}}
+</style>
 </head>
 <body>
-    <nav class="navbar" id="navbar">
-        <div class="nav-container">
-            <a href="/" class="logo">
+<nav class="nav">
+  <div class="container nav-inner">
+    <a class="logo" href="home"><span class="logo-mark"><i class="fa-solid fa-house"></i></span>Heaven<span>Lease</span></a>
+    <div class="nav-links">
+      <a href="#how">How it works</a><a href="#benefits">Benefits</a><a href="#help">Support</a>
+    </div>
+    <div class="nav-actions">
+      <button class="btn btn-outline" onclick="openModal('buy')">Browse homes</button>
+      <button class="btn btn-primary" onclick="openModal('sell')">List property</button>
+      <button class="menu" onclick="document.querySelector('.nav-links').classList.toggle('show')" aria-label="Menu">☰</button>
+    </div>
+  </div>
+</nav>
+<header class="hero">
+  <div class="container hero-grid">
+    <div>
+      <div class="eyebrow">✓ No-broker property marketplace</div>
+      <h1>Buy or sell a home, directly with the owner.</h1>
+      <p>Find verified listings, compare properties, connect with owners and move your deal forward without traditional broker commissions.</p>
+      <div class="hero-actions">
+        <button class="btn btn-lg btn-green" onclick="openModal('sell')">Sell your home →</button>
+        <button class="btn btn-lg" style="background:#fff;color:#182033" onclick="openModal('buy')">Start buying →</button>
+      </div>
+      <div class="trust">
+        <span>✓ <strong>Verified people</strong></span><span>✓ <strong>Direct contact</strong></span><span>✓ <strong>Guided handover</strong></span>
+      </div>
+    </div>
+    <div class="dashboard">
+      <div class="dash-head"><strong>Property marketplace</strong><span class="live">● Live</span></div>
+      <div class="search">⌕ <input id="quickSearch" placeholder="Search city, locality or property type" oninput="filterStats()"></div>
+      <div class="mini-grid">
+        <div class="mini"><small>Listing type</small><b>Buy / Sell</b></div>
+        <div class="mini"><small>Brokerage</small><b>₹0</b></div>
+        <div class="mini"><small>Connection</small><b>Owner ↔ Buyer</b></div>
+        <div class="mini"><small>Support</small><b>Guided</b></div>
+      </div>
+      <div id="searchResult" style="font-size:13px;color:#687386;margin-top:15px">Try a location above to start your search.</div>
+    </div>
+  </div>
+</header>
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <h2>One marketplace. Two simple journeys.</h2>
+      <p>Choose what you want to do and use the same platform to manage discovery, conversations and the next steps.</p>
+    </div>
+    <div class="path-grid">
+      <article class="path sell">
+        <div class="icon">🏷</div><h3>Sell your home</h3>
+        <p>Create a listing, share the details buyers need and connect directly with serious prospects. No broker commission.</p>
+        <button class="btn btn-lg" style="background:#fff;color:#065f46" onclick="openModal('sell')">Create a listing →</button>
+        <div class="decor"></div>
+      </article>
+      <article class="path buy">
+        <div class="icon">⌂</div><h3>Buy a home</h3>
+        <p>Tell us what you're looking for, explore matching homes and contact the owner to arrange a conversation or visit.</p>
+        <button class="btn btn-lg" style="background:#fff;color:#3730a3" onclick="openModal('buy')">Find a home →</button>
+        <div class="decor"></div>
+      </article>
+    </div>
+  </div>
+</section>
+<section class="section" id="benefits" style="padding-top:10px">
+  <div class="container">
+    <div class="section-head"><h2>Built around a better property transaction</h2><p>The original page had the right promise. This version turns it into clearer, action-oriented product flows.</p></div>
+    <div class="features">
+      <div class="feature"><div class="feature-icon">🤝</div><h4>Direct dealing</h4><p>Buyers and sellers can message, discuss terms and arrange visits without an intermediary.</p></div>
+      <div class="feature"><div class="feature-icon">✓</div><h4>Verified people</h4><p>Make verification a visible trust layer before users enter important conversations.</p></div>
+      <div class="feature"><div class="feature-icon">▣</div><h4>Agreement support</h4><p>Keep guidance and document preparation close to the transaction journey.</p></div>
+      <div class="feature"><div class="feature-icon">⌖</div><h4>Comfort scores</h4><p>Surface property-quality signals so buyers can compare more than just price.</p></div>
+      <div class="feature"><div class="feature-icon">₹</div><h4>No hidden brokerage</h4><p>Make the zero-broker proposition clear at the moments users decide to act.</p></div>
+      <div class="feature"><div class="feature-icon">🔑</div><h4>Guided possession</h4><p>Support inspection, dues settlement and key handover as the deal reaches completion.</p></div>
+    </div>
+  </div>
+</section>
+<section class="section workflow" id="how">
+  <div class="container">
+    <div class="section-head"><h2>How it works</h2><p>A practical four-step flow for both sides of the marketplace.</p></div>
+    <div class="steps">
+      <div class="step"><div class="num">1</div><h4>Choose your journey</h4><p>Start as a buyer or seller and provide only the information needed for that path.</p></div>
+      <div class="step"><div class="num">2</div><h4>Discover or list</h4><p>Search for a home or publish the property details buyers need to evaluate it.</p></div>
+      <div class="step"><div class="num">3</div><h4>Connect directly</h4><p>Discuss the property, arrange a visit and negotiate directly with the other party.</p></div>
+      <div class="step"><div class="num">4</div><h4>Complete the deal</h4><p>Use agreement and possession guidance to make the final handover more structured.</p></div>
+    </div>
+  </div>
+</section>
+<section class="cta">
+  <div class="container"><div class="cta-box">
+    <h2>Ready to make your next move?</h2><p>Start a buyer search or create your first property listing.</p>
+    <button class="btn btn-lg" style="background:#fff;color:#3730a3" onclick="openModal()">Get started</button>
+  </div></div>
+</section>
+<section class="help" id="help">
+  <div class="container help-grid">
+    <div><h2>Ask us anything</h2><p>Have a question about buying, selling, verification or the transaction flow? Send a message and we'll prepare it for your support team.</p><p><strong>Support:</strong> support@heavenlease.in</p></div>
+    <form class="form" id="helpForm">
+      <div class="form-row">
+        <div class="field"><label>Your email</label><input id="email" type="email" placeholder="you@example.com"></div>
+        <div class="field"><label>Topic</label><select id="topic"><option>Buying</option><option>Selling</option><option>Verification</option><option>Other</option></select></div>
+      </div>
+      <div class="field"><label>Message</label><textarea id="message" required placeholder="Tell us what you need help with…"></textarea></div>
+      <button class="btn btn-primary" type="submit">Prepare support email →</button>
+      <div class="notice" id="notice"></div>
+    </form>
+  </div>
+</section>
+<footer class="footer">
+<div class="container">
+    <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
+        <div class="footer-brand">
+            <a href="home" class="logo">
                 <div class="logo-icon"><i class="fas fa-home"></i></div>
                 <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
-            
-            <div class="nav-actions">
-                                <div class="user-menu" id="userMenu">
-                    <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu">
-                        <span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span>
-                        <span id="navUserName">Account</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </button>
-                    <div class="user-dropdown" id="profileDropdown">
-                        <a href="home" id="mainHomeLink"><i class="fas fa-home"></i> Main Home</a>
-                        <a href="edit-profile" id="myProfileLink"><i class="fas fa-user"></i> My Profile &amp; Settings</a>
-                        <a href="payment"><i class="fas fa-credit-card"></i> Access Pass</a>
-                        <div class="dropdown-divider"></div>
-                        <a href="properties"><i class="fas fa-building"></i> Browse Properties</a>
-                        <a href="map"><i class="fas fa-map-location-dot"></i> Property Map</a>
-                        <a href="comfort-scores"><i class="fas fa-gauge-high"></i> Comfort Scores</a>
-                        <a href="saved-properties"><i class="fas fa-heart"></i> Saved Properties</a>
-                        <a href="list-property"><i class="fas fa-key"></i> List Your Property</a>
-                        <a href="tenant-screening"><i class="fas fa-user-check"></i> Tenant Screening</a>
-                        <a href="owner-resources"><i class="fas fa-toolbox"></i> Owner Resources</a>
-                        <a href="buy-sell"><i class="fas fa-tag"></i> Buy / Sell</a>
-                        <a href="possession"><i class="fas fa-key"></i> Possession &amp; Handover</a>
-                        <a href="lease-signing"><i class="fas fa-file-signature"></i> Leases &amp; Signing</a>
-                        <a href="tour-booking"><i class="fas fa-calendar-check"></i> Tour Bookings</a>
-                        <a href="messages"><i class="fas fa-comments"></i> Messages</a>
-                        <a href="notifications"><i class="fas fa-bell"></i> Notifications</a>
-                        <div class="dropdown-divider"></div>
-                        <a href="how-it-works"><i class="fas fa-circle-question"></i> How It Works</a>
-                        <a href="about"><i class="fas fa-building"></i> About Us</a>
-                        <a href="blog"><i class="fas fa-newspaper"></i> Blog</a>
-<a href="comfort-scores"><i class="fas fa-chart-simple"></i> Type &amp; Voice Search</a>
-                                                <a href="contact"><i class="fas fa-envelope"></i> Contact &amp; Support</a>
-                        <div class="dropdown-divider"></div>
-                        <a href="login" id="signInLink" class="hide-when-auth"><i class="fas fa-arrow-right-to-bracket"></i> Sign In</a>
-                        <a href="#" id="logoutLink" class="logout-link hide-when-guest"><i class="fas fa-sign-out-alt"></i> Logout</a>
-                    </div>
-                </div>
-
-                
-            </div>
+            <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>
         </div>
-    </nav>
-
-    <section class="bs-page-hero">
-        <div class="container">
-            <span class="badge"><i class="fas fa-handshake"></i> No-Broker Property Marketplace</span>
-            <h1>Buy or Sell Homes,<br>Direct with the Owner</h1>
-            <p>Skip the brokers. List your home to verified buyers or discover your next property — connect directly and negotiate your deal between yourselves.</p>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Explore</strong>
+            <a href="properties" style="color:inherit;text-decoration:none;">Find a Home</a>
+            <a href="map" style="color:inherit;text-decoration:none;">Property Map</a>
+            <a href="how-it-works" style="color:inherit;text-decoration:none;">How It Works</a>
+            <a href="about" style="color:inherit;text-decoration:none;">About Us</a>
         </div>
-    </section>
-
-    <section class="bs-options">
-        <div class="container">
-            <div class="grid">
-                <div class="bs-opt sell">
-                    <div class="big-icon"><i class="fas fa-tag"></i></div>
-                    <h2>Sell Your Home</h2>
-                    <p>List your property for free, reach verified serious buyers, and connect with them directly — zero broker commission.</p>
-                    <a href="sell-your-home" class="btn btn-lg"><i class="fas fa-arrow-right"></i> Start Selling</a>
-                </div>
-                <div class="bs-opt buy">
-                    <div class="big-icon"><i class="fas fa-key"></i></div>
-                    <h2>Buy a Home</h2>
-                    <p>Browse homes listed by verified owners, compare comfort scores and prices, then contact the owner to make your deal.</p>
-                    <a href="buy-a-home" class="btn btn-lg"><i class="fas fa-arrow-right"></i> Start Buying</a>
-                </div>
-            </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Company</strong>
+            <a href="careers" style="color:inherit;text-decoration:none;">Careers</a>
+            <a href="press" style="color:inherit;text-decoration:none;">Press</a>
+            <a href="blog" style="color:inherit;text-decoration:none;">Blog</a>
+            <a href="contact" style="color:inherit;text-decoration:none;">Contact</a>
         </div>
-    </section>
-    <section class="bs-benefits">
-        <div class="container">
-            <h2 style="text-align:center;margin-bottom:44px;">Why Buy or Sell on HeavenLease</h2>
-            <div class="grid">
-                <div class="benefit"><i class="fas fa-handshake"></i><h4>Direct Dealing</h4><p>Buyers and sellers connect directly — message, call, visit, and negotiate the deal between yourselves.</p></div>
-                <div class="benefit"><i class="fas fa-user-check"></i><h4>Verified People</h4><p>Both buyers and sellers are identity- and document-verified.</p></div>
-                <div class="benefit"><i class="fas fa-file-signature"></i><h4>Agreement Support</h4><p>Use our templates and guidance to create your sale agreement with the owner or buyer.</p></div>
-                <div class="benefit"><i class="fas fa-map-location-dot"></i><h4>Comfort Scores</h4><p>Judge property quality at a glance with data-backed comfort scores.</p></div>
-                <div class="benefit"><i class="fas fa-indian-rupee-sign"></i><h4>No Hidden Fees</h4><p>No broker commission. Keep the full value of your home.</p></div>
-                <div class="benefit"><i class="fas fa-key"></i><h4>Smooth Possession</h4><p>Guided handover with inspection, dues settlement, and key transfer.</p></div>
-            </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">For Owners</strong>
+            <a href="list-property" style="color:inherit;text-decoration:none;">List Your Property</a>
+            <a href="properties-management" style="color:inherit;text-decoration:none;">Owner Dashboard</a>
+            <a href="payment" style="color:inherit;text-decoration:none;">Pricing &amp; Upgrade</a>
+            <a href="owner-resources" style="color:inherit;text-decoration:none;">Owner Resources</a>
         </div>
-    </section>
+    </div>
+    <div class="footer-bottom" style="justify-content:center;margin-top:28px;">
+        <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
+    </div>
+</div>
+</footer>
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-card">
+    <div class="modal-head"><div><h2 id="modalTitle" style="margin:0 0 7px">Get started</h2><p id="modalSub" style="margin:0;color:#687386">Choose a journey.</p></div><button class="close" onclick="closeModal()" aria-label="Close">×</button></div>
+    <div class="choice-grid">
+      <button class="choice" onclick="continueJourney('sell')"><strong>🏷 Sell a property</strong><span>Create a listing and start receiving buyer enquiries.</span></button>
+      <button class="choice" onclick="continueJourney('buy')"><strong>⌂ Find a home</strong><span>Tell us what you want and start your buyer journey.</span></button>
+    </div>
+    <div class="form" id="journeyForm" style="display:none">
+      <div class="field"><label id="nameLabel">Your name</label><input id="journeyName" placeholder="Full name"></div>
+      <div class="field"><label>Email</label><input id="journeyEmail" type="email" placeholder="you@example.com"></div>
+      <div class="field"><label id="detailLabel">Location</label><input id="journeyDetail" placeholder="City / locality"></div>
+      <button class="btn btn-primary" onclick="submitJourney()">Continue →</button>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
 
-    <section class="bs-cta">
-        <div class="container">
-            <h2>Ready to Buy or Sell?</h2>
-            <p style="margin-bottom:24px;">Join the no-broker property marketplace.</p>
-            <a href="signup" class="btn btn-lg"><i class="fas fa-user-plus"></i> Get Started</a>
-        </div>
-    </section>
-
-    <section class="content-section" style="padding-top:0;">
-        <div class="container">
-            <div class="content-block">
-                <h2><i class='fas fa-comment-dots'></i> Ask us anything</h2>
-                <p>Not sure what this means for your situation? Ask us in plain text and our team will clarify by email.</p>
-                <div class='help-strip'>
-                    <textarea id='helpMessage' placeholder='Type your message in plain text - no file upload needed.'></textarea>
-                    <input type='text' id='helpEmail' placeholder='Your email (optional)' style='width:100%;max-width:360px;margin-top:10px;padding:12px 14px;border:1px solid var(--gray-200);border-radius:var(--radius-md);font-size:14px;font-family:inherit;box-sizing:border-box;'>
-                    <div>
-                        <button type='button' class='btn btn-primary help-send' onclick='sendHelpMessage()'><i class='fas fa-paper-plane'></i> Send Message</button>
-                        <button type='button' class='btn btn-ghost help-clear' onclick='clearHelpMessage()'><i class='fas fa-eraser'></i> Clear</button>
-                    </div>
-                    <p class='help-note' id='helpNote' style='font-size:12px;color:var(--gray-400);margin-top:10px;'>Messages go to our support team by email. Prefer email? Write to support@heavenlease.in</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <script src="api.js?v=20260913a"></script>
-    <script src="script.js?v=20260913a"></script>
-    <script>
-        function clearHelpMessage() {
-            var msg = document.getElementById('helpMessage'); if (msg) msg.value = '';
-            var em = document.getElementById('helpEmail'); if (em) em.value = '';
-            var note = document.getElementById('helpNote');
-            if (note) note.textContent = 'Messages go to our support team by email. Prefer email? Write to support@heavenlease.in';
-        }
-        function sendHelpMessage() {
-            var msgEl = document.getElementById('helpMessage');
-            var msg = (msgEl && msgEl.value || '').trim();
-            var em = document.getElementById('helpEmail');
-            var email = (em && em.value || '').trim();
-            var note = document.getElementById('helpNote');
-            if (!msg) { if (note) note.textContent = 'Please type a short message first.'; return; }
-            var subject = encodeURIComponent('HeavenLease page enquiry');
-            var body = encodeURIComponent(msg + (email ? '\n\nReply to: ' + email : ''));
-            window.location.href = 'mailto:support@heavenlease.in?subject=' + subject + '&body=' + body;
-            setTimeout(function () { if (note) note.textContent = 'Opening your email app to send the message - thank you!'; }, 400);
-        }
-    </script>
+<script src="js/pages/buy-sell.js?v=20260913a"></script>
 </body>
 </html>
-
-

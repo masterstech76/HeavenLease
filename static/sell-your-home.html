@@ -8,146 +8,317 @@
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
     <link rel="stylesheet" href="styles.css?v=20260909a">
     <style>
-        .sh-hero { background: linear-gradient(135deg,#0F172A 0%,#065F46 50%,#10B981 100%); color:#fff; padding:150px 0 90px; text-align:center; position:relative; overflow:hidden; }
-        .sh-hero .sh-badge { display:inline-flex; align-items:center; gap:8px; background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.25); padding:8px 16px; border-radius:999px; font-size:13px; letter-spacing:0.5px; margin-bottom:20px; }
-        .sh-hero h1 { font-family:var(--font-heading); font-size:52px; font-weight:700; margin-bottom:16px; }
-        .sh-hero p { font-size:18px; opacity:0.9; max-width:640px; margin:0 auto 30px; line-height:1.7; }
-        .sh-hero .btn-hero { background:#fff; color:#0F172A; padding:14px 34px; border-radius:999px; font-weight:600; }
-        .sh-hero .btn-hero:hover { background:var(--primary); color:#fff; }
-        .sh-features { padding:80px 0; }
-        .sh-features .sh-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:28px; }
-        .sh-card { background:var(--white); border-radius:var(--radius-lg); padding:32px; border:1px solid var(--gray-200); transition:var(--transition); }
-        .sh-card:hover { transform:translateY(-5px); box-shadow:var(--shadow-lg); }
-        .sh-icon { width:56px; height:56px; border-radius:var(--radius-md); background:var(--gradient-soft); display:flex; align-items:center; justify-content:center; font-size:22px; color:var(--secondary-dark); margin-bottom:18px; }
-        .sh-card h3 { font-size:19px; font-weight:700; color:var(--dark); margin-bottom:10px; }
-        .sh-card p { font-size:14px; color:var(--gray-500); line-height:1.7; }
-        .sh-steps { padding:70px 0; background:linear-gradient(135deg, #F6F8FF 0%, #FDF4F8 100%); }
-        .sh-steps .steps-grid { max-width:1020px; margin:0 auto; display:grid; grid-template-columns:repeat(4,1fr); gap:18px; position:relative; }
-        .sh-steps .steps-grid::before { content:''; position:absolute; top:22px; left:10%; right:10%; height:2px; background:repeating-linear-gradient(90deg, #C7D2FE 0 6px, transparent 6px 12px); }
-        .sh-steps .step-item { background:var(--white); border-radius:var(--radius-lg); padding:26px 18px; text-align:center; border:1px solid var(--gray-200); position:relative; box-shadow:var(--shadow-sm); transition:var(--transition); }
-        .sh-steps .step-item:hover { transform:translateY(-4px); box-shadow:var(--shadow-lg); border-color:var(--primary); }
-        .sh-steps .step-num { width:44px; height:44px; margin:0 auto 14px; background:var(--gradient); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:16px; box-shadow:var(--shadow-primary); }
-        .sh-steps .step-item h4 { font-size:15px; font-weight:600; color:var(--dark); margin-bottom:6px; }
-        .sh-steps .step-item h4 i { color:var(--secondary-dark); margin-right:6px; font-size:13px; }
-        .sh-steps .step-item p { font-size:13px; color:var(--gray-500); line-height:1.55; }
-        .sh-cta { padding:70px 0; text-align:center; background:var(--gradient); color:#fff; position:relative; overflow:hidden; }
-        .sh-cta h2 { font-family:var(--font-heading); font-size:32px; margin-bottom:12px; color:#fff; }
-        .sh-cta p { max-width:520px; margin:0 auto 26px; opacity:0.95; }
-        .sh-cta .btn { background:#fff; color:var(--secondary-dark); font-weight:600; }
-        .sh-cta .btn.ghost { background:transparent; border:1px solid #fff; color:#fff; }
-        @media (max-width:900px){ .sh-steps .steps-grid{grid-template-columns:1fr; gap:14px;} .sh-steps .steps-grid::before{display:none;} .sh-steps .step-item{text-align:left; display:flex; gap:14px; align-items:flex-start;} .sh-steps .step-num{margin:0; flex-shrink:0;} }
-        @media (max-width:768px){ .sh-hero h1{font-size:34px} .sh-features .sh-grid{grid-template-columns:1fr} }
+        :root{
+            --hl-ink:#182033;
+            --hl-muted:#687386;
+            --hl-green:#18a878;
+            --hl-green-dark:#0f8a63;
+            --hl-gold:#5b5ce2;
+            --hl-line:#e4e7ee;
+            --hl-card:#ffffff;
+            --hl-shadow:0 24px 70px rgba(17,35,27,.13);
+            --hl-soft-shadow:0 12px 32px rgba(17,35,27,.08);
+            --hl-radius:24px;
+        }
+        *{box-sizing:border-box}
+        html{scroll-behavior:smooth}
+        body{
+            margin:0;color:var(--hl-ink);font-family:Inter,system-ui,sans-serif;
+            background:
+                linear-gradient(rgba(246,245,240,.91),rgba(246,245,240,.95)),
+                url("https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=2200&q=85") center/cover fixed;
+        }
+        a{text-decoration:none}
+        .container{width:min(1120px,calc(100% - 40px));margin:auto}
+        /* Image-backed premium navigation */
+        .navbar{
+            position:relative!important;top:auto!important;z-index:50;color:#fff;
+            background:
+                linear-gradient(90deg,rgba(7,17,13,.95),rgba(12,29,22,.80)),
+                url("https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=2200&q=85") center/cover;
+            border-bottom:1px solid rgba(255,255,255,.14);
+            box-shadow:0 12px 36px rgba(0,0,0,.18);
+        }
+        .navbar:after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:linear-gradient(90deg,transparent,rgba(210,181,125,.7),transparent)}
+        .nav-container{width:min(1200px,calc(100% - 40px));min-height:78px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:20px}
+        .logo{display:flex;align-items:center;gap:12px;color:#fff}
+        .logo-icon{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(145deg,#c8a15f,#8f6b36);box-shadow:0 8px 20px rgba(0,0,0,.22)}
+        .logo-text{font-family:"Playfair Display",serif;font-size:25px;letter-spacing:-.3px}
+        .logo-text span{color:#5b5ce2}
+        .nav-actions{display:flex;align-items:center}
+        .user-menu{position:relative}
+        .user-menu-trigger{
+            border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.08);color:#fff;
+            border-radius:999px;padding:8px 13px 8px 8px;display:flex;align-items:center;gap:9px;
+            cursor:pointer;font:600 13px Inter;backdrop-filter:blur(10px);transition:.2s
+        }
+        .user-menu-trigger:hover{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.30)}
+        .user-avatar{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.16)}
+        .user-menu-trigger>.fa-chevron-down{font-size:10px;opacity:.7;margin-left:2px}
+        .user-dropdown{
+            position:absolute;right:0;top:calc(100% + 10px);width:255px;max-height:min(75vh,620px);overflow:auto;
+            padding:8px;border:1px solid rgba(20,32,25,.10);border-radius:17px;background:#fff;
+            box-shadow:0 22px 55px rgba(0,0,0,.20);display:none
+        }
+        .user-menu:hover .user-dropdown,.user-menu:focus-within .user-dropdown{display:block}
+        .user-dropdown a{display:flex;align-items:center;gap:11px;color:#27352f;padding:10px 12px;border-radius:11px;font-size:12px;font-weight:600}
+        .user-dropdown a:hover{background:#eef5f1;color:var(--hl-green)}
+        .user-dropdown i{width:17px;text-align:center;color:var(--hl-green)}
+        .dropdown-divider{height:1px;background:#e9edea;margin:7px 4px}
+        /* Hero */
+        .sh-hero{
+            min-height:610px;display:grid;place-items:center;text-align:center;color:#fff;position:relative;overflow:hidden;
+            background:
+                linear-gradient(180deg,rgba(7,19,14,.48),rgba(7,20,15,.88)),
+                url("https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2200&q=88") center/cover;
+        }
+        .sh-hero:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 40%,rgba(255,255,255,.08),transparent 38%)}
+        .hero-inner{position:relative;padding:95px 0}
+        .sh-badge{
+            display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;
+            background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.20);
+            font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;backdrop-filter:blur(9px);margin-bottom:23px
+        }
+        .sh-hero h1{font-family:"Playfair Display",serif;font-size:clamp(44px,6vw,70px);line-height:1.03;font-weight:600;letter-spacing:-1.2px;margin:0 0 20px}
+        .sh-hero p{max-width:720px;margin:0 auto 31px;font-size:16px;line-height:1.8;color:rgba(255,255,255,.83)}
+        .btn-hero{
+            min-height:52px;padding:0 25px;display:inline-flex;align-items:center;justify-content:center;gap:9px;
+            border-radius:14px!important;background:#fff!important;color:#174c3a!important;font-weight:800!important;
+            box-shadow:0 14px 34px rgba(0,0,0,.22);transition:.2s
+        }
+        .btn-hero:hover{transform:translateY(-2px);background:#f4eee2!important;color:#174c3a!important}
+        /* Benefits */
+        .sh-features{padding:82px 0}
+        .section-intro{text-align:center;max-width:680px;margin:0 auto 38px}
+        .section-kicker{color:var(--hl-green);font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;margin-bottom:8px}
+        .section-intro h2{font-family:"Playfair Display",serif;font-size:36px;line-height:1.15;margin:0 0 10px}
+        .section-intro p{font-size:13px;color:var(--hl-muted);line-height:1.7;margin:0}
+        .sh-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+        .sh-card{
+            background:var(--hl-card);border:1px solid var(--hl-line);border-radius:22px;padding:28px;
+            box-shadow:var(--hl-soft-shadow);transition:.22s
+        }
+        .sh-card:hover{transform:translateY(-5px);box-shadow:var(--hl-shadow);border-color:rgba(35,107,80,.25)}
+        .sh-icon{width:50px;height:50px;border-radius:15px;background:#edf5f0;color:var(--hl-green);display:grid;place-items:center;font-size:19px;margin-bottom:19px}
+        .sh-card h3{font-size:17px;line-height:1.35;margin:0 0 9px}
+        .sh-card p{font-size:13px;color:var(--hl-muted);line-height:1.7;margin:0}
+        /* Steps */
+        .sh-steps{padding:82px 0;background:linear-gradient(135deg,rgba(239,244,240,.94),rgba(246,241,232,.92))}
+        .steps-grid{max-width:1020px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:16px;position:relative}
+        .steps-grid:before{content:"";position:absolute;top:25px;left:11%;right:11%;height:1px;background:repeating-linear-gradient(90deg,#b8cfc2 0 7px,transparent 7px 14px)}
+        .step-item{
+            background:rgba(255,255,255,.92);border:1px solid var(--hl-line);border-radius:20px;padding:25px 18px;
+            text-align:center;position:relative;box-shadow:var(--hl-soft-shadow);transition:.2s
+        }
+        .step-item:hover{transform:translateY(-4px);box-shadow:var(--hl-shadow)}
+        .step-num{
+            width:50px;height:50px;margin:0 auto 16px;border-radius:50%;display:grid;place-items:center;
+            color:#fff;font-size:14px;font-weight:800;background:linear-gradient(145deg,var(--hl-green),#2e8565);
+            border:5px solid #edf3ef;box-shadow:0 5px 16px rgba(35,107,80,.18);position:relative;z-index:1
+        }
+        .step-item h4{font-size:14px;line-height:1.4;margin:0 0 7px}
+        .step-item h4 i{color:var(--hl-green);margin-right:5px}
+        .step-item p{font-size:12px;color:var(--hl-muted);line-height:1.6;margin:0}
+        /* CTA */
+        .sh-cta{
+            padding:82px 0;color:#fff;text-align:center;position:relative;overflow:hidden;
+            background:
+                linear-gradient(120deg,rgba(12,37,28,.97),rgba(30,91,68,.94)),
+                url("https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=2000&q=85") center/cover;
+        }
+        .sh-cta:after{content:"";position:absolute;width:390px;height:390px;border:1px solid rgba(255,255,255,.10);border-radius:50%;right:-160px;top:-210px}
+        .cta-inner{position:relative;z-index:1}
+        .sh-cta h2{font-family:"Playfair Display",serif;font-size:36px;margin:0 0 10px}
+        .sh-cta p{max-width:540px;margin:0 auto 27px;color:rgba(255,255,255,.78);font-size:14px;line-height:1.7}
+        .cta-buttons{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+        .sh-cta .btn{min-height:48px;padding:0 20px;border-radius:13px;display:inline-flex;align-items:center;gap:8px;background:#fff;color:#174c3a;font-size:12px;font-weight:800}
+        .sh-cta .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,.32);color:#fff}
+        /* Ensure any site footer is opaque if supplied by shared CSS */
+        footer,.footer{background:#182033!important;opacity:1!important;color:#dbe5df!important}
+        @media(max-width:900px){
+            .sh-grid{grid-template-columns:1fr}
+            .steps-grid{grid-template-columns:1fr;gap:13px}
+            .steps-grid:before{display:none}
+            .step-item{text-align:left;display:flex;gap:15px;align-items:flex-start}
+            .step-num{margin:0;flex:0 0 50px}
+        }
+        @media(max-width:640px){
+            .container,.nav-container{width:calc(100% - 28px)}
+            .nav-container{min-height:70px}
+            .logo-text{font-size:22px}
+            .user-menu-trigger>span:not(.user-avatar),.user-menu-trigger>.fa-chevron-down{display:none}
+            .user-dropdown{right:-4px;width:min(255px,calc(100vw - 28px))}
+            .sh-hero{min-height:570px}
+            .hero-inner{padding:75px 0}
+            .sh-hero h1{font-size:43px}
+            .sh-hero p{font-size:14px}
+            .sh-features,.sh-steps,.sh-cta{padding:62px 0}
+            .section-intro h2,.sh-cta h2{font-size:30px}
+            .sh-card{padding:23px}
+            .cta-buttons{display:grid;grid-template-columns:1fr}
+            .sh-cta .btn{justify-content:center}
+        }
     </style>
 </head>
 <body>
 <nav class="navbar" id="navbar">
-        <div class="nav-container">
-            <a href="/" class="logo">
+    <div class="nav-container">
+        <a href="/" class="logo" aria-label="HeavenLease home">
+            <div class="logo-icon"><i class="fas fa-home"></i></div>
+            <span class="logo-text">Heaven<span>Lease</span></span>
+        </a>
+        <div class="nav-actions">
+            <div class="user-menu" id="userMenu">
+                <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu" aria-haspopup="true">
+                    <span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span>
+                    <span id="navUserName">Account</span>
+                    <i class="fas fa-chevron-down" aria-hidden="true"></i>
+                </button>
+                <div class="user-dropdown" id="profileDropdown">
+                    <a href="home" id="mainHomeLink"><i class="fas fa-home"></i> Main Home</a>
+                    <a href="edit-profile" id="myProfileLink"><i class="fas fa-user"></i> My Profile &amp; Settings</a>
+                    <a href="payment"><i class="fas fa-credit-card"></i> Access Pass</a>
+                    <div class="dropdown-divider"></div>
+                    <a href="properties"><i class="fas fa-building"></i> Browse Properties</a>
+                    <a href="map"><i class="fas fa-map-location-dot"></i> Property Map</a>
+                    <a href="comfort-scores"><i class="fas fa-gauge-high"></i> Comfort Scores</a>
+                    <a href="saved-properties"><i class="fas fa-heart"></i> Saved Properties</a>
+                    <a href="list-property"><i class="fas fa-key"></i> List Your Property</a>
+                    <a href="tenant-screening"><i class="fas fa-user-check"></i> Tenant Screening</a>
+                    <a href="owner-resources"><i class="fas fa-toolbox"></i> Owner Resources</a>
+                    <a href="buy-sell"><i class="fas fa-tag"></i> Buy / Sell</a>
+                    <a href="possession"><i class="fas fa-key"></i> Possession &amp; Handover</a>
+                    <a href="lease-signing"><i class="fas fa-file-signature"></i> Leases &amp; Signing</a>
+                    <a href="tour-booking"><i class="fas fa-calendar-check"></i> Tour Bookings</a>
+                    <a href="messages"><i class="fas fa-comments"></i> Messages</a>
+                    <a href="notifications"><i class="fas fa-bell"></i> Notifications</a>
+                    <div class="dropdown-divider"></div>
+                    <a href="how-it-works"><i class="fas fa-circle-question"></i> How It Works</a>
+                    <a href="about"><i class="fas fa-building"></i> About Us</a>
+                    <a href="blog"><i class="fas fa-newspaper"></i> Blog</a>
+                    <a href="comfort-scores"><i class="fas fa-chart-simple"></i> Type &amp; Voice Search</a>
+                    <a href="contact"><i class="fas fa-envelope"></i> Contact &amp; Support</a>
+                    <div class="dropdown-divider"></div>
+                    <a href="login" id="signInLink" class="hide-when-auth"><i class="fas fa-arrow-right-to-bracket"></i> Sign In</a>
+                    <a href="#" id="logoutLink" class="logout-link hide-when-guest"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+<section class="sh-hero">
+    <div class="container hero-inner">
+        <span class="sh-badge"><i class="fas fa-handshake"></i> No Broker. No Commission.</span>
+        <h1>Sell Your Home to<br>Verified, Ready Buyers</h1>
+        <p>List your property for free, reach genuine buyers, and connect with them directly. You negotiate and settle the deal with the buyer — HeavenLease brings you both together.</p>
+        <a href="list-property" class="btn btn-lg btn-hero"><i class="fas fa-plus"></i> List Your Property</a>
+    </div>
+</section>
+<section class="sh-features">
+    <div class="container">
+        <div class="section-intro">
+            <div class="section-kicker">Why list on HeavenLease</div>
+            <h2>A simpler way to sell</h2>
+            <p>Keep the original selling model, presented around the parts of the process that matter most to owners.</p>
+        </div>
+        <div class="sh-grid">
+            <article class="sh-card">
+                <div class="sh-icon"><i class="fas fa-circle-check"></i></div>
+                <h3>Verified Serious Buyers</h3>
+                <p>Message directly with pre-verified buyers — no time-wasters, no brokers in between.</p>
+            </article>
+            <article class="sh-card">
+                <div class="sh-icon"><i class="fas fa-piggy-bank"></i></div>
+                <h3>Zero Commission</h3>
+                <p>Keep the full sale price. We don't take a brokerage cut — you earn more from every sale.</p>
+            </article>
+            <article class="sh-card">
+                <div class="sh-icon"><i class="fas fa-comments"></i></div>
+                <h3>Deal Directly with the Buyer</h3>
+                <p>Chat or call interested buyers, share documents, and negotiate the terms together — no online payment needed on the platform.</p>
+            </article>
+        </div>
+    </div>
+</section>
+<section class="sh-steps">
+    <div class="container">
+        <div class="section-intro">
+            <div class="section-kicker">The selling journey</div>
+            <h2>How Selling Works</h2>
+            <p>The four stages already described on the page, arranged as a clear visual journey.</p>
+        </div>
+        <div class="steps-grid">
+            <article class="step-item">
+                <div class="step-num">1</div>
+                <div><h4><i class="fas fa-house-circle-check"></i> List your property</h4><p>Add photos, details, and your asking price. Our team verifies your ownership documents.</p></div>
+            </article>
+            <article class="step-item">
+                <div class="step-num">2</div>
+                <div><h4><i class="fas fa-comments"></i> Connect with buyers</h4><p>Verified buyers find your listing, chat with you, and schedule visits securely.</p></div>
+            </article>
+            <article class="step-item">
+                <div class="step-num">3</div>
+                <div><h4><i class="fas fa-handshake"></i> Negotiate &amp; agree</h4><p>Finalize the price and terms directly with the buyer — the deal is made between you two, off-platform.</p></div>
+            </article>
+            <article class="step-item">
+                <div class="step-num">4</div>
+                <div><h4><i class="fas fa-key"></i> Complete the sale</h4><p>Finish your agreement and paperwork with the buyer, then hand over possession of the home.</p></div>
+            </article>
+        </div>
+    </div>
+</section>
+<section class="sh-cta">
+    <div class="container cta-inner">
+        <h2>Ready to Sell Without a Broker?</h2>
+        <p>List free and keep the full value of your home.</p>
+        <div class="cta-buttons">
+            <a href="list-property" class="btn btn-lg"><i class="fas fa-plus"></i> List Your Property</a>
+            <a href="buy-sell" class="btn btn-lg ghost"><i class="fas fa-search"></i> I'm Buying Instead</a>
+        </div>
+    </div>
+</section>
+<script src="js/api.js?v=20260913a"></script>
+    <script src="js/core.js?v=20260913a"></script>
+<footer class="footer">
+<div class="container">
+    <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
+        <div class="footer-brand">
+            <a href="home" class="logo">
                 <div class="logo-icon"><i class="fas fa-home"></i></div>
                 <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
-            
-            <div class="nav-actions">
-                                <div class="user-menu" id="userMenu">
-                    <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu">
-                        <span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span>
-                        <span id="navUserName">Account</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </button>
-                    <div class="user-dropdown" id="profileDropdown">
-                        <a href="home" id="mainHomeLink"><i class="fas fa-home"></i> Main Home</a>
-                        <a href="edit-profile" id="myProfileLink"><i class="fas fa-user"></i> My Profile &amp; Settings</a>
-                        <a href="payment"><i class="fas fa-credit-card"></i> Access Pass</a>
-                        <div class="dropdown-divider"></div>
-                        <a href="properties"><i class="fas fa-building"></i> Browse Properties</a>
-                        <a href="map"><i class="fas fa-map-location-dot"></i> Property Map</a>
-                        <a href="comfort-scores"><i class="fas fa-gauge-high"></i> Comfort Scores</a>
-                        <a href="saved-properties"><i class="fas fa-heart"></i> Saved Properties</a>
-                        <a href="list-property"><i class="fas fa-key"></i> List Your Property</a>
-                        <a href="tenant-screening"><i class="fas fa-user-check"></i> Tenant Screening</a>
-                        <a href="owner-resources"><i class="fas fa-toolbox"></i> Owner Resources</a>
-                        <a href="buy-sell"><i class="fas fa-tag"></i> Buy / Sell</a>
-                        <a href="possession"><i class="fas fa-key"></i> Possession &amp; Handover</a>
-                        <a href="lease-signing"><i class="fas fa-file-signature"></i> Leases &amp; Signing</a>
-                        <a href="tour-booking"><i class="fas fa-calendar-check"></i> Tour Bookings</a>
-                        <a href="messages"><i class="fas fa-comments"></i> Messages</a>
-                        <a href="notifications"><i class="fas fa-bell"></i> Notifications</a>
-                        <div class="dropdown-divider"></div>
-                        <a href="how-it-works"><i class="fas fa-circle-question"></i> How It Works</a>
-                        <a href="about"><i class="fas fa-building"></i> About Us</a>
-                        <a href="blog"><i class="fas fa-newspaper"></i> Blog</a>
-<a href="comfort-scores"><i class="fas fa-chart-simple"></i> Type &amp; Voice Search</a>
-                                                <a href="contact"><i class="fas fa-envelope"></i> Contact &amp; Support</a>
-                        <div class="dropdown-divider"></div>
-                        <a href="login" id="signInLink" class="hide-when-auth"><i class="fas fa-arrow-right-to-bracket"></i> Sign In</a>
-                        <a href="#" id="logoutLink" class="logout-link hide-when-guest"><i class="fas fa-sign-out-alt"></i> Logout</a>
-                    </div>
-                </div>
-
-                
-            </div>
+            <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>
         </div>
-    </nav>
-
-    <section class="sh-hero">
-        <div class="container">
-            <span class="sh-badge"><i class="fas fa-handshake"></i> No Broker. No Commission.</span>
-            <h1>Sell Your Home to<br>Verified, Ready Buyers</h1>
-            <p>List your property for free, reach genuine buyers, and connect with them directly. You negotiate and settle the deal with the buyer — HeavenLease brings you both together.</p>
-            <a href="list-property" class="btn btn-lg btn-hero"><i class="fas fa-plus"></i> List Your Property</a>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Explore</strong>
+            <a href="properties" style="color:inherit;text-decoration:none;">Find a Home</a>
+            <a href="map" style="color:inherit;text-decoration:none;">Property Map</a>
+            <a href="how-it-works" style="color:inherit;text-decoration:none;">How It Works</a>
+            <a href="about" style="color:inherit;text-decoration:none;">About Us</a>
         </div>
-    </section>
-
-    <section class="sh-features">
-        <div class="container">
-            <div class="sh-grid">
-                <div class="sh-card">
-                    <div class="sh-icon"><i class="fas fa-circle-check"></i></div>
-                    <h3>Verified Serious Buyers</h3>
-                    <p>Message directly with pre-verified buyers — no time-wasters, no brokers in between.</p>
-                </div>
-                <div class="sh-card">
-                    <div class="sh-icon"><i class="fas fa-piggy-bank"></i></div>
-                    <h3>Zero Commission</h3>
-                    <p>Keep the full sale price. We don't take a brokerage cut — you earn more from every sale.</p>
-                </div>
-                <div class="sh-card">
-                    <div class="sh-icon"><i class="fas fa-comments"></i></div>
-                    <h3>Deal Directly with the Buyer</h3>
-                    <p>Chat or call interested buyers, share documents, and negotiate the terms together — no online payment needed on the platform.</p>
-                </div>
-            </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Company</strong>
+            <a href="careers" style="color:inherit;text-decoration:none;">Careers</a>
+            <a href="press" style="color:inherit;text-decoration:none;">Press</a>
+            <a href="blog" style="color:inherit;text-decoration:none;">Blog</a>
+            <a href="contact" style="color:inherit;text-decoration:none;">Contact</a>
         </div>
-    </section>
-<section class="sh-steps">
-        <div class="container">
-            <h2 style="text-align:center;margin-bottom:40px;">How Selling Works</h2>
-            <div class="steps-grid">
-                <div class="step-item"><div class="step-num">1</div><div><h4><i class="fas fa-house-circle-check"></i> List your property</h4><p>Add photos, details, and your asking price. Our team verifies your ownership documents.</p></div></div>
-                <div class="step-item"><div class="step-num">2</div><div><h4><i class="fas fa-comments"></i> Connect with buyers</h4><p>Verified buyers find your listing, chat with you, and schedule visits securely.</p></div></div>
-                <div class="step-item"><div class="step-num">3</div><div><h4><i class="fas fa-handshake"></i> Negotiate &amp; agree</h4><p>Finalize the price and terms directly with the buyer — the deal is made between you two, off-platform.</p></div></div>
-                <div class="step-item"><div class="step-num">4</div><div><h4><i class="fas fa-key"></i> Complete the sale</h4><p>Finish your agreement and paperwork with the buyer, then hand over possession of the home.</p></div></div>
-            </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">For Owners</strong>
+            <a href="list-property" style="color:inherit;text-decoration:none;">List Your Property</a>
+            <a href="properties-management" style="color:inherit;text-decoration:none;">Owner Dashboard</a>
+            <a href="payment" style="color:inherit;text-decoration:none;">Pricing &amp; Upgrade</a>
+            <a href="owner-resources" style="color:inherit;text-decoration:none;">Owner Resources</a>
         </div>
-    </section>
-
-    <section class="sh-cta">
-        <div class="container">
-            <h2>Ready to Sell Without a Broker?</h2>
-            <p>List free and keep the full value of your home.</p>
-            <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
-                <a href="list-property" class="btn btn-lg"><i class="fas fa-plus"></i> List Your Property</a>
-                <a href="buy-sell" class="btn btn-lg ghost"><i class="fas fa-search"></i> I'm Buying Instead</a>
-            </div>
-        </div>
-    </section>
-
-    <script src="api.js?v=20260913a"></script>
-    <script src="script.js?v=20260913a"></script>
+    </div>
+    <div class="footer-bottom" style="justify-content:center;margin-top:28px;">
+        <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
+    </div>
+</div>
+</footer>
 </body>
 </html>
-

@@ -1,205 +1,304 @@
-<!DOCTYPE html><html lang="en"><head>    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="HeavenLease connects renting with the services and community that make a house a home.">
-    <title>Community Focused - HeavenLease</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="styles.css?v=20260909a">
-    
-    <style>
-        .page-header { background: var(--gradient-soft); padding: 140px 0 60px; text-align: center; position: relative; overflow: hidden; }
-        .page-header h1 { font-family: var(--font-heading); font-size: 42px; font-weight: 700; color: var(--dark); margin-bottom: 14px; }
-        .page-header p { font-size: 17px; color: var(--gray-500); max-width: 640px; margin: 0 auto; }
-        .page-header .breadcrumb { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 16px; font-size: 14px; color: var(--gray-500); }
-        .page-header .breadcrumb a { color: var(--primary); }
-        .page-header .breadcrumb i { font-size: 12px; color: var(--gray-400); }
-        .content-section { padding: 72px 0; }
-        .content-block { max-width: 860px; margin: 0 auto 36px; }
-        .content-block h2 { font-family: var(--font-heading); font-size: 26px; font-weight: 700; color: var(--dark); margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
-        .content-block h2 i { color: var(--primary); font-size: 20px; }
-        .content-block p { font-size: 15px; color: var(--gray-500); line-height: 1.8; margin-bottom: 12px; }
-        .content-block ul { margin: 12px 0 16px; }
-        .content-block ul li { font-size: 14px; color: var(--gray-600); padding: 6px 0; display: flex; align-items: flex-start; gap: 10px; }
-        .content-block ul li i { color: var(--secondary); font-size: 13px; margin-top: 3px; }
-        .cta-section { padding: 60px 0; }
-        @media (max-width: 768px) { .page-header { padding: 120px 0 44px; } .page-header h1 { font-size: 32px; } .content-block h2 { font-size: 21px; } }
-            .stat-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-top: 22px; }
-        .stat-card { background:#fff; border:1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 20px; text-align:center; }
-        .stat-card .num { font-size: 26px; font-weight:800; color: var(--primary); font-family: var(--font-heading); }
-        .stat-card .lbl { font-size: 13px; color: var(--gray-500); margin-top: 4px; line-height: 1.4; }
-        .help-strip { background:#f8fafc; border:1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 24px; }
-        .help-strip textarea { width:100%; min-height:110px; border:1px solid var(--gray-200); border-radius: var(--radius-md); padding: 12px 14px; font-size:14px; font-family:inherit; resize:vertical; box-sizing:border-box; }
-        .help-strip textarea:focus { outline:none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79,70,229,.1); }
-        .help-strip .btn { margin-top: 12px; }
-        .help-strip input:focus { outline:none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79,70,229,.1); }
-        @media (max-width: 768px) { .stat-row { grid-template-columns: 1fr; } }
-    </style></head><body>    <nav class="navbar" id="navbar">
-        <div class="nav-container">
-            <a href="/" class="logo">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="HeavenLease connects renting with services and community resources that make a house a home.">
+<title>Community Focused — HeavenLease</title>
+<link rel="stylesheet" href="styles.css?v=20260909a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
+<style>
+:root{
+  --primary:#5b5ce2;--purple:#5b5ce2;--dark:#182033;--muted:#687386;
+  --line:#e4e7ee;--soft:#f6f7fb;--white:#ffffff;--success:#059669;
+  --shadow:0 18px 55px rgba(15,23,42,.10);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,system-ui,sans-serif;color:var(--dark);background:#fff}
+a{text-decoration:none;color:inherit}
+button,input,textarea{font:inherit}
+.container{width:min(1120px,calc(100% - 40px));margin:auto}
+.navbar{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(255,255,255,.9);backdrop-filter:blur(16px);border-bottom:1px solid transparent;transition:.25s}
+.navbar.scrolled{border-color:var(--line);box-shadow:0 8px 30px rgba(15,23,42,.06)}
+.nav-inner{height:74px;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:800}
+.logo-icon{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--primary),var(--purple));color:#fff;display:grid;place-items:center}
+.logo-word span{color:var(--primary)}
+.nav-links{display:flex;gap:6px;align-items:center}
+.nav-links a{padding:10px 12px;border-radius:10px;font-size:14px;font-weight:600;color:#525c6e}
+.nav-links a:hover{background:var(--soft);color:var(--primary)}
+.nav-links .primary{background:var(--primary);color:#fff}
+.menu{display:none;border:0;background:var(--soft);width:42px;height:42px;border-radius:12px;color:var(--dark)}
+.hero{padding:150px 0 75px;background:
+radial-gradient(circle at 12% 20%,rgba(124,58,237,.13),transparent 33%),
+radial-gradient(circle at 88% 20%,rgba(79,70,229,.13),transparent 33%),
+linear-gradient(180deg,#f8faff,#fff)}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:55px;align-items:center}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;background:#eef0ff;color:var(--primary);font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.04em}
+h1{font-family:"Playfair Display",serif;font-size:clamp(46px,6vw,72px);line-height:1.03;margin:18px 0}
+.gradient{background:linear-gradient(90deg,var(--primary),var(--purple));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{font-size:18px;line-height:1.75;color:var(--muted);max-width:650px}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+.btn{border:0;border-radius:13px;padding:13px 18px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:9px;transition:.2s}
+.btn:hover{transform:translateY(-1px)}
+.btn-primary{background:var(--primary);color:#fff;box-shadow:0 10px 25px rgba(79,70,229,.2)}
+.btn-light{background:#fff;border:1px solid var(--line)}
+.community-preview{background:#fff;border:1px solid var(--line);border-radius:28px;padding:24px;box-shadow:var(--shadow)}
+.preview-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}
+.preview-title strong{font-size:14px}
+.badge{font-size:11px;font-weight:800;color:var(--success);background:#ecfdf5;padding:7px 9px;border-radius:999px}
+.preview-map{height:190px;border-radius:20px;background:
+linear-gradient(35deg,transparent 46%,#d4d8e2 47%,#d4d8e2 49%,transparent 50%),
+linear-gradient(145deg,transparent 46%,#eef0ff 47%,#eef0ff 50%,transparent 51%),
+#eef0f5;position:relative;overflow:hidden}
+.pin{position:absolute;width:34px;height:34px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:var(--primary);display:grid;place-items:center;color:#fff;box-shadow:0 8px 20px rgba(79,70,229,.3)}
+.pin i{transform:rotate(45deg)}
+.pin.one{left:23%;top:35%}.pin.two{left:61%;top:58%}.pin.three{left:75%;top:20%}
+.service-list{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:15px}
+.service{border:1px solid var(--line);border-radius:14px;padding:12px;display:flex;gap:10px;align-items:center;font-size:12px;font-weight:700}
+.service i{color:var(--primary)}
+.section{padding:85px 0}
+.section.alt{background:var(--soft)}
+.head{text-align:center;max-width:720px;margin:0 auto 42px}
+.head h2{font-family:"Playfair Display",serif;font-size:42px;margin:10px 0}
+.head p{color:var(--muted);line-height:1.75}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:24px}
+.icon{width:46px;height:46px;border-radius:14px;background:#eef0ff;color:var(--primary);display:grid;place-items:center;margin-bottom:18px}
+.card h3{font-size:17px;margin:0 0 8px}
+.card p{font-size:13px;line-height:1.65;color:var(--muted);margin:0}
+.community-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.panel{background:#fff;border:1px solid var(--line);border-radius:24px;padding:28px}
+.panel.dark{background:linear-gradient(145deg,#171d36,#2a2355);color:#fff;border-color:transparent}
+.panel h3{font-family:"Playfair Display",serif;font-size:28px;margin:0 0 10px}
+.panel p{color:var(--muted);line-height:1.7}
+.panel.dark p{color:#d7dbea}
+.checks{list-style:none;padding:0;margin:22px 0 0;display:grid;gap:13px}
+.checks li{display:flex;gap:10px;align-items:flex-start;font-size:13px;line-height:1.5}
+.checks i{color:#aeb1ff;margin-top:3px}
+.service-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.service-card{padding:23px;border:1px solid var(--line);border-radius:20px;background:#fff}
+.service-card .service-icon{width:48px;height:48px;border-radius:14px;background:#eef0ff;color:var(--primary);display:grid;place-items:center;margin-bottom:15px}
+.service-card h3{margin:0 0 7px;font-size:16px}
+.service-card p{margin:0;color:var(--muted);font-size:13px;line-height:1.65}
+.service-card button{margin-top:16px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px}
+.stat{background:#fff;border:1px solid var(--line);border-radius:20px;padding:24px;text-align:center}
+.stat strong{font-family:"Playfair Display",serif;font-size:38px;color:var(--primary);display:block}
+.stat span{font-size:13px;color:var(--muted)}
+.help{max-width:820px;margin:auto;background:#fff;border:1px solid var(--line);border-radius:24px;padding:26px;box-shadow:var(--shadow)}
+.help textarea,.help input{width:100%;border:1px solid var(--line);border-radius:12px;padding:13px;outline:none}
+.help textarea{min-height:120px;resize:vertical}
+.help input{max-width:380px;margin-top:10px}
+.help textarea:focus,.help input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(79,70,229,.1)}
+.help-actions{display:flex;gap:10px;margin-top:12px}
+.note{font-size:12px;color:#9aa3b2}
+.cta{padding:70px 0}
+.cta-box{border-radius:28px;padding:48px;background:linear-gradient(120deg,var(--primary),var(--purple));color:#fff;display:flex;justify-content:space-between;align-items:center;gap:30px}
+.cta-box h2{font-family:"Playfair Display",serif;font-size:38px;margin:0 0 8px}
+.cta-box p{margin:0;color:#e7e7ff}
+.cta-box .btn{background:#fff;color:var(--primary)}
+.footer{border-top:1px solid var(--line);padding:40px 0;text-align:center;color:var(--muted);font-size:13px}
+.back{position:fixed;right:20px;bottom:20px;width:44px;height:44px;border:0;border-radius:50%;background:var(--dark);color:#fff;display:none;z-index:40;cursor:pointer}
+.back.show{display:block}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#182033;color:#fff;border-radius:12px;padding:13px 18px;font-size:13px;transition:.25s;z-index:100}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:900px){
+  .nav-links{display:none;position:absolute;top:74px;left:0;right:0;background:#fff;border-bottom:1px solid var(--line);padding:12px 20px;flex-direction:column;align-items:stretch}
+  .nav-links.open{display:flex}
+  .nav-links a{padding:13px}
+  .menu{display:block}
+  .hero-grid,.community-grid{grid-template-columns:1fr}
+  .cards{grid-template-columns:repeat(2,1fr)}
+  .service-cards{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:600px){
+  .container{width:min(100% - 28px,1120px)}
+  .hero{padding-top:125px}
+  .section{padding:60px 0}
+  .head h2{font-size:34px}
+  .cards,.service-cards,.stats{grid-template-columns:1fr}
+  .service-list{grid-template-columns:1fr}
+  .actions{flex-direction:column}
+  .actions .btn{width:100%}
+  .cta-box{display:block;padding:32px}
+  .cta-box h2{font-size:32px}
+  .cta-box .btn{margin-top:20px}
+}
+</style>
+</head>
+<body>
+<nav class="navbar" id="navbar">
+  <div class="container nav-inner">
+    <a href="home" class="logo">
+      <span class="logo-icon"><i class="fa-solid fa-house"></i></span>
+      <span class="logo-word">Heaven<span>Lease</span></span>
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="#community">Community</a>
+      <a href="#services">Services</a>
+      <a href="#help">Ask Us</a>
+      <a href="contact" class="primary">Contact Us</a>
+    </div>
+    <button class="menu" id="menuBtn" aria-label="Open navigation"><i class="fa-solid fa-bars"></i></button>
+  </div>
+</nav>
+<main id="top">
+<section class="hero">
+  <div class="container hero-grid">
+    <div>
+      <span class="eyebrow"><i class="fa-solid fa-users"></i> Community-first renting</span>
+      <h1>Community <span class="gradient">Focused.</span></h1>
+      <p>Great homes, useful services, neighbourhood context and a community that grows together. HeavenLease connects renting with the practical things that make a house feel like home.</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="#services"><i class="fa-solid fa-screwdriver-wrench"></i> Explore Services</a>
+        <a class="btn btn-light" href="#community"><i class="fa-solid fa-users"></i> See Our Approach</a>
+      </div>
+    </div>
+    <div class="community-preview">
+      <div class="preview-title"><strong>Move-in community hub</strong><span class="badge"><i class="fa-solid fa-circle-check"></i> Helpful resources</span></div>
+      <div class="preview-map">
+        <span class="pin one"><i class="fa-solid fa-wifi"></i></span>
+        <span class="pin two"><i class="fa-solid fa-broom"></i></span>
+        <span class="pin three"><i class="fa-solid fa-truck-moving"></i></span>
+      </div>
+      <div class="service-list">
+        <div class="service"><i class="fa-solid fa-truck-moving"></i> Moving help</div>
+        <div class="service"><i class="fa-solid fa-wifi"></i> Wi-Fi setup</div>
+        <div class="service"><i class="fa-solid fa-broom"></i> Home cleaning</div>
+        <div class="service"><i class="fa-solid fa-map-location-dot"></i> Local guides</div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="section" id="community">
+  <div class="container">
+    <div class="head">
+      <span class="eyebrow">More than a marketplace</span>
+      <h2>Renting should connect to real life</h2>
+      <p>Moving into a home is also about setting up internet, finding services and understanding your new neighbourhood. The goal is to make those next steps easier.</p>
+    </div>
+    <div class="cards">
+      <article class="card"><div class="icon"><i class="fa-solid fa-truck-moving"></i></div><h3>Moving & packing</h3><p>Practical guidance and trusted-partner pathways to make moving day less stressful.</p></article>
+      <article class="card"><div class="icon"><i class="fa-solid fa-wifi"></i></div><h3>Internet setup</h3><p>Useful Wi-Fi and connectivity guidance as you settle into your new home.</p></article>
+      <article class="card"><div class="icon"><i class="fa-solid fa-broom"></i></div><h3>Home services</h3><p>Find cleaning and maintenance resources around the point where you need them.</p></article>
+      <article class="card"><div class="icon"><i class="fa-solid fa-map-location-dot"></i></div><h3>Neighbourhood insight</h3><p>Discover context and practical information that helps a new area feel familiar.</p></article>
+    </div>
+  </div>
+</section>
+<section class="section alt">
+  <div class="container">
+    <div class="community-grid">
+      <div class="panel dark">
+        <h3>Growing together</h3>
+        <p>HeavenLease improves by listening to owners and tenants. The community helps shape the tools and resources that come next.</p>
+        <ul class="checks">
+          <li><i class="fa-solid fa-circle-check"></i><span>Owners can tell us what tools make property management easier.</span></li>
+          <li><i class="fa-solid fa-circle-check"></i><span>Tenants can share what would make renting simpler.</span></li>
+          <li><i class="fa-solid fa-circle-check"></i><span>Feedback can turn into practical product improvements.</span></li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3>Renting that fits real life</h3>
+        <p>Moving is more than signing a lease. It can mean packing, changing addresses, arranging services and learning where everyday essentials are.</p>
+        <p>That is why the experience is designed to connect the home with the resources around it.</p>
+        <div class="stats">
+          <div class="stat"><strong>1</strong><span>home base for your move</span></div>
+          <div class="stat"><strong>24/7</strong><span>resource access</span></div>
+          <div class="stat"><strong>0</strong><span>hidden handoffs</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="section" id="services">
+  <div class="container">
+    <div class="head">
+      <span class="eyebrow">Useful connections</span>
+      <h2>Services around your home</h2>
+      <p>Explore the types of practical support that can make settling into a new place easier.</p>
+    </div>
+    <div class="service-cards">
+      <article class="service-card"><div class="service-icon"><i class="fa-solid fa-truck-moving"></i></div><h3>Moving & packing</h3><p>Resources for planning your move, packing efficiently and getting settled.</p><button class="btn btn-light serviceBtn" data-service="Moving & packing">Learn more</button></article>
+      <article class="service-card"><div class="service-icon"><i class="fa-solid fa-wifi"></i></div><h3>Wi-Fi & internet</h3><p>Guidance for getting your connectivity arranged after moving in.</p><button class="btn btn-light serviceBtn" data-service="Wi-Fi & internet">Learn more</button></article>
+      <article class="service-card"><div class="service-icon"><i class="fa-solid fa-broom"></i></div><h3>Cleaning & maintenance</h3><p>Practical home-care resources for move-in and everyday maintenance.</p><button class="btn btn-light serviceBtn" data-service="Cleaning & maintenance">Learn more</button></article>
+    </div>
+  </div>
+</section>
+<section class="section alt" id="help">
+  <div class="container">
+    <div class="head">
+      <span class="eyebrow">Need help?</span>
+      <h2>Ask us anything</h2>
+      <p>Have a question about your move, your area or community resources? Send a message and we can reply by email.</p>
+    </div>
+    <div class="help">
+      <textarea id="helpMessage" placeholder="For example: I am moving to a new city and need help finding useful move-in services."></textarea>
+      <input id="helpEmail" type="email" placeholder="Your email (optional)">
+      <div class="help-actions">
+        <button class="btn btn-primary" id="sendBtn"><i class="fa-solid fa-paper-plane"></i> Draft Email</button>
+        <button class="btn btn-light" id="clearBtn"><i class="fa-solid fa-eraser"></i> Clear</button>
+      </div>
+      <p class="note" id="helpNote">This front-end demo opens your email app; it does not silently transmit your message.</p>
+    </div>
+  </div>
+</section>
+<section class="cta">
+  <div class="container">
+    <div class="cta-box">
+      <div>
+        <h2>Join a community that helps.</h2>
+        <p>Access useful services, neighbourhood resources and support for your next move.</p>
+      </div>
+      <a class="btn" href="contact"><i class="fa-solid fa-users"></i> Contact Us</a>
+    </div>
+  </div>
+</section>
+</main>
+<footer class="footer">
+<div class="container">
+    <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
+        <div class="footer-brand">
+            <a href="home" class="logo">
                 <div class="logo-icon"><i class="fas fa-home"></i></div>
                 <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
-            
-            <div class="nav-actions">
-                                <div class="user-menu" id="userMenu">
-                    <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu">
-                        <span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span>
-                        <span id="navUserName">Account</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </button>
-                    <div class="user-dropdown" id="profileDropdown">
-                        <a href="home" id="mainHomeLink"><i class="fas fa-home"></i> Main Home</a>
-                        <a href="edit-profile" id="myProfileLink"><i class="fas fa-user"></i> My Profile &amp; Settings</a>
-                        <a href="payment"><i class="fas fa-credit-card"></i> Access Pass</a>
-                        <div class="dropdown-divider"></div>
-                        <a href="properties"><i class="fas fa-building"></i> Browse Properties</a>
-                        <a href="map"><i class="fas fa-map-location-dot"></i> Property Map</a>
-                        <a href="comfort-scores"><i class="fas fa-gauge-high"></i> Comfort Scores</a>
-                        <a href="saved-properties"><i class="fas fa-heart"></i> Saved Properties</a>
-                        <a href="list-property"><i class="fas fa-key"></i> List Your Property</a>
-                        <a href="tenant-screening"><i class="fas fa-user-check"></i> Tenant Screening</a>
-                        <a href="owner-resources"><i class="fas fa-toolbox"></i> Owner Resources</a>
-                        <a href="buy-sell"><i class="fas fa-tag"></i> Buy / Sell</a>
-                        <a href="possession"><i class="fas fa-key"></i> Possession &amp; Handover</a>
-                        <a href="lease-signing"><i class="fas fa-file-signature"></i> Leases &amp; Signing</a>
-                        <a href="tour-booking"><i class="fas fa-calendar-check"></i> Tour Bookings</a>
-                        <a href="messages"><i class="fas fa-comments"></i> Messages</a>
-                        <a href="notifications"><i class="fas fa-bell"></i> Notifications</a>
-                        <div class="dropdown-divider"></div>
-                        <a href="how-it-works"><i class="fas fa-circle-question"></i> How It Works</a>
-                        <a href="about"><i class="fas fa-building"></i> About Us</a>
-                        <a href="blog"><i class="fas fa-newspaper"></i> Blog</a>
-<a href="comfort-scores"><i class="fas fa-chart-simple"></i> Type &amp; Voice Search</a>
-                                                <a href="contact"><i class="fas fa-envelope"></i> Contact &amp; Support</a>
-                        <div class="dropdown-divider"></div>
-                        <a href="login" id="signInLink" class="hide-when-auth"><i class="fas fa-arrow-right-to-bracket"></i> Sign In</a>
-                        <a href="#" id="logoutLink" class="logout-link hide-when-guest"><i class="fas fa-sign-out-alt"></i> Logout</a>
-                    </div>
-                </div>
-
-                
-            </div>
+            <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>
         </div>
-    </nav>    <section class="page-header">
-        <div class="container">
-            <h1>Community <span class="gradient-text">Focused</span></h1>
-            <p>Great homes, great services, and a community that grows together.</p>
-            <div class="breadcrumb"><a href="/">Home</a><i class="fas fa-chevron-right"></i><a href="about">About Us</a><i class="fas fa-chevron-right"></i><span>Community Focused</span></div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Explore</strong>
+            <a href="properties" style="color:inherit;text-decoration:none;">Find a Home</a>
+            <a href="map" style="color:inherit;text-decoration:none;">Property Map</a>
+            <a href="how-it-works" style="color:inherit;text-decoration:none;">How It Works</a>
+            <a href="about" style="color:inherit;text-decoration:none;">About Us</a>
         </div>
-    </section>
-    <section class="content-section">
-        <div class="container">            <div class="content-block">
-                <h2><i class="fas fa-book-open"></i> More Than a Marketplace</h2>
-                <p>Moving into a new home is also about building a life: setting up internet, finding services, getting to know the neighbourhood. HeavenLease connects the renting experience to the services you actually need.</p>
-                <p>We bring together trusted services that make moving and settling in easier — from movers to Wi-Fi providers to home cleaners.</p>
-                
-                <ul><li><i class='fas fa-circle-check'></i> Trusted moving and packing partners</li>
-                <li><i class='fas fa-circle-check'></i> Internet and Wi-Fi setup guidance</li>
-                <li><i class='fas fa-circle-check'></i> Home cleaning and maintenance services</li>
-                <li><i class='fas fa-circle-check'></i> Neighbourhood guides and insights</li></ul>
-            </div>
-            <div class="content-block">
-                <h2><i class="fas fa-book-open"></i> Growing Together</h2>
-                <p>We listen to our community and improve based on real feedback. Owners tell us what tools they need; tenants tell us what would make renting easier. Every update reflects what our community asked for.</p>
-                
-            </div></div>
-    </section>    <section class="cta-section">
-        <div class="container">
-            <div class="cta-banner">
-                <div class="cta-content">
-                    <h2>Join a community that helps</h2>
-                    <p>Access verified services and helpful guides.</p>
-                    <div class="cta-buttons">
-                        <a href="contact" class="btn btn-light btn-lg"><i class="fas fa-users"></i> Contact Us</a>
-                    </div>
-                </div>
-            </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Company</strong>
+            <a href="careers" style="color:inherit;text-decoration:none;">Careers</a>
+            <a href="press" style="color:inherit;text-decoration:none;">Press</a>
+            <a href="blog" style="color:inherit;text-decoration:none;">Blog</a>
+            <a href="contact" style="color:inherit;text-decoration:none;">Contact</a>
         </div>
-    </section>
-
-    <section class='content-section' style='padding-top:24px;'>
-        <div class='container'>
-            <div class='content-block'>
-                <h2><i class='fas fa-chart-simple'></i> Renting that fits real life</h2>
-                <p>Moving is never just a lease. It is packing, shifting, new-school runs, changing addresses, and finding out where the good food actually is. A rental platform earns its place when it makes the surrounding life easier too.</p>
-                <p>We pair every rental with practical resources - move-in checklists, neighbourhood context, maintenance help and tenant-community tips - so your new chapter starts smoothly and stays that way.</p>
-                <div class='stat-row'><div class='stat-card'><div class='num'>1</div><div class='lbl'>Home base for your move</div></div><div class='stat-card'><div class='num'>24/7</div><div class='lbl'>Resources and support access</div></div><div class='stat-card'><div class='num'>0</div><div class='lbl'>Hidden handoffs</div></div></div>
-            </div>
-            <div class='content-block'>
-                <h2><i class='fas fa-comment-dots'></i> Ask us anything</h2>
-                <p>A community question about your area or your move? Send us a plain-text message and our team will respond by email.</p>
-                <div class='help-strip'>
-                    <textarea id='helpMessage' placeholder='Type your message in plain text - no file upload needed.'></textarea>
-                    <input type='text' id='helpEmail' placeholder='Your email (optional)' style='width:100%;max-width:360px;margin-top:10px;padding:12px 14px;border:1px solid var(--gray-200);border-radius:var(--radius-md);font-size:14px;font-family:inherit;box-sizing:border-box;'>
-                    <div>
-                        <button type='button' class='btn btn-primary help-send' onclick='sendHelpMessage()'><i class='fas fa-paper-plane'></i> Send Message</button>
-                        <button type='button' class='btn btn-ghost help-clear' onclick='clearHelpMessage()'><i class='fas fa-eraser'></i> Clear</button>
-                    </div>
-                    <p class='help-note' id='helpNote' style='font-size:12px;color:var(--gray-400);margin-top:10px;'>Messages go to our support team by email. Prefer email? Write to support@heavenlease.in</p>
-                </div>
-            </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">For Owners</strong>
+            <a href="list-property" style="color:inherit;text-decoration:none;">List Your Property</a>
+            <a href="properties-management" style="color:inherit;text-decoration:none;">Owner Dashboard</a>
+            <a href="payment" style="color:inherit;text-decoration:none;">Pricing &amp; Upgrade</a>
+            <a href="owner-resources" style="color:inherit;text-decoration:none;">Owner Resources</a>
         </div>
-    </section>
+    </div>
+    <div class="footer-bottom" style="justify-content:center;margin-top:28px;">
+        <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
+    </div>
+</div>
+</footer>
+<button class="back" id="back" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i></button>
+<div class="toast" id="toast"></div>
 
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-grid" style="grid-template-columns: 1fr; text-align: center;">
-                <div class="footer-brand">
-                    <a href="/" class="logo">
-                        <div class="logo-icon"><i class="fas fa-home"></i></div>
-                        <span class="logo-text">Heaven<span>Lease</span></span>
-                    </a>
-                    <p style="margin: 10px auto; max-width: 300px;">Simple steps to your perfect stay. Direct owner rentals with zero broker fees and comfort-first search.</p>
-                </div>
-            </div>
-            <div class="footer-bottom" style="justify-content: center;">
-                <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
-            </div>
-        </div>
-    </footer>
-
-    <button class="back-to-top" id="backToTop" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
-
-    <script src="api.js?v=20260913a"></script>
-    <script src="script.js?v=20260913a"></script>
-    
-    <script>
-        const navbar = document.getElementById('navbar');
-        const hamburger = document.getElementById('hamburger');
-        const navLinks = document.getElementById('navLinks');
-        const backToTop = document.getElementById('backToTop');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) navbar.classList.add('scrolled'); else navbar.classList.remove('scrolled');
-            if (window.scrollY > 500) backToTop.classList.add('visible'); else backToTop.classList.remove('visible');
-        });
-        if (hamburger) hamburger.addEventListener('click', () => { hamburger.classList.toggle('active'); navLinks.classList.toggle('active'); });
-        document.querySelectorAll('.nav-link').forEach(link => link.addEventListener('click', () => { hamburger.classList.remove('active'); navLinks.classList.remove('active'); }));
-        backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-    </script>
-    <script>
-        function clearHelpMessage() {
-            document.getElementById('helpMessage').value = '';
-            document.getElementById('helpEmail').value = '';
-            const note = document.getElementById('helpNote');
-            if (note) note.textContent = 'Messages go to our support team by email. Prefer email? Write to support@heavenlease.in';
-        }
-        function sendHelpMessage() {
-            const msg = (document.getElementById('helpMessage').value || '').trim();
-            const email = (document.getElementById('helpEmail').value || '').trim();
-            const note = document.getElementById('helpNote');
-            if (!msg) {
-                if (note) note.textContent = 'Please type a short message first.';
-                return;
-            }
-            const subject = encodeURIComponent('HeavenLease page enquiry');
-            const body = encodeURIComponent(msg + (email ? '\n\nReply to: ' + email : ''));
-            window.location.href = 'mailto:support@heavenlease.in?subject=' + subject + '&body=' + body;
-            setTimeout(function () {
-                if (note) note.textContent = 'Opening your email app to send the message - thank you!';
-            }, 400);
-        }
-    </script>
+<script src="js/pages/community-focused.js?v=20260913a"></script>
 </body>
 </html>

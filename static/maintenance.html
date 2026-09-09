@@ -5,135 +5,472 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Scheduled maintenance - HeavenLease">
     <title>Scheduled maintenance | HeavenLease</title>
+<link rel="stylesheet" href="styles.css?v=20260909a">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --ink: #182033;
+            --muted: #687386;
+            --green: #18a878;
+            --green-dark: #1e5a40;
+            --green-soft: #eaf5ee;
+            --navy: #182033;
+            --line: #e4e7ee;
+            --shadow: 0 24px 70px rgba(8, 27, 18, .18);
+        }
+        * { box-sizing: border-box; }
+        html { min-height: 100%; }
         body {
-            font-family: 'Inter', sans-serif;
+            margin: 0;
             min-height: 100vh;
-            background: linear-gradient(rgba(15,23,42,0.85), rgba(30,27,75,0.82)), url('bg-home.jpg') center/cover fixed no-repeat;
+            font-family: 'Inter', sans-serif;
+            color: var(--ink);
+            background:
+                linear-gradient(135deg, rgba(238, 243, 239, .90), rgba(247, 242, 233, .88)),
+                url('https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=2200&q=85') center/cover fixed no-repeat;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 24px;
-            position: relative;
+            flex-direction: column;
             overflow-x: hidden;
         }
         body::before {
-            content: '';
+            content: "";
             position: fixed;
-            top: -200px;
-            right: -200px;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(79, 70, 229, 0.15) 0%, transparent 70%);
+            width: 520px;
+            height: 520px;
+            top: -240px;
+            right: -180px;
             border-radius: 50%;
-            z-index: 0;
+            background: radial-gradient(circle, rgba(47,125,91,.17), transparent 68%);
+            pointer-events: none;
         }
         body::after {
-            content: '';
+            content: "";
             position: fixed;
-            bottom: -200px;
-            left: -200px;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
+            width: 520px;
+            height: 520px;
+            bottom: -260px;
+            left: -190px;
             border-radius: 50%;
-            z-index: 0;
+            background: radial-gradient(circle, rgba(30,90,64,.12), transparent 68%);
+            pointer-events: none;
         }
-        .error-container { text-align: center; position: relative; z-index: 1; color: #fff; }
-        .error-brand {
+        .topbar {
+            position: relative;
+            z-index: 5;
+            width: 100%;
+            padding: 20px 28px;
+        }
+        .topbar-inner {
+            width: min(1160px, 100%);
+            margin: 0 auto;
+            min-height: 68px;
+            padding: 9px 11px 9px 15px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 12px;
-            margin-bottom: 40px;
+            justify-content: space-between;
+            gap: 20px;
+            border: 1px solid rgba(255,255,255,.16);
+            border-radius: 18px;
+            background:
+                linear-gradient(90deg, rgba(8,20,14,.97), rgba(20,50,35,.91)),
+                url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1800&q=80') center/cover;
+            box-shadow: 0 14px 45px rgba(5,20,12,.22);
+            backdrop-filter: blur(14px);
         }
-        .error-brand .logo-icon {
-            width: 48px;
-            height: 48px;
-            background: linear-gradient(135deg, #4F46E5, #10B981);
-            border-radius: 14px;
-            display: flex;
+        .brand {
+            display: inline-flex;
             align-items: center;
-            justify-content: center;
+            gap: 11px;
             color: #fff;
-            font-size: 22px;
-            box-shadow: 0 8px 24px rgba(79, 70, 229, 0.4);
+            text-decoration: none;
         }
-        .error-brand .logo-text {
+        .brand-icon {
+            width: 43px;
+            height: 43px;
+            border-radius: 13px;
+            display: grid;
+            place-items: center;
+            color: #fff;
+            font-size: 19px;
+            background: linear-gradient(135deg, #2f7d5b, #76b796);
+            box-shadow: 0 8px 22px rgba(47,125,91,.32);
+        }
+        .brand-name {
             font-family: 'Playfair Display', serif;
-            font-size: 28px;
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -.02em;
+        }
+        .brand-name span { color: #9ce2ba; }
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 13px;
+            border-radius: 999px;
+            color: #d7f3e2;
+            background: rgba(255,255,255,.08);
+            border: 1px solid rgba(255,255,255,.14);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .04em;
+            text-transform: uppercase;
+        }
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #f3c76b;
+            box-shadow: 0 0 0 4px rgba(243,199,107,.12);
+        }
+        .maintenance-main {
+            position: relative;
+            z-index: 1;
+            flex: 1;
+            display: grid;
+            place-items: center;
+            padding: 35px 24px 70px;
+        }
+        .maintenance-card {
+            width: min(930px, 100%);
+            display: grid;
+            grid-template-columns: 1.05fr .95fr;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,.74);
+            border-radius: 30px;
+            background: rgba(255,255,255,.90);
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(18px);
+        }
+        .card-visual {
+            min-height: 570px;
+            padding: 42px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            position: relative;
+            color: #fff;
+            background:
+                linear-gradient(180deg, rgba(8,24,16,.17), rgba(7,24,16,.92)),
+                url('https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1300&q=88') center/cover;
+        }
+        .card-visual::before {
+            content: "";
+            position: absolute;
+            inset: 22px;
+            border: 1px solid rgba(255,255,255,.17);
+            border-radius: 22px;
+            pointer-events: none;
+        }
+        .visual-icon {
+            position: relative;
+            width: 64px;
+            height: 64px;
+            margin-bottom: auto;
+            display: grid;
+            place-items: center;
+            border-radius: 19px;
+            color: #fff;
+            background: rgba(255,255,255,.13);
+            border: 1px solid rgba(255,255,255,.22);
+            font-size: 26px;
+            backdrop-filter: blur(12px);
+        }
+        .visual-copy {
+            position: relative;
+        }
+        .visual-kicker {
+            margin-bottom: 9px;
+            color: #bcebd0;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+        }
+        .visual-copy h2 {
+            margin: 0 0 10px;
+            font-family: 'Playfair Display', serif;
+            font-size: 35px;
+            line-height: 1.1;
+        }
+        .visual-copy p {
+            margin: 0;
+            max-width: 410px;
+            color: rgba(255,255,255,.76);
+            line-height: 1.65;
+            font-size: 14px;
+        }
+        .card-content {
+            min-height: 570px;
+            padding: 48px 42px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            width: fit-content;
+            padding: 7px 11px;
+            margin-bottom: 17px;
+            border-radius: 999px;
+            background: var(--green-soft);
+            color: var(--green-dark);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+        }
+        .content-icon {
+            width: 74px;
+            height: 74px;
+            margin-bottom: 22px;
+            display: grid;
+            place-items: center;
+            border-radius: 22px;
+            color: var(--green-dark);
+            background: linear-gradient(135deg, #e7f3eb, #f4f8f5);
+            border: 1px solid rgba(47,125,91,.10);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,.8);
+            font-size: 29px;
+        }
+        .card-content h1 {
+            margin: 0 0 13px;
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(36px, 5vw, 48px);
+            line-height: 1.04;
+            letter-spacing: -.035em;
+        }
+        .card-content .lead {
+            margin: 0;
+            color: var(--muted);
+            max-width: 500px;
+            line-height: 1.72;
+            font-size: 15px;
+        }
+        .return-note {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin: 24px 0 27px;
+            padding: 14px 15px;
+            border-radius: 15px;
+            background: #f5f8f6;
+            border: 1px solid var(--line);
+        }
+        .return-note i {
+            margin-top: 2px;
+            color: var(--green);
+        }
+        .return-note span {
+            color: #66736c;
+            font-size: 12px;
+            line-height: 1.55;
+        }
+        .actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .btn {
+            min-height: 48px;
+            padding: 12px 19px;
+            border-radius: 11px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+            transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+        }
+        .btn-primary {
+            color: #fff;
+            background: linear-gradient(135deg, #2f7d5b, #3f9670);
+            border: 1px solid #2f7d5b;
+            box-shadow: 0 9px 24px rgba(47,125,91,.24);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 13px 30px rgba(47,125,91,.31);
+        }
+        .btn-outline {
+            color: var(--green-dark);
+            background: #fff;
+            border: 1px solid rgba(35,87,61,.22);
+        }
+        .btn-outline:hover {
+            transform: translateY(-2px);
+            background: #f3f8f5;
+        }
+        .mini-footer {
+            position: relative;
+            z-index: 2;
+            padding: 18px 24px 28px;
+            text-align: center;
+            color: #718078;
+            font-size: 11px;
+        }
+        .mini-footer strong {
+            color: var(--ink);
             font-weight: 700;
         }
-        .error-brand .logo-text span { color: #818CF8; }
-        .error-code { font-size: 120px; font-weight: 800; font-family: 'Playfair Display', serif; line-height: 1; background: linear-gradient(135deg, #818CF8, #10B981); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 16px; }
-        .error-title { font-size: 28px; font-weight: 700; margin-bottom: 12px; }
-        .error-desc { font-size: 16px; color: rgba(255, 255, 255, 0.7); max-width: 400px; margin: 0 auto 32px; line-height: 1.6; }
-        .error-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-        .btn-primary-error {
-            padding: 14px 28px;
-            border: none;
-            border-radius: 10px;
-            background: linear-gradient(135deg, #4F46E5, #6366F1);
-            color: #fff;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-family: 'Inter', sans-serif;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 4px 16px rgba(79, 70, 229, 0.3);
+        @media (max-width: 820px) {
+            .maintenance-card {
+                grid-template-columns: 1fr;
+                max-width: 650px;
+            }
+            .card-visual {
+                min-height: 300px;
+                padding: 34px;
+            }
+            .card-content {
+                min-height: auto;
+                padding: 38px 34px 42px;
+            }
+            .visual-icon { margin-bottom: 70px; }
         }
-        .btn-primary-error:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(79, 70, 229, 0.4); }
-        .btn-outline-error {
-            padding: 14px 28px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 10px;
-            background: transparent;
-            color: #fff;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-family: 'Inter', sans-serif;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .btn-outline-error:hover { border-color: #fff; background: rgba(255, 255, 255, 0.1); }
-        .error-footer { margin-top: 60px; font-size: 12px; color: rgba(255, 255, 255, 0.4); }
-        @media (max-width: 480px) {
-            .error-code { font-size: 64px; }
-            .error-title { font-size: 22px; }
-            .error-brand .logo-text { font-size: 24px; }
-            .error-actions { flex-direction: column; width: 100%; max-width: 300px; margin: 0 auto; }
-            .btn-primary-error, .btn-outline-error { width: 100%; justify-content: center; padding: 14px 20px; }
-            .error-footer { margin-top: 40px; }
+        @media (max-width: 560px) {
+            .topbar { padding: 12px; }
+            .topbar-inner { min-height: 62px; border-radius: 15px; }
+            .brand-name { font-size: 21px; }
+            .brand-icon { width: 39px; height: 39px; }
+            .status-pill { display: none; }
+            .maintenance-main {
+                padding: 16px 12px 40px;
+            }
+            .maintenance-card {
+                border-radius: 22px;
+            }
+            .card-visual {
+                min-height: 250px;
+                padding: 26px;
+            }
+            .card-visual::before { inset: 14px; border-radius: 16px; }
+            .visual-icon { width: 55px; height: 55px; margin-bottom: 52px; }
+            .visual-copy h2 { font-size: 29px; }
+            .card-content {
+                padding: 31px 25px 32px;
+            }
+            .content-icon {
+                width: 62px;
+                height: 62px;
+                border-radius: 18px;
+                font-size: 24px;
+            }
+            .card-content h1 { font-size: 36px; }
+            .card-content .lead { font-size: 14px; }
+            .actions {
+                flex-direction: column;
+            }
+            .btn {
+                width: 100%;
+            }
+            .mini-footer {
+                padding-bottom: 20px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="error-container">
-        <div class="error-brand">
-            <div class="logo-icon"><i class="fas fa-home"></i></div>
-            <span class="logo-text">Heaven<span>Lease</span></span>
+    <header class="topbar">
+        <div class="topbar-inner">
+            <a href="/" class="brand" aria-label="HeavenLease home">
+                <span class="brand-icon"><i class="fas fa-home"></i></span>
+                <span class="brand-name">Heaven<span>Lease</span></span>
+            </a>
+            <div class="status-pill">
+                <span class="status-dot"></span>
+                Scheduled maintenance
+            </div>
         </div>
-
-        <div class="error-code">&#9888;</div>
-        <h1 class='error-title'>Scheduled maintenance</h1>
-        <p class='error-desc'>We are upgrading features to serve you better. We will be back at 5 PM IST. Thank you for your patience.</p>
-
-        <div class='error-actions'><a href='javascript:location.reload()' class='btn-primary-error'><i class='fas fa-rotate'></i> Refresh</a><a href='/' class='btn-outline-error'><i class='fas fa-home'></i> Back Home</a></div>
-
-        <p class="error-footer">&copy; 2026 HeavenLease. All rights reserved.</p>
+    </header>
+    <main class="maintenance-main">
+        <section class="maintenance-card" aria-labelledby="maintenance-title">
+            <div class="card-visual">
+                <div class="visual-icon">
+                    <i class="fas fa-screwdriver-wrench"></i>
+                </div>
+                <div class="visual-copy">
+                    <div class="visual-kicker">HeavenLease service update</div>
+                    <h2>A little work behind the scenes.</h2>
+                    <p>We’re improving the platform so your property experience stays smooth, reliable and ready for what’s next.</p>
+                </div>
+            </div>
+            <div class="card-content">
+                <div class="eyebrow">
+                    <i class="fas fa-clock"></i>
+                    Temporary downtime
+                </div>
+                <div class="content-icon">
+                    <i class="fas fa-triangle-exclamation"></i>
+                </div>
+                <h1 id="maintenance-title">Scheduled maintenance</h1>
+                <p class="lead">
+                    We are upgrading features to serve you better. We will be back at
+                    <strong>5 PM IST</strong>. Thank you for your patience.
+                </p>
+                <div class="return-note">
+                    <i class="fas fa-circle-check"></i>
+                    <span>Once maintenance is complete, refresh this page to return to the latest HeavenLease experience.</span>
+                </div>
+                <div class="actions">
+                    <a href="javascript:location.reload()" class="btn btn-primary">
+                        <i class="fas fa-rotate"></i>
+                        Refresh
+                    </a>
+                    <a href="/" class="btn btn-outline">
+                        <i class="fas fa-home"></i>
+                        Back Home
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer class="footer">
+<div class="container">
+    <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
+        <div class="footer-brand">
+            <a href="home" class="logo">
+                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <span class="logo-text">Heaven<span>Lease</span></span>
+            </a>
+            <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Explore</strong>
+            <a href="properties" style="color:inherit;text-decoration:none;">Find a Home</a>
+            <a href="map" style="color:inherit;text-decoration:none;">Property Map</a>
+            <a href="how-it-works" style="color:inherit;text-decoration:none;">How It Works</a>
+            <a href="about" style="color:inherit;text-decoration:none;">About Us</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Company</strong>
+            <a href="careers" style="color:inherit;text-decoration:none;">Careers</a>
+            <a href="press" style="color:inherit;text-decoration:none;">Press</a>
+            <a href="blog" style="color:inherit;text-decoration:none;">Blog</a>
+            <a href="contact" style="color:inherit;text-decoration:none;">Contact</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">For Owners</strong>
+            <a href="list-property" style="color:inherit;text-decoration:none;">List Your Property</a>
+            <a href="properties-management" style="color:inherit;text-decoration:none;">Owner Dashboard</a>
+            <a href="payment" style="color:inherit;text-decoration:none;">Pricing &amp; Upgrade</a>
+            <a href="owner-resources" style="color:inherit;text-decoration:none;">Owner Resources</a>
+        </div>
     </div>
+    <div class="footer-bottom" style="justify-content:center;margin-top:28px;">
+        <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
+    </div>
+</div>
+</footer>
 </body>
 </html>

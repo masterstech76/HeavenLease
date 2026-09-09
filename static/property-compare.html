@@ -9,30 +9,318 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
     <link rel="stylesheet" href="styles.css?v=20260909a">
     <style>
-        .page-header { background: rgba(255,255,255,0.45); backdrop-filter: blur(6px); padding: 140px 0 70px; text-align: center; position: relative; overflow: hidden; }
-        .page-header h1 { font-family: var(--font-heading); font-size: 46px; font-weight: 700; color: var(--dark); margin-bottom: 12px; }
-        .page-header p { font-size: 17px; color: var(--gray-500); max-width: 640px; margin: 0 auto; }
-        .page-header .ph-icon { width: 68px; height: 68px; border-radius: 18px; background: var(--gradient); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 28px; margin: 0 auto 18px; box-shadow: var(--shadow-primary); }
-        .page-section { padding: 70px 0 90px; }
-        .page-section .section-head { text-align: center; margin-bottom: 44px; }
-        .page-section .section-head h2 { font-family: var(--font-heading); font-size: 30px; font-weight: 700; color: var(--dark); }
-        .feature-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 26px; }
-        .feature-card { background: rgba(255,255,255,0.92); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 28px; transition: var(--transition); box-shadow: var(--shadow-sm); }
-        .feature-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--primary); }
-        .feature-card .fc-icon { width: 52px; height: 52px; border-radius: 14px; background: var(--gradient-soft); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 14px; }
-        .feature-card h3 { font-size: 17px; font-weight: 600; color: var(--dark); margin-bottom: 6px; }
-        .feature-card p { font-size: 14px; color: var(--gray-500); line-height: 1.6; margin: 0; }
-        .page-cta { padding: 0 0 90px; }
-        .cta-banner { background: var(--gradient); border-radius: var(--radius-xl); padding: 44px 32px; text-align: center; color: #fff; }
-        .cta-banner h2 { font-family: var(--font-heading); font-size: 28px; margin-bottom: 8px; }
-        .cta-banner p { opacity: 0.92; margin-bottom: 20px; }
-        .cta-banner .btn { background: #fff; color: var(--primary); font-weight: 600; }
-        .cta-banner .btn.ghost { background: transparent; border: 1px solid #fff; color: #fff; }
-        @media (max-width: 900px) { .feature-grid { grid-template-columns: 1fr; } }
-        @media (max-width: 768px) { .page-header { padding: 120px 0 50px; } .page-header h1 { font-size: 34px; } }
+        :root{
+            --hl-ink:#182033;
+            --hl-muted:#687386;
+            --hl-line:#e4e7ee;
+            --hl-surface:#ffffff;
+            --hl-accent:#5b5ce2;
+            --hl-green:#18a878;
+            --hl-shadow:0 24px 65px rgba(19,30,24,.13);
+            --hl-radius:24px;
+        }
+        html{scroll-behavior:smooth}
+        body{
+            background:
+                linear-gradient(rgba(246,248,244,.90),rgba(246,248,244,.96)),
+                url("https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=2200&q=82") center/cover fixed;
+            color:var(--hl-ink);
+        }
+        /* ===== PREMIUM NAVBAR ===== */
+        .navbar{
+            background:
+                linear-gradient(90deg,rgba(8,17,13,.97),rgba(20,34,27,.84)),
+                url("https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2200&q=82") center/cover !important;
+            border-bottom:1px solid rgba(255,255,255,.12);
+            box-shadow:0 10px 34px rgba(0,0,0,.17);
+            backdrop-filter:blur(12px);
+        }
+        .navbar.scrolled{
+            background:
+                linear-gradient(90deg,rgba(8,16,12,.99),rgba(18,29,23,.97)),
+                url("https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2200&q=82") center/cover !important;
+        }
+        .nav-container{min-height:76px}
+        .logo-text{color:#fff}
+        .logo-text span{color:#d9b46b}
+        .logo-icon{box-shadow:0 8px 24px rgba(0,0,0,.24)}
+        .user-menu-trigger{
+            color:#fff;
+            border:1px solid rgba(255,255,255,.16);
+            background:rgba(255,255,255,.08);
+            backdrop-filter:blur(10px);
+            border-radius:999px;
+            padding:8px 13px 8px 8px;
+        }
+        .user-menu-trigger:hover{background:rgba(255,255,255,.15)}
+        /* ===== HERO ===== */
+        .page-header{
+            min-height:455px;
+            padding:154px 0 82px;
+            display:flex;
+            align-items:center;
+            text-align:left;
+            color:#fff;
+            background:
+                linear-gradient(100deg,rgba(8,22,15,.93) 0%,rgba(18,39,29,.74) 54%,rgba(18,39,29,.43) 100%),
+                url("https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=2200&q=84") center/cover;
+        }
+        .page-header::after{
+            content:"";
+            position:absolute;
+            inset:0;
+            background:linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.30));
+            pointer-events:none;
+        }
+        .page-header .container{position:relative;z-index:1}
+        .page-header .ph-icon{
+            width:76px;
+            height:76px;
+            margin:0 0 22px;
+            border-radius:22px;
+            background:rgba(255,255,255,.13);
+            border:1px solid rgba(255,255,255,.23);
+            color:#f0d49a;
+            box-shadow:0 18px 38px rgba(0,0,0,.18);
+            backdrop-filter:blur(12px);
+        }
+        .page-header h1{
+            color:#fff;
+            font-size:clamp(42px,5vw,70px);
+            line-height:1.03;
+            letter-spacing:-1.8px;
+            margin-bottom:17px;
+        }
+        .page-header p{
+            color:rgba(255,255,255,.84);
+            font-size:18px;
+            line-height:1.7;
+            max-width:650px;
+            margin:0;
+        }
+        /* ===== COMPARE AREA ===== */
+        .page-section{
+            padding:58px 0 82px;
+            background:
+                linear-gradient(rgba(247,248,245,.88),rgba(247,248,245,.95)),
+                url("https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=2200&q=82") center/cover fixed;
+        }
+        .page-section .section-head{margin-bottom:28px}
+        .page-section .section-head h2{
+            font-size:30px;
+            letter-spacing:-.7px;
+        }
+        .page-section .container > div[style*="justify-content:center"]{
+            padding:20px;
+            border:1px solid rgba(255,255,255,.78);
+            border-radius:20px;
+            background:rgba(255,255,255,.72);
+            box-shadow:0 12px 35px rgba(19,30,24,.07);
+            backdrop-filter:blur(12px);
+        }
+        #pidInput{
+            min-height:46px;
+            width:190px;
+            max-width:none !important;
+            border-color:rgba(30,48,39,.13) !important;
+            background:#fff !important;
+            border-radius:12px !important;
+            box-shadow:0 5px 16px rgba(20,30,25,.05);
+        }
+        #pidInput:focus{
+            outline:none;
+            border-color:var(--hl-accent) !important;
+            box-shadow:0 0 0 4px rgba(178,138,74,.11);
+        }
+        .btn-primary{
+            background:linear-gradient(135deg,#315a45,#203f31) !important;
+            border-color:#315a45 !important;
+            box-shadow:0 10px 22px rgba(32,63,49,.16);
+        }
+        .btn-primary:hover{
+            transform:translateY(-1px);
+            box-shadow:0 14px 28px rgba(32,63,49,.21);
+        }
+        .btn-secondary{
+            background:#f0f3ef !important;
+            border-color:rgba(42,70,57,.13) !important;
+            color:#2d4739 !important;
+        }
+        /* ===== COMPARISON TABLE ===== */
+        #cmpWrap > div{
+            overflow-x:auto !important;
+            border:1px solid rgba(255,255,255,.84) !important;
+            border-radius:24px !important;
+            background:rgba(255,255,255,.95) !important;
+            box-shadow:var(--hl-shadow) !important;
+            padding:0 !important;
+        }
+        #cmpWrap table{
+            min-width:720px !important;
+            border-collapse:separate !important;
+            border-spacing:0 !important;
+        }
+        #cmpWrap th{
+            padding:18px 16px !important;
+            background:#f1f4f0;
+            border-bottom:1px solid var(--hl-line);
+            color:#5c6961 !important;
+            vertical-align:top;
+        }
+        #cmpWrap th:first-child{
+            width:150px;
+            position:sticky;
+            left:0;
+            z-index:2;
+            background:#eef2ed;
+        }
+        #cmpWrap tbody tr:nth-child(even){background:#fafbf9}
+        #cmpWrap td{
+            padding:15px 16px !important;
+            border-bottom:1px solid rgba(23,33,27,.075);
+            color:var(--hl-ink) !important;
+        }
+        #cmpWrap tbody tr:last-child td{border-bottom:0}
+        #cmpWrap td:first-child{
+            position:sticky;
+            left:0;
+            z-index:1;
+            background:inherit;
+            color:#66736b !important;
+            font-weight:650;
+        }
+        #cmpWrap th:not(:first-child){
+            min-width:190px;
+            border-left:1px solid rgba(23,33,27,.06);
+        }
+        #cmpWrap td:not(:first-child){border-left:1px solid rgba(23,33,27,.06)}
+        #cmpWrap th > div{
+            font-family:var(--font-heading);
+            font-size:17px !important;
+            color:#1b2820 !important;
+        }
+        #cmpWrap th .btn{
+            border-radius:10px;
+            padding:8px 12px;
+            font-weight:700;
+        }
+        #cmpWrap strong{color:#284a3a;font-size:15px}
+        /* Empty state */
+        #cmpWrap > div:not(:has(table)){
+            padding:72px 24px !important;
+            border:1px solid rgba(23,33,27,.08) !important;
+        }
+        #cmpWrap > div > i{color:#b8c0ba !important}
+        #cmpWrap > div > h3{
+            font-family:var(--font-heading);
+            font-size:28px !important;
+        }
+        /* ===== CTA ===== */
+        .page-cta{
+            padding:0 0 95px;
+            background:
+                linear-gradient(rgba(247,248,245,.95),rgba(247,248,245,.95));
+        }
+        .cta-banner{
+            position:relative;
+            overflow:hidden;
+            padding:58px 32px;
+            border-radius:26px;
+            background:
+                linear-gradient(105deg,rgba(16,39,29,.95),rgba(36,65,49,.80)),
+                url("https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1800&q=80") center/cover;
+            box-shadow:0 25px 65px rgba(19,30,24,.18);
+        }
+        .cta-banner::before{
+            content:"";
+            position:absolute;
+            width:260px;
+            height:260px;
+            border:1px solid rgba(255,255,255,.12);
+            border-radius:50%;
+            right:-90px;
+            top:-120px;
+        }
+        .cta-banner h2{
+            position:relative;
+            z-index:1;
+            font-size:32px;
+        }
+        .cta-banner p{
+            position:relative;
+            z-index:1;
+            color:rgba(255,255,255,.78);
+        }
+        .cta-banner > div{
+            position:relative;
+            z-index:1;
+        }
+        .cta-banner .btn{
+            border-radius:12px;
+            min-height:45px;
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            gap:8px;
+            background:#fff;
+            color:#284a3a;
+            font-weight:750;
+            box-shadow:0 8px 20px rgba(0,0,0,.12);
+        }
+        .cta-banner .btn.ghost{
+            background:rgba(255,255,255,.08);
+            border:1px solid rgba(255,255,255,.35);
+            color:#fff;
+        }
+        .cta-banner .btn:hover{transform:translateY(-2px)}
+        /* ===== RESPONSIVE ===== */
+        @media (max-width:900px){
+            .page-header{min-height:410px}
+            #cmpWrap > div{border-radius:20px !important}
+        }
+        @media (max-width:768px){
+            .page-header{
+                min-height:365px;
+                padding:128px 0 58px;
+            }
+            .page-header .ph-icon{
+                width:64px;
+                height:64px;
+                border-radius:18px;
+                font-size:24px;
+            }
+            .page-header h1{font-size:42px;letter-spacing:-1px}
+            .page-header p{font-size:16px}
+            .page-section{
+                padding:42px 0 65px;
+                background-attachment:scroll;
+            }
+            .page-section .section-head h2{font-size:26px}
+            .page-section .container > div[style*="justify-content:center"]{
+                padding:15px;
+            }
+            #pidInput{width:100%;flex:1;min-width:160px}
+            .page-cta{padding-bottom:70px}
+            .cta-banner{padding:44px 22px}
+        }
+        @media (max-width:560px){
+            .page-header{min-height:330px;padding:112px 0 48px}
+            .page-header h1{font-size:35px}
+            .page-header p{font-size:15px}
+            .page-section .container > div[style*="justify-content:center"]{
+                flex-direction:column;
+            }
+            .page-section .container > div[style*="justify-content:center"] button,
+            #pidInput{width:100%}
+            .cta-banner h2{font-size:27px}
+            .cta-banner > div{flex-direction:column}
+            .cta-banner .btn{width:100%}
+        }
+        /* Opaque premium footer if supplied by global stylesheet on this route */
+        .footer{background:#182033 !important}
     </style>
 </head>
 <body>
@@ -65,7 +353,6 @@
             <p>Put shortlisted homes side by side and decide with confidence.</p>
         </div>
     </section>
-
     <section class="page-section" style="padding-top:20px;">
         <div class="container" style="max-width: 1100px;">
             <div class="section-head" style="text-align:center;margin-bottom:24px;"><h2>Compare Shortlisted Homes</h2></div>
@@ -80,7 +367,6 @@
             </div>
         </div>
     </section>
-
     <section class="page-cta">
         <div class="container">
             <div class="cta-banner">
@@ -90,72 +376,49 @@
                     <a href="properties" class="btn btn-lg"><i class="fas fa-building"></i> Browse Properties</a>
                     <a href="saved-properties" class="btn btn-lg"><i class="fas fa-heart"></i> Saved Properties</a>
                     <a href="dashboard" class="btn btn-lg"><i class="fas fa-gauge-high"></i> My Dashboard</a>
-                    <a href="dashboard" class="btn btn-lg ghost"><i class="fas fa-gauge-high"></i> My Dashboard</a>
                 </div>
             </div>
         </div>
     </section>
-
-<script src="api.js?v=20260913a"></script>
-    <script src="script.js?v=20260913a"></script>
-    <script>
-        (function() {
-            'use strict';
-            const wrap=document.getElementById('cmpWrap');
-            let ids=[];
-            function money(n){return '₹'+Math.round(Number(n)||0).toLocaleString('en-IN');}
-            function rows(p){
-                return [
-                    ['Rent','<strong>'+money(p.rentAmount||p.price)+'/mo</strong>'],
-                    ['Deposit',money(p.deposit)],
-                    ['BHK / Type',api.escapeHtml((p.bhk||'')+' '+(p.propertyType||''))],
-                    ['Location',api.escapeHtml([p.locality,p.city].filter(Boolean).join(', ')||'—')],
-                    ['Quietness',(p.quietness!=null?p.quietness+'%':'—')],
-                    ['Sunlight',(p.sunlight!=null?p.sunlight+'%':'—')],
-                    ['Commute',(p.commute!=null?p.commute+'%':'—')],
-                    ['Furnished',(p.furnished?'Yes':'No')],
-                    ['Pet friendly',(p.petFriendly?'Yes':'No')]
-                ].map(function(r){return '<tr><td style="padding:8px 10px;color:var(--gray-500);font-size:12px;">'+r[0]+'</td><td style="padding:8px 10px;font-size:13px;color:var(--dark);">'+r[1]+'</td></tr>';}).join('');
-            }
-            async function render(){
-                const loaded=[];
-                for(const id of ids){
-                    try{const p=await api.getProperty(id);if(p&&p.id)loaded.push(p);}catch(e){/* skip missing */}
-                }
-                if(loaded.length===0){wrap.innerHTML='<div style="text-align:center;padding:60px 20px;background:var(--white);border:2px dashed var(--gray-200);border-radius:var(--radius-xl);">'
-                    +'<i class="fas fa-scale-balanced" style="font-size:56px;color:var(--gray-300);"></i>'
-                    +'<h3 style="margin:16px 0 6px;color:var(--dark);">Nothing to compare yet</h3>'
-                    +'<p style="color:var(--gray-500);margin-bottom:20px;">Enter a property ID above or browse properties to find one.</p>'
-                    +'<a href="properties" class="btn btn-primary" style="display:inline-flex;gap:8px;"><i class="fas fa-building"></i> Browse Properties</a></div>';return;}
-                wrap.innerHTML='<div style="overflow-x:auto;background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-xl);box-shadow:var(--shadow-sm);padding:20px;">'
-                    +'<table style="width:100%;border-collapse:collapse;min-width:640px;"><thead><tr>'
-                    +'<th style="text-align:left;padding:12px 10px;font-size:13px;color:var(--gray-500);">Feature</th>'
-                    +loaded.map(function(p){return '<th style="padding:12px 10px;text-align:left;"><div style="font-size:14px;color:var(--dark);">'+api.escapeHtml(p.title||('#'+p.id))+'</div>'
-                        +'<a class="btn btn-sm btn-secondary" style="margin-top:8px;" href="property-detail?id='+p.id+'"><i class="fas fa-eye"></i> View</a></th>';}).join('')
-                    +'</tr></thead><tbody>'
-                    +loaded.map(function(p){return '<tr>'+rows(p)+'</tr>';}).join('')
-                    +'</tbody></table></div>';
-            }
-            window.addToCompare=async function(){
-                const el=document.getElementById('pidInput');
-                const id=Number((el&&el.value)||0);
-                if(!id||ids.includes(id))return;
-                if(ids.length>=4){showToast('You can compare up to 4 properties.','error');return;}
-                try{
-                    const p=await api.getProperty(id);
-                    if(!p||!p.id){showToast('Property not found.','error');return;}
-                    ids.push(id);el.value='';render();
-                }catch(e){showToast(e.message||'Could not load property.','error');}
-            };
-            window.clearCompare=function(){ids=[];render();};
-            // Auto-add from ?ids=1,2,3
-            (function(){
-                const q=new URLSearchParams(window.location.search);
-                const v=q.get('ids');
-                if(v){v.split(',').forEach(function(x){const n=Number(x);if(n&&!ids.includes(n)&&ids.length<4)ids.push(n);});render();}
-            })();
-            render();
-        })();
-    </script>
+<script src="js/api.js?v=20260913a"></script>
+    <script src="js/core.js?v=20260913a"></script>
+    <script src="js/pages/property-compare.js?v=20260913a"></script>
+<footer class="footer">
+<div class="container">
+    <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
+        <div class="footer-brand">
+            <a href="home" class="logo">
+                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <span class="logo-text">Heaven<span>Lease</span></span>
+            </a>
+            <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Explore</strong>
+            <a href="properties" style="color:inherit;text-decoration:none;">Find a Home</a>
+            <a href="map" style="color:inherit;text-decoration:none;">Property Map</a>
+            <a href="how-it-works" style="color:inherit;text-decoration:none;">How It Works</a>
+            <a href="about" style="color:inherit;text-decoration:none;">About Us</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Company</strong>
+            <a href="careers" style="color:inherit;text-decoration:none;">Careers</a>
+            <a href="press" style="color:inherit;text-decoration:none;">Press</a>
+            <a href="blog" style="color:inherit;text-decoration:none;">Blog</a>
+            <a href="contact" style="color:inherit;text-decoration:none;">Contact</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">For Owners</strong>
+            <a href="list-property" style="color:inherit;text-decoration:none;">List Your Property</a>
+            <a href="properties-management" style="color:inherit;text-decoration:none;">Owner Dashboard</a>
+            <a href="payment" style="color:inherit;text-decoration:none;">Pricing &amp; Upgrade</a>
+            <a href="owner-resources" style="color:inherit;text-decoration:none;">Owner Resources</a>
+        </div>
+    </div>
+    <div class="footer-bottom" style="justify-content:center;margin-top:28px;">
+        <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
+    </div>
+</div>
+</footer>
 </body>
 </html>

@@ -1,50 +1,345 @@
-<!DOCTYPE html><html lang="en"><head>    <meta charset="UTF-8">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="How HeavenLease protects tenants and owners with verification, escrow and secure tools.">
     <title>Trust and Safety First - HeavenLease</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
     <link rel="stylesheet" href="styles.css?v=20260909a">
-    
     <style>
-        .page-header { background: var(--gradient-soft); padding: 140px 0 60px; text-align: center; position: relative; overflow: hidden; }
-        .page-header h1 { font-family: var(--font-heading); font-size: 42px; font-weight: 700; color: var(--dark); margin-bottom: 14px; }
-        .page-header p { font-size: 17px; color: var(--gray-500); max-width: 640px; margin: 0 auto; }
-        .page-header .breadcrumb { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 16px; font-size: 14px; color: var(--gray-500); }
-        .page-header .breadcrumb a { color: var(--primary); }
-        .page-header .breadcrumb i { font-size: 12px; color: var(--gray-400); }
-        .content-section { padding: 72px 0; }
-        .content-block { max-width: 860px; margin: 0 auto 36px; }
-        .content-block h2 { font-family: var(--font-heading); font-size: 26px; font-weight: 700; color: var(--dark); margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
-        .content-block h2 i { color: var(--primary); font-size: 20px; }
-        .content-block p { font-size: 15px; color: var(--gray-500); line-height: 1.8; margin-bottom: 12px; }
-        .content-block ul { margin: 12px 0 16px; }
-        .content-block ul li { font-size: 14px; color: var(--gray-600); padding: 6px 0; display: flex; align-items: flex-start; gap: 10px; }
-        .content-block ul li i { color: var(--secondary); font-size: 13px; margin-top: 3px; }
-        .cta-section { padding: 60px 0; }
-        @media (max-width: 768px) { .page-header { padding: 120px 0 44px; } .page-header h1 { font-size: 32px; } .content-block h2 { font-size: 21px; } }
-            .stat-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-top: 22px; }
-        .stat-card { background:#fff; border:1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 20px; text-align:center; }
-        .stat-card .num { font-size: 26px; font-weight:800; color: var(--primary); font-family: var(--font-heading); }
-        .stat-card .lbl { font-size: 13px; color: var(--gray-500); margin-top: 4px; line-height: 1.4; }
-        .help-strip { background:#f8fafc; border:1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 24px; }
-        .help-strip textarea { width:100%; min-height:110px; border:1px solid var(--gray-200); border-radius: var(--radius-md); padding: 12px 14px; font-size:14px; font-family:inherit; resize:vertical; box-sizing:border-box; }
-        .help-strip textarea:focus { outline:none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79,70,229,.1); }
-        .help-strip .btn { margin-top: 12px; }
-        .help-strip input:focus { outline:none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79,70,229,.1); }
-        @media (max-width: 768px) { .stat-row { grid-template-columns: 1fr; } }
-    </style></head><body>    <nav class="navbar" id="navbar">
+        :root {
+            --hl-ink: #182033;
+            --hl-muted: #687386;
+            --hl-line: #e4e7ee;
+            --hl-paper: #ffffff;
+            --hl-card: #ffffff;
+            --hl-accent: #5b5ce2;
+            --hl-green: #18a878;
+            --hl-shadow: 0 24px 70px rgba(16,33,43,.11);
+        }
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            margin: 0;
+            color: var(--hl-ink);
+            background:
+                linear-gradient(rgba(246,248,246,.94), rgba(246,248,246,.96)),
+                url("https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=2200&q=85") center/cover fixed;
+            font-family: Inter, system-ui, sans-serif;
+        }
+        .navbar {
+            position: fixed !important;
+            inset: 0 0 auto;
+            z-index: 1000;
+            background:
+                linear-gradient(90deg, rgba(7,18,23,.94), rgba(14,34,40,.72)),
+                url("https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2200&q=85") center 48%/cover;
+            border-bottom: 1px solid rgba(255,255,255,.12);
+            box-shadow: 0 8px 35px rgba(0,0,0,.18);
+            backdrop-filter: blur(10px);
+        }
+        .navbar.scrolled {
+            background:
+                linear-gradient(90deg, rgba(5,15,19,.98), rgba(11,28,34,.94)),
+                url("https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2200&q=85") center/cover;
+        }
+        .nav-container {
+            min-height: 76px;
+            max-width: 1240px;
+            padding: 0 24px;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+        .navbar .logo { color: #fff !important; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; }
+        .navbar .logo-text { color: #fff !important; font-weight: 800; letter-spacing: -.04em; font-size: 21px; }
+        .navbar .logo-text span { color: #e2bd78 !important; }
+        .logo-icon {
+            width: 38px !important;
+            height: 38px !important;
+            display: grid !important;
+            place-items: center !important;
+            border-radius: 12px !important;
+            color: #17252a !important;
+            background: linear-gradient(145deg, #f4d89e, #c9974b) !important;
+            box-shadow: 0 8px 22px rgba(0,0,0,.2);
+        }
+        .nav-actions { display: flex; align-items: center; margin-left: auto; }
+        .user-menu { position: relative; }
+        .user-menu-trigger {
+            border: 1px solid rgba(255,255,255,.16) !important;
+            background: rgba(255,255,255,.09) !important;
+            color: #fff !important;
+            border-radius: 999px !important;
+            min-height: 46px;
+            padding: 6px 13px 6px 7px;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            cursor: pointer;
+            font: inherit;
+            backdrop-filter: blur(12px);
+        }
+        .user-avatar {
+            width: 32px !important;
+            height: 32px !important;
+            border-radius: 50% !important;
+            display: grid !important;
+            place-items: center !important;
+            background: rgba(255,255,255,.16) !important;
+            color: #f4d89e !important;
+        }
+        .user-menu-trigger > i:last-child { font-size: 10px; opacity: .75; }
+        .user-dropdown {
+            margin-top: 10px !important;
+            right: 0;
+            min-width: 270px;
+            max-height: min(72vh, 620px);
+            overflow-y: auto;
+            padding: 9px !important;
+            border: 1px solid rgba(255,255,255,.12) !important;
+            border-radius: 18px !important;
+            background: rgba(15,29,34,.98) !important;
+            box-shadow: 0 24px 60px rgba(0,0,0,.3) !important;
+        }
+        .user-dropdown a {
+            color: rgba(255,255,255,.82) !important;
+            border-radius: 11px !important;
+            padding: 10px 12px !important;
+        }
+        .user-dropdown a:hover { background: rgba(255,255,255,.09) !important; color: #fff !important; }
+        .user-dropdown i { width: 20px; color: #e2bd78; }
+        .page-header {
+            position: relative;
+            min-height: 560px;
+            display: grid;
+            place-items: center;
+            text-align: center;
+            padding: 145px 24px 90px;
+            color: #fff;
+            overflow: hidden;
+            background:
+                linear-gradient(180deg, rgba(7,21,25,.34), rgba(7,21,25,.84)),
+                url("https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=2200&q=88") center/cover;
+        }
+        .page-header::after {
+            content: "";
+            position: absolute;
+            inset: auto 0 0;
+            height: 160px;
+            background: linear-gradient(transparent, rgba(244,247,245,.96));
+        }
+        .page-header .container { position: relative; z-index: 1; max-width: 880px; }
+        .page-header h1 {
+            margin: 0 0 18px;
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: clamp(42px, 6vw, 72px);
+            line-height: 1.02;
+            letter-spacing: -.035em;
+            color: #fff;
+        }
+        .page-header h1 .gradient-text {
+            color: #e6c681;
+            background: none;
+        }
+        .page-header p {
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: clamp(16px, 2vw, 20px);
+            line-height: 1.7;
+            color: rgba(255,255,255,.86);
+        }
+        .page-header .breadcrumb {
+            margin-top: 28px;
+            color: rgba(255,255,255,.7);
+        }
+        .page-header .breadcrumb a { color: #f0d393; text-decoration: none; }
+        .content-section { padding: 80px 20px; }
+        .content-section .container { max-width: 1040px; margin: auto; }
+        .content-block {
+            max-width: 900px;
+            margin: 0 auto 28px;
+            padding: 38px;
+            background: var(--hl-card);
+            border: 1px solid rgba(16,33,43,.08);
+            border-radius: 28px;
+            box-shadow: var(--hl-shadow);
+        }
+        .content-block h2 {
+            margin: 0 0 15px;
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: clamp(25px, 3vw, 34px);
+            line-height: 1.15;
+            color: var(--hl-ink);
+        }
+        .content-block h2 i {
+            width: 44px;
+            height: 44px;
+            flex: 0 0 44px;
+            display: grid;
+            place-items: center;
+            border-radius: 14px;
+            background: #edf4f1;
+            color: var(--hl-green);
+            font-size: 17px;
+        }
+        .content-block p {
+            color: var(--hl-muted);
+            font-size: 15px;
+            line-height: 1.85;
+            margin: 0 0 13px;
+        }
+        .content-block ul {
+            margin: 20px 0 2px;
+            padding: 0;
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        .content-block ul li {
+            min-height: 58px;
+            padding: 13px 15px;
+            display: flex;
+            align-items: flex-start;
+            gap: 11px;
+            color: #44555d;
+            background: #f7faf8;
+            border: 1px solid var(--hl-line);
+            border-radius: 14px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .content-block ul li i { color: #b18a43; margin-top: 3px; }
+        .stat-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-top: 24px;
+        }
+        .stat-card {
+            padding: 24px 16px;
+            text-align: center;
+            border: 1px solid var(--hl-line);
+            border-radius: 18px;
+            background: linear-gradient(145deg, #fff, #f6f9f7);
+        }
+        .stat-card .num {
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: 35px;
+            line-height: 1;
+            font-weight: 700;
+            color: var(--hl-green);
+        }
+        .stat-card .lbl { margin-top: 9px; color: var(--hl-muted); font-size: 12px; line-height: 1.45; }
+        .cta-section { padding: 24px 20px 82px; }
+        .cta-section .container { max-width: 1040px; margin: auto; }
+        .cta-banner {
+            position: relative;
+            overflow: hidden;
+            min-height: 330px;
+            display: flex;
+            align-items: center;
+            border-radius: 30px;
+            background:
+                linear-gradient(90deg, rgba(9,30,29,.95), rgba(9,30,29,.58)),
+                url("https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1800&q=85") center/cover;
+            box-shadow: 0 25px 70px rgba(16,33,43,.18);
+        }
+        .cta-content { max-width: 650px; padding: 54px; }
+        .cta-content h2 {
+            margin: 0 0 10px;
+            font-family: "Playfair Display", Georgia, serif;
+            color: #fff;
+            font-size: clamp(31px, 4vw, 48px);
+            line-height: 1.08;
+        }
+        .cta-content p { color: rgba(255,255,255,.75); margin: 0 0 25px; }
+        .cta-buttons .btn {
+            border-radius: 999px !important;
+            padding: 13px 21px !important;
+            text-decoration: none;
+            font-weight: 700;
+        }
+        .help-strip {
+            margin-top: 22px;
+            padding: 22px !important;
+            border: 1px solid var(--hl-line) !important;
+            border-radius: 20px !important;
+            background: #f7faf8 !important;
+        }
+        .help-strip textarea,
+        .help-strip input {
+            background: #fff !important;
+            border: 1px solid rgba(16,33,43,.13) !important;
+            border-radius: 13px !important;
+            color: var(--hl-ink);
+        }
+        .help-strip textarea { min-height: 130px !important; padding: 14px !important; }
+        .help-strip textarea:focus,
+        .help-strip input:focus {
+            outline: none !important;
+            border-color: #a88448 !important;
+            box-shadow: 0 0 0 4px rgba(213,168,91,.13) !important;
+        }
+        .help-strip > div { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
+        .help-strip .btn { margin-top: 0 !important; border-radius: 999px !important; }
+        .help-note { color: #89959a !important; }
+        .footer {
+            background: #0c1c22 !important;
+            color: rgba(255,255,255,.72) !important;
+            border-top: 1px solid rgba(255,255,255,.08);
+        }
+        .footer .logo-text { color: #fff !important; }
+        .footer .logo-text span { color: #e2bd78 !important; }
+        .footer .footer-brand p { color: rgba(255,255,255,.58) !important; line-height: 1.7; }
+        .footer-bottom { border-top-color: rgba(255,255,255,.09) !important; }
+        .footer-bottom p { color: rgba(255,255,255,.52) !important; }
+        .back-to-top {
+            width: 46px !important;
+            height: 46px !important;
+            border-radius: 50% !important;
+            background: #173d37 !important;
+            color: #fff !important;
+            box-shadow: 0 10px 25px rgba(0,0,0,.2);
+        }
+        @media (max-width: 760px) {
+            .nav-container { min-height: 68px; padding: 0 15px; }
+            .navbar .logo-text { font-size: 18px; }
+            .logo-icon { width: 34px !important; height: 34px !important; }
+            .user-menu-trigger { padding-right: 10px; }
+            .user-menu-trigger #navUserName { display: none; }
+            .page-header { min-height: 500px; padding: 120px 18px 75px; }
+            .content-section { padding: 48px 14px; }
+            .content-block { padding: 25px 20px; border-radius: 22px; }
+            .content-block ul, .stat-row { grid-template-columns: 1fr; }
+            .cta-section { padding: 10px 14px 55px; }
+            .cta-banner { min-height: 350px; border-radius: 23px; }
+            .cta-content { padding: 30px 23px; }
+            .help-strip > div { align-items: stretch; }
+            .help-strip .btn { width: 100%; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <a href="/" class="logo">
+            <a href="/" class="logo" aria-label="HeavenLease home">
                 <div class="logo-icon"><i class="fas fa-home"></i></div>
                 <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
-            
             <div class="nav-actions">
-                                <div class="user-menu" id="userMenu">
-                    <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu">
+                <div class="user-menu" id="userMenu">
+                    <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu" aria-haspopup="true">
                         <span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span>
                         <span id="navUserName">Account</span>
                         <i class="fas fa-chevron-down"></i>
@@ -71,42 +366,48 @@
                         <a href="how-it-works"><i class="fas fa-circle-question"></i> How It Works</a>
                         <a href="about"><i class="fas fa-building"></i> About Us</a>
                         <a href="blog"><i class="fas fa-newspaper"></i> Blog</a>
-<a href="comfort-scores"><i class="fas fa-chart-simple"></i> Type &amp; Voice Search</a>
-                                                <a href="contact"><i class="fas fa-envelope"></i> Contact &amp; Support</a>
+                        <a href="comfort-scores"><i class="fas fa-chart-simple"></i> Type &amp; Voice Search</a>
+                        <a href="contact"><i class="fas fa-envelope"></i> Contact &amp; Support</a>
                         <div class="dropdown-divider"></div>
                         <a href="login" id="signInLink" class="hide-when-auth"><i class="fas fa-arrow-right-to-bracket"></i> Sign In</a>
                         <a href="#" id="logoutLink" class="logout-link hide-when-guest"><i class="fas fa-sign-out-alt"></i> Logout</a>
                     </div>
                 </div>
-
-                
             </div>
         </div>
-    </nav>    <section class="page-header">
+    </nav>
+    <section class="page-header">
         <div class="container">
             <h1>Trust and Safety <span class="gradient-text">First</span></h1>
             <p>Every profile verified. Every deposit protected. Every message secure.</p>
-            <div class="breadcrumb"><a href="/">Home</a><i class="fas fa-chevron-right"></i><a href="about">About Us</a><i class="fas fa-chevron-right"></i><span>Trust and Safety</span></div>
+            <div class="breadcrumb">
+                <a href="/">Home</a><i class="fas fa-chevron-right"></i>
+                <a href="about">About Us</a><i class="fas fa-chevron-right"></i>
+                <span>Trust and Safety</span>
+            </div>
         </div>
     </section>
     <section class="content-section">
-        <div class="container">            <div class="content-block">
+        <div class="container">
+            <div class="content-block">
                 <h2><i class="fas fa-book-open"></i> Trust Is Built, Not Assumed</h2>
                 <p>Safe renting starts with real verification. Every owner on HeavenLease is document-verified before their listing goes live — we check ownership proof and identity so you never deal with a fake landlord.</p>
                 <p>Tenants are verified too, through our screening checks. Both sides start from a position of trust, backed by evidence.</p>
-                
-                <ul><li><i class='fas fa-circle-check'></i> Document-verified owners with ownership proof</li>
-                <li><i class='fas fa-circle-check'></i> Government ID verification for tenants</li>
-                <li><i class='fas fa-circle-check'></i> Escrow-protected security deposits</li>
-                <li><i class='fas fa-circle-check'></i> Secure, encrypted communication</li></ul>
+                <ul>
+                    <li><i class="fas fa-circle-check"></i> Document-verified owners with ownership proof</li>
+                    <li><i class="fas fa-circle-check"></i> Government ID verification for tenants</li>
+                    <li><i class="fas fa-circle-check"></i> Escrow-protected security deposits</li>
+                    <li><i class="fas fa-circle-check"></i> Secure, encrypted communication</li>
+                </ul>
             </div>
             <div class="content-block">
                 <h2><i class="fas fa-book-open"></i> Your Deposit, Protected</h2>
                 <p>Security deposits are held in escrow until move-out, so neither side can be taken advantage of. If the tenancy ends cleanly, the deposit returns automatically — no excuses, no delays.</p>
                 <p>Our escrow policy is transparent and detailed, and both sides know exactly how disputes are handled before they sign.</p>
-                
-            </div></div>
-    </section>    <section class="cta-section">
+            </div>
+        </div>
+    </section>
+    <section class="cta-section">
         <div class="container">
             <div class="cta-banner">
                 <div class="cta-content">
@@ -119,88 +420,75 @@
             </div>
         </div>
     </section>
-
-    <section class='content-section' style='padding-top:24px;'>
-        <div class='container'>
-            <div class='content-block'>
-                <h2><i class='fas fa-chart-simple'></i> How we protect every move</h2>
+    <section class="content-section" style="padding-top:24px;">
+        <div class="container">
+            <div class="content-block">
+                <h2><i class="fas fa-chart-simple"></i> How we protect every move</h2>
                 <p>Trust on a rental platform is built in layers: verified identities on both sides, an escrow-protected deposit, transparent lease terms, and a dispute path that actually resolves. We apply all four, consistently.</p>
                 <p>Every owner listing is checked, every tenant application is screened, and your deposit never sits in a personal account where it can be withheld on a whim. The result is a marketplace where both sides can act with confidence.</p>
-                <div class='stat-row'><div class='stat-card'><div class='num'>100%</div><div class='lbl'>Escrow-protected deposits</div></div><div class='stat-card'><div class='num'>2</div><div class='lbl'>Sides verified before contact</div></div><div class='stat-card'><div class='num'>7</div><div class='lbl'>Day dispute resolution target</div></div></div>
+                <div class="stat-row">
+                    <div class="stat-card"><div class="num">100%</div><div class="lbl">Escrow-protected deposits</div></div>
+                    <div class="stat-card"><div class="num">2</div><div class="lbl">Sides verified before contact</div></div>
+                    <div class="stat-card"><div class="num">7</div><div class="lbl">Day dispute resolution target</div></div>
+                </div>
             </div>
-            <div class='content-block'>
-                <h2><i class='fas fa-comment-dots'></i> Ask us anything</h2>
+            <div class="content-block">
+                <h2><i class="fas fa-comment-dots"></i> Ask us anything</h2>
                 <p>Not sure what a safety feature means for your situation? Ask us in plain text and our team will clarify by email.</p>
-                <div class='help-strip'>
-                    <textarea id='helpMessage' placeholder='Type your message in plain text - no file upload needed.'></textarea>
-                    <input type='text' id='helpEmail' placeholder='Your email (optional)' style='width:100%;max-width:360px;margin-top:10px;padding:12px 14px;border:1px solid var(--gray-200);border-radius:var(--radius-md);font-size:14px;font-family:inherit;box-sizing:border-box;'>
+                <div class="help-strip">
+                    <textarea id="helpMessage" placeholder="Type your message in plain text - no file upload needed." aria-label="Your message"></textarea>
+                    <input type="text" id="helpEmail" placeholder="Your email (optional)" aria-label="Your email">
                     <div>
-                        <button type='button' class='btn btn-primary help-send' onclick='sendHelpMessage()'><i class='fas fa-paper-plane'></i> Send Message</button>
-                        <button type='button' class='btn btn-ghost help-clear' onclick='clearHelpMessage()'><i class='fas fa-eraser'></i> Clear</button>
+                        <button type="button" class="btn btn-primary help-send" onclick="sendHelpMessage()"><i class="fas fa-paper-plane"></i> Send Message</button>
+                        <button type="button" class="btn btn-ghost help-clear" onclick="clearHelpMessage()"><i class="fas fa-eraser"></i> Clear</button>
                     </div>
-                    <p class='help-note' id='helpNote' style='font-size:12px;color:var(--gray-400);margin-top:10px;'>Messages go to our support team by email. Prefer email? Write to support@heavenlease.in</p>
+                    <p class="help-note" id="helpNote">Messages go to our support team by email. Prefer email? Write to support@heavenlease.in</p>
                 </div>
             </div>
         </div>
     </section>
-
     <footer class="footer">
-        <div class="container">
-            <div class="footer-grid" style="grid-template-columns: 1fr; text-align: center;">
-                <div class="footer-brand">
-                    <a href="/" class="logo">
-                        <div class="logo-icon"><i class="fas fa-home"></i></div>
-                        <span class="logo-text">Heaven<span>Lease</span></span>
-                    </a>
-                    <p style="margin: 10px auto; max-width: 300px;">Simple steps to your perfect stay. Direct owner rentals with zero broker fees and comfort-first search.</p>
-                </div>
-            </div>
-            <div class="footer-bottom" style="justify-content: center;">
-                <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
-            </div>
+<div class="container">
+    <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
+        <div class="footer-brand">
+            <a href="home" class="logo">
+                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <span class="logo-text">Heaven<span>Lease</span></span>
+            </a>
+            <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>
         </div>
-    </footer>
-
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Explore</strong>
+            <a href="properties" style="color:inherit;text-decoration:none;">Find a Home</a>
+            <a href="map" style="color:inherit;text-decoration:none;">Property Map</a>
+            <a href="how-it-works" style="color:inherit;text-decoration:none;">How It Works</a>
+            <a href="about" style="color:inherit;text-decoration:none;">About Us</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Company</strong>
+            <a href="careers" style="color:inherit;text-decoration:none;">Careers</a>
+            <a href="press" style="color:inherit;text-decoration:none;">Press</a>
+            <a href="blog" style="color:inherit;text-decoration:none;">Blog</a>
+            <a href="contact" style="color:inherit;text-decoration:none;">Contact</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">For Owners</strong>
+            <a href="list-property" style="color:inherit;text-decoration:none;">List Your Property</a>
+            <a href="properties-management" style="color:inherit;text-decoration:none;">Owner Dashboard</a>
+            <a href="payment" style="color:inherit;text-decoration:none;">Pricing &amp; Upgrade</a>
+            <a href="owner-resources" style="color:inherit;text-decoration:none;">Owner Resources</a>
+        </div>
+    </div>
+    <div class="footer-bottom" style="justify-content:center;margin-top:28px;">
+        <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
+    </div>
+</div>
+</footer>
     <button class="back-to-top" id="backToTop" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
-
-    <script src="api.js?v=20260913a"></script>
-    <script src="script.js?v=20260913a"></script>
+    <script src="js/api.js?v=20260913a"></script>
+    <script src="js/core.js?v=20260913a"></script>
     
-    <script>
-        const navbar = document.getElementById('navbar');
-        const hamburger = document.getElementById('hamburger');
-        const navLinks = document.getElementById('navLinks');
-        const backToTop = document.getElementById('backToTop');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) navbar.classList.add('scrolled'); else navbar.classList.remove('scrolled');
-            if (window.scrollY > 500) backToTop.classList.add('visible'); else backToTop.classList.remove('visible');
-        });
-        if (hamburger) hamburger.addEventListener('click', () => { hamburger.classList.toggle('active'); navLinks.classList.toggle('active'); });
-        document.querySelectorAll('.nav-link').forEach(link => link.addEventListener('click', () => { hamburger.classList.remove('active'); navLinks.classList.remove('active'); }));
-        backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-    </script>
-    <script>
-        function clearHelpMessage() {
-            document.getElementById('helpMessage').value = '';
-            document.getElementById('helpEmail').value = '';
-            const note = document.getElementById('helpNote');
-            if (note) note.textContent = 'Messages go to our support team by email. Prefer email? Write to support@heavenlease.in';
-        }
-        function sendHelpMessage() {
-            const msg = (document.getElementById('helpMessage').value || '').trim();
-            const email = (document.getElementById('helpEmail').value || '').trim();
-            const note = document.getElementById('helpNote');
-            if (!msg) {
-                if (note) note.textContent = 'Please type a short message first.';
-                return;
-            }
-            const subject = encodeURIComponent('HeavenLease page enquiry');
-            const body = encodeURIComponent(msg + (email ? '\n\nReply to: ' + email : ''));
-            window.location.href = 'mailto:support@heavenlease.in?subject=' + subject + '&body=' + body;
-            setTimeout(function () {
-                if (note) note.textContent = 'Opening your email app to send the message - thank you!';
-            }, 400);
-        }
-    </script>
+    
+<script src="js/pages/trust-and-safety-first.js?v=20260913a"></script>
 </body>
 </html>

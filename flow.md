@@ -44,7 +44,7 @@ search:   index → properties / search-results / map → property-detail
           └─▶ book tour (tour-booking) · save (saved-properties) · chat
 apply:    rental-application → application-status → respond to owner
 lease:    lease-signing → lease-details → lease-management (renewal reminders)
-payment:  payment → Razorpay → transaction-history (invoice) / upgrade-plan
+payment:  payment → Razorpay → transaction-history (invoice) / upgrade (payment.html)
 maintenance: maintenance-request → maintenance-requests
 messages: messages → conversation (live WebSocket) · notifications bell
 ```
@@ -64,7 +64,7 @@ support:  owner-support · support-tickets
 ## 6. Payment & subscription flow
 
 ```
-upgrade-plan / payment.html
+payment.html
    → Razorpay checkout (UPI/cards/netbanking)          [payment-methods]
    → /api/payments/callback → server-side signature verify (fail-closed)
    → Access Pass / Owner Plus granted → success page + receipt

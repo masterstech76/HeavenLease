@@ -3,56 +3,273 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="A single HeavenLease blog article.">
-    <title>Blog Article — HeavenLease</title>
+    <meta name="description" content="Track the progress of your application.">
+    <title>Application Status — HeavenLease</title>
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
     <link rel="stylesheet" href="styles.css?v=20260909a">
     <style>
-        .page-header { background: rgba(255,255,255,0.45); backdrop-filter: blur(6px); padding: 140px 0 70px; text-align: center; position: relative; overflow: hidden; }
-        .page-header h1 { font-family: var(--font-heading); font-size: 46px; font-weight: 700; color: var(--dark); margin-bottom: 12px; }
-        .page-header p { font-size: 17px; color: var(--gray-500); max-width: 640px; margin: 0 auto; }
-        .page-header .ph-icon { width: 68px; height: 68px; border-radius: 18px; background: var(--gradient); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 28px; margin: 0 auto 18px; box-shadow: var(--shadow-primary); }
-        .page-section { padding: 70px 0 90px; }
-        .page-section .section-head { text-align: center; margin-bottom: 44px; }
-        .page-section .section-head h2 { font-family: var(--font-heading); font-size: 30px; font-weight: 700; color: var(--dark); }
-        .feature-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 26px; }
-        .feature-card { background: rgba(255,255,255,0.92); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 28px; transition: var(--transition); box-shadow: var(--shadow-sm); }
-        .feature-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--primary); }
-        .feature-card .fc-icon { width: 52px; height: 52px; border-radius: 14px; background: var(--gradient-soft); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 14px; }
-        .feature-card h3 { font-size: 17px; font-weight: 600; color: var(--dark); margin-bottom: 6px; }
-        .feature-card p { font-size: 14px; color: var(--gray-500); line-height: 1.6; margin: 0; }
-        .article-detail { background: #fff; border: 1px solid var(--gray-200); border-radius: var(--radius-xl); padding: 40px; max-width: 820px; margin: 0 auto; }
-        .article-detail .article-meta { font-size: 13px; color: var(--gray-400); margin-bottom: 22px; }
-        .article-detail .article-content h2 { font-family: var(--font-heading); font-size: 24px; font-weight: 700; color: var(--dark); margin: 32px 0 10px; }
-        .article-detail .article-content p { font-size: 15.5px; color: var(--gray-600); line-height: 1.85; margin-bottom: 16px; }
-        .article-detail .article-content ul { margin: 0 0 18px; padding-left: 20px; }
-        .article-detail .article-content li { font-size: 15px; color: var(--gray-600); margin-bottom: 8px; line-height: 1.7; }
-        .article-not-found { text-align: center; padding: 60px 20px; background: rgba(255,255,255,0.92); border: 1px solid var(--gray-200); border-radius: var(--radius-xl); max-width: 620px; margin: 0 auto; }
-        .article-not-found p { font-size: 15px; line-height: 1.7; }
-        .page-cta { padding: 0 0 90px; }
-        .cta-banner { background: var(--gradient); border-radius: var(--radius-xl); padding: 44px 32px; text-align: center; color: #fff; }
-        .cta-banner h2 { font-family: var(--font-heading); font-size: 28px; margin-bottom: 8px; }
-        .cta-banner p { opacity: 0.92; margin-bottom: 20px; }
-        .cta-banner .btn { background: #fff; color: var(--primary); font-weight: 600; }
-        .cta-banner .btn.ghost { background: transparent; border: 1px solid #fff; color: #fff; }
-        @media (max-width: 900px) { .feature-grid { grid-template-columns: 1fr; } }
-        @media (max-width: 768px) { .page-header { padding: 120px 0 50px; } .page-header h1 { font-size: 34px; } }
+        :root{
+            --hl-ink:#182033;
+            --hl-muted:#687386;
+            --hl-soft:#f7f8fc;
+            --hl-line:#e4e7ee;
+            --hl-primary:#5b5ce2;
+            --hl-primary-2:#5b5ce2;
+            --hl-dark:#182033;
+            --hl-white:#ffffff;
+            --hl-radius:24px;
+            --hl-shadow:0 20px 60px rgba(16,24,40,.10);
+        }
+        *{box-sizing:border-box}
+        html{scroll-behavior:smooth}
+        body{
+            margin:0;
+            font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+            color:var(--hl-ink);
+            background:var(--hl-soft);
+        }
+        a{text-decoration:none;color:inherit}
+        button,input,textarea{font:inherit}
+        .container{width:min(1160px,calc(100% - 40px));margin:0 auto}
+        .navbar{
+            position:fixed;inset:0 0 auto 0;z-index:100;
+            background:transparent;
+            transition:.25s ease;
+        }
+        .navbar.scrolled{
+            background:rgba(255,255,255,.86);
+            backdrop-filter:blur(18px);
+            box-shadow:0 1px 0 rgba(16,24,40,.07);
+        }
+        .nav-container{
+            width:min(1160px,calc(100% - 40px));
+            height:78px;margin:auto;
+            display:flex;align-items:center;justify-content:space-between;
+        }
+        .logo{display:flex;align-items:center;gap:11px;font-weight:800}
+        .logo-icon{
+            width:40px;height:40px;border-radius:13px;
+            display:grid;place-items:center;color:#fff;
+            background:linear-gradient(135deg,var(--hl-primary),var(--hl-primary-2));
+            box-shadow:0 10px 24px rgba(91,92,226,.28);
+        }
+        .logo-text{font-size:20px;letter-spacing:-.5px}
+        .logo-text span{color:var(--hl-primary)}
+        .nav-actions{display:flex;align-items:center}
+        .user-menu{position:relative}
+        .user-menu-trigger{
+            border:1px solid rgba(255,255,255,.28);
+            background:rgba(255,255,255,.10);
+            color:#fff;border-radius:999px;
+            padding:8px 13px 8px 8px;
+            display:flex;align-items:center;gap:9px;
+            cursor:pointer;
+        }
+        .navbar.scrolled .user-menu-trigger{
+            background:#fff;color:var(--hl-ink);border-color:var(--hl-line);
+        }
+        .user-avatar{
+            width:30px;height:30px;border-radius:50%;
+            display:grid;place-items:center;background:linear-gradient(135deg,var(--hl-primary),var(--hl-primary-2));color:#fff;
+            font-size:12px;
+        }
+        .user-menu-trigger .fa-chevron-down{font-size:10px;opacity:.65}
+        .user-dropdown{
+            position:absolute;right:0;top:calc(100% + 10px);
+            width:230px;padding:8px;
+            background:#fff;border:1px solid var(--hl-line);border-radius:16px;
+            box-shadow:var(--hl-shadow);display:none;
+        }
+        .user-dropdown.open{display:block}
+        .user-dropdown a{
+            display:flex;gap:10px;align-items:center;
+            padding:11px 12px;border-radius:10px;color:var(--hl-ink);font-size:13px;
+        }
+        .user-dropdown a:hover{background:var(--hl-soft);color:var(--hl-primary)}
+        .article-hero{
+            position:relative;overflow:hidden;
+            padding:150px 0 88px;
+            background:
+              radial-gradient(circle at 15% 20%,rgba(124,58,237,.42),transparent 30%),
+              radial-gradient(circle at 86% 15%,rgba(91,92,226,.40),transparent 32%),
+              linear-gradient(135deg,#182033 0%,#171d38 52%,#11152b 100%);
+            color:#fff;
+        }
+        .article-hero:before{
+            content:"";position:absolute;width:520px;height:520px;border:1px solid rgba(255,255,255,.07);
+            border-radius:50%;right:-180px;bottom:-280px;
+        }
+        .article-hero:after{
+            content:"";position:absolute;width:300px;height:300px;border:1px solid rgba(255,255,255,.06);
+            border-radius:50%;left:-150px;top:100px;
+        }
+        .hero-grid{
+            position:relative;z-index:1;
+            display:grid;grid-template-columns:minmax(0,1.25fr) 360px;gap:70px;align-items:center;
+        }
+        .eyebrow{
+            display:inline-flex;align-items:center;gap:8px;
+            padding:7px 11px;border:1px solid rgba(255,255,255,.15);
+            border-radius:999px;background:rgba(255,255,255,.07);
+            color:#d9dcff;font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+        }
+        .eyebrow i{font-size:10px;color:#aeb2ff}
+        .article-hero h1{
+            margin:20px 0 16px;
+            font-family:"Playfair Display",Georgia,serif;
+            font-size:clamp(42px,5.4vw,70px);line-height:1.04;letter-spacing:-1.8px;
+            max-width:790px;
+        }
+        .article-hero p{
+            margin:0;max-width:680px;color:rgba(255,255,255,.72);
+            font-size:17px;line-height:1.75;
+        }
+        .hero-meta{
+            display:flex;flex-wrap:wrap;gap:10px;margin-top:28px;
+            color:rgba(255,255,255,.62);font-size:13px;
+        }
+        .hero-meta span{display:inline-flex;align-items:center;gap:7px}
+        .hero-meta span+span:before{content:"•";margin-right:2px;color:rgba(255,255,255,.35)}
+        .hero-card{
+            background:rgba(255,255,255,.09);
+            border:1px solid rgba(255,255,255,.14);
+            border-radius:28px;padding:26px;
+            box-shadow:0 28px 70px rgba(0,0,0,.24);
+            backdrop-filter:blur(14px);
+        }
+        .hero-card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:25px}
+        .hero-card-icon{
+            width:48px;height:48px;border-radius:15px;
+            display:grid;place-items:center;background:rgba(255,255,255,.12);color:#fff;
+        }
+        .hero-card-label{font-size:12px;color:rgba(255,255,255,.55)}
+        .hero-card h3{font-family:"Playfair Display",Georgia,serif;font-size:27px;margin:0 0 9px}
+        .hero-card p{font-size:13px;line-height:1.65;color:rgba(255,255,255,.62);margin:0}
+        .hero-card .line{height:1px;background:rgba(255,255,255,.10);margin:22px 0}
+        .hero-stat{display:flex;justify-content:space-between;gap:15px;font-size:13px}
+        .hero-stat strong{color:#fff}
+        .hero-stat span{color:rgba(255,255,255,.55)}
+        .article-main{padding:72px 0 96px}
+        .article-layout{display:grid;grid-template-columns:minmax(0,780px) 290px;gap:44px;align-items:start}
+        .article-detail{
+            background:#fff;border:1px solid var(--hl-line);border-radius:var(--hl-radius);
+            padding:48px;box-shadow:0 14px 45px rgba(16,24,40,.06);
+        }
+        .article-meta{
+            display:flex;align-items:center;gap:10px;
+            font-size:12px;color:var(--hl-muted);margin:0 0 30px;
+        }
+        .article-meta .tag{
+            color:var(--hl-primary);font-weight:700;background:#eef0ff;
+            padding:6px 9px;border-radius:999px;
+        }
+        .article-content h2{
+            font-family:"Playfair Display",Georgia,serif;
+            font-size:30px;line-height:1.2;margin:36px 0 13px;color:var(--hl-ink);
+        }
+        .article-content h2:first-child{margin-top:0}
+        .article-content p{
+            font-size:16px;line-height:1.9;color:#525c6e;margin:0 0 18px;
+        }
+        .article-content ul{margin:0 0 22px;padding-left:22px}
+        .article-content li{font-size:15.5px;line-height:1.8;color:#525c6e;margin:7px 0}
+        .article-content li::marker{color:var(--hl-primary)}
+        .article-sidebar{position:sticky;top:100px}
+        .side-card{
+            background:#fff;border:1px solid var(--hl-line);border-radius:20px;padding:22px;
+            margin-bottom:16px;
+        }
+        .side-card h3{font-size:14px;margin:0 0 13px}
+        .side-card p{font-size:13px;line-height:1.7;color:var(--hl-muted);margin:0}
+        .side-link{
+            display:flex;align-items:center;gap:10px;padding:10px 0;
+            color:var(--hl-muted);font-size:13px;border-bottom:1px solid var(--hl-line);
+        }
+        .side-link:last-child{border-bottom:0;padding-bottom:0}
+        .side-link:hover{color:var(--hl-primary)}
+        .side-link i{width:18px;text-align:center}
+        .not-found{
+            text-align:center;padding:70px 25px;background:#fff;border:1px solid var(--hl-line);
+            border-radius:var(--hl-radius);box-shadow:0 14px 45px rgba(16,24,40,.06);
+        }
+        .not-found-icon{
+            width:70px;height:70px;border-radius:20px;margin:0 auto 20px;
+            display:grid;place-items:center;background:#eef0ff;color:var(--hl-primary);font-size:27px;
+        }
+        .not-found h2{font-family:"Playfair Display",Georgia,serif;font-size:31px;margin:0 0 10px}
+        .not-found p{color:var(--hl-muted);line-height:1.7;max-width:450px;margin:0 auto 22px}
+        .page-cta{padding:0 0 90px}
+        .cta-banner{
+            position:relative;overflow:hidden;
+            background:linear-gradient(135deg,#182033,#22214a);
+            border-radius:30px;padding:54px 35px;text-align:center;color:#fff;
+        }
+        .cta-banner:before{
+            content:"";position:absolute;width:300px;height:300px;border-radius:50%;
+            background:rgba(124,58,237,.22);filter:blur(20px);left:-100px;top:-160px;
+        }
+        .cta-banner>*{position:relative;z-index:1}
+        .cta-banner h2{font-family:"Playfair Display",Georgia,serif;font-size:34px;margin:0 0 9px}
+        .cta-banner p{color:rgba(255,255,255,.68);margin:0 0 23px}
+        .cta-buttons{display:flex;gap:11px;justify-content:center;flex-wrap:wrap}
+        .cta-banner .btn{
+            display:inline-flex;align-items:center;gap:8px;
+            background:#fff;color:var(--hl-ink);border-radius:12px;padding:12px 17px;
+            font-size:13px;font-weight:700;
+        }
+        .cta-banner .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,.22);color:#fff}
+        .footer{
+            background:var(--hl-dark);color:#fff;padding:65px 0 30px;
+        }
+        .footer-grid{display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:40px}
+        .footer-brand p{max-width:330px;color:#9aa3b2;font-size:13px;line-height:1.7}
+        .footer h4{font-size:13px;margin:5px 0 15px}
+        .footer a{display:block;color:#9aa3b2;font-size:13px;margin:9px 0}
+        .footer a:hover{color:#fff}
+        .footer-bottom{
+            border-top:1px solid rgba(255,255,255,.08);margin-top:40px;padding-top:20px;
+            color:#687386;font-size:12px;display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;
+        }
+        #backToTop{
+            position:fixed;right:22px;bottom:22px;width:44px;height:44px;border:0;border-radius:50%;
+            display:none;place-items:center;background:var(--hl-primary);color:#fff;cursor:pointer;
+            box-shadow:0 12px 30px rgba(91,92,226,.3);z-index:90;
+        }
+        #backToTop.show{display:grid}
+        @media(max-width:900px){
+            .hero-grid,.article-layout{grid-template-columns:1fr}
+            .hero-card{max-width:520px}
+            .article-sidebar{position:static}
+            .footer-grid{grid-template-columns:1fr 1fr}
+        }
+        @media(max-width:600px){
+            .container,.nav-container{width:min(100% - 28px,1160px)}
+            .nav-container{height:70px}
+            .article-hero{padding:125px 0 60px}
+            .article-hero h1{font-size:42px}
+            .article-hero p{font-size:15px}
+            .article-detail{padding:28px 22px}
+            .article-content h2{font-size:25px}
+            .article-main{padding:48px 0 65px}
+            .footer-grid{grid-template-columns:1fr}
+            .footer{padding-top:48px}
+        }
     </style>
 </head>
 <body>
     <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <a href="/" class="logo">
+            <a href="/" class="logo" aria-label="HeavenLease home">
                 <div class="logo-icon"><i class="fas fa-home"></i></div>
                 <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
             <div class="nav-actions">
                 <div class="user-menu" id="userMenu">
-                    <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu">
+                    <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu" type="button">
                         <span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span>
                         <span id="navUserName">Account</span>
                         <i class="fas fa-chevron-down"></i>
@@ -66,141 +283,111 @@
             </div>
         </div>
     </nav>
-    <section class="page-header">
-        <div class="container">
-            <div class="ph-icon"><i class="fas fa-newspaper"></i></div>
-            <h1>Latest Article</h1>
-            <p>Guides, news and stories from the HeavenLease team.</p>
+    <header class="article-hero">
+        <div class="container hero-grid">
+            <div>
+                <div class="eyebrow"><i class="fas fa-sparkles"></i> HeavenLease Journal</div>
+                <h1 id="articleTitle">Stories that make renting simpler.</h1>
+                <p id="articleSubtitle">Practical guides, thoughtful ideas and useful stories for finding a home, renting with confidence and making better property decisions.</p>
+                <div class="hero-meta" id="heroMeta">
+                    <span><i class="far fa-clock"></i> 5 min read</span>
+                    <span><i class="far fa-calendar"></i> HeavenLease editorial</span>
+                </div>
+            </div>
+            <aside class="hero-card">
+                <div class="hero-card-top">
+                    <div class="hero-card-icon"><i class="fas fa-newspaper"></i></div>
+                    <span class="hero-card-label">ARTICLE</span>
+                </div>
+                <h3>Useful ideas. Clear decisions.</h3>
+                <p>Explore the article, save what matters and continue discovering the HeavenLease experience.</p>
+                <div class="line"></div>
+                <div class="hero-stat"><strong>Read</strong><span>Full article</span></div>
+                <div class="hero-stat" style="margin-top:11px;"><strong>Explore</strong><span>More guides</span></div>
+            </aside>
         </div>
-    </section>
-
-    <section class="page-section">
+    </header>
+    <main class="article-main">
         <div class="container">
-            <div class="section-head"><h2>Everything you need</h2></div>
-            <div class="feature-grid">
-                    <div class="feature-card"><div class="fc-icon"><i class="fas fa-book-open"></i></div><h3>Read</h3><p>Full article, beautifully formatted.</p></div>
-                    <div class="feature-card"><div class="fc-icon"><i class="fas fa-tags"></i></div><h3>Topics</h3><p>Renting, ownership, and more.</p></div>
-                    <div class="feature-card"><div class="fc-icon"><i class="fas fa-share"></i></div><h3>Share</h3><p>Spread the word.</p></div>
+            <div class="article-layout">
+                <div id="articleContentArea">
+                    <article class="article-detail">
+                        <div class="article-meta"><span class="tag">Featured</span><span>HeavenLease Journal</span></div>
+                        <div class="article-content">
+                            <h2>Everything you need, in one place.</h2>
+                            <p>Open an article from the HeavenLease blog to read the complete guide. We keep our stories focused on practical rental decisions, property ownership and a smoother experience for everyone.</p>
+                            <p>Use the blog to discover useful ideas, then return to HeavenLease when you're ready to find a home or continue your journey.</p>
+                        </div>
+                    </article>
+                </div>
+                <aside class="article-sidebar">
+                    <div class="side-card">
+                        <h3>Explore HeavenLease</h3>
+                        <a class="side-link" href="blog"><i class="fas fa-newspaper"></i> All articles</a>
+                        <a class="side-link" href="about"><i class="fas fa-building"></i> About HeavenLease</a>
+                        <a class="side-link" href="home"><i class="fas fa-house"></i> Find a home</a>
+                        <a class="side-link" href="dashboard"><i class="fas fa-gauge-high"></i> Dashboard</a>
+                    </div>
+                    <div class="side-card">
+                        <h3>Have a question?</h3>
+                        <p>Need help with your rental journey? Visit the relevant HeavenLease page or contact support from your account.</p>
+                    </div>
+                </aside>
             </div>
         </div>
-    </section>
-
+    </main>
     <section class="page-cta">
         <div class="container">
             <div class="cta-banner">
-                <h2>Ready to continue?</h2>
-                <p>Head back to your dashboard or browse the next step.</p>
-                                <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
-                    <a href="blog" class="btn btn-lg"><i class="fas fa-newspaper"></i> Blog</a>
-                    <a href="about" class="btn btn-lg"><i class="fas fa-building"></i> About Us</a>
-                    <a href="dashboard" class="btn btn-lg"><i class="fas fa-gauge-high"></i> My Dashboard</a>
-                    <a href="dashboard" class="btn btn-lg ghost"><i class="fas fa-gauge-high"></i> My Dashboard</a>
+                <h2 id="ctaTitle">Continue your HeavenLease journey.</h2>
+                <p id="ctaText">Explore more guides, learn about HeavenLease or start looking for your next home.</p>
+                <div class="cta-buttons">
+                    <a href="blog" class="btn"><i class="fas fa-newspaper"></i> More Articles</a>
+                    <a href="about" class="btn"><i class="fas fa-building"></i> About Us</a>
+                    <a href="dashboard" class="btn ghost"><i class="fas fa-gauge-high"></i> My Dashboard</a>
                 </div>
             </div>
         </div>
     </section>
-
-<script src="api.js?v=20260913a"></script>
-    <script src="script.js?v=20260913a"></script>
-    <script>
-        (function() {
-            // ===== BLOG DETAIL RESOLVER =====
-            // 1) Known editor articles redirect to their dedicated static pages.
-            // 2) User-created posts (localStorage 'heavenlease_blogs') render inline.
-            // 3) Unknown slug shows a friendly "not found" state with a path forward.
-            const KNOWN_SLUGS = {
-                'how-to-choose-the-right-neighbourhood': 'how-to-choose-the-right-neighbourhood',
-                'understanding-escrow-protection': 'understanding-escrow-protection',
-                'maximizing-your-rental-income': 'maximizing-your-rental-income',
-                'the-ultimate-moving-checklist': 'the-ultimate-moving-checklist',
-                'finding-pet-friendly-rentals': 'finding-pet-friendly-rentals',
-                'why-sunlight-matters-in-a-home': 'why-sunlight-matters-in-a-home'
-            };
-
-            const param = new URLSearchParams(window.location.search);
-            const slug = (param.get('slug') || '').trim();
-
-            // Known article -> dedicated page.
-            if (KNOWN_SLUGS[slug]) {
-                window.location.replace(KNOWN_SLUGS[slug]);
-                return;
-            }
-
-            // Custom (user-created) post -> render its full body.
-            let custom = null;
-            if (slug) {
-                try {
-                    const blogs = JSON.parse(localStorage.getItem('heavenlease_blogs') || '[]');
-                    custom = blogs.find(b => b.slug === slug) || null;
-                } catch (e) { custom = null; }
-            }
-
-            const h1 = document.querySelector('.page-header h1');
-            const sub = document.querySelector('.page-header p');
-            const section = document.querySelector('.page-section');
-            const cta = document.querySelector('.page-cta');
-
-            if (!section || !h1 || !sub || !cta) return;
-
-            if (custom) {
-                h1.textContent = custom.title || 'Untitled';
-                sub.textContent = custom.tag ? (custom.tag) : 'HeavenLease article';
-
-                // Build the article body from the stored markdown-ish content.
-                const container = document.createElement('div');
-                container.className = 'article-detail';
-                container.innerHTML =
-                    '<p class="article-meta">' + (custom.date || 'Recently') + ' · New post</p>' +
-                    '<div class="article-content">' + renderBody(custom.body || '') + '</div>';
-
-                const grid = section.querySelector('.feature-grid');
-                if (grid) grid.replaceWith(container);
-
-                // Update CTA buttons
-                cta.querySelector('h2').textContent = 'Enjoyed this article?';
-                cta.querySelector('p').textContent = 'Explore more guides or find your next home.';
-            } else {
-                h1.textContent = 'Article Not Found';
-                sub.textContent = 'The article you are looking for does not exist or has been moved.';
-                const grid = section.querySelector('.feature-grid');
-                if (grid && grid.replaceWith) {
-                    const fallback = document.createElement('div');
-                    fallback.className = 'article-not-found';
-                    fallback.innerHTML =
-                        '<i class="fas fa-file-circle-question" style="font-size:44px;color:var(--gray-400);margin-bottom:16px;"></i>' +
-                        '<p style="color:var(--gray-500);max-width:440px;margin:0 auto;">We could not find that blog post. Please check the link or browse our latest articles below.</p>';
-                    grid.replaceWith(fallback);
-                }
-                cta.querySelector('h2').textContent = 'Back to the blog';
-                cta.querySelector('p').textContent = 'Browse all articles and guides.';
-                const dash = cta.querySelector('a[href="dashboard"]');
-                if (dash) dash.style.display = 'none';
-            }
-
-            // Minimal markdown-ish renderer: # heading, - list, blank-line paragraphs.
-            function renderBody(text) {
-                if (!text) return '<p>No content yet.</p>';
-                const blocks = text.split(/\n\s*\n/);
-                return blocks.map(block => {
-                    const lines = block.split('\n').filter(l => l.trim());
-                    const heading = lines.find(l => /^#\s+/.test(l));
-                    if (heading) {
-                        const rest = lines.filter(l => !/^#\s+/.test(l));
-                        return '<h2>' + esc(heading.replace(/^#\s+/, '')) + '</h2>' +
-                            (rest.length ? '<p>' + esc(rest.join(' ')) + '</p>' : '');
-                    }
-                    const bullets = lines.filter(l => /^\s*[-*]\s+/.test(l));
-                    if (bullets.length === lines.length && lines.length > 0) {
-                        return '<ul>' + lines.map(l => '<li>' + esc(l.replace(/^\s*[-*]\s+/, '')) + '</li>').join('') + '</ul>';
-                    }
-                    return '<p>' + esc(lines.join(' ')) + '</p>';
-                }).join('');
-            }
-
-            function esc(s) {
-                return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-            }
-        })();
-    </script>
-</body>
+    <footer class="footer">
+<div class="container">
+    <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
+        <div class="footer-brand">
+            <a href="home" class="logo">
+                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <span class="logo-text">Heaven<span>Lease</span></span>
+            </a>
+            <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Explore</strong>
+            <a href="properties" style="color:inherit;text-decoration:none;">Find a Home</a>
+            <a href="map" style="color:inherit;text-decoration:none;">Property Map</a>
+            <a href="how-it-works" style="color:inherit;text-decoration:none;">How It Works</a>
+            <a href="about" style="color:inherit;text-decoration:none;">About Us</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Company</strong>
+            <a href="careers" style="color:inherit;text-decoration:none;">Careers</a>
+            <a href="press" style="color:inherit;text-decoration:none;">Press</a>
+            <a href="blog" style="color:inherit;text-decoration:none;">Blog</a>
+            <a href="contact" style="color:inherit;text-decoration:none;">Contact</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">For Owners</strong>
+            <a href="list-property" style="color:inherit;text-decoration:none;">List Your Property</a>
+            <a href="properties-management" style="color:inherit;text-decoration:none;">Owner Dashboard</a>
+            <a href="payment" style="color:inherit;text-decoration:none;">Pricing &amp; Upgrade</a>
+            <a href="owner-resources" style="color:inherit;text-decoration:none;">Owner Resources</a>
+        </div>
+    </div>
+    <div class="footer-bottom" style="justify-content:center;margin-top:28px;">
+        <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
+    </div>
+</div>
+</footer>
+    <button id="backToTop" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
+<script src="js/api.js?v=20260913a"></script>
+    <script src="js/core.js?v=20260913a"></script>
+    <script src="js/pages/blog-detail.js?v=20260913a"></script></body>
 </html>

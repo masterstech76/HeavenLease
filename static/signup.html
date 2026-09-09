@@ -8,416 +8,496 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
     <link rel="stylesheet" href="styles.css?v=20260909a">
     <style>
+        :root {
+            --ink: #182033;
+            --muted: #687386;
+            --line: #e4e7ee;
+            --surface: #ffffff;
+            --soft: #f6f7fb;
+            --primary: #5b5ce2;
+            --primary-2: #5b5ce2;
+            --accent: #10b981;
+            --danger: #ef4444;
+            --shadow: 0 28px 80px rgba(2, 6, 23, 0.34);
+            --radius: 24px;
+        }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-
+        html { min-height: 100%; }
         body {
-            font-family: 'Inter', sans-serif;
             min-height: 100vh;
-            background: linear-gradient(rgba(15,23,42,0.85), rgba(30,27,75,0.82)), url('bg-home.jpg') center/cover fixed no-repeat;
+            font-family: 'Inter', sans-serif;
+            color: var(--ink);
+            background:
+                linear-gradient(115deg, rgba(7, 15, 31, .94), rgba(30, 27, 75, .86)),
+                url('bg-home.jpg') center / cover fixed no-repeat;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 24px;
+            padding: 34px 20px;
             position: relative;
             overflow-x: hidden;
         }
-
         body::before {
-            content: '';
+            content: "";
             position: fixed;
-            top: -200px;
-            right: -200px;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(79, 70, 229, 0.15) 0%, transparent 70%);
-            border-radius: 50%;
-            z-index: 0;
+            inset: 0;
+            pointer-events: none;
+            background:
+                radial-gradient(circle at 12% 12%, rgba(99,102,241,.18), transparent 30%),
+                radial-gradient(circle at 88% 82%, rgba(16,185,129,.13), transparent 28%);
         }
-
-        body::after {
-            content: '';
-            position: fixed;
-            bottom: -200px;
-            left: -200px;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
-            border-radius: 50%;
-            z-index: 0;
-        }
-
         .auth-container {
-            width: 100%;
-            max-width: 460px;
+            width: min(100%, 500px);
             position: relative;
             z-index: 1;
         }
-
         .back-home {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            font-size: 13px;
-            color: rgba(255, 255, 255, 0.7);
+            gap: 9px;
+            color: rgba(255,255,255,.76);
             text-decoration: none;
-            margin-bottom: 20px;
-            transition: all 0.2s;
+            font-size: 13px;
+            font-weight: 600;
+            margin: 0 0 18px 4px;
+            transition: color .2s ease, transform .2s ease;
         }
-
-        .back-home:hover { color: #fff; }
-
+        .back-home:hover {
+            color: #fff;
+            transform: translateX(-2px);
+        }
         .auth-brand {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 12px;
-            margin-bottom: 28px;
+            margin-bottom: 22px;
         }
-
         .auth-brand .logo-icon {
             width: 48px;
             height: 48px;
-            background: linear-gradient(135deg, #4F46E5, #10B981);
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: grid;
+            place-items: center;
+            border-radius: 15px;
             color: #fff;
-            font-size: 22px;
-            box-shadow: 0 8px 24px rgba(79, 70, 229, 0.4);
+            font-size: 20px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            box-shadow: 0 14px 32px rgba(79,70,229,.34);
         }
-
         .auth-brand .logo-text {
-            font-family: 'Playfair Display', serif;
-            font-size: 28px;
-            font-weight: 700;
             color: #fff;
+            font-family: 'Playfair Display', serif;
+            font-size: 29px;
+            line-height: 1;
+            font-weight: 700;
+            letter-spacing: -.4px;
         }
-
-        .auth-brand .logo-text span { color: #818CF8; }
-
+        .auth-brand .logo-text span { color: #aeb1ff; }
         .auth-card {
-            background: #fff;
-            border-radius: 20px;
-            padding: 36px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255,255,255,.97);
+            border: 1px solid rgba(255,255,255,.72);
+            border-radius: var(--radius);
+            padding: 34px;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(16px);
         }
-
         .auth-card h1 {
             font-family: 'Playfair Display', serif;
-            font-size: 26px;
-            font-weight: 700;
-            color: #0f172a;
-            margin-bottom: 6px;
             text-align: center;
+            font-size: clamp(25px, 5vw, 30px);
+            line-height: 1.15;
+            letter-spacing: -.4px;
+            margin-bottom: 7px;
         }
-
         .auth-card .subtitle {
-            font-size: 14px;
-            color: #64748b;
+            color: var(--muted);
             text-align: center;
-            margin-bottom: 28px;
+            font-size: 13.5px;
+            line-height: 1.6;
+            margin-bottom: 25px;
         }
-
-        .form-group { margin-bottom: 18px; }
-
+        .form-group { margin-bottom: 17px; }
         .form-group label {
             display: block;
-            font-size: 13px;
-            font-weight: 600;
-            color: #334155;
-            margin-bottom: 6px;
+            color: #3a4354;
+            font-size: 12px;
+            font-weight: 700;
+            margin: 0 0 7px 2px;
+            letter-spacing: .01em;
         }
-
         .input-wrap { position: relative; }
-
         .input-wrap > i {
             position: absolute;
             left: 14px;
             top: 50%;
             transform: translateY(-50%);
-            color: #94a3b8;
-            font-size: 15px;
+            color: #9aa3b2;
+            font-size: 14px;
+            pointer-events: none;
+            transition: color .2s ease;
         }
-
         .input-wrap input {
             width: 100%;
-            padding: 12px 40px 12px 42px;
-            border: 1px solid #e2e8f0;
-            border-radius: 10px;
-            background: #f8fafc;
-            font-size: 14px;
-            color: #0f172a;
-            transition: all 0.2s;
-            font-family: 'Inter', sans-serif;
+            height: 48px;
+            padding: 0 43px 0 41px;
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            background: var(--soft);
+            color: var(--ink);
+            font: 500 13.5px 'Inter', sans-serif;
+            transition: border-color .2s ease, background .2s ease, box-shadow .2s ease;
         }
-
+        .input-wrap input::placeholder { color: #a0aec0; }
         .input-wrap input:focus {
             outline: none;
-            border-color: #4F46E5;
+            border-color: var(--primary);
             background: #fff;
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+            box-shadow: 0 0 0 4px rgba(79,70,229,.10);
         }
-
+        .input-wrap:focus-within > i { color: var(--primary); }
         .input-wrap .toggle-password {
             position: absolute;
-            right: 12px;
+            right: 10px;
             top: 50%;
             transform: translateY(-50%);
-            background: none;
-            border: none;
-            color: #94a3b8;
+            width: 32px;
+            height: 32px;
+            display: grid;
+            place-items: center;
+            border: 0;
+            border-radius: 8px;
+            background: transparent;
+            color: #9aa3b2;
             cursor: pointer;
-            font-size: 15px;
-            padding: 4px;
+            transition: background .2s ease, color .2s ease;
         }
-
-        .input-wrap .toggle-password:hover { color: #4F46E5; }
-
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-
+        .input-wrap .toggle-password:hover {
+            color: var(--primary);
+            background: #eef0ff;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
         .role-selector {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 18px;
+            gap: 12px;
+            margin-bottom: 20px;
         }
-
         .role-option {
-            padding: 14px;
-            border: 2px solid #e2e8f0;
-            border-radius: 10px;
+            position: relative;
+            min-height: 112px;
+            padding: 17px 13px 14px;
+            border: 1.5px solid var(--line);
+            border-radius: 15px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.2s;
-            background: #f8fafc;
+            background: linear-gradient(180deg, #fff, #f7f8fc);
+            transition: border-color .2s ease, background .2s ease, transform .2s ease, box-shadow .2s ease;
         }
-
-        .role-option:hover { border-color: #4F46E5; background: #eef2ff; }
-        .role-option.selected { border-color: #4F46E5; background: #eef2ff; box-shadow: 0 2px 8px rgba(79, 70, 229, 0.15); }
-
-        .role-option i { font-size: 22px; color: #4F46E5; display: block; margin-bottom: 6px; }
-        .role-option strong { font-size: 14px; color: #0f172a; display: block; }
-        .role-option span { font-size: 11px; color: #64748b; }
-
+        .role-option:hover {
+            border-color: #aeb1ff;
+            transform: translateY(-1px);
+            box-shadow: 0 8px 22px rgba(15,23,42,.06);
+        }
+        .role-option.selected {
+            border-color: var(--primary);
+            background: linear-gradient(180deg, #eef0ff, #f8faff);
+            box-shadow: 0 8px 24px rgba(79,70,229,.11);
+        }
+        .role-option.selected::after {
+            content: "✓";
+            position: absolute;
+            top: 8px;
+            right: 9px;
+            width: 20px;
+            height: 20px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            color: #fff;
+            background: var(--primary);
+            font-size: 11px;
+            font-weight: 800;
+        }
+        .role-option i {
+            display: block;
+            color: var(--primary);
+            font-size: 21px;
+            margin-bottom: 7px;
+        }
+        .role-option strong {
+            display: block;
+            color: var(--ink);
+            font-size: 13px;
+            margin-bottom: 3px;
+        }
+        .role-option span {
+            color: var(--muted);
+            font-size: 10.5px;
+            line-height: 1.4;
+        }
         .btn-auth {
             width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 10px;
-            background: linear-gradient(135deg, #4F46E5, #6366F1);
+            min-height: 49px;
+            border: 0;
+            border-radius: 12px;
+            padding: 13px 16px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-2));
             color: #fff;
-            font-size: 15px;
-            font-weight: 600;
+            font: 700 14px 'Inter', sans-serif;
             cursor: pointer;
-            transition: all 0.2s;
-            font-family: 'Inter', sans-serif;
-            box-shadow: 0 4px 16px rgba(79, 70, 229, 0.3);
+            box-shadow: 0 9px 24px rgba(79,70,229,.25);
+            transition: transform .2s ease, box-shadow .2s ease, opacity .2s ease;
         }
-
-        .btn-auth:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(79, 70, 229, 0.4); }
-        .btn-auth:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-
-        /* reCAPTCHA row — hidden by default; api.js reveals it only after the
-           REAL v2 checkbox has rendered (prevents an empty gap on the form). */
-        .recaptcha-row { margin: 4px 0 2px; display: none; }
+        .btn-auth:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 13px 30px rgba(79,70,229,.32);
+        }
+        .btn-auth:disabled {
+            opacity: .62;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        .recaptcha-row {
+            margin: 4px 0 7px;
+            display: none;
+            min-height: 0;
+            overflow: hidden;
+        }
         .auth-hint {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             gap: 8px;
             margin: 8px 0 12px;
-            padding: 10px 14px;
-            border-radius: 10px;
+            padding: 10px 13px;
+            border-radius: 11px;
             background: #fef3c7;
             border: 1px solid #fcd34d;
             color: #92400e;
-            font-size: 12.5px;
-            line-height: 1.4;
+            font-size: 12px;
+            line-height: 1.45;
         }
-        .auth-hint i { color: #b45309; flex-shrink: 0; }
-
+        .auth-hint i { color: #b45309; flex-shrink: 0; margin-top: 2px; }
         .auth-divider {
             display: flex;
             align-items: center;
-            gap: 14px;
-            margin: 24px 0;
+            gap: 12px;
+            margin: 22px 0 17px;
         }
-
         .auth-divider::before,
         .auth-divider::after {
-            content: '';
+            content: "";
             flex: 1;
             height: 1px;
-            background: #e2e8f0;
+            background: var(--line);
         }
-
-        .auth-divider span { font-size: 12px; color: #94a3b8; }
-
+        .auth-divider span {
+            color: #9aa3b2;
+            font-size: 11px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
         .social-btn {
             width: 100%;
+            min-height: 47px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            padding: 12px;
-            border: 1px solid #e2e8f0;
-            border-radius: 10px;
+            gap: 9px;
+            border: 1px solid var(--line);
+            border-radius: 12px;
             background: #fff;
-            font-size: 14px;
-            font-weight: 500;
-            color: #334155;
+            color: #3a4354;
+            font: 600 13.5px 'Inter', sans-serif;
             cursor: pointer;
-            transition: all 0.2s;
-            font-family: 'Inter', sans-serif;
+            transition: border-color .2s ease, background .2s ease, transform .2s ease;
         }
-
-        .social-btn:hover { background: #f8fafc; border-color: #cbd5e1; }
-        .social-btn .fa-google { color: #EA4335; font-size: 17px; }
-
+        .social-btn:hover {
+            background: #f7f8fc;
+            border-color: #d4d8e2;
+            transform: translateY(-1px);
+        }
+        .social-btn .fa-google { color: #ea4335; font-size: 16px; }
         .auth-switch {
             text-align: center;
-            font-size: 14px;
-            color: #64748b;
-            margin-top: 20px;
+            color: var(--muted);
+            font-size: 13px;
+            margin-top: 19px;
         }
-
-        .auth-switch a { color: #4F46E5; font-weight: 600; text-decoration: none; }
+        .auth-switch a {
+            color: var(--primary);
+            font-weight: 700;
+            text-decoration: none;
+        }
         .auth-switch a:hover { text-decoration: underline; }
-
         .terms-note {
-            font-size: 11px;
-            color: #94a3b8;
+            color: #9aa3b2;
             text-align: center;
-            margin-top: 16px;
+            font-size: 10.5px;
             line-height: 1.6;
+            margin-top: 13px;
         }
-
-        .terms-note a { color: #4F46E5; text-decoration: none; }
-
-        /* OTP Section */
-        .otp-section { display: none; margin-top: 20px; padding-top: 20px; border-top: 1px solid #e2e8f0; }
-
+        .terms-note a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .terms-note a:hover { text-decoration: underline; }
+        /* OTP */
+        .otp-section {
+            display: none;
+            margin-top: 20px;
+            padding: 22px 0 0;
+            border-top: 1px solid var(--line);
+        }
         .otp-section.show { display: block; }
-
+        .otp-info {
+            color: var(--muted);
+            text-align: center;
+            font-size: 12.5px;
+            line-height: 1.55;
+            margin-bottom: 16px;
+        }
+        .otp-info strong { color: var(--primary); }
         .otp-inputs {
             display: flex;
-            gap: 8px;
             justify-content: center;
-            margin-bottom: 18px;
+            gap: 7px;
+            margin-bottom: 17px;
         }
-
         .otp-inputs input {
-            width: 46px;
-            height: 52px;
+            width: 44px;
+            height: 50px;
+            border: 1px solid var(--line);
+            border-radius: 11px;
+            background: var(--soft);
+            color: var(--ink);
             text-align: center;
-            font-size: 22px;
-            font-weight: 700;
-            border: 1px solid #e2e8f0;
-            border-radius: 10px;
-            background: #f8fafc;
-            color: #0f172a;
-            font-family: 'Inter', sans-serif;
+            font: 800 20px 'Inter', sans-serif;
+            transition: border-color .2s ease, background .2s ease, box-shadow .2s ease;
         }
-
         .otp-inputs input:focus {
             outline: none;
-            border-color: #4F46E5;
+            border-color: var(--primary);
             background: #fff;
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+            box-shadow: 0 0 0 4px rgba(79,70,229,.10);
         }
-
-        .otp-info {
-            text-align: center;
-            font-size: 13px;
-            color: #64748b;
-            margin-bottom: 18px;
-            line-height: 1.6;
+        .otp-resend-wrap {
+            display: flex;
+            justify-content: center;
+            margin-top: 13px;
         }
-
-        .otp-info strong { color: #4F46E5; }
-
-        .resend-link {
-            text-align: center;
-            font-size: 13px;
-            color: #64748b;
-            margin-top: 14px;
-        }
-
-        .resend-link button {
-            background: none;
-            border: none;
-            color: #4F46E5;
-            font-weight: 600;
+        .btn-otp {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            min-height: 38px;
+            padding: 8px 14px;
+            border: 1px solid #eef0ff;
+            border-radius: 10px;
+            background: #eef0ff;
+            color: var(--primary);
+            font: 700 12px 'Inter', sans-serif;
             cursor: pointer;
-            font-family: 'Inter', sans-serif;
+            transition: background .2s ease, border-color .2s ease, opacity .2s ease;
         }
-
-        .resend-link button:disabled { color: #94a3b8; cursor: not-allowed; }
-
+        .btn-otp:hover { background: #eef0ff; border-color: #aeb1ff; }
+        .btn-otp:disabled { opacity: .55; cursor: not-allowed; }
         .toast {
             position: fixed;
-            bottom: 24px;
             left: 50%;
+            bottom: 22px;
             transform: translateX(-50%) translateY(100px);
-            background: #fff;
-            color: #0f172a;
-            padding: 14px 24px;
-            border-radius: 10px;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+            width: max-content;
+            max-width: min(90vw, 520px);
             display: flex;
             align-items: center;
             gap: 10px;
-            font-size: 14px;
-            font-weight: 500;
+            padding: 13px 18px;
+            border-radius: 12px;
+            background: #fff;
+            color: var(--ink);
+            box-shadow: 0 16px 45px rgba(0,0,0,.18);
+            border-left: 4px solid var(--accent);
+            font-size: 13px;
+            font-weight: 600;
             z-index: 9999;
             opacity: 0;
-            transition: all 0.3s ease;
-            border-left: 4px solid #10B981;
-            max-width: 90vw;
+            transition: opacity .25s ease, transform .25s ease;
         }
-
-        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-        .toast-error { border-left-color: #EF4444; }
-        .toast-success i { color: #10B981; }
-        .toast-error i { color: #EF4444; }
-
-        @media (max-width: 480px) {
-            .auth-card { padding: 24px; }
-            .form-row { grid-template-columns: 1fr; }
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        .toast-error { border-left-color: var(--danger); }
+        .toast-success i { color: var(--accent); }
+        .toast-error i { color: var(--danger); }
+        @media (max-width: 560px) {
+            body {
+                align-items: flex-start;
+                padding: 22px 14px 30px;
+                background-attachment: scroll;
+            }
+            .auth-container { max-width: 500px; }
+            .back-home { margin-left: 2px; }
+            .auth-brand {
+                margin-bottom: 18px;
+            }
+            .auth-card {
+                padding: 25px 20px;
+                border-radius: 20px;
+            }
+            .form-row { grid-template-columns: 1fr; gap: 0; }
+            .role-selector { gap: 9px; }
+            .role-option {
+                min-height: 105px;
+                padding: 15px 8px 12px;
+            }
+            .otp-inputs { gap: 5px; }
+            .otp-inputs input {
+                width: min(12.5vw, 43px);
+                height: 48px;
+            }
+        }
+        @media (max-width: 360px) {
+            .auth-card { padding: 22px 15px; }
+            .auth-brand .logo-text { font-size: 26px; }
+            .auth-brand .logo-icon { width: 44px; height: 44px; }
+            .role-option strong { font-size: 12px; }
+            .role-option span { font-size: 9.5px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                scroll-behavior: auto !important;
+                transition-duration: .01ms !important;
+                animation-duration: .01ms !important;
+                animation-iteration-count: 1 !important;
+            }
         }
     </style>
-<script>
-        // Back-button auth guard — if a session already exists, never show this auth page.
-        (function () {
-            try {
-                if (localStorage.getItem('heavenlease_token') || sessionStorage.getItem('heavenlease_token')) {
-                    location.replace('home');
-                }
-            } catch (e) { /* storage unavailable — ignore */ }
-        })();
-    </script>
 </head>
 <body>
     <div class="auth-container">
         <a href="/" class="back-home">
-            <i class="fas fa-arrow-left"></i> Back to Home
+            <i class="fas fa-arrow-left"></i>
+            <span>Back to Home</span>
         </a>
-
         <div class="auth-brand">
             <div class="logo-icon"><i class="fas fa-home"></i></div>
             <span class="logo-text">Heaven<span>Lease</span></span>
         </div>
-
         <div class="auth-card">
             <h1>Create Account</h1>
             <p class="subtitle">Join HeavenLease — find your perfect home</p>
-
             <form id="signupForm">
-                <!-- Role Selection -->
                 <div class="role-selector">
                     <div class="role-option selected" data-role="TENANT" onclick="selectRole(this)">
                         <i class="fas fa-user"></i>
@@ -430,7 +510,6 @@
                         <span>Listing my property</span>
                     </div>
                 </div>
-
                 <div class="form-group">
                     <label for="fullName">Full Name</label>
                     <div class="input-wrap">
@@ -438,7 +517,6 @@
                         <input type="text" id="fullName" name="fullName" placeholder="Your full name" autocomplete="name" required>
                     </div>
                 </div>
-
                 <div class="form-row">
                     <div class="form-group">
                         <label for="email">Email Address</label>
@@ -455,7 +533,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="form-group">
                     <label for="password">Password</label>
                     <div class="input-wrap">
@@ -466,7 +543,6 @@
                         </button>
                     </div>
                 </div>
-
                 <div class="form-group">
                     <label for="confirmPassword">Confirm Password</label>
                     <div class="input-wrap">
@@ -477,19 +553,12 @@
                         </button>
                     </div>
                 </div>
-
-                <!-- reCAPTCHA v2 checkbox placeholder.
-                     Hidden by default; revealed by api.js ONLY when RECAPTCHA_VERSION=v2
-                     and the real checkbox has rendered — so there is never an empty gap. -->
                 <div class="form-group recaptcha-row" style="display:none;">
                     <div data-recaptcha-v2 style="transform: scale(0.9); transform-origin: 0 0;"></div>
                 </div>
-
                 <button type="submit" class="btn-auth" id="signupSubmitBtn">
                     <i class="fas fa-user-plus"></i> Create Account
                 </button>
-
-                <!-- OTP Verification Section -->
                 <div class="otp-section" id="otpSection">
                     <div class="otp-info">
                         Enter the 6-digit code sent to <strong id="otpTarget"></strong>
@@ -512,316 +581,22 @@
                     </div>
                 </div>
             </form>
-
             <div class="auth-divider">
                 <span>or sign up with</span>
             </div>
-
             <button type="button" class="social-btn" id="googleBtn">
                 <i class="fab fa-google"></i> Google
             </button>
-
             <p class="auth-switch">
                 Already have an account? <a href="login">Sign in</a>
             </p>
-
             <p class="terms-note">
                 By creating an account, you agree to our <a href="terms">Terms of Service</a> and <a href="privacy">Privacy Policy</a>.
             </p>
         </div>
     </div>
-
-    <script src="api.js?v=20260913a"></script>
+    <script src="js/api.js?v=20260913a"></script>
     <script src="https://accounts.google.com/gsi/client"></script>
-    <script>
-        // ===== AUTH GUARD: if already logged in, never show signup (blocks back-button bypass) =====
-        (function() {
-            if (window.api && api.isAuthenticated()) {
-                window.location.replace('home');
-                return;
-            }
-        })();
-
-        let selectedRole = 'TENANT';
-        let pendingSignupData = null;
-
-        function selectRole(el) {
-            document.querySelectorAll('.role-option').forEach(r => r.classList.remove('selected'));
-            el.classList.add('selected');
-            selectedRole = el.dataset.role;
-        }
-        window.selectRole = selectRole;
-
-        function togglePassword(id, btn) {
-            const input = document.getElementById(id);
-            const icon = btn.querySelector('i');
-            if (input.type === 'password') {
-                input.type = 'text';
-                icon.classList.remove('fa-eye');
-                icon.classList.add('fa-eye-slash');
-            } else {
-                input.type = 'password';
-                icon.classList.remove('fa-eye-slash');
-                icon.classList.add('fa-eye');
-            }
-        }
-        window.togglePassword = togglePassword;
-
-        function handleOtpInput(el) {
-            if (el.value.length === 1) {
-                const next = el.nextElementSibling;
-                if (next) next.focus();
-            }
-        }
-        window.handleOtpInput = handleOtpInput;
-
-        function getOtpValue() {
-            const inputs = document.querySelectorAll('#otpInputs .otp-digit');
-            return Array.from(inputs).map(i => i.value).join('');
-        }
-
-        function clearOtp() {
-            document.querySelectorAll('#otpInputs .otp-digit').forEach(i => i.value = '');
-        }
-
-        function startCountdown(btnId) {
-            const btn = document.getElementById(btnId);
-            if (!btn) return;
-            let seconds = 30;
-            btn.disabled = true;
-            btn.innerHTML = 'Resend in ' + seconds + 's';
-            const interval = setInterval(() => {
-                seconds--;
-                if (seconds <= 0) {
-                    clearInterval(interval);
-                    btn.disabled = false;
-                    btn.innerHTML = '<i class="fas fa-paper-plane"></i> Resend OTP';
-                } else {
-                    btn.innerHTML = 'Resend in ' + seconds + 's';
-                }
-            }, 1000);
-        }
-
-        // Form submission - step 1: validate + send OTP
-        document.getElementById('signupForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-
-            const fullName = document.getElementById('fullName').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const phone = document.getElementById('phone').value.trim();
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
-
-            if (!fullName || !email || !phone || !password || !confirmPassword) {
-                showToast('Please fill in all fields.', 'error');
-                return;
-            }
-
-            if (!isValidEmail(email)) {
-                showToast('Please enter a valid email address.', 'error');
-                return;
-            }
-
-            if (!isValidPhone(phone)) {
-                showToast('Please enter a valid 10-digit phone number.', 'error');
-                return;
-            }
-
-            if (password.length < 8) {
-                showToast('Password must be at least 8 characters.', 'error');
-                return;
-            }
-
-            if (password !== confirmPassword) {
-                showToast('Passwords do not match.', 'error');
-                return;
-            }
-
-            const btn = document.getElementById('signupSubmitBtn');
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending OTP...';
-
-            try {
-                // Store pending signup data including the role the user selected
-                // (TENANT or OWNER). The backend only ever accepts these two.
-                pendingSignupData = { fullName, email, phone, password, role: selectedRole };
-
-                // Send email OTP for verification (works BEFORE the account exists)
-                const res = await api.sendSignupCode(email);
-
-                // Show OTP section
-                document.getElementById('otpSection').classList.add('show');
-                document.getElementById('otpTarget').textContent = email;
-                clearOtp();
-                btn.style.display = 'none';
-
-                showToast('OTP sent to your email. Please verify to complete signup.', 'success');
-                startCountdown('resendOtpBtn');
-            } catch (error) {
-                showToast(error.message || 'Failed to send OTP.', 'error');
-            } finally {
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-user-plus"></i> Create Account';
-            }
-        });
-
-        // Verify OTP and complete signup
-        window.verifySignupOtp = async function() {
-            if (!pendingSignupData) {
-                showToast('Please fill the form first.', 'error');
-                return;
-            }
-
-            const code = getOtpValue();
-            if (code.length !== 6) {
-                showToast('Please enter the 6-digit OTP.', 'error');
-                return;
-            }
-
-            const btn = document.getElementById('verifyOtpBtn');
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying...';
-
-            try {
-                // Create the account. The backend validates the OTP code; a valid
-                // code marks the account email-verified in the same call.
-                const captchaToken = await getCaptchaToken('signup');
-                const data = await api.signup({
-                    fullName: pendingSignupData.fullName,
-                    email: pendingSignupData.email,
-                    phone: pendingSignupData.phone,
-                    password: pendingSignupData.password,
-                    role: pendingSignupData.role || 'TENANT',
-                    captchaToken,
-                    code
-                });
-
-                showToast('Account created successfully! Welcome to HeavenLease! 🎉', 'success');
-                setTimeout(() => {
-                    // Land on the role's dashboard, never the public landing page.
-                    const role = String((data && data.role) || '').toUpperCase();
-                    if (role === 'TENANT') window.location.replace('dashboard');
-                    else if (role === 'OWNER' || role === 'VERIFIED_OWNER') window.location.replace('dashboard');
-                    else if (role === 'ADMIN') window.location.replace('admin-dashboard');
-                    else window.location.replace('home');
-                }, 1000);
-            } catch (error) {
-                showToast(error.message || 'Verification failed. Please try again.', 'error');
-            } finally {
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-check-circle"></i> Verify & Create Account';
-            }
-        };
-
-        // Resend OTP
-        window.resendOtp = async function() {
-            if (!pendingSignupData) return;
-            try {
-                const res = await api.sendSignupCode(pendingSignupData.email);
-
-                showToast('OTP resent to your email.', 'success');
-                startCountdown('resendOtpBtn');
-            } catch (error) {
-                showToast(error.message || 'Failed to resend OTP.', 'error');
-            }
-        };
-
-        // Google signup — Client ID loaded dynamically from backend
-        // (set by owner via Admin → Integrations). No hardcoded keys.
-        // Uses google.accounts.id.renderButton() (reliable, always opens the
-        // account chooser) instead of prompt() (One Tap can be silently suppressed).
-        let googleClientId = '';
-
-        function googleSdkReady() {
-            return window.google && google.accounts && google.accounts.id;
-        }
-
-        async function loadGoogleClientId() {
-            try {
-                const cfg = await api.getPublicConfig().catch(() => null);
-                googleClientId = (cfg && cfg.googleClientId) ? cfg.googleClientId : '';
-            } catch (e) {
-                googleClientId = '';
-            }
-            updateGoogleAuthVisibility();
-            if (googleClientId) renderGoogleButton();
-        }
-
-        function updateGoogleAuthVisibility() {
-            const btn = document.getElementById('googleBtn');
-            const divider = document.querySelector('.auth-divider');
-            // The Google button is always visible. If no client ID is configured yet,
-            // clicking it re-fetches the config and shows a clear error instead of a dead button.
-            if (btn) { btn.style.display = ''; btn.disabled = false; }
-            if (divider) divider.style.display = '';
-        }
-
-        // Ensure the GSI library is available before rendering the button.
-        function ensureGoogleSdk(cb) {
-            if (googleSdkReady()) { cb(); return; }
-            const s = document.createElement('script');
-            s.src = 'https://accounts.google.com/gsi/client';
-            s.async = true;
-            s.onload = cb;
-            s.onerror = function () { showToast('Could not load Google sign-in. Please try again.', 'error'); };
-            document.head.appendChild(s);
-        }
-
-        function onGoogleCredential(response) {
-            const btn = document.getElementById('googleBtn');
-            if (!response || !response.credential) {
-                showToast('Google signup was cancelled.', 'error');
-                return;
-            }
-            if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing in...'; }
-            api.googleLogin(response.credential, true, selectedRole)
-                .then((data) => {
-                    showToast('Account created with Google successfully!', 'success');
-                    const gearRole = String((data && data.role) || '').toUpperCase();
-                    setTimeout(() => {
-                        if (gearRole === 'TENANT') window.location.replace('dashboard');
-                        else if (gearRole === 'OWNER' || gearRole === 'VERIFIED_OWNER') window.location.replace('dashboard');
-                        else window.location.replace('home');
-                    }, 200);
-                })
-                .catch(error => {
-                    showToast(error.message || 'Google signup failed.', 'error');
-                    if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fab fa-google"></i> Google'; }
-                });
-        }
-
-        function renderGoogleButton() {
-            const btn = document.getElementById('googleBtn');
-            if (!btn) return;
-            ensureGoogleSdk(function () {
-                try {
-                    google.accounts.id.initialize({
-                        client_id: googleClientId,
-                        callback: onGoogleCredential
-                    });
-                    google.accounts.id.renderButton(btn, {
-                        theme: 'outline',
-                        size: 'large',
-                        shape: 'pill',
-                        text: 'continue_with',
-                        width: Math.max(btn.clientWidth || 280, 280),
-                        logo_alignment: 'left'
-                    });
-                } catch (e) {
-                    showToast('Google sign-in could not start. Please try again.', 'error');
-                }
-            });
-        }
-
-        // Not-configured fallback: clicking the plain button shows a helpful error.
-        document.getElementById('googleBtn').addEventListener('click', function () {
-            if (!googleClientId || !googleSdkReady()) {
-                showToast('Google signup is not configured yet. Set GOOGLE_CLIENT_ID in .env or Admin → Integrations, then restart.', 'error');
-            }
-        });
-
-        loadGoogleClientId();
-    </script>
+    <script src="js/pages/signup.js?v=20260913a"></script>
 </body>
 </html>
-

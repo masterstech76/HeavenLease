@@ -7,41 +7,483 @@
     <title>Rental Laws — HeavenLease</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
     <link rel="stylesheet" href="styles.css?v=20260909a">
     <style>
-        .page-header { background: var(--gradient-soft); padding: 140px 0 80px; text-align: center; position: relative; overflow: hidden; }
-        .page-header h1 { font-family: var(--font-heading); font-size: 48px; font-weight: 700; color: var(--dark); margin-bottom: 16px; }
-        .page-header p { font-size: 18px; color: var(--gray-500); max-width: 600px; margin: 0 auto; }
-        .page-header .breadcrumb { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 16px; font-size: 14px; color: var(--gray-500); }
-        .page-header .breadcrumb a { color: var(--primary); }
-        .page-header .breadcrumb i { font-size: 12px; color: var(--gray-400); }
-        .legal-section { padding: 80px 0; }
-        .legal-content { max-width: 800px; margin: 0 auto; }
-        .legal-content h2 { font-family: var(--font-heading); font-size: 24px; font-weight: 700; color: var(--dark); margin: 40px 0 16px; }
+        :root {
+            --hl-ink: #182033;
+            --hl-ink-soft: #30413d;
+            --hl-muted: #687386;
+            --hl-line: #e4e7ee;
+            --hl-surface: #ffffff;
+            --hl-surface-soft: #f4f7f5;
+            --hl-accent: #5b5ce2;
+            --hl-accent-dark: #4445c5;
+            --hl-green: #18a878;
+            --hl-shadow: 0 24px 70px rgba(18, 35, 30, .10);
+            --font-heading: "Playfair Display", Georgia, serif;
+            --font-body: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            margin: 0;
+            color: var(--hl-ink);
+            font-family: var(--font-body);
+            background:
+                linear-gradient(rgba(244, 247, 245, .93), rgba(244, 247, 245, .97)),
+                url("https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=2200&q=80")
+                center / cover fixed;
+        }
+        a { color: inherit; }
+        button, a { -webkit-tap-highlight-color: transparent; }
+        .container {
+            width: min(1180px, calc(100% - 40px));
+            margin-inline: auto;
+        }
+        /* Premium image-backed header */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background:
+                linear-gradient(90deg, rgba(9, 22, 19, .94), rgba(9, 22, 19, .76)),
+                url("https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=2200&q=82")
+                center 45% / cover;
+            border-bottom: 1px solid rgba(255,255,255,.10);
+            box-shadow: 0 10px 30px rgba(0,0,0,.16);
+            transition: background .25s ease, box-shadow .25s ease;
+        }
+        .navbar.scrolled {
+            background:
+                linear-gradient(90deg, rgba(7, 17, 15, .98), rgba(7, 17, 15, .92)),
+                url("https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=2200&q=82")
+                center / cover;
+            box-shadow: 0 14px 36px rgba(0,0,0,.22);
+        }
+        .nav-container {
+            min-height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 11px;
+            text-decoration: none;
+            color: #fff;
+            flex-shrink: 0;
+        }
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            background: linear-gradient(145deg, #5b5ce2, #9d733e);
+            color: #fff;
+            box-shadow: 0 8px 20px rgba(0,0,0,.20);
+        }
+        .logo-text {
+            font-family: var(--font-heading);
+            font-size: 25px;
+            font-weight: 700;
+            letter-spacing: -.5px;
+        }
+        .logo-text span { color: #5b5ce2; }
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            margin-left: auto;
+        }
+        .user-menu { position: relative; }
+        .user-menu-trigger {
+            border: 1px solid rgba(255,255,255,.18);
+            border-radius: 999px;
+            padding: 7px 13px 7px 7px;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            background: rgba(255,255,255,.09);
+            color: #fff;
+            cursor: pointer;
+            font: inherit;
+            font-size: 13px;
+            font-weight: 600;
+            backdrop-filter: blur(12px);
+            transition: .2s ease;
+        }
+        .user-menu-trigger:hover,
+        .user-menu-trigger:focus-visible {
+            background: rgba(255,255,255,.15);
+            border-color: rgba(255,255,255,.30);
+            outline: none;
+        }
+        .user-avatar {
+            width: 34px;
+            height: 34px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            background: rgba(255,255,255,.14);
+        }
+        .user-menu-trigger > i { font-size: 10px; opacity: .75; }
+        .user-dropdown {
+            position: absolute;
+            right: 0;
+            top: calc(100% + 12px);
+            width: 290px;
+            max-height: min(70vh, 620px);
+            overflow-y: auto;
+            padding: 9px;
+            border: 1px solid rgba(20,32,29,.10);
+            border-radius: 18px;
+            background: rgba(255,255,255,.98);
+            box-shadow: 0 25px 70px rgba(10,25,20,.20);
+            backdrop-filter: blur(18px);
+            scrollbar-width: thin;
+        }
+        .user-dropdown a {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding: 10px 11px;
+            border-radius: 10px;
+            color: var(--hl-ink-soft);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            transition: background .18s ease, color .18s ease, transform .18s ease;
+        }
+        .user-dropdown a i {
+            width: 18px;
+            text-align: center;
+            color: var(--hl-accent-dark);
+        }
+        .user-dropdown a:hover,
+        .user-dropdown a:focus-visible {
+            background: var(--hl-surface-soft);
+            color: var(--hl-green);
+            transform: translateX(2px);
+            outline: none;
+        }
+        .dropdown-divider {
+            height: 1px;
+            margin: 7px 5px;
+            background: var(--hl-line);
+        }
+        .logout-link { color: #9b3c38 !important; }
+        .logout-link i { color: #b84d48 !important; }
+        /* Page hero */
+        .page-header {
+            position: relative;
+            isolation: isolate;
+            overflow: hidden;
+            min-height: 430px;
+            display: grid;
+            place-items: center;
+            padding: 105px 0 90px;
+            text-align: center;
+            color: #fff;
+            background:
+                linear-gradient(115deg, rgba(13,34,29,.91), rgba(13,34,29,.60) 52%, rgba(13,34,29,.76)),
+                url("https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=2200&q=84")
+                center / cover;
+        }
+        .page-header::before {
+            content: "";
+            position: absolute;
+            inset: auto -10% -140px;
+            height: 260px;
+            background: radial-gradient(ellipse, rgba(197,155,95,.20), transparent 68%);
+            z-index: -1;
+        }
+        .page-header .container { position: relative; }
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 18px;
+            padding: 7px 12px;
+            border: 1px solid rgba(255,255,255,.20);
+            border-radius: 999px;
+            background: rgba(255,255,255,.08);
+            color: #ead4ae;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+            backdrop-filter: blur(8px);
+        }
+        .page-header h1 {
+            margin: 0;
+            font-family: var(--font-heading);
+            font-size: clamp(42px, 6vw, 68px);
+            line-height: 1.05;
+            letter-spacing: -1.8px;
+            font-weight: 600;
+        }
+        .gradient-text {
+            color: #5b5ce2;
+            background: linear-gradient(90deg, #f0d39f, #bd8d4d);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .page-header p {
+            max-width: 650px;
+            margin: 20px auto 0;
+            color: rgba(255,255,255,.82);
+            font-size: 17px;
+            line-height: 1.75;
+        }
+        .breadcrumb {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            margin-top: 25px;
+            color: rgba(255,255,255,.62);
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .breadcrumb a {
+            color: #e7c992;
+            text-decoration: none;
+        }
+        .breadcrumb i { font-size: 9px; }
+        /* Legal content */
+        .legal-section {
+            position: relative;
+            padding: 72px 0 90px;
+        }
+        .legal-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 820px) 250px;
+            gap: 34px;
+            align-items: start;
+            justify-content: center;
+        }
+        .legal-content {
+            padding: 48px clamp(24px, 5vw, 58px);
+            border: 1px solid rgba(30,55,48,.09);
+            border-radius: 28px;
+            background: rgba(255,255,255,.96);
+            box-shadow: var(--hl-shadow);
+        }
+        .legal-intro {
+            margin-bottom: 42px;
+            padding-bottom: 28px;
+            border-bottom: 1px solid var(--hl-line);
+        }
+        .last-updated {
+            margin: 0;
+            color: var(--hl-muted);
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: .04em;
+            text-transform: uppercase;
+        }
+        .legal-content h2 {
+            position: relative;
+            margin: 42px 0 15px;
+            padding-left: 17px;
+            color: var(--hl-ink);
+            font-family: var(--font-heading);
+            font-size: 25px;
+            line-height: 1.25;
+            font-weight: 600;
+            scroll-margin-top: 105px;
+        }
         .legal-content h2:first-child { margin-top: 0; }
-        .legal-content p { font-size: 15px; color: var(--gray-500); line-height: 1.8; margin-bottom: 16px; }
-        .legal-content ul { margin-bottom: 16px; padding-left: 20px; }
-        .legal-content ul li { font-size: 15px; color: var(--gray-500); line-height: 1.8; margin-bottom: 8px; }
-        .legal-content .last-updated { font-size: 13px; color: var(--gray-400); margin-bottom: 40px; }
-        @media (max-width: 768px) { .page-header { padding: 120px 0 50px; } .page-header h1 { font-size: 36px; } }
+        .legal-content h2::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: .15em;
+            width: 4px;
+            height: 1.05em;
+            border-radius: 99px;
+            background: linear-gradient(#d6b174, #a57a40);
+        }
+        .legal-content p {
+            margin: 0 0 15px;
+            color: var(--hl-muted);
+            font-size: 15px;
+            line-height: 1.85;
+        }
+        .legal-content p:last-child { margin-bottom: 0; }
+        .legal-sidebar {
+            position: sticky;
+            top: 105px;
+            padding: 22px;
+            border: 1px solid rgba(30,55,48,.09);
+            border-radius: 20px;
+            background: rgba(255,255,255,.92);
+            box-shadow: 0 16px 50px rgba(18,35,30,.08);
+        }
+        .legal-sidebar-label {
+            margin: 0 0 13px;
+            color: var(--hl-ink);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+        }
+        .legal-sidebar a {
+            display: block;
+            padding: 7px 0;
+            color: var(--hl-muted);
+            text-decoration: none;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+        .legal-sidebar a:hover { color: var(--hl-accent-dark); }
+        /* Footer: deliberately opaque */
+        .footer {
+            position: relative;
+            overflow: hidden;
+            padding: 52px 0 22px;
+            color: rgba(255,255,255,.76);
+            background: #10221e;
+            border-top: 1px solid rgba(255,255,255,.06);
+        }
+        .footer::before {
+            content: "";
+            position: absolute;
+            width: 500px;
+            height: 260px;
+            top: -150px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: radial-gradient(ellipse, rgba(197,155,95,.13), transparent 70%);
+            pointer-events: none;
+        }
+        .footer .container { position: relative; }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            text-align: center;
+        }
+        .footer-brand .logo { justify-content: center; }
+        .footer-brand p {
+            margin: 13px auto 0;
+            max-width: 460px;
+            color: rgba(255,255,255,.57);
+            font-size: 13px;
+            line-height: 1.7;
+        }
+        .footer-bottom {
+            display: flex;
+            justify-content: center;
+            margin-top: 34px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,.10);
+        }
+        .footer-bottom p {
+            margin: 0;
+            color: rgba(255,255,255,.48);
+            font-size: 11px;
+        }
+        .footer-bottom i { color: #5b5ce2; }
+        .back-to-top {
+            position: fixed;
+            right: 24px;
+            bottom: 24px;
+            z-index: 900;
+            width: 46px;
+            height: 46px;
+            border: 1px solid rgba(255,255,255,.14);
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: #17352e;
+            color: #fff;
+            box-shadow: 0 12px 30px rgba(0,0,0,.20);
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(12px);
+            transition: .22s ease;
+        }
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .back-to-top:hover {
+            background: #214d42;
+            transform: translateY(-2px);
+        }
+        /* .hide-when-auth / .hide-when-guest rules live in styles.css */
+        @media (max-width: 900px) {
+            .legal-layout { grid-template-columns: 1fr; }
+            .legal-sidebar {
+                display: none;
+            }
+        }
+        @media (max-width: 640px) {
+            .container { width: min(100% - 28px, 1180px); }
+            .nav-container { min-height: 68px; }
+            .logo-text { font-size: 22px; }
+            .logo-icon { width: 38px; height: 38px; border-radius: 10px; }
+            .user-menu-trigger {
+                padding: 6px;
+                gap: 0;
+            }
+            .user-menu-trigger > span:not(.user-avatar),
+            .user-menu-trigger > i { display: none; }
+            .page-header {
+                min-height: 390px;
+                padding: 78px 0 68px;
+            }
+            .page-header h1 { letter-spacing: -1px; }
+            .page-header p { font-size: 15px; }
+            .legal-section { padding: 34px 0 55px; }
+            .legal-content {
+                padding: 30px 22px;
+                border-radius: 20px;
+            }
+            .legal-content h2 {
+                margin-top: 34px;
+                font-size: 22px;
+            }
+            .legal-content p {
+                font-size: 14px;
+                line-height: 1.78;
+            }
+            .back-to-top {
+                right: 15px;
+                bottom: 15px;
+                width: 43px;
+                height: 43px;
+            }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            *, *::before, *::after {
+                transition-duration: .01ms !important;
+                animation-duration: .01ms !important;
+            }
+        }
     </style>
 </head>
 <body>
-    <nav class="navbar" id="navbar">
-        <div class="nav-container">
-            <a href="/" class="logo">
+    <nav class="navbar" id="navbar" aria-label="Primary navigation">
+        <div class="nav-container container">
+            <a href="/" class="logo" aria-label="HeavenLease home">
                 <div class="logo-icon"><i class="fas fa-home"></i></div>
                 <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
-            
             <div class="nav-actions">
-                                <div class="user-menu" id="userMenu">
-                    <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu">
+                <div class="user-menu" id="userMenu">
+                    <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu" aria-haspopup="true">
                         <span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span>
                         <span id="navUserName">Account</span>
-                        <i class="fas fa-chevron-down"></i>
+                        <i class="fas fa-chevron-down" aria-hidden="true"></i>
                     </button>
                     <div class="user-dropdown" id="profileDropdown">
                         <a href="home" id="mainHomeLink"><i class="fas fa-home"></i> Main Home</a>
@@ -65,135 +507,148 @@
                         <a href="how-it-works"><i class="fas fa-circle-question"></i> How It Works</a>
                         <a href="about"><i class="fas fa-building"></i> About Us</a>
                         <a href="blog"><i class="fas fa-newspaper"></i> Blog</a>
-<a href="comfort-scores"><i class="fas fa-chart-simple"></i> Type &amp; Voice Search</a>
-                                                <a href="contact"><i class="fas fa-envelope"></i> Contact &amp; Support</a>
+                        <a href="comfort-scores"><i class="fas fa-chart-simple"></i> Type &amp; Voice Search</a>
+                        <a href="contact"><i class="fas fa-envelope"></i> Contact &amp; Support</a>
                         <div class="dropdown-divider"></div>
                         <a href="login" id="signInLink" class="hide-when-auth"><i class="fas fa-arrow-right-to-bracket"></i> Sign In</a>
                         <a href="#" id="logoutLink" class="logout-link hide-when-guest"><i class="fas fa-sign-out-alt"></i> Logout</a>
                     </div>
                 </div>
-</div>
+            </div>
         </div>
     </nav>
-
-    <section class="page-header">
-        <div class="container">
-            <h1>Rental <span class="gradient-text">Laws</span></h1>
-            <p>Understand your rights and responsibilities as a tenant or owner in India.</p>
-            <div class="breadcrumb">
-                <a href="/">Home</a>
-                <i class="fas fa-chevron-right"></i>
-                <span>Rental Laws</span>
+    <main>
+        <section class="page-header">
+            <div class="container">
+                <div class="eyebrow"><i class="fas fa-scale-balanced"></i> Rental guidance</div>
+                <h1>Rental <span class="gradient-text">Laws</span></h1>
+                <p>Understand your rights and responsibilities as a tenant or owner in India.</p>
+                <div class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="/">Home</a>
+                    <i class="fas fa-chevron-right" aria-hidden="true"></i>
+                    <span>Rental Laws</span>
+                </div>
             </div>
-        </div>
-    </section>
-
-    <section class="legal-section">
-        <div class="container">
-            <div class="legal-content">
-                <p class="last-updated">Last Updated: August 27, 2026</p>
-                <h2>1. Overview of Rental Law in India</h2>
-                <p>Rental and tenancy law in India is a mix of central and state legislation. The Model Tenancy Act 2021 was published by the Central Government as a framework that states can adopt or adapt, and it encourages written agreements, protection for both parties and faster dispute resolution.</p>
-                <p>Many states still operate under older Rent Control Acts, such as the Delhi Rent Control Act 1958, which govern fair rent and eviction protections, while some newer statutes and municipal rules apply in specific cities.</p>
-                <p>This guide is for general information only and is not legal advice. Always verify the rules that apply in your specific state, city and society, because local rules can change what is permissible.</p>
-                <h2>2. Key Tenant Rights</h2>
-                <p>Tenants in India generally have the right to live in a habitable property with basic amenities, to receive receipts for every rent payment, and to peaceful enjoyment of the property without undue disturbance from the owner.</p>
-                <p>A tenant also has the right to privacy, to fair notice before an owner or agent enters the premises, and to reasonable notice before any eviction process begins, as specified in the agreement or state law.</p>
-                <p>Tenants have the right to get their security deposit refunded within the timeframe required by law, minus only legitimate deductions for damage beyond normal wear and tear.</p>
-                <h2>3. Key Owner Rights</h2>
-                <p>Owners have the right to receive the agreed rent, to be informed of the property condition, and to enter the property for reasonable inspection, repairs and maintenance after giving proper notice.</p>
-                <p>Owners may terminate the tenancy as described in the agreement or state law, with proper notice, and may deduct from the security deposit for genuine damage, unpaid bills, or rent arrears.</p>
-                <p>Owners also have the right to be protected against sub-letting without consent and against the property being used for illegal activities.</p>
-                <h2>4. The Model Tenancy Act 2021</h2>
-                <p>The Model Tenancy Act provides a uniform framework covering rent agreements, rent control, deposit limits and dispute resolution. It encourages 11-month renewable agreements and the digital entry of tenancies.</p>
-                <p>Under the model act, a written agreement is required, security deposits are typically capped at two months of rent for residential premises, and disputes are intended to be resolved through Rent Authorities and Courts in a time-bound manner.</p>
-                <p>States decide whether to adopt this act with modifications, so check whether your state has adopted the model act or still follows a legacy Rent Control Act.</p>
-                <h2>5. Deposit Limits and Refund Timelines</h2>
-                <p>Many state statutes cap residential security deposits at two to three months of rent, although the exact amount can vary. Deposits must usually be returned after move-out, with only verified deductions.</p>
-                <p>State clearly the deposit amount, refund timeline and deduction rules in the written agreement. Where deposits are protected in escrow, release can be automatic after a fair move-out inspection, removing most common refund delays.</p>
-                <h2>6. Written Rent Agreements and Registration</h2>
-                <p>A written rent agreement is strongly recommended and, in many states, mandatory. It should state the rent, deposit, term, notice period, maintenance responsibilities, utilities and any house rules.</p>
-                <p>Agreements of twelve months or more generally benefit from stamp duty and registration. Many owners use an 11-month agreement, but this is a choice that should be made with full awareness of the consequences for both sides.</p>
-                <p>HeavenLease provides lease templates and guidance so your agreement clearly covers the essentials and can be registered where appropriate.</p>
-                <h2>7. Eviction and Notice Periods</h2>
-                <p>Eviction must follow the process set out in the agreement and applicable state law. Owners cannot generally evict a tenant without proper notice or a valid reason recognised by law.</p>
-                <p>Notice periods are typically one month for month-to-month tenancies, but the agreement may state otherwise. Tenants should always receive written notice before any legal action begins.</p>
-                <p>Tenants are well protected by keeping evidence of payments, the signed agreement and written communication, so any dispute can be resolved fairly.</p>
-                <h2>8. Rent Increases</h2>
-                <p>Rent increases must follow what is stated in the agreement. Under some older rent control laws increases are restricted, while under the model act the parties can agree increases so long as they are notified properly.</p>
-                <p>Most agreements specify an annual increase of five to ten percent at renewal. HeavenLease suggests including a clear increase clause so neither side is surprised at renewal time.</p>
-                <p>Rent should never be raised mid-term unless the agreement allows it.</p>
-                <h2>9. Sub-letting and Property Use</h2>
-                <p>Tenants may not normally sub-let the premises or assign the lease without written consent from the owner. Unauthorised sub-letting is a valid ground for termination in most states.</p>
-                <p>The agreement should also state permitted use, whether guests may stay regularly, and whether any commercial activity is allowed. Violations should be documented in writing before an owner takes further action.</p>
-                <h2>10. Maintenance and Repairs</h2>
-                <p>As a general rule, the owner is responsible for structural repairs and major systems, while the tenant is responsible for day-to-day upkeep and minor repairs arising from use.</p>
-                <p>State the split clearly in the agreement. HeavenLease lease templates include a maintenance-responsibility section so both sides know their duties and no disputes arise on that count.</p>
-                <p>Tenants should report issues in writing and keep records; owners should respond within a reasonable time to preserve goodwill and the property's condition and value.</p>
-                <h2>11. State-Specific Rules</h2>
-                <p>Some states have their own tenancy and rent acts within their borders, each with different protections, registrations and deposit caps. City-level rules may also apply.</p>
-                <p>Before signing, check the state tenancy law that applies where the property is located. Local property managers, societies and legal advisors can also help you understand what applies in your area.</p>
-                <p>HeavenLease is continuously adding state-specific guidance to this page.</p>
-                <h2>12. Dispute Resolution</h2>
-                <p>Rental disputes commonly involve deposits, rent arrears, alterations or eviction. Start by resolving informally in writing, then escalate through the society or local authority, and finally to the civil court or rent tribunal where applicable.</p>
-                <p>Evidence matters: keep the signed agreement, rent receipts, bank records and photographs of condition at move-in and move-out. On HeavenLease, deposits held in escrow and tenant screening reduce most sources of dispute before they begin.</p>
-                <h2>13. Important Disclaimer</h2>
-                <p>The information on this page is general guidance and is not legal advice. Rental laws change and vary, and you should always consult a qualified legal professional before acting on anything here.</p>
-                <p>Neither HeavenLease nor this page creates an advocate-client relationship, and HeavenLease is not responsible for any loss arising from reliance on this general information.</p>
+        </section>
+        <section class="legal-section">
+            <div class="container">
+                <div class="legal-layout">
+                    <article class="legal-content">
+                        <div class="legal-intro">
+                            <p class="last-updated">Last Updated: August 27, 2026</p>
+                        </div>
+                        <h2 id="overview">1. Overview of Rental Law in India</h2>
+                        <p>Rental and tenancy law in India is a mix of central and state legislation. The Model Tenancy Act 2021 was published by the Central Government as a framework that states can adopt or adapt, and it encourages written agreements, protection for both parties and faster dispute resolution.</p>
+                        <p>Many states still operate under older Rent Control Acts, such as the Delhi Rent Control Act 1958, which govern fair rent and eviction protections, while some newer statutes and municipal rules apply in specific cities.</p>
+                        <p>This guide is for general information only and is not legal advice. Always verify the rules that apply in your specific state, city and society, because local rules can change what is permissible.</p>
+                        <h2 id="tenant-rights">2. Key Tenant Rights</h2>
+                        <p>Tenants in India generally have the right to live in a habitable property with basic amenities, to receive receipts for every rent payment, and to peaceful enjoyment of the property without undue disturbance from the owner.</p>
+                        <p>A tenant also has the right to privacy, to fair notice before an owner or agent enters the premises, and to reasonable notice before any eviction process begins, as specified in the agreement or state law.</p>
+                        <p>Tenants have the right to get their security deposit refunded within the timeframe required by law, minus only legitimate deductions for damage beyond normal wear and tear.</p>
+                        <h2 id="owner-rights">3. Key Owner Rights</h2>
+                        <p>Owners have the right to receive the agreed rent, to be informed of the property condition, and to enter the property for reasonable inspection, repairs and maintenance after giving proper notice.</p>
+                        <p>Owners may terminate the tenancy as described in the agreement or state law, with proper notice, and may deduct from the security deposit for genuine damage, unpaid bills, or rent arrears.</p>
+                        <p>Owners also have the right to be protected against sub-letting without consent and against the property being used for illegal activities.</p>
+                        <h2 id="model-act">4. The Model Tenancy Act 2021</h2>
+                        <p>The Model Tenancy Act provides a uniform framework covering rent agreements, rent control, deposit limits and dispute resolution. It encourages 11-month renewable agreements and the digital entry of tenancies.</p>
+                        <p>Under the model act, a written agreement is required, security deposits are typically capped at two months of rent for residential premises, and disputes are intended to be resolved through Rent Authorities and Courts in a time-bound manner.</p>
+                        <p>States decide whether to adopt this act with modifications, so check whether your state has adopted the model act or still follows a legacy Rent Control Act.</p>
+                        <h2 id="deposits">5. Deposit Limits and Refund Timelines</h2>
+                        <p>Many state statutes cap residential security deposits at two to three months of rent, although the exact amount can vary. Deposits must usually be returned after move-out, with only verified deductions.</p>
+                        <p>State clearly the deposit amount, refund timeline and deduction rules in the written agreement. Where deposits are protected in escrow, release can be automatic after a fair move-out inspection, removing most common refund delays.</p>
+                        <h2 id="agreements">6. Written Rent Agreements and Registration</h2>
+                        <p>A written rent agreement is strongly recommended and, in many states, mandatory. It should state the rent, deposit, term, notice period, maintenance responsibilities, utilities and any house rules.</p>
+                        <p>Agreements of twelve months or more generally benefit from stamp duty and registration. Many owners use an 11-month agreement, but this is a choice that should be made with full awareness of the consequences for both sides.</p>
+                        <p>HeavenLease provides lease templates and guidance so your agreement clearly covers the essentials and can be registered where appropriate.</p>
+                        <h2 id="eviction">7. Eviction and Notice Periods</h2>
+                        <p>Eviction must follow the process set out in the agreement and applicable state law. Owners cannot generally evict a tenant without proper notice or a valid reason recognised by law.</p>
+                        <p>Notice periods are typically one month for month-to-month tenancies, but the agreement may state otherwise. Tenants should always receive written notice before any legal action begins.</p>
+                        <p>Tenants are well protected by keeping evidence of payments, the signed agreement and written communication, so any dispute can be resolved fairly.</p>
+                        <h2 id="increases">8. Rent Increases</h2>
+                        <p>Rent increases must follow what is stated in the agreement. Under some older rent control laws increases are restricted, while under the model act the parties can agree increases so long as they are notified properly.</p>
+                        <p>Most agreements specify an annual increase of five to ten percent at renewal. HeavenLease suggests including a clear increase clause so neither side is surprised at renewal time.</p>
+                        <p>Rent should never be raised mid-term unless the agreement allows it.</p>
+                        <h2 id="subletting">9. Sub-letting and Property Use</h2>
+                        <p>Tenants may not normally sub-let the premises or assign the lease without written consent from the owner. Unauthorised sub-letting is a valid ground for termination in most states.</p>
+                        <p>The agreement should also state permitted use, whether guests may stay regularly, and whether any commercial activity is allowed. Violations should be documented in writing before an owner takes further action.</p>
+                        <h2 id="maintenance">10. Maintenance and Repairs</h2>
+                        <p>As a general rule, the owner is responsible for structural repairs and major systems, while the tenant is responsible for day-to-day upkeep and minor repairs arising from use.</p>
+                        <p>State the split clearly in the agreement. HeavenLease lease templates include a maintenance-responsibility section so both sides know their duties and no disputes arise on that count.</p>
+                        <p>Tenants should report issues in writing and keep records; owners should respond within a reasonable time to preserve goodwill and the property's condition and value.</p>
+                        <h2 id="state-rules">11. State-Specific Rules</h2>
+                        <p>Some states have their own tenancy and rent acts within their borders, each with different protections, registrations and deposit caps. City-level rules may also apply.</p>
+                        <p>Before signing, check the state tenancy law that applies where the property is located. Local property managers, societies and legal advisors can also help you understand what applies in your area.</p>
+                        <p>HeavenLease is continuously adding state-specific guidance to this page.</p>
+                        <h2 id="disputes">12. Dispute Resolution</h2>
+                        <p>Rental disputes commonly involve deposits, rent arrears, alterations or eviction. Start by resolving informally in writing, then escalate through the society or local authority, and finally to the civil court or rent tribunal where applicable.</p>
+                        <p>Evidence matters: keep the signed agreement, rent receipts, bank records and photographs of condition at move-in and move-out. On HeavenLease, deposits held in escrow and tenant screening reduce most sources of dispute before they begin.</p>
+                        <h2 id="disclaimer">13. Important Disclaimer</h2>
+                        <p>The information on this page is general guidance and is not legal advice. Rental laws change and vary, and you should always consult a qualified legal professional before acting on anything here.</p>
+                        <p>Neither HeavenLease nor this page creates an advocate-client relationship, and HeavenLease is not responsible for any loss arising from reliance on this general information.</p>
+                    </article>
+                    <aside class="legal-sidebar" aria-label="Page sections">
+                        <p class="legal-sidebar-label">On this page</p>
+                        <a href="#overview">Overview</a>
+                        <a href="#tenant-rights">Tenant rights</a>
+                        <a href="#owner-rights">Owner rights</a>
+                        <a href="#model-act">Model Tenancy Act</a>
+                        <a href="#deposits">Deposits</a>
+                        <a href="#agreements">Rent agreements</a>
+                        <a href="#eviction">Eviction</a>
+                        <a href="#increases">Rent increases</a>
+                        <a href="#subletting">Sub-letting</a>
+                        <a href="#maintenance">Maintenance</a>
+                        <a href="#state-rules">State rules</a>
+                        <a href="#disputes">Disputes</a>
+                        <a href="#disclaimer">Disclaimer</a>
+                    </aside>
+                </div>
             </div>
-        </div>
-    </section>
-
+        </section>
+    </main>
     <footer class="footer">
-        <div class="container">
-            <div class="footer-grid" style="grid-template-columns: 1fr; text-align: center;">
-                <div class="footer-brand">
-                    <a href="/" class="logo">
-                        <div class="logo-icon"><i class="fas fa-home"></i></div>
-                        <span class="logo-text">Heaven<span>Lease</span></span>
-                    </a>
-                    <p style="margin: 10px auto; max-width: 300px;">Simple steps to your perfect stay. Direct owner rentals with zero broker fees and comfort-first search.</p></div>
-            </div>
-            <div class="footer-bottom" style="justify-content: center;">
-                <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
-            </div>
+<div class="container">
+    <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
+        <div class="footer-brand">
+            <a href="home" class="logo">
+                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <span class="logo-text">Heaven<span>Lease</span></span>
+            </a>
+            <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>
         </div>
-    </footer>
-
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Explore</strong>
+            <a href="properties" style="color:inherit;text-decoration:none;">Find a Home</a>
+            <a href="map" style="color:inherit;text-decoration:none;">Property Map</a>
+            <a href="how-it-works" style="color:inherit;text-decoration:none;">How It Works</a>
+            <a href="about" style="color:inherit;text-decoration:none;">About Us</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Company</strong>
+            <a href="careers" style="color:inherit;text-decoration:none;">Careers</a>
+            <a href="press" style="color:inherit;text-decoration:none;">Press</a>
+            <a href="blog" style="color:inherit;text-decoration:none;">Blog</a>
+            <a href="contact" style="color:inherit;text-decoration:none;">Contact</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">For Owners</strong>
+            <a href="list-property" style="color:inherit;text-decoration:none;">List Your Property</a>
+            <a href="properties-management" style="color:inherit;text-decoration:none;">Owner Dashboard</a>
+            <a href="payment" style="color:inherit;text-decoration:none;">Pricing &amp; Upgrade</a>
+            <a href="owner-resources" style="color:inherit;text-decoration:none;">Owner Resources</a>
+        </div>
+    </div>
+    <div class="footer-bottom" style="justify-content:center;margin-top:28px;">
+        <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
+    </div>
+</div>
+</footer>
     <button class="back-to-top" id="backToTop" aria-label="Back to top">
         <i class="fas fa-arrow-up"></i>
     </button>
-
-    <script src="api.js?v=20260913a"></script>
-    <script src="script.js?v=20260913a"></script>
-    <script>
-        // Note: navbar, hamburger, navLinks, backToTop are already declared in script.js
-
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) navbar.classList.add('scrolled');
-            else navbar.classList.remove('scrolled');
-            if (window.scrollY > 500) backToTop.classList.add('visible');
-            else backToTop.classList.remove('visible');
-        });
-
-        if (hamburger) hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            navLinks.classList.toggle('active');
-        });
-
-        if (hamburger && navLinks) {
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.addEventListener('click', () => {
-                    hamburger.classList.remove('active');
-                    navLinks.classList.remove('active');
-                });
-            });
-        }
-
-        backToTop.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-    </script>
+    <script src="js/api.js?v=20260913a"></script>
+    <script src="js/core.js?v=20260913a"></script>
+    
+<script src="js/pages/rental-laws.js?v=20260913a"></script>
 </body>
 </html>
-

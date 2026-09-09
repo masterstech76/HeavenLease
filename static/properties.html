@@ -17,270 +17,461 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
     <link rel="stylesheet" href="styles.css?v=20260909a">
     <style>
-        /* Page-specific styles */
-        .page-header {
-            background: var(--gradient-soft);
-            padding: 140px 0 60px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
+        :root{
+            --hl-ink:#182033;
+            --hl-muted:#687386;
+            --hl-line:#e4e7ee;
+            --hl-surface:#ffffff;
+            --hl-soft:#f7f8fc;
+            --hl-accent:#5b5ce2;
+            --hl-accent-dark:#4445c5;
+            --hl-green:#18a878;
+            --hl-shadow:0 22px 60px rgba(19,30,24,.12);
+            --hl-radius:22px;
         }
-
-        .page-header h1 {
-            font-family: var(--font-heading);
-            font-size: 48px;
-            font-weight: 700;
-            color: var(--dark);
-            margin-bottom: 12px;
+        html{scroll-behavior:smooth}
+        body{
+            background:
+                linear-gradient(rgba(247,248,245,.91),rgba(247,248,245,.96)),
+                url("https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=2200&q=82") center/cover fixed;
+            color:var(--hl-ink);
         }
-
-        .page-header p {
-            font-size: 17px;
-            color: var(--gray-500);
-            max-width: 600px;
-            margin: 0 auto;
+        /* ===== PREMIUM NAVBAR ===== */
+        .navbar{
+            background:
+                linear-gradient(90deg,rgba(9,18,14,.96),rgba(19,31,25,.86)),
+                url("https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2200&q=82") center/cover !important;
+            border-bottom:1px solid rgba(255,255,255,.12);
+            box-shadow:0 10px 35px rgba(0,0,0,.16);
+            backdrop-filter:blur(12px);
         }
-
-        .page-header .breadcrumb {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            margin-top: 16px;
-            font-size: 14px;
-            color: var(--gray-500);
+        .navbar.scrolled{
+            background:
+                linear-gradient(90deg,rgba(8,16,12,.99),rgba(18,29,23,.97)),
+                url("https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2200&q=82") center/cover !important;
         }
-
-        .page-header .breadcrumb a {
-            color: var(--primary);
+        .nav-container{min-height:76px}
+        .logo-text{color:#fff}
+        .logo-text span{color:#d9b46b}
+        .logo-icon{
+            box-shadow:0 8px 24px rgba(0,0,0,.24);
         }
-
-        .page-header .breadcrumb i {
-            font-size: 12px;
-            color: var(--gray-400);
+        .user-menu-trigger{
+            color:#fff;
+            border:1px solid rgba(255,255,255,.16);
+            background:rgba(255,255,255,.08);
+            backdrop-filter:blur(10px);
+            border-radius:999px;
+            padding:8px 13px 8px 8px;
         }
-
-        .properties-page-section {
-            padding: 60px 0 100px;
-            background: var(--gray-50);
+        .user-menu-trigger:hover{background:rgba(255,255,255,.14)}
+        /* ===== HERO ===== */
+        .page-header{
+            min-height:430px;
+            padding:154px 0 86px;
+            display:flex;
+            align-items:center;
+            text-align:left;
+            color:#fff;
+            background:
+                linear-gradient(100deg,rgba(9,22,16,.9) 0%,rgba(17,35,27,.70) 54%,rgba(17,35,27,.42) 100%),
+                url("https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=2200&q=84") center/cover;
         }
-
-        .properties-layout {
-            display: grid;
-            grid-template-columns: 280px 1fr;
-            gap: 32px;
+        .page-header::before{
+            content:"";
+            position:absolute;
+            inset:0;
+            background:linear-gradient(180deg,rgba(0,0,0,.10),rgba(0,0,0,.30));
+            pointer-events:none;
         }
-
-        .filter-sidebar {
-            background: var(--white);
-            border-radius: var(--radius-lg);
-            padding: 24px;
-            border: 1px solid var(--gray-200);
-            position: sticky;
-            top: 100px;
-            height: fit-content;
+        .page-header .container{position:relative;z-index:1}
+        .page-header h1{
+            color:#fff;
+            font-size:clamp(40px,5vw,68px);
+            line-height:1.03;
+            letter-spacing:-1.8px;
+            margin-bottom:18px;
+            max-width:760px;
         }
-
-        .filter-sidebar h3 {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--dark);
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        .page-header h1 .gradient-text{
+            background:linear-gradient(135deg,#f2d79e,#c99d56);
+            -webkit-background-clip:text;
+            background-clip:text;
+            color:transparent;
         }
-
-        .filter-sidebar h3 i {
-            color: var(--primary);
+        .page-header p{
+            color:rgba(255,255,255,.84);
+            font-size:18px;
+            line-height:1.7;
+            max-width:650px;
+            margin:0;
         }
-
-        .filter-group {
-            margin-bottom: 24px;
+        .page-header .breadcrumb{
+            justify-content:flex-start;
+            margin-top:24px;
+            color:rgba(255,255,255,.65);
         }
-
-        .filter-group label {
-            display: block;
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--gray-600);
-            margin-bottom: 8px;
+        .page-header .breadcrumb a{color:#f0d49a}
+        .page-header .breadcrumb i{color:rgba(255,255,255,.42)}
+        /* ===== LISTING AREA ===== */
+        .properties-page-section{
+            padding:58px 0 105px;
+            background:
+                linear-gradient(rgba(246,248,244,.88),rgba(246,248,244,.94)),
+                url("https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=2200&q=80") center/cover fixed;
         }
-
+        .properties-layout{
+            grid-template-columns:285px minmax(0,1fr);
+            gap:28px;
+            align-items:start;
+        }
+        .filter-sidebar{
+            background:rgba(255,255,255,.94);
+            border:1px solid rgba(255,255,255,.8);
+            border-radius:var(--hl-radius);
+            padding:25px;
+            box-shadow:var(--hl-shadow);
+            backdrop-filter:blur(14px);
+            top:94px;
+        }
+        .filter-sidebar h3{
+            font-size:18px;
+            letter-spacing:-.2px;
+            padding-bottom:18px;
+            border-bottom:1px solid var(--hl-line);
+        }
+        .filter-sidebar h3 i{color:var(--hl-accent)}
+        .filter-group{margin-bottom:21px}
+        .filter-group label{
+            color:#425048;
+            letter-spacing:.1px;
+        }
         .filter-group input,
-        .filter-group select {
-            width: 100%;
-            padding: 10px 14px;
-            border: 1px solid var(--gray-200);
-            border-radius: var(--radius-md);
-            background: var(--gray-50);
-            font-size: 14px;
-            color: var(--gray-700);
-            transition: var(--transition);
+        .filter-group select{
+            min-height:44px;
+            border-color:rgba(30,48,39,.13);
+            background:#f7f8f5;
+            border-radius:12px;
         }
-
         .filter-group input:focus,
-        .filter-group select:focus {
-            outline: none;
-            border-color: var(--primary);
-            background: var(--white);
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        .filter-group select:focus{
+            border-color:var(--hl-accent);
+            box-shadow:0 0 0 4px rgba(178,138,74,.11);
         }
-
-        .filter-checkbox {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 6px 0;
-            cursor: pointer;
-            font-size: 14px;
-            color: var(--gray-600);
+        .filter-checkbox{
+            border-radius:10px;
+            padding:8px 6px;
+            transition:.2s ease;
         }
-
-        .filter-checkbox input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            accent-color: var(--primary);
-            cursor: pointer;
+        .filter-checkbox:hover{background:#f4f6f1}
+        .filter-checkbox input[type=checkbox]{accent-color:var(--hl-green)}
+        .filter-actions .btn{
+            min-height:46px;
+            border-radius:13px;
+            font-weight:700;
         }
-
-        .filter-actions {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
+        .btn-primary{
+            background:linear-gradient(135deg,#315a45,#203f31) !important;
+            border-color:#315a45 !important;
+            box-shadow:0 10px 22px rgba(32,63,49,.16);
         }
-
-        .filter-actions .btn {
-            width: 100%;
+        .btn-primary:hover{
+            transform:translateY(-1px);
+            box-shadow:0 14px 28px rgba(32,63,49,.21);
         }
-
-        .btn-clear {
-            background: var(--gray-100);
-            color: var(--gray-600);
+        .btn-outline{
+            border-color:rgba(42,70,57,.22);
+            color:#294737;
+            background:rgba(255,255,255,.82);
         }
-
-        .btn-clear:hover {
-            background: var(--gray-200);
+        .properties-list-header{
+            margin-bottom:20px;
+            padding:0 2px;
         }
-
-        .properties-list-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 24px;
+        .properties-list-header h2{
+            font-size:23px;
+            letter-spacing:-.45px;
         }
-
-        .properties-list-header h2 {
-            font-size: 20px;
-            font-weight: 600;
-            color: var(--dark);
+        .properties-list-header h2 span{font-weight:500;color:var(--hl-muted)}
+        .sort-select{
+            min-height:42px;
+            border-radius:12px;
+            box-shadow:0 5px 18px rgba(20,30,25,.05);
         }
-
-        .properties-list-header span {
-            color: var(--gray-500);
-            font-size: 14px;
+        .properties-list-grid{
+            grid-template-columns:repeat(2,minmax(0,1fr));
+            gap:22px;
         }
-
-        .sort-select {
-            padding: 8px 14px;
-            border: 1px solid var(--gray-200);
-            border-radius: var(--radius-md);
-            background: var(--white);
-            font-size: 14px;
-            color: var(--gray-600);
+        /* JS-generated property cards */
+        .property-card{
+            position:relative;
+            overflow:hidden;
+            border:1px solid rgba(24,39,31,.09);
+            border-radius:22px;
+            background:rgba(255,255,255,.96);
+            box-shadow:0 15px 40px rgba(19,30,24,.10);
+            transition:transform .28s ease,box-shadow .28s ease,border-color .28s ease;
         }
-
-        .properties-list-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 24px;
+        .property-card:hover{
+            transform:translateY(-5px);
+            box-shadow:0 25px 55px rgba(19,30,24,.16);
+            border-color:rgba(178,138,74,.28);
         }
-
-        .no-results {
-            text-align: center;
-            padding: 60px 20px;
-            background: var(--white);
-            border-radius: var(--radius-lg);
-            border: 1px solid var(--gray-200);
+        .property-image{
+            min-height:230px;
+            position:relative;
+            overflow:hidden;
+            background:linear-gradient(135deg,#243e31,#7b806f);
         }
-
-        .no-results i {
-            font-size: 48px;
-            color: var(--gray-300);
-            margin-bottom: 16px;
+        .property-image-placeholder{
+            position:absolute;
+            inset:0;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            color:rgba(255,255,255,.88);
+            font-size:58px;
+            background:
+                linear-gradient(135deg,rgba(18,38,28,.80),rgba(89,77,52,.35)),
+                url("https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1200&q=80") center/cover;
+            transition:transform .45s ease;
         }
-
-        .no-results h3 {
-            font-size: 20px;
-            color: var(--dark);
-            margin-bottom: 8px;
+        .property-card:hover .property-image-placeholder{transform:scale(1.045)}
+        .property-image::after{
+            content:"";
+            position:absolute;
+            inset:auto 0 0;
+            height:55%;
+            background:linear-gradient(transparent,rgba(0,0,0,.42));
+            pointer-events:none;
         }
-
-        .no-results p {
-            color: var(--gray-500);
-            margin-bottom: 20px;
+        .property-badge{
+            position:absolute;
+            top:15px;
+            left:15px;
+            z-index:2;
+            padding:7px 11px;
+            border-radius:999px;
+            background:rgba(255,255,255,.93);
+            color:#2c4b3a;
+            font-size:12px;
+            font-weight:800;
+            box-shadow:0 7px 18px rgba(0,0,0,.13);
         }
-
-        .pagination {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            margin-top: 40px;
+        .property-badge i{color:#5b5ce2}
+        .property-favorite{
+            position:absolute;
+            top:13px;
+            right:13px;
+            z-index:3;
+            width:42px;
+            height:42px;
+            border:1px solid rgba(255,255,255,.28);
+            border-radius:50%;
+            background:rgba(13,27,20,.40);
+            color:#fff;
+            backdrop-filter:blur(8px);
+            cursor:pointer;
+            transition:.2s ease;
         }
-
-        .page-btn {
-            width: 40px;
-            height: 40px;
-            border-radius: var(--radius-md);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--gray-600);
-            background: var(--white);
-            border: 1px solid var(--gray-200);
-            transition: var(--transition);
+        .property-favorite:hover,.property-favorite.active{
+            background:#fff;
+            color:#a34f53;
         }
-
-        .page-btn:hover,
-        .page-btn.active {
-            background: var(--primary);
-            color: var(--white);
-            border-color: var(--primary);
+        .property-body{padding:22px 22px 20px}
+        .property-title{
+            margin:0 0 8px;
+            font-family:var(--font-heading);
+            font-size:23px;
+            line-height:1.2;
+            color:var(--hl-ink);
         }
-
-        @media (max-width: 1024px) {
-            .properties-layout {
-                grid-template-columns: 1fr;
+        .property-location{
+            color:#6c776f;
+            font-size:13px;
+            margin-bottom:17px;
+        }
+        .property-location i{color:var(--hl-accent)}
+        .property-price{
+            display:flex;
+            align-items:baseline;
+            gap:6px;
+            padding-bottom:16px;
+            border-bottom:1px solid var(--hl-line);
+        }
+        .property-price .price{
+            font-size:22px;
+            font-weight:800;
+            color:#244a38;
+        }
+        .property-price .per-month{font-size:13px;color:#7b857f}
+        .property-amenities{
+            display:flex;
+            flex-wrap:wrap;
+            gap:7px;
+            margin:16px 0;
+        }
+        .property-amenity{
+            padding:6px 9px;
+            border-radius:999px;
+            background:#f3f6f1;
+            color:#536159;
+            font-size:11px;
+            font-weight:650;
+        }
+        .property-amenity i{color:#6e8a77}
+        .property-comfort{
+            display:grid;
+            grid-template-columns:repeat(3,1fr);
+            gap:7px;
+            margin-bottom:18px;
+        }
+        .comfort-score{
+            min-height:52px;
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            gap:3px;
+            padding:7px 8px;
+            border-radius:12px;
+            background:#fafbf9;
+            border:1px solid rgba(25,45,35,.07);
+            color:#536058;
+            font-size:10px;
+        }
+        .comfort-score i{color:#5b5ce2;font-size:12px}
+        .property-actions{
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:9px;
+        }
+        .property-actions .btn{
+            min-height:43px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            gap:7px;
+            padding:9px 11px;
+            border-radius:12px;
+            font-size:12px;
+            font-weight:750;
+        }
+        .property-lock{
+            position:absolute;
+            inset:0;
+            z-index:8;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            padding:22px;
+            background:rgba(14,25,20,.74);
+            backdrop-filter:blur(8px);
+        }
+        .property-lock-inner{
+            width:min(330px,100%);
+            text-align:center;
+            color:#fff;
+            padding:26px 20px;
+            border:1px solid rgba(255,255,255,.18);
+            border-radius:20px;
+            background:rgba(255,255,255,.10);
+        }
+        .property-lock-inner > i{
+            font-size:27px;
+            color:#e0c07b;
+            margin-bottom:11px;
+        }
+        .property-lock-inner h4{margin:0 0 7px;font-size:18px}
+        .property-lock-inner p{
+            color:rgba(255,255,255,.74);
+            font-size:13px;
+            line-height:1.5;
+            margin-bottom:17px;
+        }
+        .property-lock-inner .btn{width:100%}
+        .no-results{
+            padding:70px 24px;
+            border-radius:22px;
+            background:rgba(255,255,255,.94);
+            box-shadow:var(--hl-shadow);
+            border:1px solid rgba(24,39,31,.08);
+        }
+        .no-results i{color:#b8c0ba}
+        .no-results h3{font-family:var(--font-heading);font-size:26px}
+        .no-results p{max-width:520px;margin-left:auto;margin-right:auto;line-height:1.65}
+        .pagination{
+            margin-top:30px;
+            gap:7px;
+        }
+        .page-btn{
+            border-radius:12px;
+            box-shadow:0 5px 14px rgba(20,30,25,.05);
+        }
+        .page-btn:hover,.page-btn.active{
+            background:var(--hl-green);
+            border-color:var(--hl-green);
+        }
+        /* ===== FOOTER ===== */
+        .footer{
+            background:#182033 !important;
+            color:rgba(255,255,255,.70);
+            border-top:1px solid rgba(255,255,255,.08);
+        }
+        .footer .logo-text{color:#fff}
+        .footer strong{color:#fff}
+        .footer a{transition:color .2s ease}
+        .footer a:hover{color:#e0bd7a !important}
+        .footer-bottom{border-top-color:rgba(255,255,255,.10)}
+        .back-to-top{
+            background:#5b5ce2 !important;
+            color:#fff !important;
+            box-shadow:0 12px 28px rgba(71,51,23,.28);
+        }
+        @media (max-width:1100px){
+            .properties-layout{grid-template-columns:250px minmax(0,1fr)}
+            .properties-list-grid{grid-template-columns:1fr}
+        }
+        @media (max-width:1024px){
+            .properties-layout{grid-template-columns:1fr}
+            .filter-sidebar{
+                position:relative;
+                top:auto;
+                margin-bottom:3px;
             }
-
-            .filter-sidebar {
-                position: static;
-                margin-bottom: 24px;
-            }
-
-            .properties-list-grid {
-                grid-template-columns: 1fr;
-            }
+            .filter-sidebar h3{cursor:default}
+            .filter-group{margin-bottom:18px}
         }
-
-        @media (max-width: 768px) {
-            .page-header {
-                padding: 120px 0 40px;
+        @media (max-width:768px){
+            .page-header{
+                min-height:390px;
+                padding:132px 0 62px;
             }
-
-            .page-header h1 {
-                font-size: 36px;
+            .page-header h1{font-size:43px;letter-spacing:-1px}
+            .page-header p{font-size:16px}
+            .properties-page-section{padding:42px 0 75px;background-attachment:scroll}
+            .filter-sidebar{padding:20px}
+            .properties-list-header{
+                align-items:stretch;
+                gap:11px;
             }
-
-            .properties-list-header {
-                flex-direction: column;
-                gap: 12px;
-                align-items: flex-start;
+            .sort-select{width:100%}
+        }
+        @media (max-width:560px){
+            .page-header{min-height:350px;padding:116px 0 52px}
+            .page-header h1{font-size:36px}
+            .properties-list-grid{gap:17px}
+            .property-image{min-height:205px}
+            .property-body{padding:18px}
+            .property-title{font-size:21px}
+            .property-comfort{gap:5px}
+            .comfort-score{font-size:9px}
+            .property-actions{grid-template-columns:1fr}
+            .footer-grid{
+                grid-template-columns:1fr !important;
+                gap:26px !important;
             }
         }
     </style>
@@ -333,7 +524,6 @@
 </div>
         </div>
     </nav>
-
     <!-- ===== PAGE HEADER ===== -->
     <section class="page-header">
         <div class="container">
@@ -346,7 +536,6 @@
             </div>
         </div>
     </section>
-
     <!-- ===== PROPERTIES LISTING ===== -->
     <section class="properties-page-section">
         <div class="container">
@@ -359,7 +548,6 @@
                         <label>Location</label>
                         <input type="text" id="filterLocation" placeholder="City or locality">
                     </div>
-
                     <div class="filter-group">
                         <label>Max Budget</label>
                         <select id="filterBudget">
@@ -372,7 +560,6 @@
                             <option value="60000">₹50,000+</option>
                         </select>
                     </div>
-
                     <div class="filter-group">
                         <label>BHK Type</label>
                         <select id="filterBhk">
@@ -383,7 +570,6 @@
                             <option value="4">4+ BHK</option>
                         </select>
                     </div>
-
                     <div class="filter-group">
                         <label>Property Type</label>
                         <select id="filterType">
@@ -394,7 +580,6 @@
                             <option value="pg">PG / Hostel</option>
                         </select>
                     </div>
-
                     <div class="filter-group">
                         <label>Comfort Filters</label>
                         <label class="filter-checkbox">
@@ -413,7 +598,6 @@
                             <input type="checkbox" id="filterMetro"> Near Metro
                         </label>
                     </div>
-
                     <div class="filter-actions">
                         <button class="btn btn-primary" id="applyFilters">
                             <i class="fas fa-magnifying-glass"></i> Apply Filters
@@ -423,7 +607,6 @@
                         </button>
                     </div>
                 </aside>
-
                 <!-- Properties List -->
                 <div class="properties-list">
                     <div class="properties-list-header">
@@ -448,381 +631,49 @@
             </div>
         </div>
     </section>
-
     <!-- ===== FOOTER ===== -->
     <footer class="footer">
-        <div class="container">
-            <div class="footer-grid" style="grid-template-columns: repeat(3, 1fr); gap: 32px; text-align: left;">
-                <div class="footer-brand">
-                    <a href="/" class="logo">
-                        <div class="logo-icon"><i class="fas fa-home"></i></div>
-                        <span class="logo-text">Heaven<span>Lease</span></span>
-                    </a>
-                    <p style="margin:12px 0 0;max-width:280px;">Simple steps to your perfect stay. Direct owner rentals with zero broker fees and comfort-first search.</p>
-                </div>
-                <div style="display:flex;flex-direction:column;gap:8px;font-size:14px;">
-                    <strong style="margin-bottom:4px;">Company</strong>
-                    <a href="about" style="color:inherit;text-decoration:none;">About Us</a>
-                    <a href="careers" style="color:inherit;text-decoration:none;">Careers</a>
-                    <a href="press" style="color:inherit;text-decoration:none;">Press</a>
-                    <a href="blog" style="color:inherit;text-decoration:none;">Blog</a>
-                    <a href="contact" style="color:inherit;text-decoration:none;">Contact</a>
-                </div>
-                <div style="display:flex;flex-direction:column;gap:8px;font-size:14px;">
-                    <strong style="margin-bottom:4px;">Legal &amp; Resources</strong>
-                    <a href="privacy" style="color:inherit;text-decoration:none;">Privacy Policy</a>
-                    <a href="terms" style="color:inherit;text-decoration:none;">Terms of Service</a>
-                    <a href="cookies" style="color:inherit;text-decoration:none;">Cookie Policy</a>
-                    <a href="rental-laws" style="color:inherit;text-decoration:none;">Rental Laws</a>
-                    <a href="escrow-policy" style="color:inherit;text-decoration:none;">Escrow Policy</a>
-                </div>
-            </div>
-            <div class="footer-bottom" style="justify-content: center;">
-                <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
-            </div>
+<div class="container">
+    <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
+        <div class="footer-brand">
+            <a href="home" class="logo">
+                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <span class="logo-text">Heaven<span>Lease</span></span>
+            </a>
+            <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>
         </div>
-    </footer>
-
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Explore</strong>
+            <a href="properties" style="color:inherit;text-decoration:none;">Find a Home</a>
+            <a href="map" style="color:inherit;text-decoration:none;">Property Map</a>
+            <a href="how-it-works" style="color:inherit;text-decoration:none;">How It Works</a>
+            <a href="about" style="color:inherit;text-decoration:none;">About Us</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Company</strong>
+            <a href="careers" style="color:inherit;text-decoration:none;">Careers</a>
+            <a href="press" style="color:inherit;text-decoration:none;">Press</a>
+            <a href="blog" style="color:inherit;text-decoration:none;">Blog</a>
+            <a href="contact" style="color:inherit;text-decoration:none;">Contact</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">For Owners</strong>
+            <a href="list-property" style="color:inherit;text-decoration:none;">List Your Property</a>
+            <a href="properties-management" style="color:inherit;text-decoration:none;">Owner Dashboard</a>
+            <a href="payment" style="color:inherit;text-decoration:none;">Pricing &amp; Upgrade</a>
+            <a href="owner-resources" style="color:inherit;text-decoration:none;">Owner Resources</a>
+        </div>
+    </div>
+    <div class="footer-bottom" style="justify-content:center;margin-top:28px;">
+        <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
+    </div>
+</div>
+</footer>
     <button class="back-to-top" id="backToTop" aria-label="Back to top">
         <i class="fas fa-arrow-up"></i>
     </button>
-
-    <script src="api.js?v=20260913a"></script>
-    <script src="script.js?v=20260913a"></script>
-    <script>
-        // Page-specific JavaScript
-        // Note: navbar, hamburger, navLinks, backToTop are already declared in script.js
-        const propertiesListGrid = document.getElementById('propertiesListGrid');
-        const propertyCount = document.getElementById('propertyCount');
-
-        // Navbar scroll
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) navbar.classList.add('scrolled');
-            else navbar.classList.remove('scrolled');
-            if (window.scrollY > 500) backToTop.classList.add('visible');
-            else backToTop.classList.remove('visible');
-        });
-
-        // Mobile menu
-        if (hamburger) hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            navLinks.classList.toggle('active');
-        });
-
-        if (hamburger && navLinks) {
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.addEventListener('click', () => {
-                    hamburger.classList.remove('active');
-                    navLinks.classList.remove('active');
-                });
-            });
-        }
-
-        backToTop.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-
-        // All properties come from the real backend (single source of truth).
-        let allProperties = loadAllProperties();
-        let usingApi = false;
-
-        // Load from the real backend; render once data is available.
-        fetchApiProperties(0, 100).then(list => {
-            if (list && list.length > 0) {
-                usingApi = true;
-                allProperties = list;
-                renderAllProperties(allProperties);
-            } else {
-                renderAllProperties([]);
-            }
-            applyUrlQueryParams();
-        }).catch(() => renderAllProperties([]));
-
-        // Read ?location= &budget= &bhk= etc. from the URL (set by Type/Voice Search)
-        function applyUrlQueryParams() {
-            try {
-                const params = new URLSearchParams(window.location.search);
-                let changed = false;
-                const loc = params.get('location');
-                const budget = params.get('budget');
-                const bhk = params.get('bhk');
-                const type = params.get('type');
-                if (loc) { document.getElementById('filterLocation').value = loc; changed = true; }
-                if (budget && document.getElementById('filterBudget')) {
-                    // budget may be a number or a band value like "10000"
-                    const opt = Array.from(document.getElementById('filterBudget').options).find(o => o.value === budget);
-                    if (opt) { document.getElementById('filterBudget').value = budget; changed = true; }
-                }
-                if (bhk && document.getElementById('filterBhk')) {
-                    const opt = Array.from(document.getElementById('filterBhk').options).find(o => o.value === bhk);
-                    if (opt) { document.getElementById('filterBhk').value = bhk; changed = true; }
-                }
-                if (type && document.getElementById('filterType')) {
-                    const opt = Array.from(document.getElementById('filterType').options).find(o => o.value === type);
-                    if (opt) { document.getElementById('filterType').value = type; changed = true; }
-                }
-                if (changed) applyFilters();
-            } catch (e) { /* ignore query param errors */ }
-        }
-
-        // Pagination state
-        let currentPage = 1;
-        const PER_PAGE = 6;
-
-        // ===== ACCESS PASS GATING =====
-        // Free (non-subscribed) users see the first freePreviewCount properties
-        // in full; everything after that is blurred with an Unlock overlay.
-        const FREE_PREVIEW_COUNT = 15;
-        let isPaidUserFlag = false;
-
-        // Load the real subscription status (server-side truth) and re-render.
-        (async () => {
-            try {
-                const sub = await loadSubscription();
-                isPaidUserFlag = !!(sub && sub.active);
-            } catch (e) {
-                isPaidUserFlag = false;
-            }
-            // Re-render so locked/unlocked badges update. `lastFiltered` may not be
-            // initialised yet at this point in the page, so fall back to allProperties.
-            renderAllProperties(window.__hlLastFiltered || allProperties);
-        })();
-
-        // Render properties with pagination
-        function renderAllProperties(filtered = allProperties) {
-            propertyCount.textContent = `(${filtered.length})`;
-            
-            if (filtered.length === 0) {
-                currentPage = 1;
-                propertiesListGrid.innerHTML = `
-                    <div class="no-results" style="grid-column: 1/-1;">
-                        <i class="fas fa-search"></i>
-                        <h3>No Properties Found</h3>
-                        <p>Try adjusting your filters, or check back soon — new verified listings are added every day.</p>
-                        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
-                            <button class="btn btn-primary" onclick="clearAllFilters()">
-                                <i class="fas fa-rotate-left"></i> Clear Filters
-                            </button>
-                            <a href="list-property" class="btn btn-outline">
-                                <i class="fas fa-plus"></i> List Your Property
-                            </a>
-                        </div>
-                    </div>
-                `;
-                renderPagination(0);
-                return;
-            }
-
-            // Clamp current page to valid range
-            const totalPages = Math.ceil(filtered.length / PER_PAGE);
-            if (currentPage > totalPages) currentPage = totalPages;
-            if (currentPage < 1) currentPage = 1;
-
-            // Slice for current page
-            const start = (currentPage - 1) * PER_PAGE;
-            const pageItems = filtered.slice(start, start + PER_PAGE);
-
-            propertiesListGrid.innerHTML = pageItems.map((property, i) => {
-                const globalIdx = filtered.indexOf(property);
-                const isLocked = !isPaidUserFlag && globalIdx >= FREE_PREVIEW_COUNT;
-                return `
-                <div class="property-card fade-in-up${isLocked ? ' locked' : ''}" data-id="${property.id}">
-                    <div class="property-image">
-                        <div class="property-image-placeholder">
-                            <i class="fas ${property.icon}"></i>
-                        </div>
-                        <span class="property-badge">
-                            <i class="fas fa-check-circle"></i> ${property.badge}
-                        </span>
-                        <button class="property-favorite" data-id="${property.id}" aria-label="Save property">
-                            <i class="far fa-heart"></i>
-                        </button>
-                    </div>
-                    <div class="property-body">
-                        <h3 class="property-title">${property.title}</h3>
-                        <p class="property-location">
-                            <i class="fas fa-location-dot"></i> ${property.location}
-                        </p>
-                        <div class="property-price">
-                            <span class="price">${formatPrice(property.price)}</span>
-                            <span class="per-month">/month</span>
-                        </div>
-                        <div class="property-amenities">
-                            ${property.amenities.map(a => `
-                                <span class="property-amenity">
-                                    <i class="fas fa-check"></i> ${a}
-                                </span>
-                            `).join('')}
-                        </div>
-                        <div class="property-comfort">
-                            <div class="comfort-score">
-                                <i class="fas fa-volume-low"></i>
-                                <span>Quiet ${property.quietness}%</span>
-                            </div>
-                            <div class="comfort-score">
-                                <i class="fas fa-sun"></i>
-                                <span>Sun ${property.sunlight}%</span>
-                            </div>
-                            <div class="comfort-score">
-                                <i class="fas fa-car"></i>
-                                <span>Commute ${property.commute}%</span>
-                            </div>
-                        </div>
-                        <div class="property-actions">
-                            <a href="property-detail?id=${property.id}" class="btn btn-primary">
-                                <i class="fas fa-eye"></i> View Details
-                            </a>
-                            <a href="messages?property=${encodeURIComponent(property.title)}" class="btn btn-outline" onclick="openChat('${encodeURIComponent(property.title)}')">
-                                <i class="fas fa-comments"></i> Chat
-                            </a>
-                        </div>
-                    </div>
-                    ${isLocked ? `
-                        <div class="property-lock" onclick="event.preventDefault();event.stopPropagation();">
-                            <div class="property-lock-inner">
-                                <i class="fas fa-lock"></i>
-                                <h4>Access Pass required</h4>
-                                <p>Unlock full details and contact the owner.</p>
-                                <a href="payment?redirect=properties" class="btn btn-primary">
-                                    <i class="fas fa-unlock"></i> Unlock with Access Pass
-                                </a>
-                            </div>
-                        </div>
-                    ` : ''}
-                </div>
-            `;
-            }).join('');
-
-            // Attach favorite listeners
-            document.querySelectorAll('.property-favorite').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const icon = btn.querySelector('i');
-                    if (btn.classList.contains('active')) {
-                        btn.classList.remove('active');
-                        icon.classList.remove('fas');
-                        icon.classList.add('far');
-                    } else {
-                        btn.classList.add('active');
-                        icon.classList.remove('far');
-                        icon.classList.add('fas');
-                    }
-                });
-            });
-        }
-
-        // Filter logic
-        function applyFilters() {
-            const location = document.getElementById('filterLocation').value.toLowerCase();
-            const budget = document.getElementById('filterBudget').value;
-            const bhk = document.getElementById('filterBhk').value;
-            const type = document.getElementById('filterType').value;
-            const pet = document.getElementById('filterPet').checked;
-            const furnished = document.getElementById('filterFurnished').checked;
-            const quiet = document.getElementById('filterQuiet').checked;
-            const sunny = document.getElementById('filterSunny').checked;
-            const metro = document.getElementById('filterMetro').checked;
-
-            let filtered = allProperties.filter(p => {
-                if (location && !p.location.toLowerCase().includes(location) && !p.title.toLowerCase().includes(location)) return false;
-                if (budget && p.price > parseInt(budget)) return false;
-                if (bhk && p.bhk !== parseInt(bhk)) return false;
-                if (type && p.propertyType !== type) return false;
-                if (pet && !p.petFriendly) return false;
-                if (furnished && !p.furnished) return false;
-                if (quiet && p.quietness < 85) return false;
-                if (sunny && p.sunlight < 85) return false;
-                if (metro && p.commute < 90) return false;
-                return true;
-            });
-
-            currentPage = 1;
-            renderAllProperties(filtered);
-        }
-
-        function clearAllFilters() {
-            document.getElementById('filterLocation').value = '';
-            document.getElementById('filterBudget').value = '';
-            document.getElementById('filterBhk').value = '';
-            document.getElementById('filterType').value = '';
-            document.getElementById('filterPet').checked = false;
-            document.getElementById('filterFurnished').checked = false;
-            document.getElementById('filterQuiet').checked = false;
-            document.getElementById('filterSunny').checked = false;
-            document.getElementById('filterMetro').checked = false;
-            renderAllProperties(allProperties);
-        }
-
-        // Sort logic — sort the current filtered set
-        let lastFiltered = allProperties;
-        document.getElementById('sortSelect').addEventListener('change', (e) => {
-            const sortBy = e.target.value;
-            let sorted = [...lastFiltered];
-            
-            switch (sortBy) {
-                case 'price-low':
-                    sorted.sort((a, b) => a.price - b.price);
-                    break;
-                case 'price-high':
-                    sorted.sort((a, b) => b.price - a.price);
-                    break;
-                case 'quiet':
-                    sorted.sort((a, b) => b.quietness - a.quietness);
-                    break;
-                case 'sunlight':
-                    sorted.sort((a, b) => b.sunlight - a.sunlight);
-                    break;
-            }
-            
-            currentPage = 1;
-            renderAllProperties(sorted);
-        });
-
-        // Pagination rendering
-        function renderPagination(totalItems) {
-            const pagination = document.getElementById('pagination');
-            const totalPages = Math.ceil(totalItems / PER_PAGE);
-            if (totalPages <= 1) {
-                pagination.innerHTML = '';
-                return;
-            }
-            let html = '';
-            for (let i = 1; i <= totalPages; i++) {
-                html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
-            }
-            pagination.innerHTML = html;
-        }
-
-        window.goToPage = function(page) {
-            currentPage = page;
-            // Re-render the current filtered/sorted set on the new page
-            renderAllProperties(lastFiltered);
-        };
-
-        // Update lastFiltered in renderAllProperties
-        const origRender = renderAllProperties;
-        renderAllProperties = function(filtered) {
-            lastFiltered = filtered;
-            origRender(filtered);
-            renderPagination(filtered.length);
-        };
-
-        // Event listeners
-        document.getElementById('applyFilters').addEventListener('click', () => {
-            applyFilters();
-        });
-        document.getElementById('clearFilters').addEventListener('click', clearAllFilters);
-
-        // Open chat (no paywall gate; access is open)
-        window.openChat = function(encodedTitle) {
-            window.location.href = 'messages?property=' + encodedTitle;
-        };
-
-        // Paywall banner is open — no gate on this build
-
-        // Initialize
-        renderAllProperties(allProperties);
-    </script>
+    <script src="js/api.js?v=20260913a"></script>
+    <script src="js/core.js?v=20260913a"></script>
+    <script src="js/pages/properties.js?v=20260913a"></script>
 </body>
 </html>
-

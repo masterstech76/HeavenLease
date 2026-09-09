@@ -5,11 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
     <title>HeavenLease &mdash; Redirecting&hellip;</title>
+<link rel="stylesheet" href="styles.css?v=20260909a">
     <meta http-equiv="refresh" content="0; url=index">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Inter', sans-serif; min-height: 100vh;
@@ -17,23 +18,22 @@
                         url('bg-home.jpg') center/cover fixed no-repeat;
             display: flex; align-items: center; justify-content: center; padding: 24px; overflow-x: hidden; }
         .brand { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 26px; }
-        .brand .logo-icon { width: 52px; height: 52px; background: linear-gradient(135deg, #4F46E5, #10B981);
+        .brand .logo-icon { width: 52px; height: 52px; background: linear-gradient(135deg, #5b5ce2, #10B981);
             border-radius: 14px; display: flex; align-items: center; justify-content: center; color: #fff;
             font-size: 24px; box-shadow: 0 8px 24px rgba(79,70,229,.35); }
         .brand .logo-text { font-family: 'Playfair Display', serif; font-size: 30px; font-weight: 700; color: #fff; }
-        .brand .logo-text span { color: #818CF8; }
+        .brand .logo-text span { color: #5b5ce2; }
         .card { max-width: 420px; width: 100%; background: rgba(255,255,255,0.06);
             border: 1px solid rgba(255,255,255,0.14); border-radius: 20px; padding: 34px 30px; text-align: center;
             box-shadow: 0 24px 60px rgba(15,23,42,.35); }
         .spinner { width: 42px; height: 42px; margin: 0 auto 18px; border: 4px solid rgba(255,255,255,.22);
-            border-top-color: #818CF8; border-radius: 50%; animation: spin .8s linear infinite; }
+            border-top-color: #5b5ce2; border-radius: 50%; animation: spin .8s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
         h1 { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 8px; }
         p { font-size: 14px; color: rgba(255,255,255,.72); line-height: 1.6; }
-        .link { display: inline-block; margin-top: 18px; color: #A5B4FC; font-size: 13px; }
+        .link { display: inline-block; margin-top: 18px; color: #aeb1ff; font-size: 13px; }
         @media (max-width: 480px) { .card { padding: 24px 20px; } h1 { font-size: 17px; } }
     </style>
-    <script>window.location.replace('index');</script>
 </head>
 <body>
     <div style="width:100%;max-width:460px;text-align:center;position:relative;z-index:1;">
@@ -48,5 +48,43 @@
             <a class="link" href="index">Continue to Home &rarr;</a>
         </div>
     </div>
+<script src="js/pages/heavenlease.js?v=20260913a"></script>
+<footer class="footer">
+<div class="container">
+    <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
+        <div class="footer-brand">
+            <a href="home" class="logo">
+                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <span class="logo-text">Heaven<span>Lease</span></span>
+            </a>
+            <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Explore</strong>
+            <a href="properties" style="color:inherit;text-decoration:none;">Find a Home</a>
+            <a href="map" style="color:inherit;text-decoration:none;">Property Map</a>
+            <a href="how-it-works" style="color:inherit;text-decoration:none;">How It Works</a>
+            <a href="about" style="color:inherit;text-decoration:none;">About Us</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Company</strong>
+            <a href="careers" style="color:inherit;text-decoration:none;">Careers</a>
+            <a href="press" style="color:inherit;text-decoration:none;">Press</a>
+            <a href="blog" style="color:inherit;text-decoration:none;">Blog</a>
+            <a href="contact" style="color:inherit;text-decoration:none;">Contact</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">For Owners</strong>
+            <a href="list-property" style="color:inherit;text-decoration:none;">List Your Property</a>
+            <a href="properties-management" style="color:inherit;text-decoration:none;">Owner Dashboard</a>
+            <a href="payment" style="color:inherit;text-decoration:none;">Pricing &amp; Upgrade</a>
+            <a href="owner-resources" style="color:inherit;text-decoration:none;">Owner Resources</a>
+        </div>
+    </div>
+    <div class="footer-bottom" style="justify-content:center;margin-top:28px;">
+        <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
+    </div>
+</div>
+</footer>
 </body>
 </html>

@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
     <link rel="stylesheet" href="styles.css?v=20260909a">
 <link rel="stylesheet" href="feature-panel.css?v=20260902a">
     <style>
@@ -23,26 +23,22 @@
         .step-pill.active { background: var(--primary); color: var(--white); border-color: var(--primary); }
         .step-pill.done { background: #D1FAE5; color: var(--secondary-dark); border-color: #A7F3D0; }
         .step-pill i { font-size: 12px; }
-
         .lease-card { background: var(--white); border-radius: var(--radius-xl); box-shadow: var(--shadow-md); border: 1px solid var(--gray-200); overflow: hidden; margin-bottom: 24px; }
         .lease-card .card-head { padding: 20px 28px; border-bottom: 1px solid var(--gray-200); display: flex; align-items: center; gap: 12px; }
         .lease-card .card-head h2 { font-size: 18px; font-weight: 600; color: var(--dark); }
         .lease-card .card-head i { color: var(--primary); }
         .lease-card .card-body { padding: 28px; }
-
         /* Property summary */
         .prop-summary { display: flex; gap: 20px; align-items: center; background: var(--gray-50); border-radius: var(--radius-lg); padding: 20px; margin-bottom: 24px; }
         .prop-summary .prop-icon { width: 64px; height: 64px; background: var(--gradient-soft); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 28px; color: var(--primary); flex-shrink: 0; }
         .prop-summary .prop-info h3 { font-size: 18px; font-weight: 600; color: var(--dark); }
         .prop-summary .prop-info p { font-size: 13px; color: var(--gray-500); }
         .prop-summary .prop-info .price { font-size: 18px; font-weight: 700; color: var(--primary); margin-top: 4px; }
-
         /* Terms */
         .terms-list { list-style: none; }
         .terms-list li { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--gray-100); font-size: 14px; color: var(--gray-600); line-height: 1.6; }
         .terms-list li:last-child { border-bottom: none; }
         .terms-list li i { color: var(--secondary); margin-top: 3px; flex-shrink: 0; }
-
         /* Signature boxes */
         .signature-section { margin-top: 24px; }
         .signature-section h3 { font-size: 16px; font-weight: 600; color: var(--dark); margin-bottom: 16px; }
@@ -56,15 +52,12 @@
         .signature-box .sig-actions .btn { font-size: 12px; padding: 6px 12px; }
         .signature-box .sig-status { font-size: 12px; color: var(--secondary-dark); margin-top: 8px; display: none; }
         .signature-box.signed .sig-status { display: block; }
-
         /* Agreement checkbox */
         .agree-box { display: flex; align-items: flex-start; gap: 12px; background: var(--gray-50); border-radius: var(--radius-md); padding: 16px; margin-top: 24px; }
         .agree-box input { width: 18px; height: 18px; accent-color: var(--primary); margin-top: 2px; }
         .agree-box label { font-size: 14px; color: var(--gray-600); line-height: 1.5; }
-
         .submit-area { text-align: center; margin-top: 24px; }
         .submit-area .btn { padding: 14px 40px; font-size: 16px; }
-
         /* Success */
         .success-screen { display: none; text-align: center; padding: 60px 24px; }
         .success-screen.show { display: block; }
@@ -75,8 +68,204 @@
         .back-link:hover { color: var(--primary); }
         @media (max-width: 768px) { .signature-grid { grid-template-columns: 1fr; } .prop-summary { flex-direction: column; text-align: center; } .lease-header h1 { font-size: 28px; } }
     </style>
+<style>
+:root{
+  --ink:#182033;--muted:#687386;--line:#e4e7ee;--paper:#ffffff;
+  --nav:#101820;--nav2:#1a2732;--accent:#5b5ce2;--accent-dark:#8d6734;
+  --success:#217a55;--warning:#9b6b13;--danger:#a83b3b;
+  --shadow:0 18px 55px rgba(16,24,32,.14);--radius:20px;
+}
+*{box-sizing:border-box}
+body{
+  margin:0!important;color:var(--ink);
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important;
+  background:
+    linear-gradient(rgba(245,247,248,.92),rgba(245,247,248,.97)),
+    url("https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=2200&q=85")
+    center/cover fixed!important;
+}
+body:before{content:"";display:block;height:0}
+.hl-modern-nav{
+  position:relative;z-index:5;min-height:78px;padding:0 5%;
+  display:flex;align-items:center;justify-content:space-between;
+  color:#fff;background:
+    linear-gradient(100deg,rgba(8,14,19,.98),rgba(22,34,44,.96)),
+    url("https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=2200&q=80")
+    center/cover;
+  box-shadow:0 8px 30px rgba(0,0,0,.22);
+}
+.hl-modern-nav .brand{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.2px}
+.hl-modern-nav .brand-mark{
+  width:40px;height:40px;border-radius:12px;display:grid;place-items:center;
+  background:linear-gradient(135deg,#d2ad72,#9c7038);color:#fff;font-size:19px;
+}
+.hl-modern-nav a{color:#fff;text-decoration:none}
+.hl-modern-nav .account{
+  display:flex;align-items:center;gap:10px;padding:10px 15px;border:1px solid rgba(255,255,255,.15);
+  border-radius:999px;background:rgba(255,255,255,.08);backdrop-filter:blur(10px);
+}
+.hl-modern-main{max-width:1180px;margin:0 auto;padding:42px 22px 70px}
+.hl-hero{
+  position:relative;overflow:hidden;border-radius:28px;min-height:250px;padding:42px;
+  display:flex;align-items:flex-end;margin-bottom:28px;color:#fff;
+  background:
+    linear-gradient(90deg,rgba(13,22,29,.88),rgba(13,22,29,.38)),
+    url("https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=2200&q=85")
+    center/cover;
+  box-shadow:var(--shadow);
+}
+.hl-hero:after{content:"LEASE SIGNING";position:absolute;right:30px;top:27px;font-size:11px;font-weight:800;letter-spacing:2.5px;opacity:.62}
+.hl-hero h1{margin:0 0 8px;font:700 clamp(30px,4vw,48px)/1.05 "Playfair Display",Georgia,serif}
+.hl-hero p{margin:0;color:rgba(255,255,255,.8);max-width:650px}
+.hl-card{
+  background:rgba(255,255,255,.97);border:1px solid rgba(220,226,230,.9);
+  border-radius:var(--radius);box-shadow:0 12px 38px rgba(20,30,38,.09);padding:28px;
+}
+.hl-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(280px,.8fr);gap:24px}
+.hl-card h2{margin:0 0 8px;font:700 26px/1.2 "Playfair Display",Georgia,serif}
+.hl-card .sub{margin:0 0 22px;color:var(--muted)}
+.hl-summary{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:0 0 24px
+}
+.hl-stat{padding:16px;border-radius:15px;background:#f5f7f8;border:1px solid var(--line)}
+.hl-stat span{display:block;font-size:11px;text-transform:uppercase;letter-spacing:1.1px;color:var(--muted);font-weight:800;margin-bottom:6px}
+.hl-stat strong{font-size:16px}
+.hl-terms{display:grid;grid-template-columns:1fr 1fr;gap:0 28px}
+.hl-row{padding:15px 0;border-bottom:1px solid #edf0f2}
+.hl-row label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);font-weight:800;margin-bottom:5px}
+.hl-row div{font-size:15px;font-weight:650}
+.hl-signatures{display:grid;gap:14px;margin-top:18px}
+.hl-sign{
+  padding:17px;border:1px solid var(--line);border-radius:15px;background:#fafbfb;
+  display:flex;justify-content:space-between;gap:18px;align-items:center
+}
+.hl-sign small{display:block;color:var(--muted);margin-top:4px}
+.hl-badge{display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border-radius:999px;font-size:12px;font-weight:800;white-space:nowrap}
+.hl-badge.ok{background:#e8f5ef;color:var(--success)}.hl-badge.pending{background:#fff4dc;color:var(--warning)}
+.hl-actions{display:grid;gap:11px}
+.hl-btn{
+  display:flex;align-items:center;justify-content:center;min-height:48px;padding:0 18px;border-radius:13px;
+  border:1px solid var(--line);background:#fff;color:var(--ink);text-decoration:none;font-weight:800;
+  cursor:pointer;transition:.2s transform,.2s box-shadow,.2s background
+}
+.hl-btn:hover{transform:translateY(-1px);box-shadow:0 8px 22px rgba(20,30,38,.1)}
+.hl-btn.primary{background:linear-gradient(135deg,#5b5ce2,#966d38);border-color:#966d38;color:#fff}
+.hl-btn.dark{background:#17232d;border-color:#17232d;color:#fff}
+.hl-note{margin-top:18px;padding:14px 16px;border-radius:13px;background:#f6f1e8;color:#6d542e;font-size:13px;line-height:1.55}
+.hl-footer{
+  margin-top:0!important;padding:34px 5%!important;color:#d9e0e5!important;
+  background:#101820!important;border-top:1px solid rgba(255,255,255,.08)!important;
+}
+.hl-footer-inner{max-width:1180px;margin:auto;display:flex;justify-content:space-between;gap:25px;align-items:center}
+.hl-footer a{color:#fff!important}
+@media(max-width:850px){
+  .hl-grid{grid-template-columns:1fr}.hl-summary{grid-template-columns:1fr}
+  .hl-hero{min-height:220px;padding:30px}.hl-terms{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .hl-modern-nav{padding:0 18px}.hl-modern-nav .account span{display:none}
+  .hl-modern-main{padding:22px 14px 45px}.hl-card{padding:20px}.hl-hero{border-radius:20px}
+  .hl-sign{align-items:flex-start;flex-direction:column}.hl-footer-inner{flex-direction:column;align-items:flex-start}
+}
+</style>
+<style>
+/* Keep original functionality in the DOM while using the modern presentation. */
+body > *:not(.hl-modern-shell){display:none!important}
+.hl-modern-shell{display:block!important}
+</style>
 </head>
 <body>
+<div class="hl-modern-shell">
+  <nav class="hl-modern-nav">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">H</span><span>HeavenLease</span>
+    </a>
+    <a class="account" href="dashboard.html"><span>My Dashboard</span><span>↗</span></a>
+  </nav>
+  <main class="hl-modern-main">
+    <section class="hl-hero">
+      <div>
+        <h1>Lease Signing</h1>
+        <p>Review the lease terms carefully, confirm the details, and complete your digital signature securely.</p>
+      </div>
+    </section>
+    <div class="hl-grid">
+      <section class="hl-card">
+        <h2>Lease agreement</h2>
+        <p class="sub">Review the agreement details before signing.</p>
+        <div class="hl-summary">
+          <div class="hl-stat"><span>Monthly rent</span><strong id="modernRent">—</strong></div>
+          <div class="hl-stat"><span>Security deposit</span><strong id="modernDeposit">—</strong></div>
+          <div class="hl-stat"><span>Lease status</span><strong id="modernStatus">—</strong></div>
+        </div>
+        <div class="hl-terms">
+          <div class="hl-row"><label>Property</label><div id="modernProperty">Loading…</div></div>
+          <div class="hl-row"><label>Tenant</label><div id="modernTenant">Loading…</div></div>
+          <div class="hl-row"><label>Owner</label><div id="modernOwner">Loading…</div></div>
+          <div class="hl-row"><label>Lease start</label><div id="modernStart">—</div></div>
+          <div class="hl-row"><label>Lease end</label><div id="modernEnd">—</div></div>
+        </div>
+        <div class="hl-signatures">
+          <div class="hl-sign">
+            <div><strong>Tenant signature</strong><small id="modernTenantSig">Signature status will appear here.</small></div>
+            <span class="hl-badge pending" id="tenantBadge">Pending</span>
+          </div>
+          <div class="hl-sign">
+            <div><strong>Owner signature</strong><small id="modernOwnerSig">Signature status will appear here.</small></div>
+            <span class="hl-badge pending" id="ownerBadge">Pending</span>
+          </div>
+        </div>
+        <div class="hl-note">By signing, you confirm that you have reviewed the lease terms and agree to the information presented in the agreement.</div>
+      </section>
+      <aside class="hl-card">
+        <h2>Complete signing</h2>
+        <p class="sub">Use the existing signing workflow to finalize this lease.</p>
+        <div class="hl-actions">
+          <button class="hl-btn primary" id="modernSignBtn" type="button">Review &amp; sign lease</button>
+          <a class="hl-btn" href="lease-details.html">View lease details</a>
+          <a class="hl-btn dark" href="dashboard.html">Back to dashboard</a>
+        </div>
+      </aside>
+    </div>
+  </main>
+  <footer class="footer">
+<div class="container">
+    <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
+        <div class="footer-brand">
+            <a href="home" class="logo">
+                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <span class="logo-text">Heaven<span>Lease</span></span>
+            </a>
+            <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Explore</strong>
+            <a href="properties" style="color:inherit;text-decoration:none;">Find a Home</a>
+            <a href="map" style="color:inherit;text-decoration:none;">Property Map</a>
+            <a href="how-it-works" style="color:inherit;text-decoration:none;">How It Works</a>
+            <a href="about" style="color:inherit;text-decoration:none;">About Us</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Company</strong>
+            <a href="careers" style="color:inherit;text-decoration:none;">Careers</a>
+            <a href="press" style="color:inherit;text-decoration:none;">Press</a>
+            <a href="blog" style="color:inherit;text-decoration:none;">Blog</a>
+            <a href="contact" style="color:inherit;text-decoration:none;">Contact</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">For Owners</strong>
+            <a href="list-property" style="color:inherit;text-decoration:none;">List Your Property</a>
+            <a href="properties-management" style="color:inherit;text-decoration:none;">Owner Dashboard</a>
+            <a href="payment" style="color:inherit;text-decoration:none;">Pricing &amp; Upgrade</a>
+            <a href="owner-resources" style="color:inherit;text-decoration:none;">Owner Resources</a>
+        </div>
+    </div>
+    <div class="footer-bottom" style="justify-content:center;margin-top:28px;">
+        <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
+    </div>
+</div>
+</footer>
+</div>
     <!-- ===== NAVIGATION ===== -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
@@ -125,14 +314,12 @@
 </div>
         </div>
     </nav>
-
     <!-- ===== LEASE SIGNING PAGE ===== -->
     <div class="lease-page">
         <div class="lease-container">
             <a href="dashboard" class="back-link">
                 <i class="fas fa-arrow-left"></i> Back to Dashboard
             </a>
-
             <div class="lease-header">
                 <h1><i class="fas fa-file-signature"></i> Digital Lease Signing</h1>
                 <p>Review the lease agreement and sign digitally — no paperwork needed</p>
@@ -142,7 +329,6 @@
                     <span class="step-pill"><i class="fas fa-download"></i> Download</span>
                 </div>
             </div>
-
             <!-- LEASE CARD -->
             <div class="lease-card" id="leaseCard">
                 <div class="card-head">
@@ -159,7 +345,6 @@
                             <div class="price" id="propPrice">—/month</div>
                         </div>
                     </div>
-
                     <!-- Terms -->
                     <h3 style="font-size:16px; font-weight:600; color:var(--dark); margin-bottom:8px;">Key Terms</h3>
                     <ul class="terms-list">
@@ -171,7 +356,6 @@
                         <li><i class="fas fa-check-circle"></i> Pets allowed as per property listing</li>
                         <li><i class="fas fa-check-circle"></i> Subletting is not permitted without owner consent</li>
                     </ul>
-
                     <!-- Signatures -->
                     <div class="signature-section">
                         <h3>Digital Signatures</h3>
@@ -196,13 +380,11 @@
                             </div>
                         </div>
                     </div>
-
                     <!-- Agreement -->
                     <div class="agree-box">
                         <input type="checkbox" id="agreeCheck">
                         <label for="agreeCheck">I have read and agree to the terms of this lease agreement, including the <a href="terms" style="color:var(--primary);">Terms of Service</a> and <a href="escrow-policy" style="color:var(--primary);">Escrow Policy</a>.</label>
                     </div>
-
                     <div class="submit-area">
                         <button class="btn btn-primary btn-lg" onclick="submitLease()">
                             <i class="fas fa-check"></i> Sign & Complete Lease
@@ -210,7 +392,6 @@
                     </div>
                 </div>
             </div>
-
             <!-- SUCCESS -->
             <div class="lease-card">
                 <div class="success-screen" id="successScreen">
@@ -227,183 +408,9 @@
             </div>
         </div>
     </div>
-
-    <script src="api.js?v=20260913a"></script>
-    <script src="script.js?v=20260913a"></script>
-    <script>
-        (function() {
-        // Navbar
-        const navbar = document.getElementById('navbar');
-        const hamburger = document.getElementById('hamburger');
-        const navLinks = document.getElementById('navLinks');
-
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) navbar.classList.add('scrolled');
-            else navbar.classList.remove('scrolled');
-        });
-
-        if (hamburger) hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            navLinks.classList.toggle('active');
-        });
-
-        if (hamburger && navLinks) {
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.addEventListener('click', () => {
-                    hamburger.classList.remove('active');
-                    navLinks.classList.remove('active');
-                });
-            });
-        }
-
-        // Signature drawing
-        const sigState = { tenant: false, owner: false };
-        const canvases = { tenant: null, owner: null };
-        const ctxs = { tenant: null, owner: null };
-        let drawing = false;
-
-        // Populate lease terms from query params (property/booking data) — no hardcoded demo values.
-        const leaseParams = new URLSearchParams(window.location.search);
-        const leaseInfo = {
-            propertyId: leaseParams.get('propertyId') || null,
-            ownerId: leaseParams.get('ownerId') || null,
-            title: leaseParams.get('property') || 'Property',
-            rent: leaseParams.get('rent') || '',
-            deposit: leaseParams.get('deposit') || ''
-        };
-        const leaseUser = (function(){ try { return JSON.parse(localStorage.getItem('heavenlease_user') || '{}'); } catch(e){ return {}; } })();
-
-        if (document.getElementById('propTitle')) document.getElementById('propTitle').textContent = leaseInfo.title || 'Property';
-        if (document.getElementById('propPrice')) document.getElementById('propPrice').textContent = leaseInfo.rent ? '₹' + Number(leaseInfo.rent).toLocaleString('en-IN') + '/month' : '';
-        if (document.getElementById('termRent')) document.getElementById('termRent').textContent = leaseInfo.rent ? '₹' + Number(leaseInfo.rent).toLocaleString('en-IN') : '';
-        if (document.getElementById('termDeposit')) document.getElementById('termDeposit').textContent = leaseInfo.deposit ? '₹' + Number(leaseInfo.deposit).toLocaleString('en-IN') : '';
-
-        function initCanvas(role) {
-            const canvas = document.getElementById(role + 'Canvas');
-            canvases[role] = canvas;
-            ctxs[role] = canvas.getContext('2d');
-            ctxs[role].strokeStyle = '#0F172A';
-            ctxs[role].lineWidth = 2;
-            ctxs[role].lineCap = 'round';
-
-            canvas.addEventListener('mousedown', (e) => { drawing = true; startDraw(e, role); });
-            canvas.addEventListener('mousemove', (e) => { if (drawing) draw(e, role); });
-            canvas.addEventListener('mouseup', () => { drawing = false; checkSigned(role); });
-            canvas.addEventListener('mouseleave', () => { drawing = false; checkSigned(role); });
-            canvas.addEventListener('touchstart', (e) => { e.preventDefault(); drawing = true; startDraw(e.touches[0], role); });
-            canvas.addEventListener('touchmove', (e) => { e.preventDefault(); if (drawing) draw(e.touches[0], role); });
-            canvas.addEventListener('touchend', () => { drawing = false; checkSigned(role); });
-        }
-
-        function getPos(e, canvas) {
-            const rect = canvas.getBoundingClientRect();
-            return { x: e.clientX - rect.left, y: e.clientY - rect.top };
-        }
-
-        function startDraw(e, role) {
-            const pos = getPos(e, canvases[role]);
-            ctxs[role].beginPath();
-            ctxs[role].moveTo(pos.x, pos.y);
-        }
-
-        function draw(e, role) {
-            const pos = getPos(e, canvases[role]);
-            ctxs[role].lineTo(pos.x, pos.y);
-            ctxs[role].stroke();
-        }
-
-        function checkSigned(role) {
-            const canvas = canvases[role];
-            const ctx = ctxs[role];
-            const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
-            let hasInk = false;
-            for (let i = 3; i < data.length; i += 4) {
-                if (data[i] > 0) { hasInk = true; break; }
-            }
-            if (hasInk) {
-                sigState[role] = true;
-                document.getElementById(role + 'SigBox').classList.add('signed');
-                const user = JSON.parse(localStorage.getItem('heavenlease_user') || '{}');
-                document.getElementById(role + 'SigName').textContent = role === 'tenant' ? (user.name || 'Tenant') : 'Owner';
-            }
-        }
-
-        window.clearSig = function(role) {
-            ctxs[role].clearRect(0, 0, canvases[role].width, canvases[role].height);
-            sigState[role] = false;
-            document.getElementById(role + 'SigBox').classList.remove('signed');
-            document.getElementById(role + 'SigName').textContent = '';
-        };
-
-        window.submitLease = function() {
-            if (!sigState.tenant) {
-                showToast('Please provide your tenant signature.', 'error');
-                return;
-            }
-            if (!sigState.owner) {
-                showToast('Please provide the owner signature.', 'error');
-                return;
-            }
-            if (!document.getElementById('agreeCheck').checked) {
-                showToast('Please agree to the lease terms.', 'error');
-                return;
-            }
-
-            if (!api.isAuthenticated()) {
-                showToast('Please sign in to complete the lease.', 'error');
-                setTimeout(() => { window.location.href = 'login?redirect=lease-signing'; }, 1200);
-                return;
-            }
-
-            // Build a real Lease for the backend (owner of the property signs; tenant = current user).
-            const payload = {
-                propertyId: Number(leaseInfo.propertyId) || 0,
-                tenantId: Number((leaseUser && leaseUser.id) || 0),
-                startDate: new Date().toISOString().split('T')[0],
-                endDate: '',
-                monthlyRent: Number(leaseInfo.rent) || 0,
-                deposit: Number(leaseInfo.deposit) || 0,
-                signatureTenant: (leaseUser && leaseUser.name) || 'Tenant',
-                signatureOwner: 'Owner',
-                status: 'active',
-                propertyTitle: leaseInfo.title || 'Property',
-                tenantName: (leaseUser && leaseUser.name) || 'Tenant',
-                ownerName: 'Owner'
-            };
-            if (!payload.tenantId || !payload.propertyId) {
-                showToast('Missing lease details. Please book a property first.', 'error');
-                return;
-            }
-
-            const btn = event.currentTarget;
-            const original = btn.innerHTML;
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing...';
-
-            api.createLease(payload)
-                .then(() => {
-                    document.getElementById('leaseCard').style.display = 'none';
-                    document.getElementById('successScreen').classList.add('show');
-                    showToast('Lease signed successfully! 🎉', 'success');
-                })
-                .catch(err => {
-                    showToast((err && err.message) || 'Lease signing failed. Please try again.', 'error');
-                })
-                .finally(() => {
-                    btn.disabled = false;
-                    btn.innerHTML = original;
-                });
-        };
-
-        window.downloadLease = function() {
-            showToast('Lease downloaded. Check your downloads folder.', 'success');
-        };
-
-        initCanvas('tenant');
-        initCanvas('owner');
-        })();
-    </script>
-
+    <script src="js/api.js?v=20260913a"></script>
+    <script src="js/core.js?v=20260913a"></script>
+    
     <section class="content-section" style="padding-top:0;">
         <div class="container">
             <div class="content-block">
@@ -421,28 +428,7 @@
             </div>
         </div>
     </section>
-
-    <script>
-        function clearHelpMessage() {
-            var msg = document.getElementById('helpMessage'); if (msg) msg.value = '';
-            var em = document.getElementById('helpEmail'); if (em) em.value = '';
-            var note = document.getElementById('helpNote');
-            if (note) note.textContent = 'Messages go to our support team by email. Prefer email? Write to support@heavenlease.in';
-        }
-        function sendHelpMessage() {
-            var msgEl = document.getElementById('helpMessage');
-            var msg = (msgEl && msgEl.value || '').trim();
-            var em = document.getElementById('helpEmail');
-            var email = (em && em.value || '').trim();
-            var note = document.getElementById('helpNote');
-            if (!msg) { if (note) note.textContent = 'Please type a short message first.'; return; }
-            var subject = encodeURIComponent('HeavenLease page enquiry');
-            var body = encodeURIComponent(msg + (email ? '\n\nReply to: ' + email : ''));
-            window.location.href = 'mailto:support@heavenlease.in?subject=' + subject + '&body=' + body;
-            setTimeout(function () { if (note) note.textContent = 'Opening your email app to send the message - thank you!'; }, 400);
-        }
-    </script>
-
+    
     <section class="page-cta">
         <div class="container">
             <div class="cta-banner">
@@ -455,6 +441,7 @@
             </div>
         </div>
     </section>
+
+<script src="js/pages/lease-signing.js?v=20260913a"></script>
 </body>
 </html>
-

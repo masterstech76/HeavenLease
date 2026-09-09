@@ -1,145 +1,154 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Manage your payment methods for Access Pass.">
-    <title>Payment Methods — HeavenLease</title>
-    <link rel="icon" href="favicon.svg" type="image/svg+xml">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="styles.css?v=20260909a">
-    <style>
-        .page-header { background: rgba(255,255,255,0.45); backdrop-filter: blur(6px); padding: 140px 0 70px; text-align: center; position: relative; overflow: hidden; }
-        .page-header h1 { font-family: var(--font-heading); font-size: 46px; font-weight: 700; color: var(--dark); margin-bottom: 12px; }
-        .page-header p { font-size: 17px; color: var(--gray-500); max-width: 640px; margin: 0 auto; }
-        .page-header .ph-icon { width: 68px; height: 68px; border-radius: 18px; background: var(--gradient); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 28px; margin: 0 auto 18px; box-shadow: var(--shadow-primary); }
-        .page-section { padding: 70px 0 90px; }
-        .page-section .section-head { text-align: center; margin-bottom: 44px; }
-        .page-section .section-head h2 { font-family: var(--font-heading); font-size: 30px; font-weight: 700; color: var(--dark); }
-        .feature-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 26px; }
-        .feature-card { background: rgba(255,255,255,0.92); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 28px; transition: var(--transition); box-shadow: var(--shadow-sm); }
-        .feature-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--primary); }
-        .feature-card .fc-icon { width: 52px; height: 52px; border-radius: 14px; background: var(--gradient-soft); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 14px; }
-        .feature-card h3 { font-size: 17px; font-weight: 600; color: var(--dark); margin-bottom: 6px; }
-        .feature-card p { font-size: 14px; color: var(--gray-500); line-height: 1.6; margin: 0; }
-        .page-cta { padding: 0 0 90px; }
-        .cta-banner { background: var(--gradient); border-radius: var(--radius-xl); padding: 44px 32px; text-align: center; color: #fff; }
-        .cta-banner h2 { font-family: var(--font-heading); font-size: 28px; margin-bottom: 8px; }
-        .cta-banner p { opacity: 0.92; margin-bottom: 20px; }
-        .cta-banner .btn { background: #fff; color: var(--primary); font-weight: 600; }
-        .cta-banner .btn.ghost { background: transparent; border: 1px solid #fff; color: #fff; }
-        @media (max-width: 900px) { .feature-grid { grid-template-columns: 1fr; } }
-        @media (max-width: 768px) { .page-header { padding: 120px 0 50px; } .page-header h1 { font-size: 34px; } }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Manage your payment methods for Access Pass.">
+<title>Payment Methods — HeavenLease</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
+<link rel="stylesheet" href="styles.css?v=20260909a">
+<style>
+:root{--ink:#182033;--muted:#687386;--line:#e4e7ee;--primary:#5b5ce2;--dark:#182033;--soft:#f6f7fb;--shadow:0 22px 60px rgba(15,23,42,.11);--radius:22px;}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,sans-serif;color:var(--ink);background:linear-gradient(rgba(244,248,251,.93),rgba(249,250,252,.98)),url('https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=2200&q=85') center/cover fixed}
+.container{width:min(1180px,calc(100% - 40px));margin:auto}
+/* Navbar */
+.navbar{position:fixed;inset:0 0 auto;z-index:1000;background:linear-gradient(90deg,rgba(3,9,20,.97),rgba(9,27,44,.78)),url('https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=2200&q=88') center/cover;border-bottom:1px solid rgba(255,255,255,.14);box-shadow:0 8px 30px rgba(2,6,23,.18)}
+.nav-container{width:min(1180px,calc(100% - 40px));min-height:78px;margin:auto;display:flex;align-items:center;justify-content:space-between}
+.navbar .logo{display:flex;align-items:center;gap:11px;color:#fff;text-decoration:none}.logo-icon{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(135deg,#5b5ce2,#10b981);color:#fff;box-shadow:0 10px 25px rgba(79,70,229,.3)}.logo-text{font:700 28px 'Playfair Display',serif;letter-spacing:-.4px}.logo-text span{color:#aeb1ff}
+.nav-actions{display:flex;align-items:center}.user-menu{position:relative}.user-menu-trigger{min-height:46px;padding:5px 12px 5px 6px;border:1px solid rgba(255,255,255,.16);border-radius:999px;background:rgba(255,255,255,.09);color:#fff;display:flex;align-items:center;gap:9px;font:600 13px Inter;cursor:pointer;backdrop-filter:blur(10px)}.user-avatar{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.15)}.user-menu-trigger>i{font-size:10px;color:rgba(255,255,255,.65)}
+.user-dropdown{position:absolute;right:0;top:calc(100% + 10px);width:285px;max-height:70vh;overflow:auto;padding:8px;background:#fff;border:1px solid #e4e7ee;border-radius:16px;box-shadow:0 24px 60px rgba(15,23,42,.22);display:none}.user-menu:hover .user-dropdown,.user-menu:focus-within .user-dropdown{display:block}.user-dropdown a{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;color:#3a4354;text-decoration:none;font-size:12px;font-weight:600}.user-dropdown a:hover{background:#eef0f5;color:var(--primary)}.user-dropdown a i{width:18px;text-align:center;color:#687386}.dropdown-divider{height:1px;background:#e4e7ee;margin:7px 4px}.logout-link{color:#b91c1c!important}.logout-link i{color:#b91c1c!important}
+/* Hero */
+.payment-hero{min-height:510px;padding:150px 0 70px;position:relative;display:flex;align-items:center;color:#fff;background:linear-gradient(90deg,rgba(4,12,25,.96),rgba(8,28,47,.73) 60%,rgba(8,20,35,.42)),url('https://images.unsplash.com/photo-1560185008-b033106af5c3?auto=format&fit=crop&w=2200&q=88') center/cover}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:55px;align-items:center}.eyebrow{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid rgba(255,255,255,.2);border-radius:999px;background:rgba(255,255,255,.09);color:#eef0ff;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+.payment-hero h1{font:700 clamp(43px,5.8vw,64px)/1.05 'Playfair Display',serif;letter-spacing:-1.5px;margin:20px 0 14px}.payment-hero h1 span{color:#aeb1ff}.hero-copy>p{max-width:650px;color:rgba(255,255,255,.74);font-size:17px;line-height:1.75;margin:0}.hero-panel{padding:27px;border:1px solid rgba(255,255,255,.17);border-radius:24px;background:rgba(255,255,255,.1);backdrop-filter:blur(15px)}.hero-panel .icon{width:52px;height:52px;border-radius:16px;background:rgba(129,140,248,.2);display:grid;place-items:center;color:#eef0ff;margin-bottom:16px;font-size:20px}.hero-panel h2{font:600 25px 'Playfair Display',serif;margin:0 0 8px}.hero-panel p{font-size:12px;line-height:1.7;color:rgba(255,255,255,.62);margin:0}.hero-points{margin-top:18px;display:grid;gap:10px}.hero-points div{display:flex;gap:9px;font-size:11px;color:rgba(255,255,255,.73)}.hero-points i{color:#a7f3d0}
+/* Content */
+.page-section{padding:82px 0 90px}.section-heading{text-align:center;max-width:700px;margin:0 auto 42px}.section-tag{display:inline-block;color:var(--primary);font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px}.section-heading h2{font:600 clamp(30px,4vw,42px)/1.15 'Playfair Display',serif;margin:0 0 12px}.section-heading p{font-size:14px;line-height:1.8;color:var(--muted);margin:0}
+.subscription-card,.payment-row,.feature-card{background:rgba(255,255,255,.96);border:1px solid var(--line);box-shadow:var(--shadow)}.subscription-card{border-radius:22px;padding:24px 26px;margin-bottom:38px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}.subscription-main{display:flex;align-items:flex-start;gap:15px}.subscription-icon{width:50px;height:50px;flex:0 0 50px;border-radius:15px;background:#eef0ff;color:var(--primary);display:grid;place-items:center;font-size:19px}.sub-title{font-size:17px;font-weight:800;color:var(--ink);display:flex;align-items:center;gap:9px;flex-wrap:wrap}.sub-meta{font-size:12px;color:var(--muted);line-height:1.7;margin-top:5px}.status{display:inline-flex;align-items:center;padding:5px 8px;border-radius:999px;font-size:9px;font-weight:800;letter-spacing:.05em}.status-completed{background:#dcfce7;color:#166534}.status-inactive{background:#eef0f5;color:#687386}.status-pending{background:#fef3c7;color:#a16207}
+.btn{min-height:45px;padding:0 16px;border:0;border-radius:11px;display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;font:700 12px Inter;cursor:pointer}.btn-primary{background:#182033;color:#fff}.btn-primary:hover{background:#26364e}.btn-secondary{background:#eef2f7;color:#3a4354}.btn-secondary:hover{background:#e4e7ee}
+.feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:58px}.feature-card{border-radius:20px;padding:25px;transition:.22s}.feature-card:hover{transform:translateY(-5px);border-color:#eef0ff;box-shadow:0 30px 70px rgba(15,23,42,.15)}.fc-icon{width:50px;height:50px;border-radius:15px;background:#eef0ff;color:var(--primary);display:grid;place-items:center;font-size:19px;margin-bottom:17px}.feature-card h3{font-size:16px;margin:0 0 7px}.feature-card p{font-size:12px;color:var(--muted);line-height:1.7;margin:0}
+.payments-list{display:grid;gap:10px}.payment-row{border-radius:17px;padding:15px 18px;display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}.payment-left{display:flex;align-items:center;gap:12px}.payment-icon{width:40px;height:40px;border-radius:12px;background:#eef0f5;display:grid;place-items:center;color:#687386}.payment-amount{font-size:15px;font-weight:800}.payment-meta{font-size:11px;color:#9aa3b2;margin-top:3px}.loading,.empty,.error{text-align:center;color:#9aa3b2;padding:26px;font-size:12px;background:rgba(255,255,255,.75);border:1px dashed #dbe3eb;border-radius:16px}.error{color:#b45309}
+/* CTA */
+.page-cta{padding:0 0 85px}.cta-banner{width:min(1100px,calc(100% - 40px));margin:auto;padding:47px 28px;border-radius:27px;text-align:center;color:#fff;background:linear-gradient(105deg,rgba(5,15,29,.98),rgba(15,36,55,.94)),url('https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=2000&q=86') center/cover;box-shadow:0 28px 70px rgba(15,23,42,.2)}.cta-banner h2{font:600 38px 'Playfair Display',serif;margin:0 0 8px}.cta-banner p{font-size:13px;color:rgba(255,255,255,.62);margin:0 0 22px}.cta-actions{display:flex;gap:11px;justify-content:center;flex-wrap:wrap}.cta-banner .btn{background:#fff;color:#182033}.cta-banner .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,.22);color:#fff}
+@media(max-width:900px){.hero-grid{grid-template-columns:1fr}.hero-panel{max-width:530px}.feature-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:620px){.container,.nav-container,.cta-banner{width:calc(100% - 28px)}.nav-container{min-height:70px}.navbar .logo-text{font-size:25px}.navbar .logo-icon{width:40px;height:40px}#navUserName{display:none}.payment-hero{padding:125px 0 55px;min-height:580px}.payment-hero h1{font-size:44px}.hero-copy>p{font-size:14px}.page-section{padding:62px 0 65px}.feature-grid{grid-template-columns:1fr;margin-bottom:48px}.subscription-card{padding:20px}.payment-row{padding:13px}.page-cta{padding-bottom:60px}.cta-banner{padding:34px 18px}.cta-banner h2{font-size:32px}}
+</style>
 </head>
 <body>
-    <nav class="navbar" id="navbar">
-        <div class="nav-container">
-            <a href="/" class="logo">
+<nav class="navbar" id="navbar">
+ <div class="nav-container">
+  <a href="/" class="logo"><div class="logo-icon"><i class="fas fa-home"></i></div><span class="logo-text">Heaven<span>Lease</span></span></a>
+  <div class="nav-actions">
+   <div class="user-menu" id="userMenu">
+    <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu">
+     <span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span><span id="navUserName">Account</span><i class="fas fa-chevron-down"></i>
+    </button>
+    <div class="user-dropdown" id="profileDropdown">
+     <a href="home" id="mainHomeLink"><i class="fas fa-home"></i> Main Home</a>
+     <a href="edit-profile" id="myProfileLink"><i class="fas fa-user"></i> My Profile &amp; Settings</a>
+     <a href="payment"><i class="fas fa-credit-card"></i> Access Pass</a>
+    </div>
+   </div>
+  </div>
+ </div>
+</nav>
+<main>
+<header class="payment-hero">
+ <div class="container hero-grid">
+  <div class="hero-copy">
+   <div class="eyebrow"><i class="fas fa-credit-card"></i> Access Pass billing</div>
+   <h1>Payment <span>Methods</span></h1>
+   <p>Manage the payment options used for your Access Pass subscription and keep your account billing information easy to review.</p>
+  </div>
+  <aside class="hero-panel">
+   <div class="icon"><i class="fas fa-wallet"></i></div>
+   <h2>Subscription at a glance</h2>
+   <p>Review your current Access Pass status and recent payment activity from one place.</p>
+   <div class="hero-points">
+    <div><i class="fas fa-check"></i><span>Access Pass status</span></div>
+    <div><i class="fas fa-check"></i><span>Recent payment records</span></div>
+    <div><i class="fas fa-check"></i><span>Transaction history access</span></div>
+   </div>
+  </aside>
+ </div>
+</header>
+<section class="page-section">
+ <div class="container" style="max-width:980px">
+  <div class="section-heading">
+   <span class="section-tag">Billing overview</span>
+   <h2>Subscription &amp; Payment Methods</h2>
+   <p>See your Access Pass status first, then review the available payment options and your recent activity.</p>
+  </div>
+  <div id="subWrap">
+   <div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading subscription…</div>
+  </div>
+  <div class="feature-grid">
+   <div class="feature-card"><div class="fc-icon"><i class="fas fa-credit-card"></i></div><h3>UPI</h3><p>Pay instantly at checkout with any UPI app.</p></div>
+   <div class="feature-card"><div class="fc-icon"><i class="fas fa-mobile-screen-button"></i></div><h3>Cards</h3><p>Visa, Mastercard, RuPay &amp; net-banking.</p></div>
+   <div class="feature-card"><div class="fc-icon"><i class="fas fa-file-invoice-dollar"></i></div><h3>Receipts</h3><p>Printable invoices in transaction history.</p></div>
+  </div>
+  <div class="section-heading" style="margin-bottom:22px">
+   <span class="section-tag">Your activity</span>
+   <h2>Recent Payments</h2>
+  </div>
+  <div id="payWrap"><div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading payments…</div></div>
+ </div>
+</section>
+<section class="page-cta">
+ <div class="cta-banner">
+  <h2>Ready to continue?</h2>
+  <p>Review your transactions, manage your Access Pass, or return to your dashboard.</p>
+  <div class="cta-actions">
+   <a href="transaction-history" class="btn btn-lg"><i class="fas fa-money-bill-transfer"></i> Transaction History</a>
+   <a href="payment" class="btn btn-lg"><i class="fas fa-credit-card"></i> Access Pass</a>
+   <a href="dashboard" class="btn btn-lg ghost"><i class="fas fa-gauge-high"></i> My Dashboard</a>
+  </div>
+ </div>
+</section>
+</main>
+<script src="js/api.js?v=20260913a"></script>
+<script src="js/core.js?v=20260913a"></script>
+<script src="js/pages/payment-methods.js?v=20260913a"></script>
+<footer class="footer">
+<div class="container">
+    <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
+        <div class="footer-brand">
+            <a href="home" class="logo">
                 <div class="logo-icon"><i class="fas fa-home"></i></div>
                 <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
-            <div class="nav-actions">
-                <div class="user-menu" id="userMenu">
-                    <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu">
-                        <span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span>
-                        <span id="navUserName">Account</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </button>
-                    <div class="user-dropdown" id="profileDropdown">
-                        <a href="home" id="mainHomeLink"><i class="fas fa-home"></i> Main Home</a>
-                        <a href="edit-profile" id="myProfileLink"><i class="fas fa-user"></i> My Profile &amp; Settings</a>
-                        <a href="payment"><i class="fas fa-credit-card"></i> Access Pass</a>
-                    </div>
-                </div>
-            </div>
+            <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>
         </div>
-    </nav>
-    <section class="page-header">
-        <div class="container">
-            <div class="ph-icon"><i class="fas fa-credit-card"></i></div>
-            <h1>Payment Methods</h1>
-            <p>Manage the payment options used for your Access Pass subscription.</p>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Explore</strong>
+            <a href="properties" style="color:inherit;text-decoration:none;">Find a Home</a>
+            <a href="map" style="color:inherit;text-decoration:none;">Property Map</a>
+            <a href="how-it-works" style="color:inherit;text-decoration:none;">How It Works</a>
+            <a href="about" style="color:inherit;text-decoration:none;">About Us</a>
         </div>
-    </section>
-
-    <section class="page-section" style="padding-top:20px;">
-        <div class="container" style="max-width: 900px;">
-            <div class="section-head" style="text-align:center;margin-bottom:24px;"><h2>Subscription & Payment Methods</h2></div>
-            <div id="subWrap" style="margin-bottom:20px;">
-                <p style="text-align:center;color:var(--gray-400);padding:30px 0;"><i class="fas fa-spinner fa-spin"></i> Loading…</p>
-            </div>
-            <div class="feature-grid" style="margin-bottom:26px;">
-                <div class="feature-card"><div class="fc-icon"><i class="fas fa-credit-card"></i></div><h3>UPI</h3><p>Pay instantly at checkout with any UPI app.</p></div>
-                <div class="feature-card"><div class="fc-icon"><i class="fas fa-mobile-screen-button"></i></div><h3>Cards</h3><p>Visa, Mastercard, RuPay & net-banking.</p></div>
-                <div class="feature-card"><div class="fc-icon"><i class="fas fa-file-invoice-dollar"></i></div><h3>Receipts</h3><p>Printable invoices in transaction history.</p></div>
-            </div>
-            <div class="section-head" style="text-align:center;margin:30px 0 20px;"><h2>Recent Payments</h2></div>
-            <div id="payWrap">
-                <p style="text-align:center;color:var(--gray-400);padding:20px 0;"><i class="fas fa-spinner fa-spin"></i> Loading…</p>
-            </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Company</strong>
+            <a href="careers" style="color:inherit;text-decoration:none;">Careers</a>
+            <a href="press" style="color:inherit;text-decoration:none;">Press</a>
+            <a href="blog" style="color:inherit;text-decoration:none;">Blog</a>
+            <a href="contact" style="color:inherit;text-decoration:none;">Contact</a>
         </div>
-    </section>
-
-    <section class="page-cta">
-        <div class="container">
-            <div class="cta-banner">
-                <h2>Ready to continue?</h2>
-                <p>Head back to your dashboard or browse the next step.</p>
-                                <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
-                    <a href="transaction-history" class="btn btn-lg"><i class="fas fa-money-bill-transfer"></i> Transaction History</a>
-                    <a href="payment" class="btn btn-lg"><i class="fas fa-credit-card"></i> Access Pass</a>
-                    <a href="dashboard" class="btn btn-lg"><i class="fas fa-gauge-high"></i> My Dashboard</a>
-                    <a href="dashboard" class="btn btn-lg ghost"><i class="fas fa-gauge-high"></i> My Dashboard</a>
-                </div>
-            </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">For Owners</strong>
+            <a href="list-property" style="color:inherit;text-decoration:none;">List Your Property</a>
+            <a href="properties-management" style="color:inherit;text-decoration:none;">Owner Dashboard</a>
+            <a href="payment" style="color:inherit;text-decoration:none;">Pricing &amp; Upgrade</a>
+            <a href="owner-resources" style="color:inherit;text-decoration:none;">Owner Resources</a>
         </div>
-    </section>
-
-<script src="api.js?v=20260913a"></script>
-    <script src="script.js?v=20260913a"></script>
-    <script>
-        (function() {
-            'use strict';
-            const subWrap = document.getElementById('subWrap');
-            const payWrap = document.getElementById('payWrap');
-            function money(n){return '₹'+Math.round(Number(n)||0).toLocaleString('en-IN');}
-            function fmt(s){if(!s)return '—';const d=new Date(s);return isNaN(d)?s:d.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});}
-
-            async function loadSub(){
-                try{
-                    const sub = await api.getSubscription();
-                    const active = !!(sub&&sub.active);
-                    subWrap.innerHTML='<div style="background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-xl);padding:24px 28px;box-shadow:var(--shadow-sm);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center;">'
-                        +'<div><strong style="color:var(--dark);font-size:18px;">Access Pass</strong> '
-                        +'<span class="status '+(active?'status-completed':'status-inactive')+'">'+(active?'ACTIVE':'INACTIVE')+'</span>'
-                        +'<div style="font-size:13px;color:var(--gray-500);margin-top:6px;">'
-                        +(active?('Valid until '+fmt(sub.expiresAt)+((sub.amount)?(' · Paid '+money(sub.amount)):'')):'No active subscription. Upgrade to contact owners and unlock property details.')
-                        +'</div></div>'
-                        +'<a href="payment" class="btn btn-primary" style="display:inline-flex;gap:8px;"><i class="fas fa-credit-card"></i> '+(active?'Manage':'Get Access Pass')+'</a>'
-                        +'</div>';
-                }catch(e){subWrap.innerHTML='<div style="text-align:center;padding:30px;color:var(--gray-500);">'+api.escapeHtml(e.message||'Could not load subscription.')+'</div>';}
-            }
-            async function loadPayments(){
-                try{
-                    let list=await api.getMyPayments();
-                    if(!Array.isArray(list))list=[];
-                    if(list.length===0){payWrap.innerHTML='<div style="text-align:center;padding:30px;color:var(--gray-500);">No payments yet.</div>';return;}
-                    payWrap.innerHTML=list.map(function(p){
-                        return '<div style="background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:14px 20px;margin-bottom:10px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;">'
-                            +'<div><strong style="color:var(--dark);">'+money(p.amount)+'</strong> <span class="status '+((p.status==='completed')?'status-completed':'status-pending')+'">'+api.escapeHtml((p.status||'paid').toUpperCase())+'</span>'
-                            +'<div style="font-size:12px;color:var(--gray-400);margin-top:4px;">'+api.escapeHtml(p.paymentType||'ONLINE')+' · '+fmt(p.createdAt)+'</div></div>'
-                            +'<a class="btn btn-sm btn-secondary" href="transaction-history"><i class="fas fa-receipt"></i> Receipts</a>'
-                            +'</div>';
-                    }).join('');
-                }catch(e){payWrap.innerHTML='<div style="text-align:center;padding:30px;color:var(--gray-500);">'+api.escapeHtml(e.message||'Could not load payments.')+'</div>';}
-            }
-            loadSub();
-            loadPayments();
-        })();
-    </script>
+    </div>
+    <div class="footer-bottom" style="justify-content:center;margin-top:28px;">
+        <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
+    </div>
+</div>
+</footer>
 </body>
 </html>

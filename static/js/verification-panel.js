@@ -117,7 +117,7 @@ async function loadMine() {
                 }
                 return '<div class="vp-item">' +
                     '<div class="vp-file">' +
-                    '<strong><i class="fas fa-file-alt" style="color:' + (d.status === 'VERIFIED' ? '#059669' : '#94a3b8') + ';margin-right:6px;"></i>' + esc(d.fileName || d.docType || ('Document #' + d.id)) + '</strong>' +
+                    '<strong><i class="fas fa-file-alt" style="color:' + (d.status === 'VERIFIED' ? '#059669' : '#9aa3b2') + ';margin-right:6px;"></i>' + esc(d.fileName || d.docType || ('Document #' + d.id)) + '</strong>' +
                     '<small>' + esc(d.docType || 'document') + ' · ' + fmtDate(d.createdAt) + '</small>' + metaDisp +
                     (d.reviewNote ? '<div class="vp-note">' + esc(d.reviewNote) + '</div>' : '') +
                     '</div>' +
@@ -149,7 +149,7 @@ async function loadMine() {
                     : badge(d.status);
                 return '<div class="vp-item">' +
                     '<div class="vp-file">' +
-                    '<strong><i class="fas fa-file-alt" style="color:#7c3aed;margin-right:6px;"></i>' + esc(d.fileName || d.docType || ('Document #' + d.id)) + '</strong>' +
+                    '<strong><i class="fas fa-file-alt" style="color:#4445c5;margin-right:6px;"></i>' + esc(d.fileName || d.docType || ('Document #' + d.id)) + '</strong>' +
                     '<small>' + esc(d.docType || 'document') + ' · ' + esc(d.pageKey) + ' · ' + fmtDate(d.createdAt) + '</small>' +
                     (d.maskedValues ? '<small>Ref: ' + esc(d.maskedValues) + '</small>' : '') +
                     (d.reviewNote ? '<div class="vp-note">' + esc(d.reviewNote) + '</div>' : '') +

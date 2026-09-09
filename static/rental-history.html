@@ -3,43 +3,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Verify a tenant's past rental behaviour and landlord references on HeavenLease. Rent to tenants with a clean history.">
-    <title>Rental History — HeavenLease</title>
+    <meta name="description" content="Apply for a rental property.">
+    <title>Rental Application — HeavenLease</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
     <link rel="stylesheet" href="styles.css?v=20260909a">
-    <link rel="stylesheet" href="feature-panel.css?v=20260902a">
-    <link rel="stylesheet" href="verification-panel.css?v=20260913a">
     <style>
-        .page-header { background: var(--gradient-soft); padding: 140px 0 60px; text-align: center; position: relative; overflow: hidden; }
-        .page-header h1 { font-family: var(--font-heading); font-size: 42px; font-weight: 700; color: var(--dark); margin-bottom: 14px; }
+        .page-header { background: rgba(255,255,255,0.45); backdrop-filter: blur(6px); padding: 140px 0 70px; text-align: center; position: relative; overflow: hidden; }
+        .page-header h1 { font-family: var(--font-heading); font-size: 46px; font-weight: 700; color: var(--dark); margin-bottom: 12px; }
         .page-header p { font-size: 17px; color: var(--gray-500); max-width: 640px; margin: 0 auto; }
-        .page-header .breadcrumb { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 16px; font-size: 14px; color: var(--gray-500); }
-        .page-header .breadcrumb a { color: var(--primary); }
-        .page-header .breadcrumb i { font-size: 12px; color: var(--gray-400); }
-        .content-section { padding: 72px 0; }
-        .content-block { max-width: 860px; margin: 0 auto 40px; }
-        .content-block h2 { font-family: var(--font-heading); font-size: 28px; font-weight: 700; color: var(--dark); margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
-        .content-block h2 i { color: var(--primary); font-size: 22px; }
-        .content-block p { font-size: 15px; color: var(--gray-500); line-height: 1.8; margin-bottom: 12px; }
-        .content-block ul { margin: 12px 0 16px; }
-        .content-block ul li { font-size: 14px; color: var(--gray-600); padding: 6px 0; display: flex; align-items: flex-start; gap: 10px; }
-        .content-block ul li i { color: var(--secondary); font-size: 13px; margin-top: 3px; }
-        .info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 1000px; margin: 0 auto 40px; }
-        .info-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 24px; transition: var(--transition); }
-        .info-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--primary); }
-        .info-card .icon { width: 48px; height: 48px; background: var(--gradient-soft); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 20px; color: var(--primary); margin-bottom: 14px; }
-        .info-card h3 { font-size: 16px; font-weight: 600; color: var(--dark); margin-bottom: 8px; }
-        .info-card p { font-size: 13px; color: var(--gray-500); line-height: 1.6; }
-        .cta-section { padding: 60px 0; }
-        .faq-item { max-width: 860px; margin: 0 auto 14px; background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 22px 26px; }
-        .faq-item h3 { font-size: 16px; font-weight: 600; color: var(--dark); margin-bottom: 8px; }
-        .faq-item p { font-size: 14px; color: var(--gray-500); line-height: 1.7; }
-        @media (max-width: 900px) { .info-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 768px) { .page-header { padding: 120px 0 44px; } .page-header h1 { font-size: 32px; } .info-grid { grid-template-columns: 1fr; } .content-block h2 { font-size: 22px; } }
-    </style></head>
+        .page-header .ph-icon { width: 68px; height: 68px; border-radius: 18px; background: var(--gradient); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 28px; margin: 0 auto 18px; box-shadow: var(--shadow-primary); }
+        .page-section { padding: 70px 0 90px; }
+        .page-section .section-head { text-align: center; margin-bottom: 44px; }
+        .page-section .section-head h2 { font-family: var(--font-heading); font-size: 30px; font-weight: 700; color: var(--dark); }
+        .feature-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 26px; }
+        .feature-card { background: rgba(255,255,255,0.92); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 28px; transition: var(--transition); box-shadow: var(--shadow-sm); }
+        .feature-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--primary); }
+        .feature-card .fc-icon { width: 52px; height: 52px; border-radius: 14px; background: var(--gradient-soft); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 14px; }
+        .feature-card h3 { font-size: 17px; font-weight: 600; color: var(--dark); margin-bottom: 6px; }
+        .feature-card p { font-size: 14px; color: var(--gray-500); line-height: 1.6; margin: 0; }
+        .page-cta { padding: 0 0 90px; }
+        .cta-banner { background: var(--gradient); border-radius: var(--radius-xl); padding: 44px 32px; text-align: center; color: #fff; }
+        .cta-banner h2 { font-family: var(--font-heading); font-size: 28px; margin-bottom: 8px; }
+        .cta-banner p { opacity: 0.92; margin-bottom: 20px; }
+        .cta-banner .btn { background: #fff; color: var(--primary); font-weight: 600; }
+        .cta-banner .btn.ghost { background: transparent; border: 1px solid #fff; color: #fff; }
+        @media (max-width: 900px) { .feature-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) { .page-header { padding: 120px 0 50px; } .page-header h1 { font-size: 34px; } }
+    
+        /* HeavenLease Rental History — premium visual layer */
+        :root{
+            --hl-ink:#182033;
+            --hl-muted:#687386;
+            --hl-gold:#5b5ce2;
+            --hl-gold-soft:#f5eddc;
+            --hl-dark:#182033;
+            --hl-border:rgba(23,34,29,.10);
+        }
+        html{scroll-behavior:smooth}
+        body{
+            background:
+              linear-gradient(rgba(247,244,237,.90),rgba(247,244,237,.94)),
+              url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=2200&q=85') center/cover fixed;
+            color:var(--hl-ink);
+        }
+        .navbar{
+            background:
+              linear-gradient(90deg,rgba(10,17,14,.94),rgba(10,17,14,.72)),
+              url('https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=2200&q=85') center 55%/cover;
+            border-bottom:1px solid rgba(255,255,255,.10);
+            box-shadow:0 8px 28px rgba(0,0,0,.12);
+            backdrop-filter:blur(8px);
+        }
+        .navbar.scrolled{background:
+            linear-gradient(90deg,rgba(8,13,11,.98),rgba(8,13,11,.90)),
+            url('https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=2200&q=85') center 55%/cover}
+        .logo-text{font-family:'Playfair Display',serif;letter-spacing:-.02em}
+        .logo-text span{color:var(--hl-gold)}
+        .logo-icon{box-shadow:0 8px 22px rgba(0,0,0,.20)}
+        .page-header{
+            padding:168px 0 76px;
+            text-align:left;
+            background:
+              linear-gradient(90deg,rgba(12,20,16,.90),rgba(12,20,16,.58) 58%,rgba(12,20,16,.35)),
+              url('https://images.unsplash.com/photo-1560185008-b033106af5c3?auto=format&fit=crop&w=2200&q=85') center/cover;
+            min-height:330px;
+            display:flex;
+            align-items:flex-end;
+        }
+        .page-header h1{color:#fff;font-size:clamp(42px,5vw,68px);line-height:1.05;max-width:760px}
+        .page-header p{color:rgba(255,255,255,.82);font-size:18px;max-width:700px;line-height:1.7}
+        .page-header .breadcrumb{justify-content:flex-start;color:rgba(255,255,255,.66)}
+        .page-header .breadcrumb a{color:#e1c77f}
+        .page-header .breadcrumb i{color:rgba(255,255,255,.45)}
+        .content-section{padding:84px 0}
+        .content-block{
+            max-width:900px;
+            margin:0 auto 30px;
+            padding:30px 32px;
+            background:rgba(255,255,255,.91);
+            border:1px solid rgba(255,255,255,.8);
+            border-radius:24px;
+            box-shadow:0 18px 55px rgba(31,43,36,.08);
+        }
+        .content-block h2{font-size:27px;color:var(--hl-ink);margin-bottom:13px}
+        .content-block h2 i{color:var(--hl-gold)}
+        .content-block p{color:#5e6962;font-size:15.5px;line-height:1.85}
+        .content-section > .container > .content-block:first-child{margin-top:0}
+        #verificationPanel{
+            background:rgba(255,255,255,.94);
+            border:1px solid var(--hl-border);
+            border-radius:26px;
+            padding:8px;
+            box-shadow:0 20px 60px rgba(31,43,36,.10);
+            overflow:hidden;
+        }
+        .help-strip{
+            margin-top:20px;
+            padding:24px;
+            background:linear-gradient(135deg,#f8f2e5,#fff);
+            border:1px solid rgba(199,164,90,.25);
+            border-radius:18px;
+        }
+        .help-strip textarea{
+            width:100%;min-height:130px;resize:vertical;box-sizing:border-box;
+            padding:15px 16px;border:1px solid var(--gray-200);border-radius:14px;
+            background:#fff;font:inherit;color:var(--hl-ink);outline:none;
+        }
+        .help-strip textarea:focus,.help-strip input:focus{border-color:var(--hl-gold);box-shadow:0 0 0 4px rgba(199,164,90,.12)}
+        .help-strip > div{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+        .help-strip .btn{border-radius:12px}
+        .cta-section{
+            margin-top:24px;
+            background:linear-gradient(90deg,rgba(12,20,16,.94),rgba(12,20,16,.78)),
+              url('https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=2200&q=85') center/cover;
+            color:#fff;
+        }
+        .faq-item{box-shadow:0 12px 36px rgba(31,43,36,.06)}
+        .footer{
+            background:#0d1511!important;
+            color:rgba(255,255,255,.76);
+            border-top:1px solid rgba(255,255,255,.08);
+            padding-top:54px;
+        }
+        .footer .logo-text{color:#fff}
+        .footer .footer-brand p{color:rgba(255,255,255,.60)}
+        .footer-bottom{border-top-color:rgba(255,255,255,.10)!important}
+        .back-to-top{box-shadow:0 10px 30px rgba(0,0,0,.22)}
+        @media(max-width:768px){
+            .page-header{padding:132px 0 54px;min-height:290px}
+            .page-header h1{font-size:40px}
+            .page-header p{font-size:16px}
+            .content-section{padding:58px 0}
+            .content-block{padding:24px 20px;border-radius:19px}
+            .content-block h2{font-size:22px}
+            #verificationPanel{border-radius:20px;padding:4px}
+            .help-strip{padding:18px}
+        }
+    </style>
+</head>
 <body>
     <nav class="navbar" id="navbar">
         <div class="nav-container">
@@ -47,9 +152,8 @@
                 <div class="logo-icon"><i class="fas fa-home"></i></div>
                 <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
-            
             <div class="nav-actions">
-                                <div class="user-menu" id="userMenu">
+                <div class="user-menu" id="userMenu">
                     <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu">
                         <span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span>
                         <span id="navUserName">Account</span>
@@ -59,175 +163,98 @@
                         <a href="home" id="mainHomeLink"><i class="fas fa-home"></i> Main Home</a>
                         <a href="edit-profile" id="myProfileLink"><i class="fas fa-user"></i> My Profile &amp; Settings</a>
                         <a href="payment"><i class="fas fa-credit-card"></i> Access Pass</a>
-                        <div class="dropdown-divider"></div>
-                        <a href="properties"><i class="fas fa-building"></i> Browse Properties</a>
-                        <a href="map"><i class="fas fa-map-location-dot"></i> Property Map</a>
-                        <a href="comfort-scores"><i class="fas fa-gauge-high"></i> Comfort Scores</a>
-                        <a href="saved-properties"><i class="fas fa-heart"></i> Saved Properties</a>
-                        <a href="list-property"><i class="fas fa-key"></i> List Your Property</a>
-                        <a href="tenant-screening"><i class="fas fa-user-check"></i> Tenant Screening</a>
-                        <a href="owner-resources"><i class="fas fa-toolbox"></i> Owner Resources</a>
-                        <a href="buy-sell"><i class="fas fa-tag"></i> Buy / Sell</a>
-                        <a href="possession"><i class="fas fa-key"></i> Possession &amp; Handover</a>
-                        <a href="lease-signing"><i class="fas fa-file-signature"></i> Leases &amp; Signing</a>
-                        <a href="tour-booking"><i class="fas fa-calendar-check"></i> Tour Bookings</a>
-                        <a href="messages"><i class="fas fa-comments"></i> Messages</a>
-                        <a href="notifications"><i class="fas fa-bell"></i> Notifications</a>
-                        <div class="dropdown-divider"></div>
-                        <a href="how-it-works"><i class="fas fa-circle-question"></i> How It Works</a>
-                        <a href="about"><i class="fas fa-building"></i> About Us</a>
-                        <a href="blog"><i class="fas fa-newspaper"></i> Blog</a>
-<a href="comfort-scores"><i class="fas fa-chart-simple"></i> Type &amp; Voice Search</a>
-                                                <a href="contact"><i class="fas fa-envelope"></i> Contact &amp; Support</a>
-                        <div class="dropdown-divider"></div>
-                        <a href="login" id="signInLink" class="hide-when-auth"><i class="fas fa-arrow-right-to-bracket"></i> Sign In</a>
-                        <a href="#" id="logoutLink" class="logout-link hide-when-guest"><i class="fas fa-sign-out-alt"></i> Logout</a>
                     </div>
                 </div>
-
-                
             </div>
         </div>
     </nav>
     <section class="page-header">
         <div class="container">
-            <h1>Rental <span class="gradient-text">History</span></h1>
-            <p>Confirm how a tenant behaved in their previous rentals before you sign.</p>
-            <div class="breadcrumb">
-                <a href="/">Home</a>
-                <i class="fas fa-chevron-right"></i>
-                <span>Tenant Screening · Rental History</span>
-            </div>
+            <div class="ph-icon"><i class="fas fa-file-signature"></i></div>
+            <h1>Rental Application</h1>
+            <p>Apply to rent a property with verified information.</p>
         </div>
     </section>
-
-    <section class="content-section">
-        <div class="container">
-                        <div class="content-block">
-                <h2><i class="fas fa-history"></i> Why Rental History Matters</h2>
-                <p>A tenant's past rental behaviour is the best predictor of their future behaviour. Rental history checks reach out to previous landlords to confirm how the tenant behaved over the term of their last tenancies.</p>
-                
-            </div>
-            <div class="content-block">
-                <h2><i class="fas fa-circle-check"></i> What We Verify</h2>
-                <p>We contact previous landlords and property managers to confirm the key facts of past tenancies. If a reference cannot be reached, we flag that clearly so you can decide for yourself.</p>
-                
-            </div>
-            <div class="content-block">
-                <h2><i class="fas fa-comments"></i> How We Handle References</h2>
-                <p>Our team reaches out directly to the landlord references provided by the applicant. We use a standard set of questions so every tenant is assessed the same way, and we record the answers for your review.</p>
-            <p>If the applicant has never rented before, we mark the history as "New Tenant" — this is common for young professionals and students, and we still verify their identity, employment and credit.</p>
-                
-            </div>
-            <div class="content-block">
-                <h2><i class="fas fa-triangle-exclamation"></i> Red Flags We Look For</h2>
-                <p>Repeated late payments, unexplained early move-outs, eviction notices, or landlords who refuse to give a reference all raise flags. None of these automatically disqualify a tenant, but they are brought to your attention so you can make an informed call.</p>
-                
-            </div>
-        </div>
-    </section>
-
-    <section class="content-section" style="padding-top:0;">
-        <div class="container" style="max-width:900px;">
-            <div id="verificationPanel" data-page-key="rental_history"
-                data-title="Rental History — Submit Documents"
-                data-hint="Build a trusted rental track record. Upload your past rent agreements and receipts. A verified owner or admin verifies them and the status updates here — PENDING, VERIFIED or REJECTED."
-                data-doc-types="Past Rent Agreement|Rent Receipts|Landlord Reference|No-Dues Certificate"></div>
-        </div>
-    </section>
-
-    <section class="content-section" style="padding-top:0;">
-        <div class="container">
-            <div class="content-block">
-                <h2><i class='fas fa-comment-dots'></i> Ask us anything</h2>
-                <p>Not sure what this means for your situation? Ask us in plain text and our team will clarify by email.</p>
-                <div class='help-strip'>
-                    <textarea id='helpMessage' placeholder='Type your message in plain text - no file upload needed.'></textarea>
-                    <input type='text' id='helpEmail' placeholder='Your email (optional)' style='width:100%;max-width:360px;margin-top:10px;padding:12px 14px;border:1px solid var(--gray-200);border-radius:var(--radius-md);font-size:14px;font-family:inherit;box-sizing:border-box;'>
-                    <div>
-                        <button type='button' class='btn btn-primary help-send' onclick='sendHelpMessage()'><i class='fas fa-paper-plane'></i> Send Message</button>
-                        <button type='button' class='btn btn-ghost help-clear' onclick='clearHelpMessage()'><i class='fas fa-eraser'></i> Clear</button>
+    <section class="page-section" style="padding-top:20px;">
+        <div class="container" style="max-width: 760px;">
+            <div class="section-head" style="text-align:center;margin-bottom:24px;"><h2>Apply to Rent</h2></div>
+            <form id="appForm" style="background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-xl);padding:28px 30px;box-shadow:var(--shadow-sm);">
+                <div class="form-group" style="margin-bottom:16px;">
+                    <label style="display:block;font-size:13px;font-weight:600;color:var(--gray-600);margin-bottom:6px;">Property ID</label>
+                    <input id="propId" type="number" required placeholder="e.g. 12 (from the property URL)" style="width:100%;padding:12px 16px;border:1px solid var(--gray-200);border-radius:var(--radius-md);font-size:14px;">
+                    <div id="propPreview" style="display:none;margin-top:10px;padding:12px 16px;background:var(--gray-50);border-radius:var(--radius-md);font-size:13px;color:var(--gray-600);"></div>
+                </div>
+                <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+                    <div class="form-group">
+                        <label style="display:block;font-size:13px;font-weight:600;color:var(--gray-600);margin-bottom:6px;">Tour Date</label>
+                        <input id="tourDate" type="date" required style="width:100%;padding:12px 16px;border:1px solid var(--gray-200);border-radius:var(--radius-md);font-size:14px;">
                     </div>
-                    <p class='help-note' id='helpNote' style='font-size:12px;color:var(--gray-400);margin-top:10px;'>Messages go to our support team by email. Prefer email? Write to support@heavenlease.in</p>
+                    <div class="form-group">
+                        <label style="display:block;font-size:13px;font-weight:600;color:var(--gray-600);margin-bottom:6px;">Tour Time</label>
+                        <input id="tourTime" type="time" required style="width:100%;padding:12px 16px;border:1px solid var(--gray-200);border-radius:var(--radius-md);font-size:14px;">
+                    </div>
+                </div>
+                <div class="form-group" style="margin-bottom:16px;">
+                    <label style="display:block;font-size:13px;font-weight:600;color:var(--gray-600);margin-bottom:6px;">Message to Owner (optional)</label>
+                    <textarea id="appMsg" rows="3" placeholder="Tell the owner about yourself..." style="width:100%;padding:12px 16px;border:1px solid var(--gray-200);border-radius:var(--radius-md);font-size:14px;font-family:inherit;"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:100%;display:inline-flex;justify-content:center;gap:8px;"><i class="fas fa-paper-plane"></i> Submit Application</button>
+            </form>
+        </div>
+    </section>
+    <section class="page-cta">
+        <div class="container">
+            <div class="cta-banner">
+                <h2>Ready to continue?</h2>
+                <p>Head back to your dashboard or browse the next step.</p>
+                                <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+                    <a href="application-status" class="btn btn-lg"><i class="fas fa-hourglass-half"></i> Check Application Status</a>
+                    <a href="application-history" class="btn btn-lg"><i class="fas fa-clock-rotate-left"></i> Application History</a>
+                    <a href="dashboard" class="btn btn-lg"><i class="fas fa-gauge-high"></i> My Dashboard</a>
+                    <a href="dashboard" class="btn btn-lg ghost"><i class="fas fa-gauge-high"></i> My Dashboard</a>
                 </div>
             </div>
         </div>
     </section>
-
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-grid" style="grid-template-columns: 1fr; text-align: center;">
-                <div class="footer-brand">
-                    <a href="/" class="logo">
-                        <div class="logo-icon"><i class="fas fa-home"></i></div>
-                        <span class="logo-text">Heaven<span>Lease</span></span>
-                    </a>
-                    <p style="margin: 10px auto; max-width: 300px;">Simple steps to your perfect stay. Direct owner rentals with zero broker fees and comfort-first search.</p>
-                </div>
-            </div>
-            <div class="footer-bottom" style="justify-content: center;">
-                <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
-            </div>
+<script src="js/api.js?v=20260913a"></script>
+    <script src="js/core.js?v=20260913a"></script>
+    <script src="js/pages/rental.js?v=20260913a"></script>
+<footer class="footer">
+<div class="container">
+    <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
+        <div class="footer-brand">
+            <a href="home" class="logo">
+                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <span class="logo-text">Heaven<span>Lease</span></span>
+            </a>
+            <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>
         </div>
-    </footer>
-
-    <button class="back-to-top" id="backToTop" aria-label="Back to top">
-        <i class="fas fa-arrow-up"></i>
-    </button>
-
-    <script src="api.js?v=20260913a"></script>
-    <script src="script.js?v=20260913a"></script>
-    <script src="verification-panel.js?v=20260913a"></script>
-    <script>
-        function clearHelpMessage() {
-            var msg = document.getElementById('helpMessage'); if (msg) msg.value = '';
-            var em = document.getElementById('helpEmail'); if (em) em.value = '';
-            var note = document.getElementById('helpNote');
-            if (note) note.textContent = 'Messages go to our support team by email. Prefer email? Write to support@heavenlease.in';
-        }
-        function sendHelpMessage() {
-            var msgEl = document.getElementById('helpMessage');
-            var msg = (msgEl && msgEl.value || '').trim();
-            var em = document.getElementById('helpEmail');
-            var email = (em && em.value || '').trim();
-            var note = document.getElementById('helpNote');
-            if (!msg) { if (note) note.textContent = 'Please type a short message first.'; return; }
-            var subject = encodeURIComponent('HeavenLease page enquiry');
-            var body = encodeURIComponent(msg + (email ? '\n\nReply to: ' + email : ''));
-            window.location.href = 'mailto:support@heavenlease.in?subject=' + subject + '&body=' + body;
-            setTimeout(function () { if (note) note.textContent = 'Opening your email app to send the message - thank you!'; }, 400);
-        }
-    </script>
-    <script>
-        const navbar = document.getElementById('navbar');
-        const hamburger = document.getElementById('hamburger');
-        const navLinks = document.getElementById('navLinks');
-        const backToTop = document.getElementById('backToTop');
-
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) navbar.classList.add('scrolled');
-            else navbar.classList.remove('scrolled');
-            if (window.scrollY > 500) backToTop.classList.add('visible');
-            else backToTop.classList.remove('visible');
-        });
-
-        if (hamburger) hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            navLinks.classList.toggle('active');
-        });
-
-        if (hamburger && navLinks) {
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.addEventListener('click', () => {
-                    hamburger.classList.remove('active');
-                    navLinks.classList.remove('active');
-                });
-            });
-        }
-
-        backToTop.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-    </script>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Explore</strong>
+            <a href="properties" style="color:inherit;text-decoration:none;">Find a Home</a>
+            <a href="map" style="color:inherit;text-decoration:none;">Property Map</a>
+            <a href="how-it-works" style="color:inherit;text-decoration:none;">How It Works</a>
+            <a href="about" style="color:inherit;text-decoration:none;">About Us</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Company</strong>
+            <a href="careers" style="color:inherit;text-decoration:none;">Careers</a>
+            <a href="press" style="color:inherit;text-decoration:none;">Press</a>
+            <a href="blog" style="color:inherit;text-decoration:none;">Blog</a>
+            <a href="contact" style="color:inherit;text-decoration:none;">Contact</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">For Owners</strong>
+            <a href="list-property" style="color:inherit;text-decoration:none;">List Your Property</a>
+            <a href="properties-management" style="color:inherit;text-decoration:none;">Owner Dashboard</a>
+            <a href="payment" style="color:inherit;text-decoration:none;">Pricing &amp; Upgrade</a>
+            <a href="owner-resources" style="color:inherit;text-decoration:none;">Owner Resources</a>
+        </div>
+    </div>
+    <div class="footer-bottom" style="justify-content:center;margin-top:28px;">
+        <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
+    </div>
+</div>
+</footer>
 </body>
 </html>

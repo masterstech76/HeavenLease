@@ -4,41 +4,392 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Rental income tax and accounting guide for property owners on HeavenLease. Know your deductions and records.">
-    <title>Tax & Accounting — HeavenLease</title>
+    <title>Tax &amp; Accounting — HeavenLease</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
     <link rel="stylesheet" href="styles.css?v=20260909a">
     <link rel="stylesheet" href="feature-panel.css?v=20260902a">
     <style>
-        .page-header { background: var(--gradient-soft); padding: 140px 0 60px; text-align: center; position: relative; overflow: hidden; }
-        .page-header h1 { font-family: var(--font-heading); font-size: 42px; font-weight: 700; color: var(--dark); margin-bottom: 14px; }
-        .page-header p { font-size: 17px; color: var(--gray-500); max-width: 640px; margin: 0 auto; }
-        .page-header .breadcrumb { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 16px; font-size: 14px; color: var(--gray-500); }
-        .page-header .breadcrumb a { color: var(--primary); }
-        .page-header .breadcrumb i { font-size: 12px; color: var(--gray-400); }
-        .content-section { padding: 72px 0; }
-        .content-block { max-width: 860px; margin: 0 auto 40px; }
-        .content-block h2 { font-family: var(--font-heading); font-size: 28px; font-weight: 700; color: var(--dark); margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
-        .content-block h2 i { color: var(--primary); font-size: 22px; }
-        .content-block p { font-size: 15px; color: var(--gray-500); line-height: 1.8; margin-bottom: 12px; }
-        .content-block ul { margin: 12px 0 16px; }
-        .content-block ul li { font-size: 14px; color: var(--gray-600); padding: 6px 0; display: flex; align-items: flex-start; gap: 10px; }
-        .content-block ul li i { color: var(--secondary); font-size: 13px; margin-top: 3px; }
-        .info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 1000px; margin: 0 auto 40px; }
-        .info-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 24px; transition: var(--transition); }
-        .info-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--primary); }
-        .info-card .icon { width: 48px; height: 48px; background: var(--gradient-soft); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 20px; color: var(--primary); margin-bottom: 14px; }
-        .info-card h3 { font-size: 16px; font-weight: 600; color: var(--dark); margin-bottom: 8px; }
-        .info-card p { font-size: 13px; color: var(--gray-500); line-height: 1.6; }
-        .cta-section { padding: 60px 0; }
-        .faq-item { max-width: 860px; margin: 0 auto 14px; background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 22px 26px; }
-        .faq-item h3 { font-size: 16px; font-weight: 600; color: var(--dark); margin-bottom: 8px; }
-        .faq-item p { font-size: 14px; color: var(--gray-500); line-height: 1.7; }
-        @media (max-width: 900px) { .info-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 768px) { .page-header { padding: 120px 0 44px; } .page-header h1 { font-size: 32px; } .info-grid { grid-template-columns: 1fr; } .content-block h2 { font-size: 22px; } }
-    </style></head>
+        :root {
+            --hl-ink: #182033;
+            --hl-muted: #687386;
+            --hl-green: #18a878;
+            --hl-green-dark: #0f8a63;
+            --hl-line: #e4e7ee;
+            --hl-surface: #ffffff;
+            --hl-shadow: 0 24px 70px rgba(20,35,30,.12);
+            --hl-radius: 24px;
+        }
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            margin: 0;
+            color: var(--hl-ink);
+            background:
+                linear-gradient(rgba(246,244,239,.92), rgba(246,244,239,.97)),
+                url("https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=2200&q=85") center/cover fixed;
+        }
+        .navbar {
+            position: absolute !important;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background:
+                linear-gradient(90deg, rgba(7,24,19,.96), rgba(15,48,39,.78)),
+                url("https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=2200&q=85") center/cover !important;
+            border-bottom: 1px solid rgba(255,255,255,.14);
+            box-shadow: 0 10px 35px rgba(0,0,0,.18);
+        }
+        .nav-container { min-height: 78px; }
+        .logo { color: #fff !important; }
+        .logo-text { letter-spacing: -.03em; }
+        .logo-text span { color: #a7d8c3 !important; }
+        .logo-icon {
+            background: rgba(255,255,255,.13) !important;
+            border: 1px solid rgba(255,255,255,.2);
+            box-shadow: none !important;
+            backdrop-filter: blur(10px);
+        }
+        .user-menu-trigger {
+            color: #fff !important;
+            background: rgba(255,255,255,.10) !important;
+            border: 1px solid rgba(255,255,255,.16) !important;
+            border-radius: 999px !important;
+            padding: 7px 13px 7px 8px !important;
+            backdrop-filter: blur(12px);
+        }
+        .user-avatar {
+            background: rgba(255,255,255,.16) !important;
+            color: #fff !important;
+        }
+        .page-hero {
+            min-height: 590px;
+            display: flex;
+            align-items: flex-end;
+            padding: 150px 0 86px;
+            position: relative;
+            overflow: hidden;
+            background:
+                linear-gradient(180deg, rgba(7,25,20,.84), rgba(7,25,20,.53) 50%, rgba(7,25,20,.86)),
+                url("https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2200&q=88") center/cover;
+        }
+        .hero-orb {
+            position: absolute;
+            width: 480px;
+            height: 480px;
+            right: -150px;
+            top: 45px;
+            border-radius: 50%;
+            background: rgba(159,213,187,.13);
+            filter: blur(15px);
+        }
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 850px;
+            color: #fff;
+        }
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            margin-bottom: 21px;
+            padding: 8px 13px;
+            border: 1px solid rgba(255,255,255,.20);
+            border-radius: 999px;
+            background: rgba(255,255,255,.10);
+            color: #dceee6;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            backdrop-filter: blur(10px);
+        }
+        .hero-content h1 {
+            margin: 0 0 16px;
+            max-width: 760px;
+            color: #fff;
+            font-family: var(--font-heading, "Playfair Display", serif);
+            font-size: clamp(44px, 6vw, 70px);
+            line-height: .98;
+            letter-spacing: -.045em;
+        }
+        .hero-content h1 .gradient-text {
+            color: #a9d9c4;
+            background: none;
+            -webkit-text-fill-color: initial;
+        }
+        .hero-content > p {
+            max-width: 650px;
+            margin: 0;
+            color: rgba(255,255,255,.82);
+            font-size: 17px;
+            line-height: 1.75;
+        }
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 9px;
+            margin-top: 23px;
+            color: rgba(255,255,255,.60);
+            font-size: 12px;
+        }
+        .breadcrumb a {
+            color: #b8ddca;
+            text-decoration: none;
+            font-weight: 650;
+        }
+        .breadcrumb i {
+            color: rgba(255,255,255,.38);
+            font-size: 9px;
+        }
+        .content-section {
+            position: relative;
+            padding: 90px 0;
+        }
+        .content-section + .content-section { padding-top: 10px; }
+        .content-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.15fr) minmax(280px, .85fr);
+            gap: 26px;
+            max-width: 1060px;
+            margin: 0 auto;
+        }
+        .content-block,
+        .help-card {
+            background: var(--hl-surface);
+            border: 1px solid rgba(255,255,255,.82);
+            border-radius: var(--hl-radius);
+            box-shadow: var(--hl-shadow);
+            backdrop-filter: blur(18px);
+        }
+        .content-block {
+            padding: 32px;
+            margin: 0;
+        }
+        .content-block + .content-block { margin-top: 18px; }
+        .section-kicker {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 13px;
+            color: var(--hl-green);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+        }
+        .content-block h2 {
+            display: flex;
+            align-items: flex-start;
+            gap: 13px;
+            margin: 0 0 14px;
+            color: var(--hl-ink);
+            font-family: var(--font-heading, "Playfair Display", serif);
+            font-size: 28px;
+            line-height: 1.15;
+            letter-spacing: -.025em;
+        }
+        .content-block h2 i {
+            flex: 0 0 44px;
+            width: 44px;
+            height: 44px;
+            display: grid;
+            place-items: center;
+            border-radius: 13px;
+            background: #e8f2ed;
+            color: var(--hl-green);
+            font-size: 17px;
+        }
+        .content-block p {
+            margin: 0 0 12px;
+            color: var(--hl-muted);
+            font-size: 14px;
+            line-height: 1.8;
+        }
+        .content-block p:last-child { margin-bottom: 0; }
+        .guide-aside {
+            align-self: start;
+            position: sticky;
+            top: 100px;
+        }
+        .guide-aside-card {
+            padding: 28px;
+            border-radius: var(--hl-radius);
+            color: #fff;
+            background:
+                linear-gradient(145deg, rgba(11,47,36,.98), rgba(28,91,69,.91)),
+                url("https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1200&q=80") center/cover;
+            box-shadow: 0 24px 60px rgba(15,48,39,.20);
+        }
+        .guide-aside-card .aside-icon {
+            width: 52px;
+            height: 52px;
+            display: grid;
+            place-items: center;
+            margin-bottom: 22px;
+            border: 1px solid rgba(255,255,255,.16);
+            border-radius: 15px;
+            background: rgba(255,255,255,.10);
+        }
+        .guide-aside-card h3 {
+            margin: 0 0 9px;
+            font-family: var(--font-heading, "Playfair Display", serif);
+            font-size: 27px;
+        }
+        .guide-aside-card p {
+            margin: 0;
+            color: rgba(255,255,255,.73);
+            font-size: 13px;
+            line-height: 1.7;
+        }
+        .record-list {
+            margin: 20px 0 0;
+            padding: 0;
+            list-style: none;
+        }
+        .record-list li {
+            display: flex;
+            gap: 11px;
+            padding: 10px 0;
+            border-top: 1px solid var(--hl-line);
+            color: #53605b;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        .record-list li:first-child { border-top: 0; padding-top: 0; }
+        .record-list i { margin-top: 3px; color: var(--hl-green); }
+        .help-section {
+            padding: 30px 0 90px;
+        }
+        .help-card {
+            max-width: 1060px;
+            margin: 0 auto;
+            padding: clamp(25px, 5vw, 38px);
+        }
+        .help-heading {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 22px;
+        }
+        .help-heading-icon {
+            flex: 0 0 48px;
+            width: 48px;
+            height: 48px;
+            display: grid;
+            place-items: center;
+            border-radius: 14px;
+            background: #e8f2ed;
+            color: var(--hl-green);
+        }
+        .help-heading h2 {
+            margin: 0 0 6px;
+            font-family: var(--font-heading, "Playfair Display", serif);
+            font-size: 29px;
+        }
+        .help-heading p {
+            margin: 0;
+            color: var(--hl-muted);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .help-strip {
+            padding: 20px;
+            border: 1px solid var(--hl-line);
+            border-radius: 18px;
+            background: #fafbf9;
+        }
+        #helpMessage,
+        #helpEmail {
+            font: inherit;
+            color: var(--hl-ink);
+            background: #fff;
+            border: 1px solid var(--hl-line);
+            outline: none;
+            transition: border-color .2s ease, box-shadow .2s ease;
+        }
+        #helpMessage {
+            display: block;
+            width: 100%;
+            min-height: 145px;
+            padding: 14px 16px;
+            border-radius: 14px;
+            resize: vertical;
+            line-height: 1.6;
+        }
+        #helpEmail {
+            width: 100%;
+            max-width: 360px;
+            margin-top: 10px;
+            padding: 13px 14px;
+            border-radius: 12px;
+            font-size: 14px;
+        }
+        #helpMessage:focus,
+        #helpEmail:focus {
+            border-color: rgba(29,102,80,.55);
+            box-shadow: 0 0 0 4px rgba(29,102,80,.09);
+        }
+        .help-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 14px;
+        }
+        .help-actions .btn {
+            border-radius: 12px;
+            min-height: 45px;
+        }
+        .help-note {
+            margin: 12px 0 0 !important;
+            color: #929b97 !important;
+            font-size: 12px !important;
+        }
+        .footer {
+            background: #10251f !important;
+            color: rgba(255,255,255,.76);
+            border-top: 1px solid rgba(255,255,255,.08);
+            position: relative;
+        }
+        .footer .logo { color: #fff !important; }
+        .footer .logo-text span { color: #a7d8c3 !important; }
+        .footer p { color: rgba(255,255,255,.62); }
+        .footer-bottom { border-top-color: rgba(255,255,255,.10) !important; }
+        .back-to-top {
+            z-index: 110;
+        }
+        @media (max-width: 900px) {
+            .content-grid { grid-template-columns: 1fr; }
+            .guide-aside { position: static; }
+        }
+        @media (max-width: 650px) {
+            .page-hero {
+                min-height: 540px;
+                padding: 128px 0 68px;
+            }
+            .hero-content h1 { font-size: 44px; }
+            .hero-content > p { font-size: 15px; }
+            .content-section { padding: 65px 0; }
+            .content-block { padding: 24px; }
+            .content-block h2 { font-size: 24px; }
+            .help-section { padding: 15px 0 70px; }
+            .help-heading h2 { font-size: 25px; }
+            .help-actions {
+                flex-direction: column;
+            }
+            .help-actions .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
 <body>
     <nav class="navbar" id="navbar">
         <div class="nav-container">
@@ -46,13 +397,12 @@
                 <div class="logo-icon"><i class="fas fa-home"></i></div>
                 <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
-            
             <div class="nav-actions">
-                                <div class="user-menu" id="userMenu">
-                    <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu">
+                <div class="user-menu" id="userMenu">
+                    <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu" aria-expanded="false">
                         <span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span>
                         <span id="navUserName">Account</span>
-                        <i class="fas fa-chevron-down"></i>
+                        <i class="fas fa-chevron-down" aria-hidden="true"></i>
                     </button>
                     <div class="user-dropdown" id="profileDropdown">
                         <a href="home" id="mainHomeLink"><i class="fas fa-home"></i> Main Home</a>
@@ -76,142 +426,141 @@
                         <a href="how-it-works"><i class="fas fa-circle-question"></i> How It Works</a>
                         <a href="about"><i class="fas fa-building"></i> About Us</a>
                         <a href="blog"><i class="fas fa-newspaper"></i> Blog</a>
-<a href="comfort-scores"><i class="fas fa-chart-simple"></i> Type &amp; Voice Search</a>
-                                                <a href="contact"><i class="fas fa-envelope"></i> Contact &amp; Support</a>
+                        <a href="comfort-scores"><i class="fas fa-chart-simple"></i> Type &amp; Voice Search</a>
+                        <a href="contact"><i class="fas fa-envelope"></i> Contact &amp; Support</a>
                         <div class="dropdown-divider"></div>
                         <a href="login" id="signInLink" class="hide-when-auth"><i class="fas fa-arrow-right-to-bracket"></i> Sign In</a>
                         <a href="#" id="logoutLink" class="logout-link hide-when-guest"><i class="fas fa-sign-out-alt"></i> Logout</a>
                     </div>
                 </div>
-
-                
             </div>
         </div>
     </nav>
-    <section class="page-header">
+    <header class="page-hero">
+        <div class="hero-orb" aria-hidden="true"></div>
         <div class="container">
-            <h1>Tax & <span class="gradient-text">Accounting</span></h1>
-            <p>Keep your rental income organised and understand what you can deduct.</p>
-            <div class="breadcrumb">
-                <a href="/">Home</a>
-                <i class="fas fa-chevron-right"></i>
-                <span>Owner Resources · Tax & Accounting</span>
+            <div class="hero-content">
+                <div class="eyebrow"><i class="fas fa-calculator"></i> Owner Resources</div>
+                <h1>Tax &amp; <span class="gradient-text">Accounting</span></h1>
+                <p>Keep your rental income organised and understand what you can deduct, what records to keep, and where professional advice may help.</p>
+                <div class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="/">Home</a>
+                    <i class="fas fa-chevron-right" aria-hidden="true"></i>
+                    <span>Owner Resources · Tax &amp; Accounting</span>
+                </div>
             </div>
         </div>
-    </section>
-
-    <section class="content-section">
-        <div class="container">
-                        <div class="content-block">
-                <h2><i class="fas fa-calculator"></i> Simple Tax Filing for Rental Income</h2>
-                <p>Rental income is taxable in India, but so are many of your expenses. Understanding what you can deduct — and how to keep records — can save you a meaningful amount every year.</p>
-            <p>This guide is educational, not personal tax advice. For complex portfolios, consult a CA or tax professional.</p>
-                
-            </div>
-            <div class="content-block">
-                <h2><i class="fas fa-folder-open"></i> Records to Keep</h2>
-                <p>Keep 5–6 years of records: rent receipts and bank statements, lease agreements, repair bills, municipal tax receipts, and loan interest certificates. Clean records make filing fast and keep you audit-ready.</p>
-                
-            </div>
-            <div class="content-block">
-                <h2><i class="fas fa-file-invoice-dollar"></i> Income Categories</h2>
-                <p>Whether your rental income is taxed under "Income from house property" or "Profits from business" depends on your situation. Most individual landlords fall under house property — where a 30% standard deduction applies without itemised bills.</p>
-                
-            </div>
-        </div>
-    </section>
-
-    <section class="content-section" style="padding-top:0;">
-        <div class="container">
-            <div class="content-block">
-                <h2><i class='fas fa-comment-dots'></i> Ask us anything</h2>
-                <p>Not sure what this means for your situation? Ask us in plain text and our team will clarify by email.</p>
-                <div class='help-strip'>
-                    <textarea id='helpMessage' placeholder='Type your message in plain text - no file upload needed.'></textarea>
-                    <input type='text' id='helpEmail' placeholder='Your email (optional)' style='width:100%;max-width:360px;margin-top:10px;padding:12px 14px;border:1px solid var(--gray-200);border-radius:var(--radius-md);font-size:14px;font-family:inherit;box-sizing:border-box;'>
+    </header>
+    <main>
+        <section class="content-section">
+            <div class="container">
+                <div class="content-grid">
                     <div>
-                        <button type='button' class='btn btn-primary help-send' onclick='sendHelpMessage()'><i class='fas fa-paper-plane'></i> Send Message</button>
-                        <button type='button' class='btn btn-ghost help-clear' onclick='clearHelpMessage()'><i class='fas fa-eraser'></i> Clear</button>
+                        <article class="content-block">
+                            <div class="section-kicker"><i class="fas fa-book-open"></i> The basics</div>
+                            <h2><i class="fas fa-calculator" aria-hidden="true"></i> Simple Tax Filing for Rental Income</h2>
+                            <p>Rental income is taxable in India, but so are many of your expenses. Understanding what you can deduct — and how to keep records — can save you a meaningful amount every year.</p>
+                            <p>This guide is educational, not personal tax advice. For complex portfolios, consult a CA or tax professional.</p>
+                        </article>
+                        <article class="content-block">
+                            <div class="section-kicker"><i class="fas fa-folder-open"></i> Stay organised</div>
+                            <h2><i class="fas fa-folder-open" aria-hidden="true"></i> Records to Keep</h2>
+                            <p>Keep 5–6 years of records: rent receipts and bank statements, lease agreements, repair bills, municipal tax receipts, and loan interest certificates. Clean records make filing fast and keep you audit-ready.</p>
+                        </article>
+                        <article class="content-block">
+                            <div class="section-kicker"><i class="fas fa-file-invoice-dollar"></i> Know the category</div>
+                            <h2><i class="fas fa-file-invoice-dollar" aria-hidden="true"></i> Income Categories</h2>
+                            <p>Whether your rental income is taxed under "Income from house property" or "Profits from business" depends on your situation. Most individual landlords fall under house property — where a 30% standard deduction applies without itemised bills.</p>
+                        </article>
                     </div>
-                    <p class='help-note' id='helpNote' style='font-size:12px;color:var(--gray-400);margin-top:10px;'>Messages go to our support team by email. Prefer email? Write to support@heavenlease.in</p>
+                    <aside class="guide-aside">
+                        <div class="guide-aside-card">
+                            <div class="aside-icon"><i class="fas fa-clipboard-check"></i></div>
+                            <h3>Keep the paper trail clean.</h3>
+                            <p>A consistent record of rental activity makes it easier to understand your position and prepare the information your tax professional may need.</p>
+                            <ul class="record-list">
+                                <li><i class="fas fa-check"></i><span>Rent receipts &amp; bank statements</span></li>
+                                <li><i class="fas fa-check"></i><span>Lease agreements</span></li>
+                                <li><i class="fas fa-check"></i><span>Repair bills</span></li>
+                                <li><i class="fas fa-check"></i><span>Municipal tax receipts</span></li>
+                                <li><i class="fas fa-check"></i><span>Loan interest certificates</span></li>
+                            </ul>
+                        </div>
+                    </aside>
                 </div>
             </div>
-        </div>
-    </section>
-
+        </section>
+        <section class="help-section">
+            <div class="container">
+                <div class="help-card">
+                    <div class="help-heading">
+                        <div class="help-heading-icon"><i class="fas fa-comment-dots"></i></div>
+                        <div>
+                            <h2>Ask us anything</h2>
+                            <p>Not sure what this means for your situation? Ask us in plain text and our team will clarify by email.</p>
+                        </div>
+                    </div>
+                    <div class="help-strip">
+                        <textarea id="helpMessage" placeholder="Type your message in plain text - no file upload needed."></textarea>
+                        <input type="text" id="helpEmail" placeholder="Your email (optional)" aria-label="Your email (optional)">
+                        <div class="help-actions">
+                            <button type="button" class="btn btn-primary help-send" onclick="sendHelpMessage()">
+                                <i class="fas fa-paper-plane" aria-hidden="true"></i> Send Message
+                            </button>
+                            <button type="button" class="btn btn-ghost help-clear" onclick="clearHelpMessage()">
+                                <i class="fas fa-eraser" aria-hidden="true"></i> Clear
+                            </button>
+                        </div>
+                        <p class="help-note" id="helpNote">Messages go to our support team by email. Prefer email? Write to support@heavenlease.in</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
     <footer class="footer">
-        <div class="container">
-            <div class="footer-grid" style="grid-template-columns: 1fr; text-align: center;">
-                <div class="footer-brand">
-                    <a href="/" class="logo">
-                        <div class="logo-icon"><i class="fas fa-home"></i></div>
-                        <span class="logo-text">Heaven<span>Lease</span></span>
-                    </a>
-                    <p style="margin: 10px auto; max-width: 300px;">Simple steps to your perfect stay. Direct owner rentals with zero broker fees and comfort-first search.</p>
-                </div>
-            </div>
-            <div class="footer-bottom" style="justify-content: center;">
-                <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
-            </div>
+<div class="container">
+    <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
+        <div class="footer-brand">
+            <a href="home" class="logo">
+                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <span class="logo-text">Heaven<span>Lease</span></span>
+            </a>
+            <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>
         </div>
-    </footer>
-
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Explore</strong>
+            <a href="properties" style="color:inherit;text-decoration:none;">Find a Home</a>
+            <a href="map" style="color:inherit;text-decoration:none;">Property Map</a>
+            <a href="how-it-works" style="color:inherit;text-decoration:none;">How It Works</a>
+            <a href="about" style="color:inherit;text-decoration:none;">About Us</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">Company</strong>
+            <a href="careers" style="color:inherit;text-decoration:none;">Careers</a>
+            <a href="press" style="color:inherit;text-decoration:none;">Press</a>
+            <a href="blog" style="color:inherit;text-decoration:none;">Blog</a>
+            <a href="contact" style="color:inherit;text-decoration:none;">Contact</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+            <strong style="margin-bottom:4px;">For Owners</strong>
+            <a href="list-property" style="color:inherit;text-decoration:none;">List Your Property</a>
+            <a href="properties-management" style="color:inherit;text-decoration:none;">Owner Dashboard</a>
+            <a href="payment" style="color:inherit;text-decoration:none;">Pricing &amp; Upgrade</a>
+            <a href="owner-resources" style="color:inherit;text-decoration:none;">Owner Resources</a>
+        </div>
+    </div>
+    <div class="footer-bottom" style="justify-content:center;margin-top:28px;">
+        <p>&copy; 2026 HeavenLease. All rights reserved. Made with <i class="fas fa-heart"></i> in India.</p>
+    </div>
+</div>
+</footer>
     <button class="back-to-top" id="backToTop" aria-label="Back to top">
         <i class="fas fa-arrow-up"></i>
     </button>
-
-    <script src="api.js?v=20260913a"></script>
-    <script src="script.js?v=20260913a"></script>
-    <script>
-        function clearHelpMessage() {
-            var msg = document.getElementById('helpMessage'); if (msg) msg.value = '';
-            var em = document.getElementById('helpEmail'); if (em) em.value = '';
-            var note = document.getElementById('helpNote');
-            if (note) note.textContent = 'Messages go to our support team by email. Prefer email? Write to support@heavenlease.in';
-        }
-        function sendHelpMessage() {
-            var msgEl = document.getElementById('helpMessage');
-            var msg = (msgEl && msgEl.value || '').trim();
-            var em = document.getElementById('helpEmail');
-            var email = (em && em.value || '').trim();
-            var note = document.getElementById('helpNote');
-            if (!msg) { if (note) note.textContent = 'Please type a short message first.'; return; }
-            var subject = encodeURIComponent('HeavenLease page enquiry');
-            var body = encodeURIComponent(msg + (email ? '\n\nReply to: ' + email : ''));
-            window.location.href = 'mailto:support@heavenlease.in?subject=' + subject + '&body=' + body;
-            setTimeout(function () { if (note) note.textContent = 'Opening your email app to send the message - thank you!'; }, 400);
-        }
-    </script>
-    <script>
-        const navbar = document.getElementById('navbar');
-        const hamburger = document.getElementById('hamburger');
-        const navLinks = document.getElementById('navLinks');
-        const backToTop = document.getElementById('backToTop');
-
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) navbar.classList.add('scrolled');
-            else navbar.classList.remove('scrolled');
-            if (window.scrollY > 500) backToTop.classList.add('visible');
-            else backToTop.classList.remove('visible');
-        });
-
-        if (hamburger) hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            navLinks.classList.toggle('active');
-        });
-
-        if (hamburger && navLinks) {
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.addEventListener('click', () => {
-                    hamburger.classList.remove('active');
-                    navLinks.classList.remove('active');
-                });
-            });
-        }
-
-        backToTop.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-    </script>
+    <script src="js/api.js?v=20260913a"></script>
+    <script src="js/core.js?v=20260913a"></script>
+    
+    
+<script src="js/pages/tax-and-accounting.js?v=20260913a"></script>
 </body>
 </html>
