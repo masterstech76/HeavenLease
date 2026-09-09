@@ -7,7 +7,7 @@ REM Edit the three values below.
 REM ============================================================
 set LOCAL_REPO=c:\Users\techm\OneDrive\Desktop\Renatal Home
 set EC2_IP=13.234.165.171
-set PEM_PATH=C:\path\to\heavenlease-prod.pem     REM set your real .pem path
+set PEM_PATH=C:\Users\techm\.ssh\hl_recovery     REM current server SSH key (recovered via EC2 userData injection)
 set EC2_USER=ubuntu
 
 echo [1/6] Pull remote repo state
