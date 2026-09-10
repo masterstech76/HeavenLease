@@ -174,6 +174,69 @@ if (document.readyState === 'loading') {
     initProfileMenu();
 }
 
+/* ===== PROFILE DROPDOWN HOVER BRIDGE ===== */
+// The profile menu used to close the instant the cursor left the trigger and
+// entered the gap between the button and the menu (every page used a different
+// CSS top value), so by the time you reached an option the menu was already
+// gone. This wires a grace-period hover open/close on every `.user-menu` and
+// adds a tiny safety CSS rule so `.open` / `.show` always render the dropdown
+// regardless of the page's own styling. Uses BOTH class names, survives
+// api.js rebuilding the menu (MutationObserver), and is skipped on
+// touch-only devices (they use the regular tap/click toggle).
+(function initProfileMenuHoverBridge() {
+    const finePointer = !window.matchMedia || window.matchMedia('(pointer: fine)').matches;
+    if (!finePointer) return;
+
+    function wire(menu) {
+        if (!menu || menu.dataset.hlHoverWired) return;
+        const drop = menu.querySelector('.user-dropdown, .hl-dropdown');
+        if (!drop) return;
+        menu.dataset.hlHoverWired = '1';
+        let timer = null;
+        const open = () => {
+            if (timer) { clearTimeout(timer); timer = null; }
+            drop.classList.add('open', 'show');
+        };
+        const scheduleClose = () => {
+            if (timer) { clearTimeout(timer); timer = null; }
+            timer = setTimeout(() => drop.classList.remove('open', 'show'), 250);
+        };
+        menu.addEventListener('mouseenter', open);
+        menu.addEventListener('mouseleave', scheduleClose);
+        drop.addEventListener('mouseenter', open);
+        drop.addEventListener('mouseleave', scheduleClose);
+    }
+
+    function wireAll() {
+        document.querySelectorAll('.user-menu').forEach(wire);
+    }
+
+    // Safety net: while the JS `.open` / `.show` classes are active, force the
+    // menu visible even on pages that only ever show it via `:hover` CSS.
+    const style = document.createElement('style');
+    style.setAttribute('data-hl', 'dropdown-bridge');
+    style.textContent = `
+        .user-menu .user-dropdown.open, .user-menu .user-dropdown.show,
+        .user-menu .hl-dropdown.open, .user-menu .hl-dropdown.show {
+            display: block !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+    `;
+    document.head.appendChild(style);
+
+    const boot = () => {
+        wireAll();
+        // Survive api.js replacing the userMenu inner content on auth refresh.
+        new MutationObserver(wireAll).observe(document.body, { childList: true, subtree: true });
+    };
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', boot);
+    } else {
+        boot();
+    }
+})();
+
 /* ===== DYNAMIC LOGO LINK (auth-aware) ===== */
 document.addEventListener('DOMContentLoaded', function initLogoLink() {
     const logoLinks = document.querySelectorAll('.navbar .logo, footer .logo');
@@ -675,101 +738,4 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-/* ===== FEEDBACK / SUGGESTION WIDGET (auto-injected on every page) ===== */
-(function initFeedbackWidget() {
-    function build() {
-        // Avoid on the public landing page + auth pages (feedback lives on the logged-in hub & feature pages).
-        const current = window.location.pathname.split('/').pop() || '/';
-        const skipPages = ['login','signup','otp-verify','forgot-password','reset-password','verify-email','verify-account','404'];
-        if (skipPages.includes(current)) return;
 
-        if (document.getElementById('hlFeedback')) return;
-        const box = document.createElement('div');
-        box.id = 'hlFeedback';
-        box.className = 'feedback-widget';
-        box.innerHTML = `
-            <button class="feedback-toggle" id="feedbackToggle" aria-label="Feedback">
-                <i class="fas fa-comment-dots"></i>
-            </button>
-            <div class="feedback-panel" id="feedbackPanel">
-                <div class="feedback-head">
-                    <strong>Your Feedback</strong>
-                    <button class="feedback-close" id="feedbackClose" aria-label="Close"><i class="fas fa-xmark"></i></button>
-                </div>
-                <p class="feedback-hint">Help us improve this page — rate it and tell us what you think.</p>
-                <div class="feedback-stars" id="feedbackStars">
-                    <i data-v="1" class="far fa-star"></i><i data-v="2" class="far fa-star"></i><i data-v="3" class="far fa-star"></i><i data-v="4" class="far fa-star"></i><i data-v="5" class="far fa-star"></i>
-                </div>
-                <textarea id="feedbackText" rows="3" placeholder="Share a suggestion or report an issue..."></textarea>
-                <input id="feedbackName" placeholder="Your name (optional)" />
-                <button class="feedback-submit" id="feedbackSubmit"><i class="fas fa-paper-plane"></i> Send Feedback</button>
-            </div>
-        `;
-        document.body.appendChild(box);
-        bind(box);
-    }
-    function bind(box) {
-        const toggle = box.querySelector('#feedbackToggle');
-        const panel = box.querySelector('#feedbackPanel');
-        const close = box.querySelector('#feedbackClose');
-        const stars = box.querySelectorAll('#feedbackStars i');
-        const submit = box.querySelector('#feedbackSubmit');
-        let rating = 0;
-
-        toggle.addEventListener('click', () => panel.classList.toggle('show'));
-        close.addEventListener('click', () => panel.classList.remove('show'));
-        stars.forEach(s => {
-            s.addEventListener('click', () => {
-                rating = parseInt(s.dataset.v, 10);
-                stars.forEach(x => {
-                    if (parseInt(x.dataset.v,10) <= rating) { x.className = 'fas fa-star active'; }
-                    else { x.className = 'far fa-star'; }
-                });
-            });
-        });
-        submit.addEventListener('click', () => {
-            const text = (box.querySelector('#feedbackText').value || '').trim();
-            if (!rating) { showToast('Please select a star rating.', 'error'); return; }
-            const name = (box.querySelector('#feedbackName').value || '').trim();
-            let list = [];
-            try { list = JSON.parse(localStorage.getItem('hl_feedback') || '[]'); } catch(e) {}
-            list.push({
-                page: window.location.pathname.split('/').pop(),
-                rating: rating,
-                text: text,
-                name: name,
-                date: new Date().toISOString()
-            });
-            localStorage.setItem('hl_feedback', JSON.stringify(list));
-            showToast('Thank you for your feedback! 🙏', 'success');
-            panel.classList.remove('show');
-            box.querySelector('#feedbackText').value = '';
-            box.querySelector('#feedbackName').value = '';
-            stars.forEach(x => x.className = 'far fa-star');
-            rating = 0;
-        });
-    }
-    // Style
-    const style = document.createElement('style');
-    style.textContent = `
-        .feedback-widget { position: fixed; bottom: 24px; right: 24px; z-index: 1200; }
-        .feedback-toggle { width: 54px; height: 54px; border-radius: 50%; border: none; background: var(--gradient); color: #fff; font-size: 22px; cursor: pointer; box-shadow: var(--shadow-primary); display: flex; align-items: center; justify-content: center; }
-        .feedback-panel { position: absolute; bottom: 66px; right: 0; width: 300px; background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 18px; box-shadow: var(--shadow-xl); display: none; flex-direction: column; gap: 12px; }
-        .feedback-panel.show { display: flex; }
-        .feedback-head { display: flex; align-items: center; justify-content: space-between; }
-        .feedback-close { border: none; background: none; font-size: 16px; color: var(--gray-400); cursor: pointer; }
-        .feedback-hint { font-size: 12px; color: var(--gray-500); }
-        .feedback-stars { display: flex; gap: 4px; font-size: 22px; color: var(--accent); }
-        .feedback-stars i { cursor: pointer; }
-        .feedback-panel textarea, .feedback-panel input { width: 100%; border: 1px solid var(--gray-200); border-radius: var(--radius-sm); padding: 10px; font-size: 13px; font-family: inherit; color: var(--gray-700); }
-        .feedback-submit { background: var(--primary); color: #fff; border: none; border-radius: var(--radius-md); padding: 10px; font-size: 14px; font-weight: 600; cursor: pointer; }
-        .feedback-submit:hover { background: var(--primary-dark); }
-    `;
-    document.head.appendChild(style);
-
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', build);
-    } else {
-        build();
-    }
-})();
