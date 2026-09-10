@@ -565,12 +565,12 @@
                         Enter the 6-digit code sent to <strong id="otpTarget"></strong>
                     </div>
                     <div class="otp-inputs" id="otpInputs">
-                        <input type="text" maxlength="1" class="otp-digit" oninput="handleOtpInput(this)">
-                        <input type="text" maxlength="1" class="otp-digit" oninput="handleOtpInput(this)">
-                        <input type="text" maxlength="1" class="otp-digit" oninput="handleOtpInput(this)">
-                        <input type="text" maxlength="1" class="otp-digit" oninput="handleOtpInput(this)">
-                        <input type="text" maxlength="1" class="otp-digit" oninput="handleOtpInput(this)">
-                        <input type="text" maxlength="1" class="otp-digit" oninput="handleOtpInput(this)">
+                        <input type="text" maxlength="1" name="otp1" class="otp-digit" oninput="handleOtpInput(this)">
+                        <input type="text" maxlength="1" name="otp2" class="otp-digit" oninput="handleOtpInput(this)">
+                        <input type="text" maxlength="1" name="otp3" class="otp-digit" oninput="handleOtpInput(this)">
+                        <input type="text" maxlength="1" name="otp4" class="otp-digit" oninput="handleOtpInput(this)">
+                        <input type="text" maxlength="1" name="otp5" class="otp-digit" oninput="handleOtpInput(this)">
+                        <input type="text" maxlength="1" name="otp6" class="otp-digit" oninput="handleOtpInput(this)">
                     </div>
                     <button type="button" class="btn-auth" id="verifyOtpBtn" onclick="verifySignupOtp()">
                         <i class="fas fa-check-circle"></i> Verify & Create Account
@@ -596,8 +596,8 @@
             </p>
         </div>
     </div>
-    <script src="js/api.js?v=20260913a"></script>
+    <script src="js/api.js?v=20260914a"></script>
     <script src="https://accounts.google.com/gsi/client"></script>
-    <script src="js/pages/signup.js?v=20260913a"></script>
+    <script src="js/pages/signup.js?v=20260914a"></script>
 </body>
 </html>

@@ -128,8 +128,31 @@ function initProfileMenu() {
     const user = api.getUser() || {};
     const name = user.fullName || user.name || '';
 
+    // When a visitor is NOT signed in, the account menu must not present
+    // private links (dashboard, profile, messages…) that would only bounce
+    // them to the login page. Hide the whole dropdown and make the trigger
+    // a plain "Sign In" affordance instead.
+    if (!isAuth) {
+        dropdown.style.display = 'none';
+        dropdown.dataset.hlHidden = '1';
+        dropdown.classList.remove('show', 'open');
+        const chevron = trigger.querySelector('.fa-chevron-down');
+        if (chevron) chevron.style.display = 'none';
+        const nameEl = document.getElementById('navUserName') || trigger.querySelector('#navUserName');
+        if (nameEl) nameEl.textContent = 'Sign In';
+        const avatar = trigger.querySelector('.user-avatar');
+        if (avatar) avatar.style.display = 'none';
+        // Replace the toggle behavior with navigation to the login page.
+        trigger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            window.location.href = 'login';
+        });
+        return;
+    }
+
     // Hide the profile button entirely on public pages when NOT logged in? No —
-    // we keep it but turn it into a Sign In affordance.
+    // we keep it but turn it into a Sign In affordance (handled above).
     const signInLink = document.getElementById('signInLink');
     const logoutLink = document.getElementById('logoutLink');
     const mainHomeLink = document.getElementById('mainHomeLink');
@@ -190,7 +213,7 @@ if (document.readyState === 'loading') {
     function wire(menu) {
         if (!menu || menu.dataset.hlHoverWired) return;
         const drop = menu.querySelector('.user-dropdown, .hl-dropdown');
-        if (!drop) return;
+        if (!drop || drop.dataset.hlHidden) return;
         menu.dataset.hlHoverWired = '1';
         let timer = null;
         const open = () => {
@@ -216,8 +239,10 @@ if (document.readyState === 'loading') {
     const style = document.createElement('style');
     style.setAttribute('data-hl', 'dropdown-bridge');
     style.textContent = `
-        .user-menu .user-dropdown.open, .user-menu .user-dropdown.show,
-        .user-menu .hl-dropdown.open, .user-menu .hl-dropdown.show {
+        .user-menu .user-dropdown.open:not([data-hl-hidden]),
+        .user-menu .user-dropdown.show:not([data-hl-hidden]),
+        .user-menu .hl-dropdown.open:not([data-hl-hidden]),
+        .user-menu .hl-dropdown.show:not([data-hl-hidden]) {
             display: block !important;
             opacity: 1 !important;
             visibility: visible !important;
@@ -239,7 +264,7 @@ if (document.readyState === 'loading') {
 
 /* ===== DYNAMIC LOGO LINK (auth-aware) ===== */
 document.addEventListener('DOMContentLoaded', function initLogoLink() {
-    const logoLinks = document.querySelectorAll('.navbar .logo, footer .logo');
+    const logoLinks = document.querySelectorAll('.navbar .logo, header .logo, .header .logo, footer .logo');
     const home = api.isAuthenticated() ? 'home' : '/';
     logoLinks.forEach(a => { a.setAttribute('href', home); });
 });

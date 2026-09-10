@@ -10,6 +10,23 @@ const navbar = document.getElementById('navbar');
     const backToTop = document.getElementById('backToTop');
     const toast = document.getElementById('toast');
 
+    // Auth-gate the account menu: when logged out, never show private links —
+    // hide the dropdown and turn the trigger into a "Sign In" button instead.
+    {
+        const hasToken = !!(localStorage.getItem('heavenlease_token') || sessionStorage.getItem('heavenlease_token'));
+        if (!hasToken && profileBtn && dropdown) {
+            dropdown.style.display = 'none';
+            dropdown.classList.remove('open');
+            const chevron = profileBtn.querySelector('.fa-chevron-down');
+            if (chevron) chevron.style.display = 'none';
+            const nameEl = document.getElementById('navUserName') || profileBtn.querySelector('#navUserName');
+            if (nameEl) nameEl.textContent = 'Sign In';
+            const avatar = profileBtn.querySelector('.user-avatar');
+            if (avatar) avatar.style.display = 'none';
+            profileBtn.addEventListener('click', (e) => { e.stopPropagation(); e.preventDefault(); window.location.href = 'login'; });
+        }
+    }
+
     function showToast(message){
       toast.textContent = message;
       toast.classList.add('show');

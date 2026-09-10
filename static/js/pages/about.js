@@ -23,6 +23,23 @@
 
     window.addEventListener('scroll', () => nav?.classList.toggle('scrolled', window.scrollY > 20));
 
+    // Auth-gate the account menu: when logged out, never show private links —
+    // hide the dropdown and turn the trigger into a "Sign In" button instead.
+    {
+        const hasToken = !!(localStorage.getItem('heavenlease_token') || sessionStorage.getItem('heavenlease_token'));
+        if (!hasToken && accountBtn && dropdown) {
+            dropdown.style.display = 'none';
+            dropdown.classList.remove('open');
+            const chevron = accountBtn.querySelector('.fa-chevron-down');
+            if (chevron) chevron.style.display = 'none';
+            const nameEl = accountBtn.querySelector('#navUserName, [class*="-name"], [class*="Name"]');
+            const avatar = accountBtn.querySelector('.hl-avatar, .user-avatar');
+            accountBtn.textContent = 'Sign In';
+            if (avatar) accountBtn.innerHTML = '<span class="hl-avatar">' + '\u2192' + '</span> Sign In';
+            accountBtn.addEventListener('click', (e) => { e.stopPropagation(); e.preventDefault(); window.location.href = 'login'; });
+        }
+    }
+
     accountBtn?.addEventListener('click', (e) => {
         e.stopPropagation();
         const open = dropdown.classList.toggle('open');

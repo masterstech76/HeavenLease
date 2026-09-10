@@ -39,6 +39,12 @@ Thumbs.db
 _*.py
 _*.log
 
+# QA / crawler scratch scripts (CodeGPT etc.) — never commit
+qa-*.mjs
+qa-*.js
+qa-*.json
+qa-*.txt
+
 # Rebuild scratch: local backups + python caches (never push)
 backup/
 __pycache__/

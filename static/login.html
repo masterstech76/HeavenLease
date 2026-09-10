@@ -639,12 +639,12 @@
                             <div style="font-size:12px;color:var(--text-secondary);margin-top:4px;">Check your notifications too — the code expires in 10 minutes.</div>
                         </div>
                         <div class="otp-inputs" id="phoneOtpInputs">
-                            <input type="text" maxlength="1" class="otp-digit" oninput="handleOtpInput(this)">
-                            <input type="text" maxlength="1" class="otp-digit" oninput="handleOtpInput(this)">
-                            <input type="text" maxlength="1" class="otp-digit" oninput="handleOtpInput(this)">
-                            <input type="text" maxlength="1" class="otp-digit" oninput="handleOtpInput(this)">
-                            <input type="text" maxlength="1" class="otp-digit" oninput="handleOtpInput(this)">
-                            <input type="text" maxlength="1" class="otp-digit" oninput="handleOtpInput(this)">
+                            <input type="text" maxlength="1" name="otp1" class="otp-digit" oninput="handleOtpInput(this)">
+                            <input type="text" maxlength="1" name="otp2" class="otp-digit" oninput="handleOtpInput(this)">
+                            <input type="text" maxlength="1" name="otp3" class="otp-digit" oninput="handleOtpInput(this)">
+                            <input type="text" maxlength="1" name="otp4" class="otp-digit" oninput="handleOtpInput(this)">
+                            <input type="text" maxlength="1" name="otp5" class="otp-digit" oninput="handleOtpInput(this)">
+                            <input type="text" maxlength="1" name="otp6" class="otp-digit" oninput="handleOtpInput(this)">
                         </div>
                         <div class="otp-info">Enter the 6-digit code sent to <strong id="phoneOtpTarget"></strong></div>
                         <button type="button" class="btn-auth" onclick="verifyPhoneOtpLogin()">
@@ -668,8 +668,8 @@
             </p>
         </div>
     </div>
-    <script src="js/api.js?v=20260913a"></script>
+    <script src="js/api.js?v=20260914a"></script>
     <script src="https://accounts.google.com/gsi/client"></script>
-    <script src="js/pages/login.js?v=20260913a"></script>
+    <script src="js/pages/login.js?v=20260914a"></script>
 </body>
 </html>

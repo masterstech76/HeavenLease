@@ -9,6 +9,24 @@ const profileBtn=document.getElementById("profileBtn");
 const profileDropdown=document.getElementById("profileDropdown");
 const backToTop=document.getElementById("backToTop");
 
+// Auth-gate the account menu: when logged out, never show private links —
+// hide the dropdown and turn the trigger into a "Sign In" button instead.
+{
+    const hasToken = !!(localStorage.getItem('heavenlease_token') || sessionStorage.getItem('heavenlease_token'));
+    const isAuth = hasToken;
+    if (!isAuth && profileBtn && profileDropdown) {
+        profileDropdown.style.display = 'none';
+        profileDropdown.classList.remove('open');
+        const chevron = profileBtn.querySelector('.fa-chevron-down');
+        if (chevron) chevron.style.display = 'none';
+        const nameEl = document.getElementById('navUserName') || profileBtn.querySelector('#navUserName');
+        if (nameEl) nameEl.textContent = 'Sign In';
+        const avatar = profileBtn.querySelector('.user-avatar');
+        if (avatar) avatar.style.display = 'none';
+        profileBtn.addEventListener('click', (e) => { e.stopPropagation(); e.preventDefault(); window.location.href = 'login'; });
+    }
+}
+
 window.addEventListener("scroll",()=>{
  navbar.classList.toggle("scrolled",window.scrollY>30);
  backToTop.classList.toggle("visible",window.scrollY>450);

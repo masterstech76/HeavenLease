@@ -1249,6 +1249,27 @@ function handleApiError(error) {
 let recaptchaLoadPromise = null;
 
 // Ensure the reCAPTCHA script is loaded once and window.RECAPTCHA_SITE_KEY is set.
+// Compose a script load that never hangs: resolves(true) once the reCAPTCHA
+// script loads, otherwise resolves(false) after LOAD_TIMEOUT_MS even if
+// Google's endpoint is blocked/slow (a plain <script> onload/onerror may
+// never fire in some networks, which used to leave login/signup hanging –
+// "clicking Sign In does nothing").
+const RECAPTCHA_LOAD_TIMEOUT_MS = 3500;
+function loadScriptWithTimeout(src) {
+    return new Promise((resolve) => {
+        let done = false;
+        const finish = (val) => { if (!done) { done = true; resolve(val); } };
+        const script = document.createElement('script');
+        script.src = src;
+        script.async = true;
+        script.defer = true;
+        script.onload = () => finish(true);
+        script.onerror = () => finish(false);
+        setTimeout(() => finish(false), RECAPTCHA_LOAD_TIMEOUT_MS);
+        (document.head || document.documentElement).appendChild(script);
+    });
+}
+
 function ensureRecaptchaLoaded() {
     if (recaptchaLoadPromise) return recaptchaLoadPromise;
     recaptchaLoadPromise = (async () => {
@@ -1262,7 +1283,7 @@ function ensureRecaptchaLoaded() {
                 if (cfg && cfg.recaptchaSiteKey) siteKey = cfg.recaptchaSiteKey;
                 if (cfg && cfg.recaptchaVersion) window.RECAPTCHA_VERSION = cfg.recaptchaVersion;
             } catch (e) {
-                console.warn('reCAPTCHA config fetch failed:', e);
+                if (window.console && typeof console.log === 'function') console.log('[recaptcha] config fetch failed:', e);
             }
             if (!siteKey) return false;
 
@@ -1274,54 +1295,45 @@ function ensureRecaptchaLoaded() {
                 ? 'https://www.google.com/recaptcha/api.js'
                 : 'https://www.google.com/recaptcha/api.js?render=' + siteKey;
 
-            // Inject the script.
-            return await new Promise((resolve) => {
-                const existing = document.querySelector('script[src*="recaptcha/api.js"]');
-                if (existing) {
-                    if (window.grecaptcha) { resolve(true); return; }
-                    existing.addEventListener('load', () => resolve(true), { once: true });
-                    return;
-                }
-                const script = document.createElement('script');
-                script.src = scriptUrl;
-                script.async = true;
-                script.defer = true;
-                script.onload = () => {
-                    // For v2, render a checkbox into every placeholder container.
-                    if (window.RECAPTCHA_VERSION === 'v2' && window.grecaptcha && window.RECAPTCHA_SITE_KEY) {
-                        // grecaptcha.ready() guarantees the API is fully loaded before
-                        // render() — firing render directly in onload is racy and can
-                        // leave the checkbox blank.
-                        grecaptcha.ready(() => {
-                            document.querySelectorAll('[data-recaptcha-v2]').forEach((el) => {
-                                if (!el.dataset.rendered) {
-                                    try {
-                                        grecaptcha.render(el, {
-                                            sitekey: window.RECAPTCHA_SITE_KEY,
-                                            callback: (token) => { el.dataset.token = token; },
-                                            'expired-callback': () => { delete el.dataset.token; }
-                                        });
-                                        el.dataset.rendered = '1';
-                                        // Only now that the REAL checkbox exists do we reveal
-                                        // the container. It stays hidden otherwise — no empty
-                                        // gap on the login/signup form.
-                                        const row = el.closest('.recaptcha-row');
-                                        if (row) row.style.display = '';
-                                    } catch (e) { console.warn('reCAPTCHA v2 render failed:', e); }
-                                }
-                            });
-                        });
-                    }
-                    resolve(true);
-                };
-                script.onerror = () => {
-                    console.warn('reCAPTCHA script failed to load - using mock token');
-                    resolve(false);
-                };
-                (document.head || document.documentElement).appendChild(script);
-            });
+            const existing = document.querySelector('script[src*="recaptcha/api.js"]');
+            if (existing) {
+                if (window.grecaptcha) return true;
+                await new Promise((resolve) => {
+                    const t = setTimeout(() => resolve(false), RECAPTCHA_LOAD_TIMEOUT_MS);
+                    existing.addEventListener('load', () => { clearTimeout(t); resolve(true); }, { once: true });
+                    existing.addEventListener('error', () => { clearTimeout(t); resolve(false); }, { once: true });
+                });
+                if (!window.grecaptcha) return false;
+            }
+
+            const loaded = await loadScriptWithTimeout(scriptUrl);
+            if (!loaded && document.querySelector('script[src*="recaptcha/api.js"]')) return false;
+            if (!window.grecaptcha) return false;
+
+            // For v2, render a checkbox into every placeholder container.
+            if (window.RECAPTCHA_VERSION === 'v2' && window.grecaptcha && window.RECAPTCHA_SITE_KEY) {
+                grecaptcha.ready(() => {
+                    document.querySelectorAll('[data-recaptcha-v2]').forEach((el) => {
+                        if (!el.dataset.rendered) {
+                            try {
+                                grecaptcha.render(el, {
+                                    sitekey: window.RECAPTCHA_SITE_KEY,
+                                    callback: (token) => { el.dataset.token = token; },
+                                    'expired-callback': () => { delete el.dataset.token; }
+                                });
+                                el.dataset.rendered = '1';
+                                const row = el.closest('.recaptcha-row');
+                                if (row) row.style.display = '';
+                            } catch (e) {
+                                if (window.console && typeof console.log === 'function') console.log('[recaptcha] v2 render failed:', e);
+                            }
+                        }
+                    });
+                });
+            }
+            return true;
         } catch (e) {
-            console.warn('reCAPTCHA bootstrap failed:', e);
+            if (window.console && typeof console.log === 'function') console.log('[recaptcha] bootstrap failed:', e);
             return false;
         }
     })();
@@ -1331,7 +1343,10 @@ function ensureRecaptchaLoaded() {
 // Returns a real reCAPTCHA token, or a mock token if the site key is not configured.
 // For v2, the token comes from the checkbox that the visitor ticked.
 async function getCaptchaToken(action = 'submit') {
-    const loaded = await ensureRecaptchaLoaded();
+    const loaded = await Promise.race([
+        ensureRecaptchaLoaded(),
+        new Promise((resolve) => setTimeout(() => resolve(false), RECAPTCHA_LOAD_TIMEOUT_MS + 500))
+    ]);
     if (loaded && window.grecaptcha && window.RECAPTCHA_SITE_KEY) {
         // v2 checkbox: find the first rendered container that has a token.
         if (window.RECAPTCHA_VERSION === 'v2') {
@@ -1348,7 +1363,7 @@ async function getCaptchaToken(action = 'submit') {
                 });
             });
         } catch (e) {
-            console.warn('reCAPTCHA failed, using mock token:', e);
+            if (window.console && typeof console.log === 'function') console.log('[recaptcha] execute failed, using mock token:', e);
             return 'mock-captcha-token-' + Date.now();
         }
     }
