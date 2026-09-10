@@ -1,74 +1,114 @@
 # HeavenLease — Broker-free Rental Platform (India)
 
-Full-stack rental marketplace. Tenants find & rent homes directly from verified owners;
-owners manage listings, applications, leases, rent, maintenance and escrow — all online.
+Full-stack rental marketplace. Tenants find & rent homes directly from verified
+owners; owners manage listings, applications, leases, rent, maintenance and
+escrow — all online. Live: **https://heavenlease.in**
 
 ## Tech stack
 
 | Layer | Technology |
 |---|---|
-| Backend | Spring Boot 3.3.2 · Java 17 · Maven |
-| Frontend | 107 static HTML pages · one shared `styles.css` · all JS under `static/js/` (`js/api.js` = 109-method API client, `js/core.js` = shared UI, 93 `js/pages/*.js` page modules — zero inline scripts) |
-| Database | PostgreSQL (AWS RDS, production) · H2 in-memory (tests) · DynamoDB (counters) |
-| Auth | JWT + BCrypt · Email OTP (AWS SES) · Phone OTP · Google login · reCAPTCHA v3 · rate limiting |
-| Payments | Razorpay (UPI / cards / netbanking) · server-side signature verification · escrow · invoices |
+| Backend | Spring Boot 3.3.2 · Java 17 · Maven (20 REST controllers, 14 services) |
+| Frontend | 107 static HTML pages · shared `styles.css` · JS under `static/js/` (`api.js` API client, `core.js` shared UI, `pages/*.js` modules) — zero inline `<script>` |
+| Database | PostgreSQL (AWS RDS, prod) · H2 in-memory (tests) · DynamoDB (counters) |
+| Auth | JWT + BCrypt · email OTP · phone OTP · Google login · reCAPTCHA v3 · login lockout |
+| Payments | Razorpay (UPI / cards / netbanking) · server-side signature verify · escrow · invoices · subscriptions |
 | Realtime | STOMP WebSocket (`/ws`) for chat + notification bell |
-| Deploy | Docker Compose + nginx (HTTPS, clean URLs) on AWS EC2 → https://heavenlease.in |
+| Deploy | Docker Compose + nginx (HTTPS, clean URLs) on AWS EC2 |
 
-## Features
-
-- **Auth & profiles** — signup/login (email, phone OTP, Google), forgot/reset password, edit profile & avatar, account deactivate/delete.
-- **Properties** — CRUD listings, search & filters (budget, BHK, comfort scores), favorites, compare, map, tours.
-- **Applications & leases** — tour/application requests, owner review & approve, lease creation, e-signing, renewal reminders.
-- **Payments** — Razorpay Access Pass & Owner Plus plans, escrow deposit flow (hold / two-party release / dispute), printable invoices.
-- **Maintenance** — tenant request → owner queue (New/Start/Done/Cancel) with status notifications.
-- **Messaging** — direct chat over WebSocket, unread + read states, notification bell.
-- **Documents & screening** — upload/store/organise documents, tenant screening, owner verification.
-- **Support & safety** — support tickets, property/user reports, feedback & reviews, admin dashboard (users, properties, owner-verification, integrations).
-
-## Project layout
+## Repository layout
 
 ```
-backend/            Spring Boot app (controllers, services, models, security, AWS)
+static/            Frontend pages (public/authenticated) + shared JS/CSS
+backend/           Spring Boot app (controllers, services, models, security, AWS)
   docker-compose.aws.yml   production stack (backend + nginx)
-  .env.aws.example         production env template (fill real values locally)
-static/             All frontend pages (public/authenticated), shared JS/CSS
-flow.md             Page flow & workflow documentation
-testing.md          Feature-by-feature page summary
-DEPLOY.md           EC2 deployment runbook
+  .env.aws.example         env template — copy to .env.aws and fill real secrets locally
+  db/migration/            SQL migrations (apply before first boot)
 ```
 
-## Local development
+## Run locally
 
-Requires Java 17 and Maven 3.9+.
+Requires **Java 17** and **Maven 3.9+**.
 
 ```bash
 cd backend
-# optional: create .env with DB/JWT values (see application.yml)
-mvn spring-boot:run
+mvn spring-boot:run        # API on http://localhost:8080
 ```
 
-Serve the `static/` folder with any static server (or the included nginx config).
-The API runs on `http://localhost:8080` and pages call `/api/*` on the same origin.
+Serve `static/` from any static server (or the included nginx config); pages call
+`/api/*` on the same origin.
 
-## Tests
+**Tests** (H2 in-memory, no external credentials — runs green on a fresh clone):
 
 ```bash
-cd backend
-mvn test          # 78 tests (incl. edit-profile E2E) — no external credentials required
+cd backend && mvn test     # 78 tests, 0 failures
 ```
 
-The test profile (`application-test.yml`) uses an in-memory H2 database and test-only
-keys, so the suite runs green on a fresh clone with no environment variables.
+## Production deployment (EC2 + RDS Postgres)
 
-## Production deployment
+1. **Secrets never live in git.** Copy `backend/.env.aws.example` → `backend/.env.aws`
+   on the server and fill in RDS, JWT, AWS SES/SNS, Google, reCAPTCHA and Razorpay values.
+2. One-time server setup: install Docker + compose plugin, stop old web servers on
+   80/443, obtain a Let's Encrypt cert for the domain.
+3. **Before first boot**, apply pending DB migrations (prod uses `ddl-auto: validate`
+   and will not start until schema objects exist):
 
-See `DEPLOY.md` and `deploy-setup.sh`. The compose stack runs the backend with
-`SPRING_PROFILES_ACTIVE=prod` and connects to AWS RDS PostgreSQL over TLS; nginx
-serves the static site with HTTPS (Let's Encrypt) and clean URLs.
+   ```bash
+   psql "postgresql://<DB_USER>:<DB_PASS>@<DB_HOST>:5432/<DB_NAME>" \
+     -f backend/db/migration/V20260911__heavenlease_two_factor.sql
+   ```
 
-Required production secrets (never commit): `backend/.env.aws` — copy
-`.env.aws.example`, fill in RDS, JWT, AWS SES/SNS, Google, reCAPTCHA and Razorpay values.
+4. **Launch** (first build takes 3–6 min; nginx starts only after backend is healthy):
+
+   ```bash
+   cd backend
+   docker compose -f docker-compose.aws.yml --env-file .env.aws up -d --build
+   ```
+
+**Routine re-deploy after every push:**
+
+```bash
+cd /opt/heavenlease && git pull origin main
+cd backend && docker compose -f docker-compose.aws.yml --env-file .env.aws up -d --build
+```
+
+**Smoke test:**
+
+```bash
+curl -s https://<your-domain>/api/health        # {"status":"UP",...}
+# browser: signup → login → dashboard → property → payment → chat
+```
+
+## Architecture in one paragraph
+
+`Browser → nginx (TLS, clean URLs, static) → /api/* & /ws proxied to Spring Boot →
+Spring Security (rate limit → JWT → roles TENANT / OWNER / ADMIN / VERIFIED_OWNER) →
+Controller → Service → Repository (RDS / DynamoDB) → JSON`. A 401 auto-logs the
+user out; clean URLs map `page.html` → `page`; unknown paths → `/404`. Only `index`
+is public — everything else is behind authentication.
+
+Key features: property search/favorites/compare/map, tour bookings, rental
+applications → leases with e-signing + renewal reminders, Razorpay Access Pass &
+Owner Plus subscriptions, escrow (hold / two-party release / dispute), maintenance
+requests, direct chat over WebSocket, documents & tenant screening, owner identity
+verification, admin dashboard (users, properties, integrations, stats), email &
+authenticator 2FA.
+
+## Troubleshooting (most common)
+
+| Symptom | Fix |
+|---|---|
+| `502 Bad Gateway` on https | backend still booting — wait for `healthy`; nginx retries automatically |
+| backend container exits / restarts | `docker compose logs --tail=200 backend` → usually DB or JWT config |
+| DB connection failed | check `DB_HOST/DB_PORT/DB_NAME/DB_USERNAME/DB_PASSWORD` in `.env.aws`; confirm the RDS security group allows the EC2 IP on 5432 |
+| SSL cert expired / invalid | `certbot renew`; ensure DNS A records point at the EC2 IP for apex + `www` |
+
+## Security notes
+
+- `backend/.env.aws`, `.pem`/`.key` files and any `credentials*.json` are git-ignored —
+  never commit or hand them over with the repo.
+- Rotate `JWT_SECRET` / `APP_ENCRYPTION_KEY` / `ADMIN_PASSWORD` if leaked; keep RDS in a
+  locked-down security group.
 
 ## License
 
