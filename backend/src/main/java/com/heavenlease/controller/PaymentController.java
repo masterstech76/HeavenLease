@@ -169,6 +169,19 @@ public class PaymentController {
         if (!result.isSuccess()) {
             return ResponseEntity.badRequest().body(Map.of("error", result.getMessage()));
         }
+
+        // Persist the server-authoritative order before checkout. Verification later
+        // resolves the plan/amount from this record instead of trusting the browser.
+        Payment pending = new Payment();
+        pending.setUserId(CurrentUser.getId());
+        pending.setAmount(amount);
+        pending.setPaymentType("subscription".equalsIgnoreCase(purpose) ? "SUBSCRIPTION" : purpose.toUpperCase());
+        pending.setStatus("pending");
+        pending.setActive(false);
+        pending.setTransactionId(result.getOrderId());
+        pending.setDescription("order:" + result.getOrderId() + " plan:" + (planMonths != null ? planMonths : 0) + " purpose:" + purpose);
+        paymentRepository.save(pending);
+
         return ResponseEntity.ok(Map.of(
                 "orderId", result.getOrderId(),
                 "message", result.getMessage(),
@@ -202,37 +215,34 @@ public class PaymentController {
         }
 
         Long userId = CurrentUser.getId();
-        Integer planMonths = null;
-        if (body.get("planMonths") != null) {
-            try {
-                planMonths = Integer.valueOf(body.get("planMonths"));
-            } catch (NumberFormatException ignored) {
-                planMonths = null;
-            }
+        Optional<Payment> pendingOpt = paymentRepository.findFirstByDescriptionContainingAndUserId("order:" + orderId, userId);
+        if (pendingOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("error", "Payment order is not registered for this account"));
         }
 
-        Payment payment = new Payment();
+        Payment payment = pendingOpt.get();
+        if ("completed".equalsIgnoreCase(payment.getStatus())) {
+            return ResponseEntity.ok(Map.of("message", "Payment was already verified", "orderId", orderId, "paymentId", payment.getTransactionId(), "payment", payment));
+        }
+
+        // Derive the plan from the server-created order description. The client
+        // may send planMonths for UI compatibility, but it is never authoritative.
+        Integer planMonths = parsePlanMonths(payment.getDescription());
+        if ("SUBSCRIPTION".equalsIgnoreCase(payment.getPaymentType())
+                && (planMonths == null || !PLAN_PRICES.containsKey(planMonths))) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("error", "Stored payment order has an invalid subscription plan"));
+        }
+        if (planMonths != null && PLAN_PRICES.containsKey(planMonths)
+                && Math.round(payment.getAmount() * 100) != Math.round(PLAN_PRICES.get(planMonths) * 100)) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("error", "Payment order amount does not match the selected plan"));
+        }
+
         payment.setTransactionId(paymentId);
-        payment.setUserId(userId);
         payment.setStatus("completed");
         payment.setActive(true);
-
         if (planMonths != null && PLAN_PRICES.containsKey(planMonths)) {
-            double amount = PLAN_PRICES.get(planMonths);
-            payment.setAmount(amount);
+            payment.setAmount(PLAN_PRICES.get(planMonths));
             payment.setPaymentType("SUBSCRIPTION");
-            payment.setDescription("plan:" + planMonths + " role:" + currentUserRole());
-        } else {
-            // Non-subscription / one-off: preserve the verified amount only. No
-            // subscription benefit is ever derived from a client-provided description.
-            try {
-                payment.setAmount(body.get("amount") != null ? Double.valueOf(body.get("amount")) : 0.0);
-            } catch (NumberFormatException ignored) {
-                payment.setAmount(0.0);
-            }
-            payment.setPaymentType(body.getOrDefault("paymentType", "ONLINE"));
-            payment.setDescription("online payment");
-            payment.setPropertyId(safeLong(body.get("propertyId")));
         }
 
         Payment saved = paymentRepository.save(payment);
@@ -273,29 +283,13 @@ public class PaymentController {
         return ResponseEntity.ok(r);
     }
 
-    /** Extracts plan months from a payment description like "plan:6 role:tenant" — null when absent. */
+    /** Extracts plan months from any server-built payment description containing "plan:N". */
     private Integer parsePlanMonths(String description) {
         if (description == null) return null;
+        java.util.regex.Matcher m = java.util.regex.Pattern.compile("(?:^|\\s)plan:(\\d+)(?:\\s|$)").matcher(description);
+        if (!m.find()) return null;
         try {
-            if (description.startsWith("plan:")) {
-                return Integer.valueOf(description.replaceFirst("plan:(\\d+).*", "$1"));
-            }
-        } catch (NumberFormatException ignored) {
-            // not a plan payment
-        }
-        return null;
-    }
-
-    /** Lowest-privilege role label used in server-built payment descriptions. */
-    private String currentUserRole() {
-        return CurrentUser.hasAnyRole("OWNER", "VERIFIED_OWNER", "ADMIN") ? "owner" : "tenant";
-    }
-
-    /** Parses a Long safely (null on blank / malformed). */
-    private Long safeLong(String value) {
-        if (value == null || value.isBlank()) return null;
-        try {
-            return Long.valueOf(value);
+            return Integer.valueOf(m.group(1));
         } catch (NumberFormatException ignored) {
             return null;
         }
@@ -331,6 +325,19 @@ public class PaymentController {
             return ResponseEntity.badRequest().body(Map.of("error", "This property has no owner on record"));
         }
         Long ownerId = p.getOwnerId();
+
+        // Security deposit is server-authoritative. Never allow the browser to
+        // create a different escrow amount for the same property.
+        Double requiredDeposit = p.getDeposit();
+        if (requiredDeposit == null || requiredDeposit <= 0) {
+            return ResponseEntity.badRequest().body(Map.of("error", "This property does not have a valid security deposit"));
+        }
+        if (Math.round(amount * 100) != Math.round(requiredDeposit * 100)) {
+            return ResponseEntity.badRequest().body(Map.of(
+                    "error", "Escrow amount must match the property's configured security deposit",
+                    "requiredAmount", requiredDeposit
+            ));
+        }
 
         // Persist the escrow first — this works even when Razorpay is not configured
         // (the actual money movement is then done manually in the gateway dashboard).

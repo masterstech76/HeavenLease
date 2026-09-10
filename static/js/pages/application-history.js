@@ -134,7 +134,9 @@
             progress: 100,
             action: 'lease-details'
         };
-async function load() {
+    }
+
+    async function load() {
         /* 1) Demo mode (preferred only when demo data file exists) */
         const demo = window.HL_DEMO_DATA && window.HL_DEMO_DATA.applications;
         if ((typeof window.HL_USE_DEMO !== 'function' || window.HL_USE_DEMO()) && demo) {
@@ -170,4 +172,3 @@ async function load() {
     if (search) search.addEventListener('input', render);
     load();
 })();
-    }

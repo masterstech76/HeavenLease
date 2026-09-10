@@ -9,11 +9,11 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
-<link rel="stylesheet" href="styles.css?v=20260909a">
+<link rel="stylesheet" href="styles.css?v=20260910b">
 <style>
 :root{
-  --hl-sky:#5b5ce2;--hl-blue:#5b5ce2;--hl-navy:#182033;--hl-ink:#182033;
-  --hl-muted:#687386;--hl-line:#e4e7ee;--hl-surface:#ffffff;--hl-white:#ffffff;
+  --hl-sky:var(--primary);--hl-blue:var(--primary);--hl-navy:var(--text-primary);--hl-ink:var(--text-primary);
+  --hl-muted:var(--text-secondary);--hl-line:var(--border);--hl-surface:#ffffff;--hl-white:#ffffff;
 }
 *{box-sizing:border-box}
 body{
@@ -46,11 +46,11 @@ body{
   letter-spacing:-1px;margin:0 0 18px;color:#fff;
 }
 .page-header .gradient-text{
-  background:linear-gradient(90deg,#eef0ff,#eef0ff);-webkit-background-clip:text;background-clip:text;color:transparent;
+  background:linear-gradient(90deg,var(--primary-light),var(--primary-light));-webkit-background-clip:text;background-clip:text;color:transparent;
 }
 .page-header p{font-size:18px;line-height:1.7;color:rgba(255,255,255,.84);max-width:650px;margin:auto}
 .page-header .breadcrumb{display:flex;justify-content:center;align-items:center;gap:10px;margin-top:20px;font-size:13px;color:rgba(255,255,255,.68)}
-.page-header .breadcrumb a{color:#eef0ff}
+.page-header .breadcrumb a{color:var(--primary-light)}
 .page-header .breadcrumb i{font-size:10px;color:rgba(255,255,255,.45)}
 .legal-section{padding:76px 0 100px;position:relative}
 .legal-layout{max-width:1060px;margin:auto;display:grid;grid-template-columns:230px minmax(0,1fr);gap:54px;align-items:start}
@@ -60,7 +60,7 @@ body{
 }
 .legal-nav .nav-label{text-transform:uppercase;letter-spacing:.12em;font-size:10px;font-weight:800;color:#7b8da0;margin-bottom:12px}
 .legal-nav a{display:block;padding:9px 10px;border-radius:9px;color:#526579;text-decoration:none;font-size:12px;font-weight:600}
-.legal-nav a:hover{background:#eaf7fe;color:#5b5ce2}
+.legal-nav a:hover{background:#eaf7fe;color:var(--primary)}
 .legal-content{
   background:rgba(255,255,255,.94);border:1px solid var(--hl-line);border-radius:26px;
   padding:42px 48px;box-shadow:0 22px 65px rgba(19,60,83,.08)
@@ -75,23 +75,23 @@ body{
 }
 .legal-content h2:first-of-type{margin-top:0}
 .legal-content h2:before{
-  content:"";display:inline-block;width:4px;height:21px;border-radius:5px;background:linear-gradient(#38bdf8,#5b5ce2);
+  content:"";display:inline-block;width:4px;height:21px;border-radius:5px;background:linear-gradient(#38bdf8,var(--primary));
   margin-right:11px;vertical-align:-2px
 }
 .legal-content p,.legal-content li{font-size:15px;line-height:1.85;color:#627386}
 .legal-content p{margin:0 0 15px}
 .legal-content ul{padding-left:0;margin:0 0 18px;list-style:none}
 .legal-content li{position:relative;padding:6px 0 6px 27px}
-.legal-content li:before{content:"✓";position:absolute;left:0;top:7px;width:19px;height:19px;border-radius:50%;display:grid;place-items:center;background:#e8f7fd;color:#5b5ce2;font-size:11px;font-weight:800}
-.legal-content a{color:#5b5ce2;font-weight:600;text-decoration:none}
+.legal-content li:before{content:"✓";position:absolute;left:0;top:7px;width:19px;height:19px;border-radius:50%;display:grid;place-items:center;background:#e8f7fd;color:var(--primary);font-size:11px;font-weight:800}
+.legal-content a{color:var(--primary);font-weight:600;text-decoration:none}
 .legal-content a:hover{text-decoration:underline}
 .footer{
   background:#061321!important;color:#c9d6e2!important;border-top:1px solid rgba(255,255,255,.08);
 }
-.footer .logo-text{color:#fff}.footer .logo-text span{color:#eef0ff}
+.footer .logo-text{color:#fff}.footer .logo-text span{color:var(--primary-light)}
 .footer p{color:#9fb0bf!important}
 .footer .footer-bottom{border-top:1px solid rgba(255,255,255,.1)!important;margin-top:25px;padding-top:22px}
-.back-to-top{background:#5b5ce2!important;box-shadow:0 10px 25px rgba(2,132,199,.25)}
+.back-to-top{background:var(--primary)!important;box-shadow:0 10px 25px rgba(2,132,199,.25)}
 @media(max-width:850px){
   .legal-layout{grid-template-columns:1fr;gap:20px}
   .legal-nav{position:relative;top:auto;display:flex;gap:5px;overflow-x:auto;white-space:nowrap;padding:10px}
@@ -107,12 +107,13 @@ body{
   .legal-content p,.legal-content li{font-size:14px;line-height:1.75}
 }
 </style>
+<style>/* HeavenLease brand mark */ .brand-logo-image{width:100%;height:100%;display:block;object-fit:contain;border-radius:inherit}.logo-icon,.hl-logo-icon,.logo-mark,.mark{overflow:hidden}</style>
 </head>
 <body>
 <nav class="navbar" id="navbar">
   <div class="nav-container">
     <a href="/" class="logo">
-      <div class="logo-icon"><i class="fas fa-home"></i></div>
+      <div class="logo-icon"><img src="logo.svg" alt="HeavenLease" class="brand-logo-image"></div>
       <span class="logo-text">Heaven<span>Lease</span></span>
     </a>
     <div class="nav-actions">
@@ -209,7 +210,7 @@ body{
     <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
         <div class="footer-brand">
             <a href="home" class="logo">
-                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <div class="logo-icon"><img src="logo.svg" alt="HeavenLease" class="brand-logo-image"></div>
                 <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
             <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>

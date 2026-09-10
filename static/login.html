@@ -9,17 +9,17 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
-    <link rel="stylesheet" href="styles.css?v=20260909a">
+    <link rel="stylesheet" href="styles.css?v=20260910b">
     <style>
         :root {
-            --auth-bg: #182033;
+            --auth-bg: var(--text-primary);
             --auth-card-bg: #ffffff;
-            --auth-primary: #5b5ce2;
-            --auth-accent: #18a878;
-            --auth-ink: #182033;
-            --auth-muted: #687386;
+            --auth-primary: var(--primary);
+            --auth-accent: var(--secondary);
+            --auth-ink: var(--text-primary);
+            --auth-muted: var(--text-secondary);
             --auth-line: #e5e7eb;
-            --auth-soft: #f7f8fc;
+            --auth-soft: var(--surface-soft);
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         html { min-height: 100%; }
@@ -152,7 +152,7 @@
             border: 0;
             border-radius: 9px;
             background: transparent;
-            color: #687386;
+            color: var(--text-secondary);
             font: 700 12px 'Inter', sans-serif;
             cursor: pointer;
             transition: color .2s ease, background .2s ease, box-shadow .2s ease;
@@ -169,7 +169,7 @@
         .form-group label {
             display: block;
             margin-bottom: 7px;
-            color: #3a4354;
+            color: var(--gray-700);
             font-size: 12px;
             font-weight: 800;
             letter-spacing: .01em;
@@ -180,7 +180,7 @@
             left: 15px;
             top: 50%;
             transform: translateY(-50%);
-            color: #9aa3b2;
+            color: var(--text-muted);
             font-size: 14px;
             pointer-events: none;
             z-index: 1;
@@ -197,8 +197,8 @@
             font: 500 14px 'Inter', sans-serif;
             transition: border-color .2s ease, background .2s ease, box-shadow .2s ease;
         }
-        .input-wrap input::placeholder { color: #9aa3b2; }
-        .input-wrap input:hover { border-color: #d4d8e2; }
+        .input-wrap input::placeholder { color: var(--text-muted); }
+        .input-wrap input:hover { border-color: var(--gray-300); }
         .input-wrap input:focus {
             border-color: var(--auth-primary);
             background: #fff;
@@ -216,13 +216,13 @@
             border: 0;
             border-radius: 8px;
             background: transparent;
-            color: #9aa3b2;
+            color: var(--text-muted);
             cursor: pointer;
             font-size: 14px;
         }
         .input-wrap .toggle-password:hover {
             color: var(--auth-primary);
-            background: #eef0ff;
+            background: var(--primary-light);
         }
         .form-row-between {
             display: flex;
@@ -235,7 +235,7 @@
             display: inline-flex;
             align-items: center;
             gap: 7px;
-            color: #687386;
+            color: var(--text-secondary);
             font-size: 12px;
             cursor: pointer;
         }
@@ -261,7 +261,7 @@
             align-items: center;
             justify-content: center;
             gap: 9px;
-            background: linear-gradient(135deg, var(--auth-primary), #5b5ce2);
+            background: linear-gradient(135deg, var(--auth-primary), var(--primary));
             color: #fff;
             font: 700 14px 'Inter', sans-serif;
             cursor: pointer;
@@ -285,7 +285,7 @@
             padding: 12px;
             border: 1px solid #dfe3eb;
             border-radius: 12px;
-            background: #f7f8fc;
+            background: var(--surface-soft);
             color: var(--auth-primary);
             font: 700 13px 'Inter', sans-serif;
             cursor: pointer;
@@ -294,7 +294,7 @@
         }
         .btn-otp:hover {
             border-color: #aeb1ff;
-            background: #eef0ff;
+            background: var(--primary-light);
             transform: translateY(-1px);
         }
         .btn-otp:disabled {
@@ -320,7 +320,7 @@
             line-height: 1.4;
         }
         .auth-hint i {
-            color: #b45309;
+            color: var(--warning-dark);
             flex-shrink: 0;
         }
         .auth-divider {
@@ -337,7 +337,7 @@
             background: #e5e7eb;
         }
         .auth-divider span {
-            color: #9aa3b2;
+            color: var(--text-muted);
             font-size: 11px;
             white-space: nowrap;
         }
@@ -353,14 +353,14 @@
             border: 1px solid #dfe3eb;
             border-radius: 12px;
             background: #fff;
-            color: #3a4354;
+            color: var(--gray-700);
             font: 600 13px 'Inter', sans-serif;
             cursor: pointer;
             transition: border-color .2s ease, background .2s ease, transform .2s ease;
         }
         .social-btn:hover {
-            background: #f7f8fc;
-            border-color: #d4d8e2;
+            background: var(--surface-soft);
+            border-color: var(--gray-300);
             transform: translateY(-1px);
         }
         .social-btn .fa-google {
@@ -390,7 +390,7 @@
             font: 800 21px 'Inter', sans-serif;
             transition: border-color .2s ease, background .2s ease, box-shadow .2s ease;
         }
-        .otp-inputs input:hover { border-color: #d4d8e2; }
+        .otp-inputs input:hover { border-color: var(--gray-300); }
         .otp-inputs input:focus {
             border-color: var(--auth-primary);
             background: #fff;
@@ -423,13 +423,13 @@
             cursor: pointer;
         }
         .resend-link button:disabled {
-            color: #9aa3b2;
+            color: var(--text-muted);
             cursor: not-allowed;
         }
         .otp-preview-box {
             margin: 14px 0 !important;
             border-radius: 12px !important;
-            background: #eef0ff !important;
+            background: var(--primary-light) !important;
             border: 1px dashed var(--auth-primary) !important;
             color: #1e1b4b !important;
         }
@@ -478,9 +478,9 @@
             opacity: 1;
             transform: translateX(-50%) translateY(0);
         }
-        .toast-error { border-left-color: #ef4444; }
+        .toast-error { border-left-color: var(--danger); }
         .toast-success i { color: var(--auth-accent); }
-        .toast-error i { color: #ef4444; }
+        .toast-error i { color: var(--danger); }
         @media (max-width: 560px) {
             body {
                 align-items: flex-start;
@@ -531,6 +531,7 @@
             }
         }
     </style>
+<style>/* HeavenLease brand mark */ .brand-logo-image{width:100%;height:100%;display:block;object-fit:contain;border-radius:inherit}.logo-icon,.hl-logo-icon,.logo-mark,.mark{overflow:hidden}</style>
 </head>
 <body>
     <div class="auth-wrapper">
@@ -538,7 +539,7 @@
             <i class="fas fa-arrow-left"></i> Back to Home
         </a>
         <div class="auth-brand">
-            <div class="logo-icon"><i class="fas fa-home"></i></div>
+            <div class="logo-icon"><img src="logo.svg" alt="HeavenLease" class="brand-logo-image"></div>
             <span class="logo-text">Heaven<span>Lease</span></span>
         </div>
         <div class="auth-card">
@@ -632,10 +633,10 @@
                     </button>
                     <div id="phoneOtpSection" style="display: none;">
                         <!-- Self-hosted OTP preview: shows the code when no SMS gateway is available -->
-                        <div id="phoneOtpPreviewBox" class="otp-preview-box" style="display:none;margin:14px 0;padding:12px 16px;background:#eef0ff;border:1px dashed #5b5ce2;border-radius:12px;text-align:center;font-size:14px;color:#1e1b4b;">
+                        <div id="phoneOtpPreviewBox" class="otp-preview-box" style="display:none;margin:14px 0;padding:12px 16px;background:var(--primary-light);border:1px dashed var(--primary);border-radius:12px;text-align:center;font-size:14px;color:#1e1b4b;">
                             <div style="font-weight:600;margin-bottom:4px;"><i class="fas fa-mobile-screen"></i> Your OTP</div>
-                            <strong id="phoneOtpPreviewValue" style="font-size:26px;letter-spacing:6px;color:#5b5ce2;"></strong>
-                            <div style="font-size:12px;color:#687386;margin-top:4px;">Check your notifications too — the code expires in 10 minutes.</div>
+                            <strong id="phoneOtpPreviewValue" style="font-size:26px;letter-spacing:6px;color:var(--primary);"></strong>
+                            <div style="font-size:12px;color:var(--text-secondary);margin-top:4px;">Check your notifications too — the code expires in 10 minutes.</div>
                         </div>
                         <div class="otp-inputs" id="phoneOtpInputs">
                             <input type="text" maxlength="1" class="otp-digit" oninput="handleOtpInput(this)">

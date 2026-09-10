@@ -21,6 +21,11 @@ import com.heavenlease.model.Property;
 import com.heavenlease.model.User;
 import com.heavenlease.repository.BookingRepository;
 import com.heavenlease.repository.FavoriteRepository;
+import com.heavenlease.repository.DocumentUploadRepository;
+import com.heavenlease.repository.MaintenanceRequestRepository;
+import com.heavenlease.repository.TicketRepository;
+import com.heavenlease.repository.FeedbackRepository;
+import com.heavenlease.service.DocumentStorageService;
 import com.heavenlease.repository.LeaseRepository;
 import com.heavenlease.repository.MessageRepository;
 import com.heavenlease.repository.NotificationRepository;
@@ -46,6 +51,11 @@ class AccountControllerTest {
     private PaymentRepository paymentRepository;
     private OwnerApplicationRepository ownerApplicationRepository;
     private MessageRepository messageRepository;
+    private DocumentUploadRepository documentRepository;
+    private MaintenanceRequestRepository maintenanceRepository;
+    private TicketRepository ticketRepository;
+    private FeedbackRepository feedbackRepository;
+    private DocumentStorageService documentStorageService;
     private AccountController controller;
 
     private User testUser;
@@ -61,9 +71,15 @@ class AccountControllerTest {
         paymentRepository = mock(PaymentRepository.class);
         ownerApplicationRepository = mock(OwnerApplicationRepository.class);
         messageRepository = mock(MessageRepository.class);
+        documentRepository = mock(DocumentUploadRepository.class);
+        maintenanceRepository = mock(MaintenanceRequestRepository.class);
+        ticketRepository = mock(TicketRepository.class);
+        feedbackRepository = mock(FeedbackRepository.class);
+        documentStorageService = mock(DocumentStorageService.class);
         controller = new AccountController(userRepository, propertyRepository, bookingRepository, leaseRepository,
                 favoriteRepository, notificationRepository, paymentRepository, ownerApplicationRepository,
-                messageRepository);
+                messageRepository, documentRepository, maintenanceRepository, ticketRepository, feedbackRepository,
+                documentStorageService);
 
         testUser = new User();
         testUser.setId(1L);

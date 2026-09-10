@@ -4,34 +4,35 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HeavenLease — Find Your Next Home</title>
-<link rel="stylesheet" href="styles.css?v=20260909a">
+<link rel="stylesheet" href="styles.css?v=20260910b">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
 <style>
-:root{--p:#6757f5;--p2:#8b5cf6;--ink:#182033;--muted:#687386;--bg:#f6f7fb;--line:#e4e7ee;--white:#ffffff;--green:#18a878;--shadow:0 20px 60px rgba(16,24,40,.10);}
+:root{--p:#6757f5;--p2:#8b5cf6;--ink:var(--text-primary);--muted:var(--text-secondary);--bg:#f6f7fb;--line:var(--border);--white:#ffffff;--green:var(--secondary);--shadow:0 20px 60px rgba(16,24,40,.10);}
 *{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}body{font-family:"DM Sans",sans-serif;background:var(--bg);color:var(--ink)}a{text-decoration:none;color:inherit}button,input,select{font:inherit}button{cursor:pointer;border:0}
 .nav{height:76px;position:absolute;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;justify-content:space-between;max-width:1240px;margin:auto;padding:0 24px;color:#fff}
-.logo{display:flex;align-items:center;gap:10px;font-size:24px;font-weight:700}.logo i{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(135deg,#6657f5,#9b7cff);box-shadow:0 8px 25px #5b5ce266}.logo span{color:#a99cff}
+.logo{display:flex;align-items:center;gap:10px;font-size:24px;font-weight:700}.logo i{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(135deg,#6657f5,#9b7cff);box-shadow:0 8px 25px var(--primary)66}.logo span{color:#a99cff}
 .links{display:flex;gap:30px;font-size:14px;font-weight:600}.links a{opacity:.88}.links a:hover{opacity:1;color:#c9c1ff}
 .actions{display:flex;gap:10px;align-items:center}.ghost{background:#ffffff12;border:1px solid #ffffff35;color:#fff;padding:11px 16px;border-radius:10px}.primary{background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;padding:12px 18px;border-radius:10px;font-weight:700;box-shadow:0 10px 25px #5b4ee644}
-.hero{min-height:650px;padding:145px 24px 110px;color:#fff;position:relative;overflow:hidden;background:linear-gradient(90deg,#071126ee 0%,#111a39cc 45%,#18203355 100%),url("https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2200&q=85") center/cover}
+.hero{min-height:650px;padding:145px 24px 110px;color:#fff;position:relative;overflow:hidden;background:linear-gradient(90deg,#071126ee 0%,#111a39cc 45%,var(--text-primary)55 100%),url("https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2200&q=85") center/cover}
 .hero:after{content:"";position:absolute;inset:auto -10% -170px;height:300px;background:var(--bg);border-radius:50% 50% 0 0/100% 100% 0 0}
 .hero-inner{max-width:1240px;margin:auto;position:relative;z-index:2}.badge{display:inline-flex;align-items:center;gap:8px;padding:8px 13px;border-radius:99px;background:#ffffff16;border:1px solid #ffffff22;font-size:12px;font-weight:700;margin-bottom:22px}.badge i{color:#5ee6a0}
 h1{font-family:"Playfair Display",serif;font-size:clamp(44px,6vw,76px);line-height:1.02;letter-spacing:-2px;max-width:760px}h1 span{color:#a99cff;font-style:italic}
 .sub{font-size:17px;color:#ffffffbd;max-width:600px;margin:22px 0 30px;line-height:1.7}.hero-buttons{display:flex;gap:12px}.hero-buttons .primary{padding:14px 22px}.watch{display:flex;align-items:center;gap:10px;background:transparent;color:#fff;font-weight:700}.watch span{width:42px;height:42px;border:1px solid #ffffff66;border-radius:50%;display:grid;place-items:center}
-.search{position:relative;z-index:5;max-width:1120px;margin:-66px auto 0;padding:8px;background:#fff;border-radius:20px;box-shadow:0 20px 50px #18203320;display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr auto;gap:3px}.field{padding:13px 17px;border-right:1px solid var(--line)}.field label{display:block;font-size:10px;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:5px}.field input,.field select{border:0;outline:0;width:100%;background:transparent;color:var(--ink);font-weight:600}.search button{margin:4px;padding:0 22px;border-radius:14px;color:#fff;background:linear-gradient(135deg,var(--p),var(--p2));font-weight:700}
+.search{position:relative;z-index:5;max-width:1120px;margin:-66px auto 0;padding:8px;background:#fff;border-radius:20px;box-shadow:0 20px 50px var(--text-primary)20;display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr auto;gap:3px}.field{padding:13px 17px;border-right:1px solid var(--line)}.field label{display:block;font-size:10px;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:5px}.field input,.field select{border:0;outline:0;width:100%;background:transparent;color:var(--ink);font-weight:600}.search button{margin:4px;padding:0 22px;border-radius:14px;color:#fff;background:linear-gradient(135deg,var(--p),var(--p2));font-weight:700}
 .wrap{max-width:1240px;margin:auto;padding:80px 24px}.section-head{display:flex;align-items:end;justify-content:space-between;margin-bottom:28px}.eyebrow{color:var(--p);font-size:11px;text-transform:uppercase;font-weight:800;letter-spacing:1px}.section-head h2{font-family:"Playfair Display",serif;font-size:38px;line-height:1.1;margin-top:6px}.section-head p{color:var(--muted);margin-top:7px}.view{color:var(--p);font-weight:700;font-size:14px}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}.card{background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 8px 30px #18203308;transition:.25s}.card:hover{transform:translateY(-5px);box-shadow:var(--shadow)}.pic{height:220px;position:relative;background-size:cover;background-position:center}.pill{position:absolute;top:14px;left:14px;background:#fff;padding:7px 10px;border-radius:8px;font-size:11px;font-weight:800;color:var(--p)}.heart{position:absolute;top:12px;right:12px;width:38px;height:38px;border-radius:50%;background:#ffffffea;color:#525c6e;display:grid;place-items:center}.heart.active{color:#ef4444}.info{padding:18px}.price{font-size:21px;font-weight:800}.price small{font-size:12px;color:var(--muted);font-weight:500}.title{font-weight:700;margin:5px 0;color:#182033}.loc{font-size:12px;color:var(--muted);margin-bottom:15px}.meta{display:flex;gap:16px;padding-top:13px;border-top:1px solid var(--line);font-size:12px;color:#687386}.meta i{margin-right:4px;color:#9aa3b2}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}.card{background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 8px 30px var(--text-primary)08;transition:.25s}.card:hover{transform:translateY(-5px);box-shadow:var(--shadow)}.pic{height:220px;position:relative;background-size:cover;background-position:center}.pill{position:absolute;top:14px;left:14px;background:#fff;padding:7px 10px;border-radius:8px;font-size:11px;font-weight:800;color:var(--p)}.heart{position:absolute;top:12px;right:12px;width:38px;height:38px;border-radius:50%;background:#ffffffea;color:var(--gray-600);display:grid;place-items:center}.heart.active{color:var(--danger)}.info{padding:18px}.price{font-size:21px;font-weight:800}.price small{font-size:12px;color:var(--muted);font-weight:500}.title{font-weight:700;margin:5px 0;color:var(--text-primary)}.loc{font-size:12px;color:var(--muted);margin-bottom:15px}.meta{display:flex;gap:16px;padding-top:13px;border-top:1px solid var(--line);font-size:12px;color:var(--text-secondary)}.meta i{margin-right:4px;color:var(--text-muted)}
 .features{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.feature-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:30px}.feature{display:flex;gap:14px}.feature-icon{width:48px;height:48px;flex:none;border-radius:15px;background:#f0edff;color:var(--p);display:grid;place-items:center}.feature h3{font-size:14px;margin-bottom:4px}.feature p{font-size:12px;color:var(--muted);line-height:1.55}
-.cta{margin-top:10px;border-radius:28px;padding:50px;background:linear-gradient(120deg,#17144a,#5b5ce2);color:#fff;display:flex;align-items:center;justify-content:space-between;gap:30px;overflow:hidden}.cta h2{font-family:"Playfair Display",serif;font-size:38px;max-width:620px}.cta p{color:#ffffffb8;margin-top:10px}.cta .primary{background:#fff;color:#5b5ce2;white-space:nowrap}
-footer{padding:30px 24px;background:#0d1220;color:#9aa3b2}.foot{max-width:1240px;margin:auto;display:flex;justify-content:space-between;gap:20px;font-size:12px}
-.toast{position:fixed;right:22px;bottom:22px;background:#182033;color:#fff;padding:13px 17px;border-radius:12px;box-shadow:var(--shadow);opacity:0;transform:translateY(15px);transition:.25s;z-index:100}.toast.show{opacity:1;transform:none}
+.cta{margin-top:10px;border-radius:28px;padding:50px;background:linear-gradient(120deg,#17144a,var(--primary));color:#fff;display:flex;align-items:center;justify-content:space-between;gap:30px;overflow:hidden}.cta h2{font-family:"Playfair Display",serif;font-size:38px;max-width:620px}.cta p{color:#ffffffb8;margin-top:10px}.cta .primary{background:#fff;color:var(--primary);white-space:nowrap}
+footer{padding:30px 24px;background:#0d1220;color:var(--text-muted)}.foot{max-width:1240px;margin:auto;display:flex;justify-content:space-between;gap:20px;font-size:12px}
+.toast{position:fixed;right:22px;bottom:22px;background:var(--text-primary);color:#fff;padding:13px 17px;border-radius:12px;box-shadow:var(--shadow);opacity:0;transform:translateY(15px);transition:.25s;z-index:100}.toast.show{opacity:1;transform:none}
 .mobile{display:none}
 @media(max-width:900px){.links{display:none}.mobile{display:block;color:inherit;background:transparent;font-size:22px}.actions .ghost{display:none}.search{grid-template-columns:1fr 1fr;margin:0 20px;margin-top:-55px}.search button{height:52px}.grid{grid-template-columns:1fr 1fr}.feature-grid{grid-template-columns:1fr 1fr}.hero{min-height:610px}}
 @media(max-width:620px){.nav{padding:0 16px}.logo{font-size:20px}.logo i{width:38px;height:38px}.hero{padding:125px 20px 90px;min-height:610px}h1{font-size:47px}.sub{font-size:15px}.hero-buttons{flex-wrap:wrap}.search{grid-template-columns:1fr;margin:0 12px;padding:10px}.field{border-right:0;border-bottom:1px solid var(--line)}.search button{height:52px}.wrap{padding:60px 18px}.section-head{align-items:start;gap:15px}.section-head h2{font-size:31px}.view{white-space:nowrap}.grid{grid-template-columns:1fr}.feature-grid{grid-template-columns:1fr}.cta{padding:32px 25px;display:block}.cta h2{font-size:31px}.cta .primary{margin-top:20px}.foot{display:block}.foot span{display:block;margin-top:8px}}
 </style>
+<style>/* HeavenLease brand mark */ .brand-logo-image{width:100%;height:100%;display:block;object-fit:contain;border-radius:inherit}.logo-icon,.hl-logo-icon,.logo-mark,.mark{overflow:hidden}</style>
 </head>
 <body>
 <header class="nav">
@@ -94,7 +95,7 @@ footer{padding:30px 24px;background:#0d1220;color:#9aa3b2}.foot{max-width:1240px
     <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
         <div class="footer-brand">
             <a href="home" class="logo">
-                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <div class="logo-icon"><img src="logo.svg" alt="HeavenLease" class="brand-logo-image"></div>
                 <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
             <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>
@@ -127,9 +128,6 @@ footer{padding:30px 24px;background:#0d1220;color:#9aa3b2}.foot{max-width:1240px
 </div>
 </footer>
 <div class="toast" id="toast"></div>
-
-
-<script src="demo/demo-data.js?v=20260913a"></script>
 <script src="js/pages/add-property.js?v=20260913a"></script>
 </body>
 </html>

@@ -174,12 +174,17 @@
             if (conversationEl) { conversationEl.appendChild(bubble); conversationEl.scrollTop = conversationEl.scrollHeight; }
             if (input) input.value = '';
             try {
-                const sent = await api.sendMessage({ receiverId: Number(receiverId) || 0, content: text });
+                const sent = await api.sendMessage({
+                    conversationId: Number(activeConversation) || null,
+                    receiverId: Number(receiverId) || 0,
+                    content: text
+                });
                 bubble.querySelector('.meta').textContent = fmtMsgTime(new Date().toISOString()) + ' · Sent';
                 if (typeof sendWebSocketMessage === 'function') {
                     try {
                         sendWebSocketMessage({
                             conversationId: Number(activeConversation),
+                            receiverId: Number(t && t.otherUserId) || 0,
                             senderId: myId,
                             senderName: (me && (me.name || me.fullName)) || 'You',
                             content: text,

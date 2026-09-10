@@ -11,11 +11,11 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
-<link rel="stylesheet" href="styles.css?v=20260909a">
+<link rel="stylesheet" href="styles.css?v=20260910b">
 <style>
 :root{
- --hl-ink:#182033;--hl-muted:#687386;--hl-soft:#f7f8fc;--hl-line:#e4e7ee;
- --hl-primary:#5b5ce2;--hl-primary-2:#5b5ce2;--hl-dark:#182033;
+ --hl-ink:var(--text-primary);--hl-muted:var(--text-secondary);--hl-soft:var(--surface-soft);--hl-line:var(--border);
+ --hl-primary:var(--primary);--hl-primary-2:var(--primary);--hl-dark:var(--text-primary);
  --hl-white:#ffffff;--hl-radius:24px;--hl-shadow:0 20px 60px rgba(16,24,40,.10);
 }
 *{box-sizing:border-box}
@@ -41,7 +41,7 @@ button,input,select,textarea{font:inherit}
 .user-dropdown a:hover{background:var(--hl-soft);color:var(--hl-primary)}
 .dropdown-divider{height:1px;background:var(--hl-line);margin:7px 4px}
 /* Hero */
-.blog-hero{position:relative;overflow:hidden;padding:150px 0 86px;background:radial-gradient(circle at 12% 20%,rgba(124,58,237,.42),transparent 30%),radial-gradient(circle at 88% 10%,rgba(91,92,226,.40),transparent 31%),linear-gradient(135deg,#182033,#181d3b 55%,#11152b);color:#fff}
+.blog-hero{position:relative;overflow:hidden;padding:150px 0 86px;background:radial-gradient(circle at 12% 20%,rgba(124,58,237,.42),transparent 30%),radial-gradient(circle at 88% 10%,rgba(91,92,226,.40),transparent 31%),linear-gradient(135deg,var(--text-primary),#181d3b 55%,#11152b);color:#fff}
 .blog-hero:before{content:"";position:absolute;width:500px;height:500px;border:1px solid rgba(255,255,255,.07);border-radius:50%;right:-180px;bottom:-280px}
 .blog-hero:after{content:"";position:absolute;width:280px;height:280px;border:1px solid rgba(255,255,255,.06);border-radius:50%;left:-150px;top:100px}
 .hero-grid{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1.15fr) 390px;gap:65px;align-items:center}
@@ -70,44 +70,45 @@ button,input,select,textarea{font:inherit}
 .blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
 .blog-card{background:#fff;border:1px solid var(--hl-line);border-radius:22px;overflow:hidden;transition:.25s;box-shadow:0 8px 25px rgba(16,24,40,.04)}
 .blog-card:hover{transform:translateY(-5px);box-shadow:var(--hl-shadow);border-color:#d9d9f7}
-.blog-image{height:205px;position:relative;display:grid;place-items:center;background:linear-gradient(135deg,#eef0ff,#f8f5ff);color:var(--hl-primary);font-size:42px}
+.blog-image{height:205px;position:relative;display:grid;place-items:center;background:linear-gradient(135deg,var(--primary-light),#f8f5ff);color:var(--hl-primary);font-size:42px}
 .blog-image:after{content:"";position:absolute;width:120px;height:120px;border-radius:50%;background:rgba(124,58,237,.08);top:-35px;right:-25px}
 .blog-body{padding:23px}
-.blog-tag{display:inline-flex;padding:6px 9px;border-radius:999px;background:#eef0ff;color:var(--hl-primary);font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
+.blog-tag{display:inline-flex;padding:6px 9px;border-radius:999px;background:var(--primary-light);color:var(--hl-primary);font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
 .blog-body h3{font-family:"Playfair Display",Georgia,serif;font-size:23px;line-height:1.25;margin:14px 0 10px}
 .blog-body p{font-size:13.5px;line-height:1.7;color:var(--hl-muted);margin:0 0 17px}
-.blog-meta{font-size:11.5px;color:#9aa3b2;display:block;margin-bottom:17px}
+.blog-meta{font-size:11.5px;color:var(--text-muted);display:block;margin-bottom:17px}
 .read-link{display:inline-flex;align-items:center;gap:7px;color:var(--hl-primary);font-size:13px;font-weight:800}
 .read-link i{font-size:11px;transition:.2s}.blog-card:hover .read-link i{transform:translateX(3px)}
 /* Empty / modal */
 .empty-state{grid-column:1/-1;text-align:center;background:#fff;border:1px solid var(--hl-line);border-radius:22px;padding:65px 20px;color:var(--hl-muted)}
-.empty-icon{width:66px;height:66px;margin:0 auto 16px;border-radius:19px;background:#eef0ff;color:var(--hl-primary);display:grid;place-items:center;font-size:25px}
+.empty-icon{width:66px;height:66px;margin:0 auto 16px;border-radius:19px;background:var(--primary-light);color:var(--hl-primary);display:grid;place-items:center;font-size:25px}
 .modal-overlay{position:fixed;inset:0;background:rgba(11,18,32,.62);backdrop-filter:blur(5px);display:none;align-items:center;justify-content:center;z-index:1500;padding:20px}
 .modal-overlay.show{display:flex}.modal{background:#fff;border-radius:24px;padding:30px;width:100%;max-width:580px;max-height:90vh;overflow:auto;box-shadow:0 30px 80px rgba(0,0,0,.25)}
 .modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}.modal h3{font-family:"Playfair Display",Georgia,serif;font-size:27px;margin:0}
-.modal-close{border:0;background:#f2f4f7;width:35px;height:35px;border-radius:50%;cursor:pointer;color:#687386}
-.form-group{margin-bottom:15px}.modal label{display:block;font-size:12px;font-weight:700;color:#525c6e;margin-bottom:6px}
+.modal-close{border:0;background:#f2f4f7;width:35px;height:35px;border-radius:50%;cursor:pointer;color:var(--text-secondary)}
+.form-group{margin-bottom:15px}.modal label{display:block;font-size:12px;font-weight:700;color:var(--gray-600);margin-bottom:6px}
 .modal input,.modal select,.modal textarea{width:100%;padding:11px 13px;border:1px solid var(--hl-line);border-radius:11px;font-size:13px;color:var(--hl-ink)}
 .modal input:focus,.modal select:focus,.modal textarea:focus{outline:0;border-color:var(--hl-primary);box-shadow:0 0 0 3px rgba(91,92,226,.1)}
 .modal textarea{resize:vertical;min-height:90px}.modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:20px}
-.modal-btn{border:0;border-radius:11px;padding:11px 16px;font-weight:700;font-size:13px;cursor:pointer}.modal-btn.cancel{background:#f2f4f7;color:#3a4354}.modal-btn.save{background:var(--hl-primary);color:#fff}
+.modal-btn{border:0;border-radius:11px;padding:11px 16px;font-weight:700;font-size:13px;cursor:pointer}.modal-btn.cancel{background:#f2f4f7;color:var(--gray-700)}.modal-btn.save{background:var(--hl-primary);color:#fff}
 /* CTA + Footer */
-.page-cta{padding:0 0 85px}.cta-banner{position:relative;overflow:hidden;background:linear-gradient(135deg,#182033,#22214a);border-radius:30px;padding:54px 30px;text-align:center;color:#fff}
+.page-cta{padding:0 0 85px}.cta-banner{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--text-primary),#22214a);border-radius:30px;padding:54px 30px;text-align:center;color:#fff}
 .cta-banner:before{content:"";position:absolute;width:320px;height:320px;border-radius:50%;background:rgba(124,58,237,.2);filter:blur(25px);left:-100px;top:-180px}
 .cta-banner>*{position:relative;z-index:1}.cta-banner h2{font-family:"Playfair Display",Georgia,serif;font-size:35px;margin:0 0 9px}.cta-banner p{color:rgba(255,255,255,.66);margin:0 0 22px}
-.cta-buttons{display:flex;justify-content:center;gap:11px;flex-wrap:wrap}.cta-buttons a{padding:12px 17px;border-radius:11px;background:#fff;color:#182033;font-size:13px;font-weight:700}.cta-buttons a.ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.2)}
-.footer{background:var(--hl-dark);color:#fff;padding:60px 0 28px}.footer-grid{display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:40px}.footer-brand p{max-width:320px;color:#9aa3b2;font-size:13px;line-height:1.7}
-.footer h4{font-size:13px;margin:4px 0 15px}.footer a:not(.logo){display:block;color:#9aa3b2;font-size:13px;margin:9px 0}.footer a:not(.logo):hover{color:#fff}
-.footer-bottom{border-top:1px solid rgba(255,255,255,.08);margin-top:38px;padding-top:19px;color:#687386;font-size:12px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.cta-buttons{display:flex;justify-content:center;gap:11px;flex-wrap:wrap}.cta-buttons a{padding:12px 17px;border-radius:11px;background:#fff;color:var(--text-primary);font-size:13px;font-weight:700}.cta-buttons a.ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.2)}
+.footer{background:var(--hl-dark);color:#fff;padding:60px 0 28px}.footer-grid{display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:40px}.footer-brand p{max-width:320px;color:var(--text-muted);font-size:13px;line-height:1.7}
+.footer h4{font-size:13px;margin:4px 0 15px}.footer a:not(.logo){display:block;color:var(--text-muted);font-size:13px;margin:9px 0}.footer a:not(.logo):hover{color:#fff}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.08);margin-top:38px;padding-top:19px;color:var(--text-secondary);font-size:12px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
 .back-top{position:fixed;right:20px;bottom:20px;width:44px;height:44px;border:0;border-radius:50%;display:none;place-items:center;background:var(--hl-primary);color:#fff;cursor:pointer;box-shadow:0 12px 30px rgba(91,92,226,.3);z-index:90}.back-top.show{display:grid}
 @media(max-width:950px){.hero-grid{grid-template-columns:1fr}.hero-card{max-width:500px}.blog-grid{grid-template-columns:repeat(2,1fr)}.footer-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:650px){.container,.nav-container{width:calc(100% - 28px)}.blog-hero{padding:125px 0 60px}.blog-hero h1{font-size:43px}.blog-hero p{font-size:15px}.section-heading{display:block}.add-btn{margin-top:18px}.blog-grid{grid-template-columns:1fr}.blog-section{padding:50px 0 70px}.footer-grid{grid-template-columns:1fr}.footer{padding-top:45px}}
 </style>
+<style>/* HeavenLease brand mark */ .brand-logo-image{width:100%;height:100%;display:block;object-fit:contain;border-radius:inherit}.logo-icon,.hl-logo-icon,.logo-mark,.mark{overflow:hidden}</style>
 </head>
 <body>
 <nav class="navbar" id="navbar">
  <div class="nav-container">
-  <a href="/" class="logo"><div class="logo-icon"><i class="fas fa-home"></i></div><span class="logo-text">Heaven<span>Lease</span></span></a>
+  <a href="/" class="logo"><div class="logo-icon"><img src="logo.svg" alt="HeavenLease" class="brand-logo-image"></div><span class="logo-text">Heaven<span>Lease</span></span></a>
   <div class="nav-actions">
    <div class="user-menu">
     <button class="user-menu-trigger" id="profileBtn" type="button" aria-label="Account menu"><span class="user-avatar"><i class="fas fa-user"></i></span><span id="navUserName">Account</span><i class="fas fa-chevron-down"></i></button>
@@ -208,7 +209,7 @@ button,input,select,textarea{font:inherit}
     <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
         <div class="footer-brand">
             <a href="home" class="logo">
-                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <div class="logo-icon"><img src="logo.svg" alt="HeavenLease" class="brand-logo-image"></div>
                 <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
             <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>

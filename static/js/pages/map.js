@@ -48,6 +48,8 @@
         html: '<i class="fas fa-home" style="color: white; font-size: 12px; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;"></i>',
         iconSize: [24, 24],
         iconAnchor: [12, 12]
+    });
+
 /* ===== Render markers + sidebar ===== */
     function renderAllProperties() {
         markers.forEach(m => m.marker.remove());
@@ -209,4 +211,3 @@
     /* ===== Initialize ===== */
     renderAllProperties();
 })();
-    });

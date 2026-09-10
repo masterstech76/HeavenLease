@@ -108,71 +108,48 @@
 
         const btn = document.getElementById('signupSubmitBtn');
         btn.disabled = true;
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending OTP...';
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating account...';
 
         try {
             pendingSignupData = { fullName, email, phone, password, role: selectedRole };
-            const res = await api.sendSignupCode(email);
+            const captchaToken = await getCaptchaToken('signup');
+            const data = await api.signup({
+                fullName,
+                email,
+                phone,
+                password,
+                role: selectedRole,
+                captchaToken
+            });
 
-            document.getElementById('otpSection').classList.add('show');
-            document.getElementById('otpTarget').textContent = email;
-            clearOtp();
-            btn.style.display = 'none';
-
-            showToast('OTP sent to your email. Please verify to complete signup.', 'success');
-            startCountdown('resendOtpBtn');
+            // Signup intentionally creates an authenticated-but-unverified account.
+            // Verification is the next post-login step, matching the product flow:
+            // index -> auth -> authenticated session -> verification -> dashboard.
+            showToast('Account created. Check your email for the verification OTP.', 'success');
+            setTimeout(() => {
+                window.location.replace('verify-account');
+            }, 500);
         } catch (error) {
-            showToast(error.message || 'Failed to send OTP.', 'error');
+            showToast(error.message || 'Failed to create account.', 'error');
         } finally {
             btn.disabled = false;
             btn.innerHTML = '<i class="fas fa-user-plus"></i> Create Account';
         }
     });
-window.verifySignupOtp = async function () {
-        if (!pendingSignupData) {
-            showToast('Please fill the form first.', 'error');
-            return;
-        }
-        const code = getOtpValue();
-        if (code.length !== 6) {
-            showToast('Please enter the 6-digit OTP.', 'error');
-            return;
-        }
-        const btn = document.getElementById('verifyOtpBtn');
-        btn.disabled = true;
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying...';
-        try {
-            const captchaToken = await getCaptchaToken('signup');
-            const data = await api.signup({
-                fullName: pendingSignupData.fullName,
-                email: pendingSignupData.email,
-                phone: pendingSignupData.phone,
-                password: pendingSignupData.password,
-                role: pendingSignupData.role || 'TENANT',
-                captchaToken,
-                code
-            });
-            showToast('Account created successfully! Welcome to HeavenLease! 🎉', 'success');
-            setTimeout(() => {
-                const role = String((data && data.role) || '').toUpperCase();
-                if (role === 'TENANT') window.location.replace('dashboard');
-                else if (role === 'OWNER' || role === 'VERIFIED_OWNER') window.location.replace('dashboard');
-                else if (role === 'ADMIN') window.location.replace('admin-dashboard');
-                else window.location.replace('home');
-            }, 1000);
-        } catch (error) {
-            showToast(error.message || 'Verification failed. Please try again.', 'error');
-        } finally {
-            btn.disabled = false;
-            btn.innerHTML = '<i class="fas fa-check-circle"></i> Verify & Create Account';
-        }
+
+    // Legacy OTP section is retained for compatibility with older cached markup,
+    // but new accounts are verified after authentication on verify-account.
+    window.verifySignupOtp = async function () {
+        showToast('Your account is already signed in. Continue on the verification page.', 'info');
+        window.location.replace('verify-account');
     };
 
     window.resendOtp = async function () {
-        if (!pendingSignupData) return;
+        const email = pendingSignupData && pendingSignupData.email;
+        if (!email) return;
         try {
-            await api.sendSignupCode(pendingSignupData.email);
-            showToast('OTP resent to your email.', 'success');
+            await api.sendVerification(email);
+            showToast('Verification OTP resent.', 'success');
             startCountdown('resendOtpBtn');
         } catch (error) {
             showToast(error.message || 'Failed to resend OTP.', 'error');
@@ -223,6 +200,7 @@ window.verifySignupOtp = async function () {
         if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing in...'; }
         api.googleLogin(response.credential, true, selectedRole)
             .then((data) => {
+                if (data && data.twoFactorRequired) { window.location.replace('otp-verify?mode=2fa'); return; }
                 showToast('Account created with Google successfully!', 'success');
                 const gearRole = String((data && data.role) || '').toUpperCase();
                 setTimeout(() => {

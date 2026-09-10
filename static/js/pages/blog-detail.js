@@ -66,7 +66,9 @@
             }
         }
         loadStatus();
-/* ===== Navbar / profile menu ===== */
+    }
+
+    /* ===== Navbar / profile menu ===== */
     const nav = document.getElementById('navbar');
     const btn = document.getElementById('profileBtn');
     const menu = document.getElementById('profileDropdown');
@@ -102,4 +104,3 @@
         if (nm && target) target.textContent = nm.split(' ')[0];
     } catch (e) { /* ignore */ }
 })();
-    }

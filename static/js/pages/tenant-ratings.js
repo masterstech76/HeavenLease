@@ -59,7 +59,11 @@
     function fmtDate(s) {
         if (!s) return '';
         const d = new Date(s);
-async function loadRatings() {
+        if (isNaN(d.getTime())) return String(s);
+        return d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+    }
+
+    async function loadRatings() {
         if (!listEl) return;
         try {
             const d = await api.getFeedback(PAGE_KEY);
@@ -151,6 +155,3 @@ async function loadRatings() {
         });
     }
 })();
-        if (isNaN(d.getTime())) return String(s);
-        return d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
-    }

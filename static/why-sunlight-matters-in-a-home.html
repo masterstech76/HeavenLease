@@ -17,21 +17,21 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
-    <link rel="stylesheet" href="styles.css?v=20260909a">
+    <link rel="stylesheet" href="styles.css?v=20260910b">
     <style>
         :root {
-            --article-ink: #182033;
-            --article-muted: #687386;
-            --article-border: #e4e7ee;
-            --article-soft: #f7f8fc;
-            --article-primary: #5b5ce2;
-            --article-primary-2: #5b5ce2;
-            --article-green: #10b981;
+            --article-ink: var(--text-primary);
+            --article-muted: var(--text-secondary);
+            --article-border: var(--border);
+            --article-soft: var(--surface-soft);
+            --article-primary: var(--primary);
+            --article-primary-2: var(--primary);
+            --article-green: var(--success);
             --article-shadow: 0 24px 70px rgba(15, 23, 42, .12);
         }
         body {
             background:
-                linear-gradient(180deg, rgba(248,250,252,.92) 0%, #f7f8fc 48%, #eef0f5 100%);
+                linear-gradient(180deg, rgba(248,250,252,.92) 0%, var(--surface-soft) 48%, var(--gray-100) 100%);
             color: var(--article-ink);
         }
         /* Premium property-image navbar treatment */
@@ -119,7 +119,7 @@
             display: inline-block;
             width: fit-content;
             margin-bottom: 9px;
-            color: #eef0ff;
+            color: var(--primary-light);
             font-size: 11px;
             font-weight: 800;
             letter-spacing: .14em;
@@ -161,7 +161,7 @@
         }
         .article-body p {
             margin-bottom: 18px;
-            color: #525c6e;
+            color: var(--gray-600);
             font-size: 16px;
             line-height: 1.9;
         }
@@ -184,7 +184,7 @@
         .article-body li {
             margin-bottom: 11px;
             padding-left: 5px;
-            color: #525c6e;
+            color: var(--gray-600);
             font-size: 15.5px;
             line-height: 1.75;
         }
@@ -195,11 +195,11 @@
             position: relative;
             margin: 25px 0;
             padding: 18px 20px 18px 22px;
-            border: 1px solid #eef0ff;
+            border: 1px solid var(--primary-light);
             border-left: 4px solid var(--article-primary);
             border-radius: 14px;
-            background: linear-gradient(135deg, #eef0ff, #f7f8fc);
-            color: #525c6e;
+            background: linear-gradient(135deg, var(--primary-light), var(--surface-soft));
+            color: var(--gray-600);
             font-size: 14.5px;
             line-height: 1.7;
         }
@@ -235,7 +235,7 @@
             border: 1px solid var(--article-border);
             border-radius: 11px;
             background: #fff;
-            color: #687386;
+            color: var(--text-secondary);
             text-decoration: none;
             transition: transform .2s ease, border-color .2s ease, color .2s ease, box-shadow .2s ease;
         }
@@ -262,7 +262,7 @@
         /* Keep footer opaque and visually separate from article content */
         .footer {
             position: relative;
-            background: #182033 !important;
+            background: var(--text-primary) !important;
             color: rgba(255,255,255,.78);
             border-top: 1px solid rgba(255,255,255,.08);
         }
@@ -394,12 +394,13 @@
             }
         }
     </style>
+<style>/* HeavenLease brand mark */ .brand-logo-image{width:100%;height:100%;display:block;object-fit:contain;border-radius:inherit}.logo-icon,.hl-logo-icon,.logo-mark,.mark{overflow:hidden}</style>
 </head>
 <body>
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <a href="/" class="logo">
-                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <div class="logo-icon"><img src="logo.svg" alt="HeavenLease" class="brand-logo-image"></div>
                 <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
             <div class="nav-actions">
@@ -478,7 +479,7 @@
     <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
         <div class="footer-brand">
             <a href="home" class="logo">
-                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <div class="logo-icon"><img src="logo.svg" alt="HeavenLease" class="brand-logo-image"></div>
                 <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
             <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>

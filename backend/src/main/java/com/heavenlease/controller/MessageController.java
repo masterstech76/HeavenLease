@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.heavenlease.model.Message;
 import com.heavenlease.model.User;
 import com.heavenlease.repository.MessageRepository;
+import com.heavenlease.repository.PaymentRepository;
 import com.heavenlease.repository.UserRepository;
 import com.heavenlease.security.CurrentUser;
 
@@ -31,10 +32,33 @@ public class MessageController {
 
     private final MessageRepository messageRepository;
     private final UserRepository userRepository;
+    private final PaymentRepository paymentRepository;
 
-    public MessageController(MessageRepository messageRepository, UserRepository userRepository) {
+    public MessageController(MessageRepository messageRepository, UserRepository userRepository, PaymentRepository paymentRepository) {
         this.messageRepository = messageRepository;
         this.userRepository = userRepository;
+        this.paymentRepository = paymentRepository;
+    }
+
+    private boolean hasMessagingAccess() {
+        if (CurrentUser.isAdmin() || CurrentUser.hasAnyRole("OWNER", "VERIFIED_OWNER")) return true;
+        Long userId = CurrentUser.getId();
+        if (userId == null) return false;
+        return paymentRepository.findFirstByUserIdAndActiveTrueOrderByCreatedAtDesc(userId)
+                .map(p -> {
+                    Integer months = parsePlanMonths(p.getDescription());
+                    return months != null && p.getCreatedAt() != null
+                            && p.getCreatedAt().plusMonths(months).isAfter(java.time.LocalDateTime.now());
+                }).orElse(false);
+    }
+
+    private Integer parsePlanMonths(String description) {
+        if (description == null || !description.startsWith("plan:")) return null;
+        try {
+            return Integer.valueOf(description.replaceFirst("plan:(\\d+).*", "$1"));
+        } catch (NumberFormatException ignored) {
+            return null;
+        }
     }
 
     /**
@@ -89,6 +113,9 @@ public class MessageController {
     @GetMapping("/conversation/{conversationId}")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> getConversation(@PathVariable Long conversationId) {
+        if (!hasMessagingAccess()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("error", "An active Access Pass is required for messaging"));
+        }
         Long currentUserId = CurrentUser.getId();
         java.util.List<Message> messages = messageRepository.findByConversationId(conversationId);
         // IDOR guard: only messages where the current user is sender or receiver
@@ -107,9 +134,53 @@ public class MessageController {
     @PostMapping
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> sendMessage(@Valid @RequestBody Message message) {
-        // SECURITY: sender must be the authenticated user
-        message.setSenderId(CurrentUser.getId());
+        if (!hasMessagingAccess()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("error", "An active Access Pass is required for messaging"));
+        }
+        Long senderId = CurrentUser.getId();
+        if (senderId == null || message.getReceiverId() == null
+                || message.getContent() == null || message.getContent().isBlank()
+                || message.getContent().length() > 2000) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Invalid message"));
+        }
+        if (message.getReceiverId().equals(senderId)) {
+            return ResponseEntity.badRequest().body(Map.of("error", "You cannot message yourself"));
+        }
+        if (userRepository.findById(message.getReceiverId()).isEmpty()) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Recipient not found"));
+        }
+
+        // Existing conversations are participant-locked. If no conversation id
+        // is supplied, the server creates a new conversation id so the client
+        // cannot forge or hijack another user's thread.
+        Long conversationId = message.getConversationId();
+        var conversation = conversationId == null
+                ? java.util.List.<Message>of()
+                : messageRepository.findByConversationId(conversationId);
+
+        if (conversationId != null) {
+            boolean senderInConversation = conversation.stream().anyMatch(m ->
+                    senderId.equals(m.getSenderId()) || senderId.equals(m.getReceiverId()));
+            boolean receiverInConversation = conversation.stream().anyMatch(m ->
+                    message.getReceiverId().equals(m.getSenderId()) || message.getReceiverId().equals(m.getReceiverId()));
+            boolean participantPair = conversation.stream().anyMatch(m ->
+                    (senderId.equals(m.getSenderId()) && message.getReceiverId().equals(m.getReceiverId()))
+                    || (senderId.equals(m.getReceiverId()) && message.getReceiverId().equals(m.getSenderId())));
+            if (!senderInConversation || !receiverInConversation || !participantPair) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                        .body(Map.of("error", "You are not a participant in this conversation"));
+            }
+        } else {
+            do {
+                conversationId = java.util.concurrent.ThreadLocalRandom.current().nextLong(1, Long.MAX_VALUE);
+            } while (!messageRepository.findByConversationId(conversationId).isEmpty());
+            message.setConversationId(conversationId);
+        }
+
+        // Never accept senderId, read state, or client-supplied metadata as authority.
+        message.setSenderId(senderId);
         message.setRead(false);
+        message.setContent(message.getContent().trim());
         Message saved = messageRepository.save(message);
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }

@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
-    <link rel="stylesheet" href="styles.css?v=20260909a">
+    <link rel="stylesheet" href="styles.css?v=20260910b">
     <link rel="stylesheet" href="feature-panel.css?v=20260902a">
     <style>
         .page-header { background: var(--gradient-soft); padding: 140px 0 60px; text-align: center; position: relative; overflow: hidden; }
@@ -40,7 +40,7 @@
         @media (max-width: 768px) { .page-header { padding: 120px 0 44px; } .page-header h1 { font-size: 32px; } .info-grid { grid-template-columns: 1fr; } .content-block h2 { font-size: 22px; } }
     </style>
 <style>
-:root{--ink:#182033;--muted:#687386;--line:#e4e7ee;--gold:#5b5ce2;--gold2:#4445c5;--nav:#101820;--paper:#ffffff;--soft:#f6f7fb;--shadow:0 18px 55px rgba(16,24,32,.13);}
+:root{--ink:var(--text-primary);--muted:var(--text-secondary);--line:var(--border);--gold:var(--primary);--gold2:var(--primary-dark);--nav:#101820;--paper:#ffffff;--soft:#f6f7fb;--shadow:0 18px 55px rgba(16,24,32,.13);}
 *{box-sizing:border-box}
 body{
  margin:0!important;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important;
@@ -80,7 +80,7 @@ body{
 .hl-input{width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:12px;font:14px Inter,sans-serif;margin-top:10px}
 .hl-actions{display:flex;gap:10px;margin-top:12px}
 .hl-btn{border:0;border-radius:12px;padding:12px 18px;font-weight:800;cursor:pointer;text-decoration:none;display:inline-flex;justify-content:center;align-items:center;gap:8px}
-.hl-primary{background:linear-gradient(135deg,#5b5ce2,#4445c5);color:#fff}.hl-ghost{background:#eef1f3;color:#34404a}
+.hl-primary{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff}.hl-ghost{background:#eef1f3;color:#34404a}
 .hl-side{padding:22px;border-radius:16px;background:#17232d;color:#fff}
 .hl-side h3{margin:0 0 9px;font:700 23px "Playfair Display",Georgia,serif}
 .hl-side p{margin:0;color:#c8d0d6;line-height:1.65;font-size:13px}
@@ -91,6 +91,7 @@ body{
 @media(max-width:650px){.hl-nav{padding:0 18px}.hl-account{font-size:0}.hl-account:after{content:"↗";font-size:15px}.hl-main{padding:22px 14px 48px}.hl-hero{padding:30px;min-height:235px;border-radius:21px}.hl-features,.hl-checks{grid-template-columns:1fr}.hl-card{padding:21px}.hl-footer-inner{flex-direction:column;align-items:flex-start}}
 </style>
 <style>body > *:not(.hl-shell){display:none!important}.hl-shell{display:block!important}</style>
+<style>/* HeavenLease brand mark */ .brand-logo-image{width:100%;height:100%;display:block;object-fit:contain;border-radius:inherit}.logo-icon,.hl-logo-icon,.logo-mark,.mark{overflow:hidden}</style>
 </head>
 <body>
 <div class="hl-shell">
@@ -159,7 +160,7 @@ body{
     <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
         <div class="footer-brand">
             <a href="home" class="logo">
-                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <div class="logo-icon"><img src="logo.svg" alt="HeavenLease" class="brand-logo-image"></div>
                 <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
             <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>
@@ -195,7 +196,7 @@ body{
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <a href="/" class="logo">
-                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <div class="logo-icon"><img src="logo.svg" alt="HeavenLease" class="brand-logo-image"></div>
                 <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
             
@@ -271,29 +272,12 @@ body{
             </div>
         </div>
     </section>
-    <section class="content-section" style="padding-top:0;">
-        <div class="container">
-            <div class="content-block">
-                <h2><i class='fas fa-comment-dots'></i> Ask us anything</h2>
-                <p>Not sure what this means for your situation? Ask us in plain text and our team will clarify by email.</p>
-                <div class='help-strip'>
-                    <textarea id='helpMessage' placeholder='Type your message in plain text - no file upload needed.'></textarea>
-                    <input type='text' id='helpEmail' placeholder='Your email (optional)' style='width:100%;max-width:360px;margin-top:10px;padding:12px 14px;border:1px solid var(--gray-200);border-radius:var(--radius-md);font-size:14px;font-family:inherit;box-sizing:border-box;'>
-                    <div>
-                        <button type='button' class='btn btn-primary help-send' onclick='sendHelpMessage()'><i class='fas fa-paper-plane'></i> Send Message</button>
-                        <button type='button' class='btn btn-ghost help-clear' onclick='clearHelpMessage()'><i class='fas fa-eraser'></i> Clear</button>
-                    </div>
-                    <p class='help-note' id='helpNote' style='font-size:12px;color:var(--gray-400);margin-top:10px;'>Messages go to our support team by email. Prefer email? Write to support@heavenlease.in</p>
-                </div>
-            </div>
-        </div>
-    </section>
     <footer class="footer">
         <div class="container">
             <div class="footer-grid" style="grid-template-columns: 1fr; text-align: center;">
                 <div class="footer-brand">
                     <a href="/" class="logo">
-                        <div class="logo-icon"><i class="fas fa-home"></i></div>
+                        <div class="logo-icon"><img src="logo.svg" alt="HeavenLease" class="brand-logo-image"></div>
                         <span class="logo-text">Heaven<span>Lease</span></span>
                     </a>
                     <p style="margin: 10px auto; max-width: 300px;">Simple steps to your perfect stay. Direct owner rentals with zero broker fees and comfort-first search.</p>

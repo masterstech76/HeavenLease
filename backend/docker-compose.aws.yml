@@ -23,8 +23,7 @@ services:
       timeout: 5s
       retries: 6
       start_period: 60s
-    ports:
-      - "8080:8080"
+    # Backend is private to the Docker network; only nginx exposes 80/443.
     volumes:
       - uploads-data:/app/uploads
     environment:

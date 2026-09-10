@@ -55,14 +55,14 @@ public class SecurityConfig {
                             "/*.html", "/*.css", "/*.js",
                             "/*.svg", "/*.ico", "/*.png", "/*.jpg", "/*.jpeg", "/*.webp",
                             "/*.txt", "/*.xml", "/*.json", "/*.map", "/*.woff", "/*.woff2").permitAll();
-                    auth.requestMatchers("/uploads/**").permitAll();
+                    auth.requestMatchers("/uploads/avatars/**", "/uploads/*").permitAll();
                     // /api/auth/me must ALWAYS require a valid session — it returns the
                     // current user's data, so an anonymous request would 500 (user not
                     // found) and leave the UI stuck. A missing/invalid token -> 401.
                     auth.requestMatchers("/api/auth/me").authenticated();
                     auth.requestMatchers("/api/auth/**", "/api/public/config", "/api/health/**", "/api/stats/**").permitAll();
                     // WebSocket endpoint for real-time messaging
-                    auth.requestMatchers("/ws/**", "/topic/**", "/app/**").permitAll();
+                    auth.requestMatchers("/ws/**").permitAll();
                     // Swagger UI / API docs are only exposed in the dev profile
                     if (activeProfiles != null && activeProfiles.contains("dev")) {
                         auth.requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll();
@@ -116,7 +116,10 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList(allowedOrigins.split(",")));
+        configuration.setAllowedOrigins(Arrays.stream(allowedOrigins.split(","))
+                .map(s -> s == null ? "" : s.trim())
+                .filter(origin -> !origin.isBlank())
+                .toList());
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Accept"));
         configuration.setExposedHeaders(List.of("Authorization"));

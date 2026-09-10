@@ -17,17 +17,17 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
-    <link rel="stylesheet" href="styles.css?v=20260909a">
+    <link rel="stylesheet" href="styles.css?v=20260910b">
     <style>
         :root {
-            --hl-ink: #182033;
-            --hl-muted: #687386;
+            --hl-ink: var(--text-primary);
+            --hl-muted: var(--text-secondary);
             --hl-cream: #f6f3ed;
             --hl-card: #ffffff;
-            --hl-line: #e4e7ee;
-            --hl-green: #18a878;
-            --hl-green-dark: #0f8a63;
-            --hl-gold: #5b5ce2;
+            --hl-line: var(--border);
+            --hl-green: var(--secondary);
+            --hl-green-dark: var(--secondary-dark);
+            --hl-gold: var(--primary);
             --hl-shadow: 0 24px 70px rgba(20,33,31,.10);
             --hl-radius: 24px;
         }
@@ -443,12 +443,13 @@
             .article-cta .btn { width: 100%; }
         }
     </style>
+<style>/* HeavenLease brand mark */ .brand-logo-image{width:100%;height:100%;display:block;object-fit:contain;border-radius:inherit}.logo-icon,.hl-logo-icon,.logo-mark,.mark{overflow:hidden}</style>
 </head>
 <body>
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <a href="/" class="logo">
-                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <div class="logo-icon"><img src="logo.svg" alt="HeavenLease" class="brand-logo-image"></div>
                 <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
             <div class="nav-actions">
@@ -526,7 +527,7 @@
     <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
         <div class="footer-brand">
             <a href="home" class="logo">
-                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <div class="logo-icon"><img src="logo.svg" alt="HeavenLease" class="brand-logo-image"></div>
                 <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
             <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>

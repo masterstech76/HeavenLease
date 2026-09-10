@@ -9,11 +9,11 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
-<link rel="stylesheet" href="styles.css?v=20260909a">
+<link rel="stylesheet" href="styles.css?v=20260910b">
 <style>
 :root{
- --ink:#182033;--muted:#687386;--line:#e4e7ee;--primary:#5b5ce2;
- --primary2:#5b5ce2;--green:#18a878;--dark:#182033;--soft:#f6f7fb;
+ --ink:var(--text-primary);--muted:var(--text-secondary);--line:var(--border);--primary:var(--primary);
+ --primary2:var(--primary);--green:var(--secondary);--dark:var(--text-primary);--soft:#f6f7fb;
  --radius:22px;--shadow:0 22px 60px rgba(15,23,42,.11);
 }
 *{box-sizing:border-box}
@@ -36,7 +36,7 @@ body{
 }
 .nav-container{width:min(1180px,calc(100% - 40px));min-height:78px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:20px}
 .navbar .logo{display:flex;align-items:center;gap:11px;color:#fff;text-decoration:none}
-.logo-icon{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(135deg,#5b5ce2,#10b981);color:#fff;box-shadow:0 10px 25px rgba(79,70,229,.3)}
+.logo-icon{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(135deg,var(--primary),var(--success));color:#fff;box-shadow:0 10px 25px rgba(79,70,229,.3)}
 .logo-text{font:700 28px 'Playfair Display',serif;letter-spacing:-.4px}.navbar .logo-text{color:#fff}.logo-text span{color:#aeb1ff}
 .nav-actions{display:flex;align-items:center}.user-menu{position:relative}
 .user-menu-trigger{
@@ -48,14 +48,14 @@ body{
 .user-menu-trigger>i{font-size:10px;color:rgba(255,255,255,.65)}
 .user-dropdown{
  position:absolute;right:0;top:calc(100% + 10px);width:285px;max-height:70vh;overflow:auto;padding:8px;
- background:#fff;border:1px solid #e4e7ee;border-radius:16px;box-shadow:0 24px 60px rgba(15,23,42,.22);display:none
+ background:#fff;border:1px solid var(--border);border-radius:16px;box-shadow:0 24px 60px rgba(15,23,42,.22);display:none
 }
 .user-menu:hover .user-dropdown,.user-menu:focus-within .user-dropdown{display:block}
-.user-dropdown a{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;color:#3a4354;text-decoration:none;font-size:12px;font-weight:600}
-.user-dropdown a:hover{background:#eef0f5;color:var(--primary)}
-.user-dropdown a i{width:18px;text-align:center;color:#687386}
-.dropdown-divider{height:1px;background:#e4e7ee;margin:7px 4px}
-.logout-link{color:#b91c1c!important}.logout-link i{color:#b91c1c!important}
+.user-dropdown a{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;color:var(--gray-700);text-decoration:none;font-size:12px;font-weight:600}
+.user-dropdown a:hover{background:var(--gray-100);color:var(--primary)}
+.user-dropdown a i{width:18px;text-align:center;color:var(--text-secondary)}
+.dropdown-divider{height:1px;background:var(--border);margin:7px 4px}
+.logout-link{color:var(--danger-dark)!important}.logout-link i{color:var(--danger-dark)!important}
 /* Verification hero */
 .verify-page{
  min-height:100vh;padding:142px 0 80px;position:relative;overflow:hidden;
@@ -66,12 +66,12 @@ body{
 }
 .verify-shell{width:min(1060px,calc(100% - 40px));margin:auto}
 .verify-intro{display:grid;grid-template-columns:1fr .82fr;gap:50px;align-items:end;margin-bottom:38px}
-.eyebrow{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid rgba(255,255,255,.2);border-radius:999px;background:rgba(255,255,255,.09);color:#eef0ff;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid rgba(255,255,255,.2);border-radius:999px;background:rgba(255,255,255,.09);color:var(--primary-light);font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
 .verify-intro h1{font:700 clamp(42px,5vw,61px)/1.06 'Playfair Display',serif;letter-spacing:-1.4px;margin:19px 0 14px}
 .verify-intro h1 span{color:#aeb1ff}
 .verify-intro p{max-width:650px;color:rgba(255,255,255,.72);font-size:15px;line-height:1.8;margin:0}
 .trust-panel{padding:25px;border:1px solid rgba(255,255,255,.17);border-radius:22px;background:rgba(255,255,255,.09);backdrop-filter:blur(14px)}
-.trust-icon{width:50px;height:50px;border-radius:15px;display:grid;place-items:center;background:rgba(129,140,248,.2);color:#eef0ff;margin-bottom:15px}
+.trust-icon{width:50px;height:50px;border-radius:15px;display:grid;place-items:center;background:rgba(129,140,248,.2);color:var(--primary-light);margin-bottom:15px}
 .trust-panel h3{font:600 23px 'Playfair Display',serif;margin:0 0 7px}.trust-panel p{font-size:11px;line-height:1.7;color:rgba(255,255,255,.62);margin:0}
 .trust-points{display:grid;gap:9px;margin-top:16px}.trust-points div{display:flex;gap:8px;color:rgba(255,255,255,.72);font-size:11px}.trust-points i{color:#a7f3d0;margin-top:2px}
 /* Main form */
@@ -85,22 +85,22 @@ body{
 .verify-card h2{font:600 24px 'Playfair Display',serif;margin:0 0 22px;display:flex;align-items:center;gap:10px}
 .verify-card h2 i{font-size:17px;color:var(--primary)}
 .form-group{margin-bottom:18px}.form-group:last-child{margin-bottom:0}
-.form-group label{display:block;font-size:11px;font-weight:800;letter-spacing:.02em;color:#525c6e;margin-bottom:7px}
+.form-group label{display:block;font-size:11px;font-weight:800;letter-spacing:.02em;color:var(--gray-600);margin-bottom:7px}
 .form-group input,.form-group select{
- width:100%;height:48px;padding:0 14px;border:1px solid #d8e0e9;border-radius:12px;background:#f7f8fc;
+ width:100%;height:48px;padding:0 14px;border:1px solid #d8e0e9;border-radius:12px;background:var(--surface-soft);
  font:13px Inter;color:var(--ink);transition:.2s;outline:none
 }
-.form-group input:focus,.form-group select:focus{border-color:#5b5ce2;background:#fff;box-shadow:0 0 0 4px rgba(99,102,241,.1)}
+.form-group input:focus,.form-group select:focus{border-color:var(--primary);background:#fff;box-shadow:0 0 0 4px rgba(99,102,241,.1)}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .upload-area{
  border:2px dashed #ccd6e1;border-radius:16px;padding:26px 18px;text-align:center;cursor:pointer;
- transition:.2s;background:#f7f8fc
+ transition:.2s;background:var(--surface-soft)
 }
 .upload-area:hover{border-color:var(--primary);background:#f1f3ff;transform:translateY(-1px)}
 .upload-area i{font-size:28px;color:var(--primary);display:block;margin-bottom:9px}
-.upload-area p{font-size:13px;color:#3a4354;font-weight:700;margin:0 0 5px}.upload-area span{font-size:10px;color:#9aa3b2}
+.upload-area p{font-size:13px;color:var(--gray-700);font-weight:700;margin:0 0 5px}.upload-area span{font-size:10px;color:var(--text-muted)}
 .upload-success{
- display:none;padding:11px 12px;background:#ecfdf5;border:1px solid #bbf7d0;border-radius:12px;color:#047857;
+ display:none;padding:11px 12px;background:#ecfdf5;border:1px solid #bbf7d0;border-radius:12px;color:var(--success-dark);
  font-size:11px;font-weight:700;margin-top:9px;align-items:center;gap:8px
 }
 .upload-success.show{display:flex}
@@ -110,7 +110,7 @@ body{
 .document-box .form-group{margin:0}.document-box label{min-height:32px}
 .submit-wrap{grid-column:1/-1}
 .btn-verify{
- width:100%;min-height:54px;padding:0 18px;border:0;border-radius:13px;background:#182033;color:#fff;
+ width:100%;min-height:54px;padding:0 18px;border:0;border-radius:13px;background:var(--text-primary);color:#fff;
  font:800 13px Inter;cursor:pointer;box-shadow:0 16px 35px rgba(15,23,42,.18);transition:.2s
 }
 .btn-verify:hover{background:#26364e;transform:translateY(-1px)}.btn-verify:disabled{opacity:.65;cursor:not-allowed;transform:none}
@@ -124,7 +124,7 @@ body{
 }
 .cta-banner h2{font:600 35px 'Playfair Display',serif;margin:0 0 8px}.cta-banner p{font-size:13px;color:rgba(255,255,255,.58);margin:0 0 22px}
 .cta-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-.cta-banner .btn{min-height:47px;padding:0 18px;border-radius:11px;display:inline-flex;align-items:center;gap:8px;text-decoration:none;font:700 12px Inter;background:#fff;color:#182033}
+.cta-banner .btn{min-height:47px;padding:0 18px;border-radius:11px;display:inline-flex;align-items:center;gap:8px;text-decoration:none;font:700 12px Inter;background:#fff;color:var(--text-primary)}
 .cta-banner .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,.18);color:#fff}
 @media(max-width:850px){
  .verify-intro{grid-template-columns:1fr}.verify-layout{grid-template-columns:1fr}.documents-card,.submit-wrap{grid-column:auto}.document-grid{grid-template-columns:1fr}
@@ -137,12 +137,13 @@ body{
  .page-cta{padding-bottom:55px}.cta-banner{padding:32px 18px}.cta-banner h2{font-size:31px}
 }
 </style>
+<style>/* HeavenLease brand mark */ .brand-logo-image{width:100%;height:100%;display:block;object-fit:contain;border-radius:inherit}.logo-icon,.hl-logo-icon,.logo-mark,.mark{overflow:hidden}</style>
 </head>
 <body>
 <nav class="navbar" id="navbar">
  <div class="nav-container">
   <a href="home" class="logo">
-   <div class="logo-icon"><i class="fas fa-home"></i></div>
+   <div class="logo-icon"><img src="logo.svg" alt="HeavenLease" class="brand-logo-image"></div>
    <span class="logo-text">Heaven<span>Lease</span></span>
   </a>
   <div class="nav-actions">
@@ -210,7 +211,7 @@ body{
    </div>
    <div class="verify-card">
     <h2><i class="fas fa-file-shield"></i> Verification Checklist</h2>
-    <p style="margin:-10px 0 18px;color:#687386;font-size:12px;line-height:1.65;">Upload both documents requested below. Accepted formats are PDF, JPG or PNG, with a maximum file size of 5MB.</p>
+    <p style="margin:-10px 0 18px;color:var(--text-secondary);font-size:12px;line-height:1.65;">Upload both documents requested below. Accepted formats are PDF, JPG or PNG, with a maximum file size of 5MB.</p>
     <div class="document-grid">
      <div class="document-box">
       <div class="form-group">
@@ -264,7 +265,7 @@ body{
     <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
         <div class="footer-brand">
             <a href="home" class="logo">
-                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <div class="logo-icon"><img src="logo.svg" alt="HeavenLease" class="brand-logo-image"></div>
                 <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
             <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>

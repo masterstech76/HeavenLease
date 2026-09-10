@@ -10,9 +10,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
-<link rel="stylesheet" href="styles.css?v=20260909a">
+<link rel="stylesheet" href="styles.css?v=20260910b">
 <style>
-:root{--ep-bg:#f4f7fb;--ep-card:rgba(255,255,255,.97);--ep-line:#e5e7eb;--ep-text:#182033;--ep-muted:#687386background:var(;--ep-bg);color:var(--ep-text)}
+:root{--ep-bg:#f4f7fb;--ep-card:rgba(255,255,255,.97);--ep-line:#e5e7eb;--ep-text:var(--text-primary);--ep-muted:var(--text-secondary)background:var(;--ep-bg);color:var(--ep-text)}
 .navbar{background:rgba(255,255,255,.98)!important;box-shadow:0 8px 30px rgba(15,23,42,.09);backdrop-filter:blur(14px);z-index:100}
 .edit-page{min-height:100vh;padding:104px 0 70px;position:relative;overflow:hidden;background:linear-gradient(180deg,rgba(244,247,251,.94),rgba(244,247,251,.98)),url("https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=2200&q=85") center/cover fixed}
 .edit-page:before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 10% 8%,rgba(99,102,241,.12),transparent 30%),radial-gradient(circle at 92% 35%,rgba(14,165,233,.08),transparent 27%)}
@@ -24,17 +24,17 @@
 .editor-card{background:var(--ep-card);border:1px solid var(--ep-line);border-radius:24px;padding:30px;box-shadow:0 14px 42px rgba(15,23,42,.08)}
 .card-title{display:flex;align-items:center;gap:11px;margin:0 0 22px;font-size:19px;color:var(--dark)}
 .card-title i{color:var(--primary)}
-.load-panel{display:grid;grid-template-columns:1fr auto;gap:12px;padding:18px;border-radius:18px;background:#f7f8fc;border:1px solid var(--ep-line);margin-bottom:24px}
+.load-panel{display:grid;grid-template-columns:1fr auto;gap:12px;padding:18px;border-radius:18px;background:var(--surface-soft);border:1px solid var(--ep-line);margin-bottom:24px}
 .field{margin-bottom:18px}
-.field label{display:block;font-size:12px;font-weight:700;color:#525c6e;margin-bottom:8px;text-transform:uppercase;letter-spacing:.03em}
-.field input,.field select{width:100%;padding:13px 15px;border:1px solid var(--ep-line);border-radius:13px;background:#fff;font-size:14px;color:#3a4354;transition:.2s;font-family:inherit}
+.field label{display:block;font-size:12px;font-weight:700;color:var(--gray-600);margin-bottom:8px;text-transform:uppercase;letter-spacing:.03em}
+.field input,.field select{width:100%;padding:13px 15px;border:1px solid var(--ep-line);border-radius:13px;background:#fff;font-size:14px;color:var(--gray-700);transition:.2s;font-family:inherit}
 .field input:focus,.field select:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 4px rgba(79,70,229,.09)}
-.field input::placeholder{color:#9aa3b2}
+.field input::placeholder{color:var(--text-muted)}
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .section-label{font-size:13px;font-weight:800;color:var(--dark);margin:25px 0 15px;padding-top:20px;border-top:1px solid var(--ep-line)}
 .toggle-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:4px 0 20px}
-.toggle{display:flex;align-items:center;gap:10px;padding:13px 15px;border:1px solid var(--ep-line);border-radius:13px;background:#f7f8fc;color:#525c6e;font-size:14px;font-weight:600;cursor:pointer}
+.toggle{display:flex;align-items:center;gap:10px;padding:13px 15px;border:1px solid var(--ep-line);border-radius:13px;background:var(--surface-soft);color:var(--gray-600);font-size:14px;font-weight:600;cursor:pointer}
 .toggle input{width:17px;height:17px;accent-color:var(--primary)}
 .save-btn{width:100%;display:inline-flex;justify-content:center;gap:8px;padding:14px;border-radius:13px;font-size:14px}
 .page-cta{padding:0 0 90px;position:relative;z-index:1}
@@ -43,14 +43,15 @@
 .cta-banner p{margin:0 0 20px;opacity:.92}
 .cta-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
 .cta-banner .btn{background:#fff;color:var(--primary);font-weight:700}
-.site-footer{background:#182033!important;color:#d1d5db!important;opacity:1!important;border:0!important}
+.site-footer{background:var(--text-primary)!important;color:#d1d5db!important;opacity:1!important;border:0!important}
 @media(max-width:700px){.edit-page{padding-top:92px}.edit-container{padding:18px 14px}.page-intro{padding:22px;align-items:flex-start}.intro-icon{width:58px;height:58px;font-size:22px}.page-intro h1{font-size:27px}.editor-card{padding:21px}.load-panel,.grid-2,.grid-3,.toggle-grid{grid-template-columns:1fr}.load-panel .btn{width:100%}}
 </style>
+<style>/* HeavenLease brand mark */ .brand-logo-image{width:100%;height:100%;display:block;object-fit:contain;border-radius:inherit}.logo-icon,.hl-logo-icon,.logo-mark,.mark{overflow:hidden}</style>
 </head>
 <body>
 <nav class="navbar" id="navbar">
 <div class="nav-container">
-<a href="/" class="logo"><div class="logo-icon"><i class="fas fa-home"></i></div><span class="logo-text">Heaven<span>Lease</span></span></a>
+<a href="/" class="logo"><div class="logo-icon"><img src="logo.svg" alt="HeavenLease" class="brand-logo-image"></div><span class="logo-text">Heaven<span>Lease</span></span></a>
 <div class="nav-actions"><div class="user-menu" id="userMenu">
 <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu"><span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span><span id="navUserName">Account</span><i class="fas fa-chevron-down"></i></button>
 <div class="user-dropdown" id="profileDropdown">
@@ -123,7 +124,7 @@
     <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
         <div class="footer-brand">
             <a href="home" class="logo">
-                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <div class="logo-icon"><img src="logo.svg" alt="HeavenLease" class="brand-logo-image"></div>
                 <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
             <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>

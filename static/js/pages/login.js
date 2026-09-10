@@ -64,7 +64,18 @@
         return params.get('redirect');
     }
 
-    function redirectAfterLogin(role) {
+    async function redirectAfterLogin(role) {
+        // Verification is a post-login gate. The server remains authoritative.
+        try {
+            const me = await api.getMe();
+            if (me && me.verified === false) {
+                window.location.replace('verify-account');
+                return;
+            }
+        } catch (e) {
+            // If /me cannot be read, preserve the normal redirect; protected
+            // pages will still enforce authentication.
+        }
         const redirect = getRedirect();
         if (redirect && redirect !== '/' && !redirect.startsWith('/?') && !redirect.startsWith('/#')) {
             window.location.replace(redirect);
@@ -75,7 +86,9 @@
             else if (r === 'ADMIN') window.location.replace('admin-dashboard');
             else window.location.replace('home');
         }
-/* ===== Password login ===== */
+    }
+
+    /* ===== Password login ===== */
     document.getElementById('passwordLoginForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         const email = document.getElementById('loginEmail').value.trim();
@@ -88,8 +101,16 @@
             const captchaToken = await getCaptchaToken('login');
             const remember = document.getElementById('rememberMe').checked;
             const data = await api.login(email, password, captchaToken, remember);
+            if (data && data.twoFactorRequired) {
+                sessionStorage.setItem('heavenlease_2fa_pending', data.challengeToken);
+                sessionStorage.setItem('heavenlease_2fa_email_enabled', data.emailEnabled ? '1' : '0');
+                sessionStorage.setItem('heavenlease_2fa_totp_enabled', data.totpEnabled ? '1' : '0');
+                sessionStorage.setItem('heavenlease_2fa_email_hint', data.emailHint || '');
+                window.location.replace('otp-verify?mode=2fa');
+                return;
+            }
             showToast('Signed in successfully! Welcome back.', 'success');
-            setTimeout(() => redirectAfterLogin(data.role), 800);
+            setTimeout(() => { redirectAfterLogin(data.role); }, 100);
         } catch (error) {
             showToast(error.message || 'Invalid email or password.', 'error');
         } finally {
@@ -127,8 +148,9 @@
         try {
             const remember = document.getElementById('rememberMe').checked;
             const data = await api.loginWithEmailOtp(email, code, remember);
+            if (data && data.twoFactorRequired) { window.location.replace('otp-verify?mode=2fa'); return; }
             showToast('Signed in successfully!', 'success');
-            setTimeout(() => { redirectAfterLogin(data.role); }, 800);
+            setTimeout(() => { redirectAfterLogin(data.role); }, 100);
         } catch (error) {
             showToast(error.message || 'Invalid OTP. Please try again.', 'error');
         }
@@ -172,8 +194,9 @@
         try {
             const remember = document.getElementById('rememberMe').checked;
             const data = await api.loginWithPhoneOtp(phone, code, remember);
+            if (data && data.twoFactorRequired) { window.location.replace('otp-verify?mode=2fa'); return; }
             showToast('Signed in successfully!', 'success');
-            setTimeout(() => redirectAfterLogin(data.role), 800);
+            setTimeout(() => { redirectAfterLogin(data.role); }, 100);
         } catch (error) {
             showToast(error.message || 'Invalid OTP. Please try again.', 'error');
         }
@@ -234,6 +257,7 @@
         if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing in...'; }
         api.googleLogin(response.credential, true)
             .then((data) => {
+                if (data && data.twoFactorRequired) { window.location.replace('otp-verify?mode=2fa'); return; }
                 showToast('Signed in with Google successfully!', 'success');
                 setTimeout(() => redirectAfterLogin(data.role), 200);
             })
@@ -270,4 +294,3 @@
 
     loadGoogleClientId();
 })();
-    }

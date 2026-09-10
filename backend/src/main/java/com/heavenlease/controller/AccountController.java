@@ -15,6 +15,12 @@ import com.heavenlease.model.Property;
 import com.heavenlease.model.User;
 import com.heavenlease.repository.BookingRepository;
 import com.heavenlease.repository.FavoriteRepository;
+import com.heavenlease.repository.DocumentUploadRepository;
+import com.heavenlease.repository.MaintenanceRequestRepository;
+import com.heavenlease.repository.TicketRepository;
+import com.heavenlease.repository.FeedbackRepository;
+import com.heavenlease.service.DocumentStorageService;
+
 import com.heavenlease.repository.LeaseRepository;
 import com.heavenlease.repository.MessageRepository;
 import com.heavenlease.repository.NotificationRepository;
@@ -42,6 +48,11 @@ public class AccountController {
     private final PaymentRepository paymentRepository;
     private final OwnerApplicationRepository ownerApplicationRepository;
     private final MessageRepository messageRepository;
+    private final DocumentUploadRepository documentRepository;
+    private final MaintenanceRequestRepository maintenanceRepository;
+    private final TicketRepository ticketRepository;
+    private final FeedbackRepository feedbackRepository;
+    private final DocumentStorageService documentStorageService;
 
     public AccountController(UserRepository userRepository,
                              PropertyRepository propertyRepository,
@@ -51,7 +62,12 @@ public class AccountController {
                              NotificationRepository notificationRepository,
                              PaymentRepository paymentRepository,
                              OwnerApplicationRepository ownerApplicationRepository,
-                             MessageRepository messageRepository) {
+                             MessageRepository messageRepository,
+                             DocumentUploadRepository documentRepository,
+                             MaintenanceRequestRepository maintenanceRepository,
+                             TicketRepository ticketRepository,
+                             FeedbackRepository feedbackRepository,
+                             DocumentStorageService documentStorageService) {
         this.userRepository = userRepository;
         this.propertyRepository = propertyRepository;
         this.bookingRepository = bookingRepository;
@@ -61,6 +77,11 @@ public class AccountController {
         this.paymentRepository = paymentRepository;
         this.ownerApplicationRepository = ownerApplicationRepository;
         this.messageRepository = messageRepository;
+        this.documentRepository = documentRepository;
+        this.maintenanceRepository = maintenanceRepository;
+        this.ticketRepository = ticketRepository;
+        this.feedbackRepository = feedbackRepository;
+        this.documentStorageService = documentStorageService;
     }
 /**
      * Deactivate the current user's account (soft delete).
@@ -107,6 +128,14 @@ public class AccountController {
         favoriteRepository.deleteAll(favoriteRepository.findByUserId(userId));
         ownerApplicationRepository.deleteAll(ownerApplicationRepository.findByUserId(userId));
         paymentRepository.deleteAll(paymentRepository.findByUserId(userId));
+        paymentRepository.deleteAll(paymentRepository.findByOwnerId(userId));
+        var userDocuments = documentRepository.findByUserId(userId);
+        documentStorageService.deleteAll(userDocuments);
+        documentRepository.deleteAll(userDocuments);
+        maintenanceRepository.deleteAll(maintenanceRepository.findByTenantId(userId));
+        maintenanceRepository.deleteAll(maintenanceRepository.findByOwnerId(userId));
+        ticketRepository.deleteAll(ticketRepository.findByUserId(userId));
+        feedbackRepository.deleteAll(feedbackRepository.findByUserId(userId));
 
         bookingRepository.deleteAll(bookingRepository.findByTenantId(userId));
         bookingRepository.deleteAll(bookingRepository.findByOwnerId(userId));

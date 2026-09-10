@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.heavenlease.model.Lease;
 import com.heavenlease.repository.LeaseRepository;
+import com.heavenlease.repository.PropertyRepository;
+import com.heavenlease.model.Property;
 import com.heavenlease.security.CurrentUser;
 
 import jakarta.validation.Valid;
@@ -27,9 +29,11 @@ import jakarta.validation.Valid;
 public class LeaseController {
 
     private final LeaseRepository leaseRepository;
+    private final PropertyRepository propertyRepository;
 
-    public LeaseController(LeaseRepository leaseRepository) {
+    public LeaseController(LeaseRepository leaseRepository, PropertyRepository propertyRepository) {
         this.leaseRepository = leaseRepository;
+        this.propertyRepository = propertyRepository;
     }
 
     @GetMapping
@@ -83,7 +87,18 @@ public class LeaseController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN)
                     .body(Map.of("error", "Only owners can create leases"));
         }
-        lease.setOwnerId(currentUserId);
+        if (lease.getPropertyId() == null) {
+            return ResponseEntity.badRequest().body(Map.of("error", "propertyId is required"));
+        }
+        Optional<Property> propertyOpt = propertyRepository.findById(lease.getPropertyId());
+        if (propertyOpt.isEmpty()) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Property not found"));
+        }
+        Property property = propertyOpt.get();
+        if (!CurrentUser.isAdmin() && (property.getOwnerId() == null || !property.getOwnerId().equals(currentUserId))) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("error", "You can only create leases for your own properties"));
+        }
+        lease.setOwnerId(property.getOwnerId());
         if (lease.getStatus() == null) lease.setStatus("active");
         Lease saved = leaseRepository.save(lease);
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);

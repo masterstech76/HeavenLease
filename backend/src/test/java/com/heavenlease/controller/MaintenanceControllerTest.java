@@ -22,6 +22,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import com.heavenlease.model.MaintenanceRequest;
 import com.heavenlease.model.Property;
 import com.heavenlease.repository.MaintenanceRequestRepository;
+import com.heavenlease.repository.BookingRepository;
+import com.heavenlease.repository.LeaseRepository;
 import com.heavenlease.repository.PropertyRepository;
 import com.heavenlease.security.CurrentUserDetails;
 import com.heavenlease.service.NotificationService;
@@ -37,6 +39,8 @@ class MaintenanceControllerTest {
     private MaintenanceRequestRepository repo;
     private PropertyRepository propertyRepository;
     private NotificationService notificationService;
+    private BookingRepository bookingRepository;
+    private LeaseRepository leaseRepository;
     private MaintenanceController controller;
 
     @BeforeEach
@@ -44,7 +48,9 @@ class MaintenanceControllerTest {
         repo = mock(MaintenanceRequestRepository.class);
         propertyRepository = mock(PropertyRepository.class);
         notificationService = mock(NotificationService.class);
-        controller = new MaintenanceController(repo, propertyRepository, notificationService);
+        bookingRepository = mock(BookingRepository.class);
+        leaseRepository = mock(LeaseRepository.class);
+        controller = new MaintenanceController(repo, propertyRepository, notificationService, bookingRepository, leaseRepository);
     }
 
     @AfterEach
@@ -72,6 +78,10 @@ class MaintenanceControllerTest {
         authenticateAs(1L, "ROLE_TENANT");
         Property p = sampleProperty(2L);
         when(propertyRepository.findById(10L)).thenReturn(Optional.of(p));
+        var booking = new com.heavenlease.model.Booking();
+        booking.setTenantId(1L); booking.setPropertyId(10L); booking.setStatus("approved");
+        when(bookingRepository.findByTenantIdAndPropertyId(1L, 10L)).thenReturn(List.of(booking));
+        when(leaseRepository.findByTenantIdAndPropertyId(1L, 10L)).thenReturn(List.of());
         when(repo.save(any(MaintenanceRequest.class))).thenAnswer(inv -> inv.getArgument(0));
 
         MaintenanceRequest request = new MaintenanceRequest();

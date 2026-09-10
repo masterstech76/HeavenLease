@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
     <title>HeavenLease &mdash; Redirecting&hellip;</title>
-<link rel="stylesheet" href="styles.css?v=20260909a">
+<link rel="stylesheet" href="styles.css?v=20260910b">
     <meta http-equiv="refresh" content="0; url=properties">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,27 +18,28 @@
                         url('bg-home.jpg') center/cover fixed no-repeat;
             display: flex; align-items: center; justify-content: center; padding: 24px; overflow-x: hidden; }
         .brand { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 26px; }
-        .brand .logo-icon { width: 52px; height: 52px; background: linear-gradient(135deg, #5b5ce2, #10B981);
+        .brand .logo-icon { width: 52px; height: 52px; background: linear-gradient(135deg, var(--primary), var(--success));
             border-radius: 14px; display: flex; align-items: center; justify-content: center; color: #fff;
             font-size: 24px; box-shadow: 0 8px 24px rgba(79,70,229,.35); }
         .brand .logo-text { font-family: 'Playfair Display', serif; font-size: 30px; font-weight: 700; color: #fff; }
-        .brand .logo-text span { color: #5b5ce2; }
+        .brand .logo-text span { color: var(--primary); }
         .card { max-width: 420px; width: 100%; background: rgba(255,255,255,0.06);
             border: 1px solid rgba(255,255,255,0.14); border-radius: 20px; padding: 34px 30px; text-align: center;
             box-shadow: 0 24px 60px rgba(15,23,42,.35); }
         .spinner { width: 42px; height: 42px; margin: 0 auto 18px; border: 4px solid rgba(255,255,255,.22);
-            border-top-color: #5b5ce2; border-radius: 50%; animation: spin .8s linear infinite; }
+            border-top-color: var(--primary); border-radius: 50%; animation: spin .8s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
         h1 { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 8px; }
         p { font-size: 14px; color: rgba(255,255,255,.72); line-height: 1.6; }
         .link { display: inline-block; margin-top: 18px; color: #aeb1ff; font-size: 13px; }
         @media (max-width: 480px) { .card { padding: 24px 20px; } h1 { font-size: 17px; } }
     </style>
+<style>/* HeavenLease brand mark */ .brand-logo-image{width:100%;height:100%;display:block;object-fit:contain;border-radius:inherit}.logo-icon,.hl-logo-icon,.logo-mark,.mark{overflow:hidden}</style>
 </head>
 <body>
     <div style="width:100%;max-width:460px;text-align:center;position:relative;z-index:1;">
         <div class="brand">
-            <div class="logo-icon"><i class="fas fa-home"></i></div>
+            <div class="logo-icon"><img src="logo.svg" alt="HeavenLease" class="brand-logo-image"></div>
             <span class="logo-text">Heaven<span>Lease</span></span>
         </div>
         <div class="card">
@@ -54,7 +55,7 @@
     <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
         <div class="footer-brand">
             <a href="home" class="logo">
-                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <div class="logo-icon"><img src="logo.svg" alt="HeavenLease" class="brand-logo-image"></div>
                 <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
             <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>

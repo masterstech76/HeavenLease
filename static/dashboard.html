@@ -5,18 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Your HeavenLease dashboard - manage properties, tours, leases, and payments.">
 <title>Dashboard — HeavenLease</title>
-<link rel="stylesheet" href="styles.css?v=20260909a">
+<link rel="stylesheet" href="styles.css?v=20260910b">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
 <style>
 :root{
-  --primary:#5b5ce2;--primary2:#5b5ce2;--primary-light:#eef0ff;
-  --secondary:#18a878;--secondary-dark:#0f8a63;
-  --dark:#182033;--muted:#687386;--gray-50:#f7f8fc;--gray-100:#eef0f5;
-  --gray-200:#e4e7ee;--gray-300:#d4d8e2;--gray-400:#9aa3b2;
-  --white:#ffffff;--danger:#ef4444;--warning:#f59e0b;
+  --primary:var(--primary);--primary2:var(--primary);--primary-light:var(--primary-light);
+  --secondary:var(--secondary);--secondary-dark:var(--secondary-dark);
+  --dark:var(--text-primary);--muted:var(--text-secondary);--gray-50:var(--surface-soft);--gray-100:var(--gray-100);
+  --gray-200:var(--border);--gray-300:var(--gray-300);--gray-400:var(--text-muted);
+  --white:#ffffff;--danger:var(--danger);--warning:var(--warning);
   --radius-sm:10px;--radius-md:14px;--radius-lg:20px;--radius-xl:28px;
   --shadow-sm:0 4px 16px rgba(23,32,51,.06);
   --shadow-md:0 12px 32px rgba(23,32,51,.10);
@@ -50,20 +50,20 @@ button{font:inherit}
 .user-dropdown a:hover{background:var(--gray-50);color:var(--primary)}
 .user-dropdown i{width:18px;text-align:center}.dropdown-divider{height:1px;background:var(--gray-100);margin:7px 4px}
 /* Dashboard shell */
-.dashboard-page{min-height:calc(100vh - 74px);background:linear-gradient(180deg,#f7f8fc 0%,#eef1f8 100%)}
+.dashboard-page{min-height:calc(100vh - 74px);background:linear-gradient(180deg,var(--surface-soft) 0%,#eef1f8 100%)}
 .dashboard-layout{display:grid;grid-template-columns:250px minmax(0,1fr);min-height:calc(100vh - 74px)}
 .dash-sidebar{
-  background:linear-gradient(180deg,#182033 0%,#1d2740 100%);color:white;
+  background:linear-gradient(180deg,var(--text-primary) 0%,#1d2740 100%);color:white;
   padding:25px 16px;position:sticky;top:74px;height:calc(100vh - 74px);overflow:auto
 }
 .dash-user{padding:16px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.055);border-radius:16px;display:flex;align-items:center;gap:12px;margin-bottom:22px}
-.dash-user-avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--primary),#5b5ce2);display:grid;place-items:center}
+.dash-user-avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--primary));display:grid;place-items:center}
 .dash-user-info strong{display:block;font-size:13px}.dash-user-info span{display:block;font-size:11px;color:#9ca3af;margin-top:3px}
 .dash-nav{display:flex;flex-direction:column;gap:5px}
 .dash-nav-item{display:flex;align-items:center;gap:12px;padding:12px 13px;border-radius:11px;color:#aeb7c8;font-size:13px;transition:var(--transition)}
 .dash-nav-item:hover{background:rgba(255,255,255,.07);color:white;transform:translateX(2px)}
 .dash-nav-item.active{background:linear-gradient(135deg,var(--primary),var(--primary2));color:white;box-shadow:0 10px 22px rgba(79,70,229,.22)}
-.dash-nav-item i{width:20px;text-align:center}.dash-nav-item .badge{margin-left:auto;background:#10b981;color:white;padding:3px 7px;border-radius:999px;font-size:10px}
+.dash-nav-item i{width:20px;text-align:center}.dash-nav-item .badge{margin-left:auto;background:var(--success);color:white;padding:3px 7px;border-radius:999px;font-size:10px}
 /* Main */
 .dash-main{padding:30px;min-width:0}
 .dash-profile-card{
@@ -71,14 +71,14 @@ button{font:inherit}
   padding:26px;display:flex;align-items:center;gap:22px;margin-bottom:26px;box-shadow:var(--shadow-sm)
 }
 .dash-profile-card:before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:linear-gradient(90deg,var(--primary),#8b5cf6,var(--secondary))}
-.dash-profile-avatar{width:86px;height:86px;border-radius:50%;flex:none;display:grid;place-items:center;background:linear-gradient(135deg,var(--primary),#8b5cf6);color:white;font-size:31px;font-weight:800;border:4px solid #eef0ff;overflow:hidden}
+.dash-profile-avatar{width:86px;height:86px;border-radius:50%;flex:none;display:grid;place-items:center;background:linear-gradient(135deg,var(--primary),#8b5cf6);color:white;font-size:31px;font-weight:800;border:4px solid var(--primary-light);overflow:hidden}
 .dash-profile-avatar img{width:100%;height:100%;object-fit:cover}
 .dash-profile-info{flex:1;min-width:0}.dash-profile-title{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .dash-profile-title h2{margin:0;font:700 25px "Playfair Display",serif}
 .dash-profile-username{font-size:13px;color:var(--muted)}
 .verified-badge,.unverified-badge{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:5px 9px;font-size:11px;font-weight:700}
-.verified-badge{background:#d1fae5;color:#047857}.unverified-badge{background:#fef3c7;color:#b45309}
-.dash-profile-bio{margin:7px 0 11px;color:#687386;font-size:13px;line-height:1.6}
+.verified-badge{background:#d1fae5;color:var(--success-dark)}.unverified-badge{background:#fef3c7;color:var(--warning-dark)}
+.dash-profile-bio{margin:7px 0 11px;color:var(--text-secondary);font-size:13px;line-height:1.6}
 .dash-profile-meta{display:flex;gap:14px;flex-wrap:wrap;color:#7b8494;font-size:12px}.dash-profile-meta i{color:var(--primary);margin-right:4px}
 .dash-profile-meta a{color:var(--primary);font-weight:600}
 .dash-profile-actions{margin-left:auto}.btn{border:0;border-radius:11px;padding:11px 16px;display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:700;font-size:13px;cursor:pointer;transition:var(--transition)}
@@ -92,8 +92,8 @@ button{font:inherit}
 .dash-stat-card{background:white;border:1px solid var(--gray-200);border-radius:18px;padding:19px;box-shadow:var(--shadow-sm);transition:var(--transition)}
 .dash-stat-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);border-color:#d8dcff}
 .dash-stat-icon{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;font-size:18px;margin-bottom:13px}
-.dash-stat-icon.blue{background:#eef0ff;color:var(--primary)}.dash-stat-icon.green{background:#d1fae5;color:#047857}
-.dash-stat-icon.orange{background:#fef3c7;color:#b45309}.dash-stat-icon.purple{background:#ede9fe;color:#4445c5}
+.dash-stat-icon.blue{background:var(--primary-light);color:var(--primary)}.dash-stat-icon.green{background:#d1fae5;color:var(--success-dark)}
+.dash-stat-icon.orange{background:#fef3c7;color:var(--warning-dark)}.dash-stat-icon.purple{background:#ede9fe;color:var(--primary-dark)}
 .dash-stat-value{display:block;font-size:25px;font-weight:800;letter-spacing:-.5px}.dash-stat-label{font-size:12px;color:var(--muted)}
 .dash-stat-change{font-size:10px;font-weight:700}
 /* Feature hub */
@@ -110,11 +110,11 @@ button{font:inherit}
 .dash-table td{padding:13px 9px;color:#566173;font-size:12px;border-bottom:1px solid #f0f1f5}
 .dash-table tr:last-child td{border-bottom:0}
 .status{display:inline-flex;padding:5px 9px;border-radius:999px;font-size:10px;font-weight:800;text-transform:capitalize}
-.status-active{background:#d1fae5;color:#047857}.status-pending{background:#fef3c7;color:#b45309}.status-completed{background:#eef0ff;color:#4445c5}.status-cancelled{background:#fee2e2;color:#dc2626}
+.status-active{background:#d1fae5;color:var(--success-dark)}.status-pending{background:#fef3c7;color:var(--warning-dark)}.status-completed{background:var(--primary-light);color:var(--primary-dark)}.status-cancelled{background:#fee2e2;color:#dc2626}
 .activity-list{display:flex;flex-direction:column;gap:2px}.activity-item{display:flex;align-items:center;gap:10px;padding:10px 0}
-.activity-icon{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;flex:none}.activity-icon.blue{background:#eef0ff;color:var(--primary)}.activity-icon.green{background:#d1fae5;color:#047857}.activity-icon.orange{background:#fef3c7;color:#b45309}
+.activity-icon{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;flex:none}.activity-icon.blue{background:var(--primary-light);color:var(--primary)}.activity-icon.green{background:#d1fae5;color:var(--success-dark)}.activity-icon.orange{background:#fef3c7;color:var(--warning-dark)}
 .activity-content{min-width:0}.activity-content strong{display:block;font-size:12px}.activity-content span{font-size:10px;color:var(--muted)}
-.activity-time{margin-left:auto;font-size:10px;color:#9aa3b2;white-space:nowrap}
+.activity-time{margin-left:auto;font-size:10px;color:var(--text-muted);white-space:nowrap}
 .dash-mobile-toggle{display:none;position:fixed;right:18px;bottom:18px;z-index:110;width:50px;height:50px;border:0;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--primary2));color:white;box-shadow:0 12px 28px rgba(79,70,229,.3);cursor:pointer}
 /* Desktop visual enhancement */
 .dashboard-page:before{content:"";position:fixed;z-index:-1;right:0;top:74px;width:44vw;height:430px;background:linear-gradient(135deg,rgba(99,102,241,.07),rgba(16,185,129,.04));clip-path:polygon(20% 0,100% 0,100% 100%,0 78%)}
@@ -140,12 +140,13 @@ button{font:inherit}
   .user-menu-trigger>span:not(.user-avatar),.user-menu-trigger>i{display:none}
 }
 </style>
+<style>/* HeavenLease brand mark */ .brand-logo-image{width:100%;height:100%;display:block;object-fit:contain;border-radius:inherit}.logo-icon,.hl-logo-icon,.logo-mark,.mark{overflow:hidden}</style>
 </head>
 <body>
 <nav class="navbar" id="navbar">
   <div class="nav-container">
     <a href="home" class="logo">
-      <div class="logo-icon"><i class="fas fa-home"></i></div>
+      <div class="logo-icon"><img src="logo.svg" alt="HeavenLease" class="brand-logo-image"></div>
       <span class="logo-text">Heaven<span>Lease</span></span>
     </a>
     <div class="nav-actions">
@@ -256,7 +257,7 @@ button{font:inherit}
     <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
         <div class="footer-brand">
             <a href="home" class="logo">
-                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <div class="logo-icon"><img src="logo.svg" alt="HeavenLease" class="brand-logo-image"></div>
                 <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
             <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>

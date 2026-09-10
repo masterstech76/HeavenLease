@@ -206,6 +206,7 @@
                 try {
                     sendWebSocketMessage({
                         conversationId: Number(activeConversation),
+                        receiverId: Number(conv.otherUserId) || 0,
                         senderId: currentUserId,
                         senderName: meUser.name || 'You',
                         content: text,

@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
-    <link rel="stylesheet" href="styles.css?v=20260909a">
+    <link rel="stylesheet" href="styles.css?v=20260910b">
     <style>
         :root {
             --otp-ink: #17231f;
@@ -373,6 +373,7 @@
             }
         }
     </style>
+<style>/* HeavenLease brand mark */ .brand-logo-image{width:100%;height:100%;display:block;object-fit:contain;border-radius:inherit}.logo-icon,.hl-logo-icon,.logo-mark,.mark{overflow:hidden}</style>
 </head>
 <body>
     <div class="auth-container">
@@ -380,7 +381,7 @@
             <i class="fas fa-arrow-left"></i> Back to Sign In
         </a>
         <div class="auth-brand">
-            <div class="logo-icon"><i class="fas fa-home"></i></div>
+            <div class="logo-icon"><img src="logo.svg" alt="HeavenLease" class="brand-logo-image"></div>
             <span class="logo-text">Heaven<span>Lease</span></span>
         </div>
         <div class="auth-card">
@@ -396,10 +397,10 @@
                 <input type="text" maxlength="1" class="otp-digit" oninput="handleOtpInput(this)">
             </div>
             <!-- Self-hosted OTP preview: shows the code when no SMS gateway is available -->
-            <div id="otpPreviewBox" style="display:none;margin-top:16px;padding:14px 16px;background:#eef0ff;border:1px dashed #5b5ce2;border-radius:12px;text-align:center;">
-                <div style="font-size:12px;color:#687386;margin-bottom:4px;">You are viewing your OTP (delivered on-screen because SMS is unavailable)</div>
-                <strong id="otpPreviewValue" style="font-size:28px;letter-spacing:8px;color:#5b5ce2;"></strong>
-                <div style="font-size:12px;color:#687386;margin-top:4px;">Expires in 10 minutes.</div>
+            <div id="otpPreviewBox" style="display:none;margin-top:16px;padding:14px 16px;background:var(--primary-light);border:1px dashed var(--primary);border-radius:12px;text-align:center;">
+                <div style="font-size:12px;color:var(--text-secondary);margin-bottom:4px;">You are viewing your OTP (delivered on-screen because SMS is unavailable)</div>
+                <strong id="otpPreviewValue" style="font-size:28px;letter-spacing:8px;color:var(--primary);"></strong>
+                <div style="font-size:12px;color:var(--text-secondary);margin-top:4px;">Expires in 10 minutes.</div>
             </div>
             <button class="btn-auth" id="verifyBtn" onclick="verifyOtp()">
                 <i class="fas fa-check-circle"></i> Verify OTP

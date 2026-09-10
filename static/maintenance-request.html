@@ -10,12 +10,12 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
-<link rel="stylesheet" href="styles.css?v=20260909a">
+<link rel="stylesheet" href="styles.css?v=20260910b">
 <style>
 :root{
- --hl-dark:#182033;--hl-dark2:#18382f;--hl-gold:#5b5ce2;--hl-gold2:#e0bd87;
- --hl-green:#18a878;--hl-paper:#ffffff;--hl-paper2:#ece7dc;--hl-line:#e4e7ee;
- --hl-text:#25332e;--hl-muted:#687386;--hl-shadow:0 24px 70px rgba(16,36,31,.12);
+ --hl-dark:var(--text-primary);--hl-dark2:#18382f;--hl-gold:var(--primary);--hl-gold2:#e0bd87;
+ --hl-green:var(--secondary);--hl-paper:#ffffff;--hl-paper2:#ece7dc;--hl-line:var(--border);
+ --hl-text:#25332e;--hl-muted:var(--text-secondary);--hl-shadow:0 24px 70px rgba(16,36,31,.12);
  --hl-heading:"Playfair Display",Georgia,serif;--hl-body:Inter,system-ui,sans-serif;
 }
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:var(--hl-body);color:var(--hl-text);background:var(--hl-paper)}
@@ -52,11 +52,12 @@ input,select,textarea{font-family:var(--hl-body);outline:none}select,input,texta
 @media(max-width:920px){.request-layout{grid-template-columns:1fr}.side-panel{position:static}.side-card{display:grid;grid-template-columns:260px 1fr}.side-image{height:100%}.status-card{margin-top:15px}.footer-inner{flex-direction:column}.footer-links{justify-content:flex-start}}
 @media(max-width:680px){.container{width:calc(100% - 24px)}.nav-container{height:70px}.user-menu-trigger #navUserName{display:none}.user-dropdown{width:min(285px,calc(100vw - 24px));right:-3px}.page-header{padding:130px 0 70px}.page-header h1{font-size:39px}.page-header p{font-size:14px}.page-section{padding:55px 0 60px}.request-card{padding:23px 18px;border-radius:21px}.form-heading h2{font-size:23px}.form-row{grid-template-columns:1fr;gap:0}.side-card{display:block}.side-image{height:180px}.cta-banner{padding:32px 20px}.cta-actions{flex-direction:column}.cta-actions .btn{width:100%}.footer-bottom{flex-direction:column}}
 </style>
+<style>/* HeavenLease brand mark */ .brand-logo-image{width:100%;height:100%;display:block;object-fit:contain;border-radius:inherit}.logo-icon,.hl-logo-icon,.logo-mark,.mark{overflow:hidden}</style>
 </head>
 <body>
 <nav class="navbar" id="navbar">
 <div class="nav-container">
-<a href="/" class="logo"><div class="logo-icon"><i class="fas fa-home"></i></div><span class="logo-text">Heaven<span>Lease</span></span></a>
+<a href="/" class="logo"><div class="logo-icon"><img src="logo.svg" alt="HeavenLease" class="brand-logo-image"></div><span class="logo-text">Heaven<span>Lease</span></span></a>
 <div class="nav-actions">
 <div class="user-menu" id="userMenu">
 <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu"><span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span><span id="navUserName">Account</span><i class="fas fa-chevron-down"></i></button>
@@ -156,7 +157,7 @@ input,select,textarea{font-family:var(--hl-body);outline:none}select,input,texta
     <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
         <div class="footer-brand">
             <a href="home" class="logo">
-                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <div class="logo-icon"><img src="logo.svg" alt="HeavenLease" class="brand-logo-image"></div>
                 <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
             <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>

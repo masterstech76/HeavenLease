@@ -10,16 +10,16 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
-    <link rel="stylesheet" href="styles.css?v=20260909a">
+    <link rel="stylesheet" href="styles.css?v=20260910b">
     <style>
         :root{
-            --hl-ink:#182033;
-            --hl-muted:#687386;
-            --hl-soft:#f7f8fc;
-            --hl-line:#e4e7ee;
-            --hl-primary:#5b5ce2;
-            --hl-primary-2:#5b5ce2;
-            --hl-dark:#182033;
+            --hl-ink:var(--text-primary);
+            --hl-muted:var(--text-secondary);
+            --hl-soft:var(--surface-soft);
+            --hl-line:var(--border);
+            --hl-primary:var(--primary);
+            --hl-primary-2:var(--primary);
+            --hl-dark:var(--text-primary);
             --hl-white:#ffffff;
             --hl-radius:24px;
             --hl-shadow:0 20px 60px rgba(16,24,40,.10);
@@ -96,7 +96,7 @@
             background:
               radial-gradient(circle at 15% 20%,rgba(124,58,237,.42),transparent 30%),
               radial-gradient(circle at 86% 15%,rgba(91,92,226,.40),transparent 32%),
-              linear-gradient(135deg,#182033 0%,#171d38 52%,#11152b 100%);
+              linear-gradient(135deg,var(--text-primary) 0%,#171d38 52%,#11152b 100%);
             color:#fff;
         }
         .article-hero:before{
@@ -164,7 +164,7 @@
             font-size:12px;color:var(--hl-muted);margin:0 0 30px;
         }
         .article-meta .tag{
-            color:var(--hl-primary);font-weight:700;background:#eef0ff;
+            color:var(--hl-primary);font-weight:700;background:var(--primary-light);
             padding:6px 9px;border-radius:999px;
         }
         .article-content h2{
@@ -173,10 +173,10 @@
         }
         .article-content h2:first-child{margin-top:0}
         .article-content p{
-            font-size:16px;line-height:1.9;color:#525c6e;margin:0 0 18px;
+            font-size:16px;line-height:1.9;color:var(--gray-600);margin:0 0 18px;
         }
         .article-content ul{margin:0 0 22px;padding-left:22px}
-        .article-content li{font-size:15.5px;line-height:1.8;color:#525c6e;margin:7px 0}
+        .article-content li{font-size:15.5px;line-height:1.8;color:var(--gray-600);margin:7px 0}
         .article-content li::marker{color:var(--hl-primary)}
         .article-sidebar{position:sticky;top:100px}
         .side-card{
@@ -198,14 +198,14 @@
         }
         .not-found-icon{
             width:70px;height:70px;border-radius:20px;margin:0 auto 20px;
-            display:grid;place-items:center;background:#eef0ff;color:var(--hl-primary);font-size:27px;
+            display:grid;place-items:center;background:var(--primary-light);color:var(--hl-primary);font-size:27px;
         }
         .not-found h2{font-family:"Playfair Display",Georgia,serif;font-size:31px;margin:0 0 10px}
         .not-found p{color:var(--hl-muted);line-height:1.7;max-width:450px;margin:0 auto 22px}
         .page-cta{padding:0 0 90px}
         .cta-banner{
             position:relative;overflow:hidden;
-            background:linear-gradient(135deg,#182033,#22214a);
+            background:linear-gradient(135deg,var(--text-primary),#22214a);
             border-radius:30px;padding:54px 35px;text-align:center;color:#fff;
         }
         .cta-banner:before{
@@ -226,13 +226,13 @@
             background:var(--hl-dark);color:#fff;padding:65px 0 30px;
         }
         .footer-grid{display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:40px}
-        .footer-brand p{max-width:330px;color:#9aa3b2;font-size:13px;line-height:1.7}
+        .footer-brand p{max-width:330px;color:var(--text-muted);font-size:13px;line-height:1.7}
         .footer h4{font-size:13px;margin:5px 0 15px}
-        .footer a{display:block;color:#9aa3b2;font-size:13px;margin:9px 0}
+        .footer a{display:block;color:var(--text-muted);font-size:13px;margin:9px 0}
         .footer a:hover{color:#fff}
         .footer-bottom{
             border-top:1px solid rgba(255,255,255,.08);margin-top:40px;padding-top:20px;
-            color:#687386;font-size:12px;display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;
+            color:var(--text-secondary);font-size:12px;display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;
         }
         #backToTop{
             position:fixed;right:22px;bottom:22px;width:44px;height:44px;border:0;border-radius:50%;
@@ -259,12 +259,13 @@
             .footer{padding-top:48px}
         }
     </style>
+<style>/* HeavenLease brand mark */ .brand-logo-image{width:100%;height:100%;display:block;object-fit:contain;border-radius:inherit}.logo-icon,.hl-logo-icon,.logo-mark,.mark{overflow:hidden}</style>
 </head>
 <body>
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <a href="/" class="logo" aria-label="HeavenLease home">
-                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <div class="logo-icon"><img src="logo.svg" alt="HeavenLease" class="brand-logo-image"></div>
                 <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
             <div class="nav-actions">
@@ -354,7 +355,7 @@
     <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
         <div class="footer-brand">
             <a href="home" class="logo">
-                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <div class="logo-icon"><img src="logo.svg" alt="HeavenLease" class="brand-logo-image"></div>
                 <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
             <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>

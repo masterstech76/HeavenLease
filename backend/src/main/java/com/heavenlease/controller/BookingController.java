@@ -114,10 +114,18 @@ public class BookingController {
                         .body(Map.of("error", "Please verify your email/phone before booking a tour"));
             }
         }
+        Optional<Property> propertyOpt = propertyRepository.findById(request.getPropertyId());
+        if (propertyOpt.isEmpty()) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Property not found"));
+        }
+        Property property = propertyOpt.get();
+        if (property.getOwnerId() == null) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Property owner is not configured"));
+        }
         Booking booking = new Booking();
-        booking.setPropertyId(request.getPropertyId());
+        booking.setPropertyId(property.getId());
         booking.setTenantId(currentUserId);
-        booking.setOwnerId(request.getOwnerId());
+        booking.setOwnerId(property.getOwnerId());
         booking.setTourDate(request.getTourDate());
         booking.setTourTime(request.getTourTime());
         booking.setStatus("pending");

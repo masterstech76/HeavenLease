@@ -9,11 +9,11 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
-<link rel="stylesheet" href="styles.css?v=20260909a">
+<link rel="stylesheet" href="styles.css?v=20260910b">
 <style>
 :root{
-  --msg-ink:#182033;--msg-muted:#6b778a;--msg-line:#e4e8ef;--msg-soft:#f5f7fb;
-  --msg-primary:#5b5ce2;--msg-primary2:#8178ff;--msg-navy:#09111f;--msg-white:#fff;
+  --msg-ink:var(--text-primary);--msg-muted:#6b778a;--msg-line:#e4e8ef;--msg-soft:#f5f7fb;
+  --msg-primary:var(--primary);--msg-primary2:#8178ff;--msg-navy:#09111f;--msg-white:#fff;
 }
 *{box-sizing:border-box}
 html,body{margin:0;min-height:100%;font-family:Inter,system-ui,sans-serif;color:var(--msg-ink);background:#edf1f6}
@@ -35,7 +35,7 @@ body{overflow:hidden}
 .user-menu-trigger .fa-chevron-down{font-size:10px;opacity:.7}
 .user-dropdown{position:absolute;right:0;top:calc(100% + 9px);width:245px;max-height:70vh;overflow:auto;background:#fff;border:1px solid #e5e7eb;border-radius:15px;padding:7px;box-shadow:0 22px 55px rgba(15,23,42,.24);display:none}
 .user-menu:hover .user-dropdown,.user-menu:focus-within .user-dropdown{display:block}
-.user-dropdown a{display:flex;align-items:center;gap:10px;padding:10px 11px;border-radius:9px;color:#3a4354;text-decoration:none;font-size:12.5px;font-weight:600}
+.user-dropdown a{display:flex;align-items:center;gap:10px;padding:10px 11px;border-radius:9px;color:var(--gray-700);text-decoration:none;font-size:12.5px;font-weight:600}
 .user-dropdown a:hover{background:#f1f2ff;color:var(--msg-primary)}
 .dropdown-divider{height:1px;background:#edf0f4;margin:6px 4px}
 .messages-page{
@@ -61,14 +61,14 @@ body{overflow:hidden}
 .conversations-search input:focus{outline:none;border-color:#b8b3ff;background:#fff;box-shadow:0 0 0 3px rgba(99,91,255,.08)}
 .conversation-items{flex:1;overflow-y:auto}
 .conversation-item{display:flex;gap:12px;padding:15px 18px;cursor:pointer;border-bottom:1px solid #f0f2f5;transition:.18s;position:relative}
-.conversation-item:hover{background:#f8f9fc}.conversation-item.active{background:#eef0ff}.conversation-item.active:before{content:"";position:absolute;left:0;top:10px;bottom:10px;width:3px;background:var(--msg-primary);border-radius:0 4px 4px 0}
+.conversation-item:hover{background:#f8f9fc}.conversation-item.active{background:var(--primary-light)}.conversation-item.active:before{content:"";position:absolute;left:0;top:10px;bottom:10px;width:3px;background:var(--msg-primary);border-radius:0 4px 4px 0}
 .conversation-avatar,.chat-header .avatar{flex:0 0 auto;background:linear-gradient(135deg,var(--msg-primary),var(--msg-primary2));color:#fff;display:grid;place-items:center;box-shadow:0 8px 20px rgba(99,91,255,.18)}
 .conversation-avatar{width:47px;height:47px;border-radius:15px;font-size:16px}
 .conversation-info{flex:1;min-width:0}
 .conversation-info .name{font-size:13.5px;font-weight:700;display:flex;gap:8px;justify-content:space-between;align-items:center;color:var(--msg-ink)}
 .conversation-info .name .time{font-size:10.5px;color:#98a1af;font-weight:500;white-space:nowrap}
 .conversation-info .preview{font-size:12px;color:#7a8697;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:4px}
-.conversation-info .property-tag{font-size:10.5px;color:#625be5;background:#eef0ff;padding:3px 7px;border-radius:999px;display:inline-block;margin-top:5px}
+.conversation-info .property-tag{font-size:10.5px;color:#625be5;background:var(--primary-light);padding:3px 7px;border-radius:999px;display:inline-block;margin-top:5px}
 .unread-badge{background:var(--msg-primary);color:#fff;border-radius:999px;min-width:20px;height:20px;padding:0 5px;display:grid;place-items:center;font-size:10px;font-weight:800;align-self:center}
 .chat-window{display:flex;flex-direction:column;min-width:0;background:#fff;position:relative}
 .chat-header{min-height:70px;padding:12px 20px;border-bottom:1px solid var(--msg-line);display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.98)}
@@ -115,12 +115,13 @@ body{overflow:hidden}
   .user-dropdown{right:-4px}
 }
 </style>
+<style>/* HeavenLease brand mark */ .brand-logo-image{width:100%;height:100%;display:block;object-fit:contain;border-radius:inherit}.logo-icon,.hl-logo-icon,.logo-mark,.mark{overflow:hidden}</style>
 </head>
 <body>
 <nav class="navbar" id="navbar">
   <div class="nav-container">
     <a href="home" class="logo" aria-label="HeavenLease home">
-      <div class="logo-icon"><i class="fas fa-home"></i></div>
+      <div class="logo-icon"><img src="logo.svg" alt="HeavenLease" class="brand-logo-image"></div>
       <span class="logo-text">Heaven<span>Lease</span></span>
     </a>
     <div class="nav-actions">
@@ -212,7 +213,7 @@ body{overflow:hidden}
     <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
         <div class="footer-brand">
             <a href="home" class="logo">
-                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <div class="logo-icon"><img src="logo.svg" alt="HeavenLease" class="brand-logo-image"></div>
                 <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
             <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>

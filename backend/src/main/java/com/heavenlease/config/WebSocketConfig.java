@@ -21,12 +21,23 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Value("${app.cors.allowed-origins:https://heavenlease.in,https://www.heavenlease.in}")
     private String allowedOrigins;
 
+    private final WebSocketAuthInterceptor authInterceptor;
+
+    public WebSocketConfig(WebSocketAuthInterceptor authInterceptor) {
+        this.authInterceptor = authInterceptor;
+    }
+
     @Override
     public void configureMessageBroker(@NonNull MessageBrokerRegistry config) {
         // Messages broadcast to clients go to /topic/*
         config.enableSimpleBroker("/topic");
         // Client-to-server messages (e.g. sending a chat message) go to /app/*
         config.setApplicationDestinationPrefixes("/app");
+    }
+
+    @Override
+    public void configureClientInboundChannel(org.springframework.messaging.simp.config.ChannelRegistration registration) {
+        registration.interceptors(authInterceptor);
     }
 
     @Override

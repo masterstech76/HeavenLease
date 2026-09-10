@@ -11,12 +11,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
-  <link rel="stylesheet" href="styles.css?v=20260913a">
+  <link rel="stylesheet" href="styles.css?v=20260910b">
   <style>
     :root{
-      --hl-ink:#182033; --hl-muted:#687386; --hl-soft:#f7f8fc;
-      --hl-line:#e4e7ee; --hl-primary:#5b5ce2; --hl-primary-2:#5b5ce2;
-      --hl-dark:#182033; --hl-white:#ffffff; --hl-radius:24px;
+      --hl-ink:var(--text-primary); --hl-muted:var(--text-secondary); --hl-soft:var(--surface-soft);
+      --hl-line:var(--border); --hl-primary:var(--primary); --hl-primary-2:var(--primary);
+      --hl-dark:var(--text-primary); --hl-white:#ffffff; --hl-radius:24px;
       --hl-shadow:0 20px 60px rgba(16,24,40,.10);
     }
     *{box-sizing:border-box}
@@ -31,30 +31,30 @@
     .hl-logo-icon{width:40px;height:40px;border-radius:13px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,var(--hl-primary),var(--hl-primary-2));box-shadow:0 8px 24px rgba(91,92,226,.25)}
     .hl-logo span{color:var(--hl-primary)}
     .hl-nav-links{display:flex;align-items:center;gap:26px}
-    .hl-nav-links a{color:#525c6e;font-size:14px;font-weight:600}
+    .hl-nav-links a{color:var(--gray-600);font-size:14px;font-weight:600}
     .hl-nav-links a:hover{color:var(--hl-primary)}
     .hl-account{position:relative}
     .hl-account-btn{border:1px solid var(--hl-line);background:#fff;border-radius:999px;padding:8px 13px;display:flex;align-items:center;gap:8px;font:600 13px Inter;cursor:pointer;color:var(--hl-ink)}
-    .hl-avatar{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:#eef0ff;color:var(--hl-primary);font-size:12px;font-weight:800}
+    .hl-avatar{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--primary-light);color:var(--hl-primary);font-size:12px;font-weight:800}
     .hl-dropdown{position:absolute;right:0;top:48px;width:245px;background:#fff;border:1px solid var(--hl-line);border-radius:16px;box-shadow:var(--hl-shadow);padding:8px;display:none}
     .hl-dropdown.open{display:block}
-    .hl-dropdown a{display:flex;gap:10px;padding:11px 12px;border-radius:10px;color:#3a4354;font-size:13px}
+    .hl-dropdown a{display:flex;gap:10px;padding:11px 12px;border-radius:10px;color:var(--gray-700);font-size:13px}
     .hl-dropdown a:hover{background:var(--hl-soft)}
     .hl-dropdown .divider{height:1px;background:var(--hl-line);margin:7px 0}
     .hl-mobile{display:none;border:0;background:#fff;width:42px;height:42px;border-radius:12px;box-shadow:0 4px 18px rgba(16,24,40,.08);cursor:pointer}
     .hl-hero{padding:150px 0 85px;background:
       radial-gradient(circle at 10% 10%,rgba(124,58,237,.18),transparent 34%),
       radial-gradient(circle at 90% 20%,rgba(91,92,226,.18),transparent 30%),
-      linear-gradient(135deg,#182033,#182033 55%,#221b45);color:#fff;overflow:hidden}
+      linear-gradient(135deg,var(--text-primary),var(--text-primary) 55%,#221b45);color:#fff;overflow:hidden}
     .hl-hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:70px;align-items:center}
-    .hl-eyebrow{display:inline-flex;align-items:center;gap:8px;padding:8px 13px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.08);border-radius:999px;font-size:12px;color:#eef0ff}
+    .hl-eyebrow{display:inline-flex;align-items:center;gap:8px;padding:8px 13px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.08);border-radius:999px;font-size:12px;color:var(--primary-light)}
     .hl-eyebrow i{color:#34d399}
     .hl-hero h1{font:600 clamp(44px,6vw,70px)/1.03 "Playfair Display",serif;margin:22px 0 20px;letter-spacing:-2px}
     .hl-hero h1 span{color:#aeb1ff}
-    .hl-hero p{font-size:17px;line-height:1.8;color:#9aa3b2;max-width:620px;margin:0}
+    .hl-hero p{font-size:17px;line-height:1.8;color:var(--text-muted);max-width:620px;margin:0}
     .hl-actions{display:flex;gap:12px;margin-top:30px;flex-wrap:wrap}
     .hl-btn{display:inline-flex;align-items:center;gap:9px;padding:13px 18px;border-radius:12px;font-size:14px;font-weight:700;transition:.2s}
-    .hl-btn-primary{background:#fff;color:#182033}
+    .hl-btn-primary{background:#fff;color:var(--text-primary)}
     .hl-btn-primary:hover{transform:translateY(-2px)}
     .hl-btn-ghost{border:1px solid rgba(255,255,255,.2);color:#fff;background:rgba(255,255,255,.07)}
     .hl-btn-ghost:hover{background:rgba(255,255,255,.12)}
@@ -78,21 +78,21 @@
     .hl-copy h2{font:600 42px/1.12 "Playfair Display",serif;margin:0 0 20px}
     .hl-copy h2 span{color:var(--hl-primary)}
     .hl-checks{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:25px}
-    .hl-check{display:flex;gap:9px;align-items:flex-start;font-size:13px;color:#525c6e}
+    .hl-check{display:flex;gap:9px;align-items:flex-start;font-size:13px;color:var(--gray-600)}
     .hl-check i{color:#12b76a;margin-top:3px}
-    .hl-mission-visual{background:linear-gradient(135deg,#eef0ff,#f9fafb);border:1px solid var(--hl-line);border-radius:28px;padding:25px}
+    .hl-mission-visual{background:linear-gradient(135deg,var(--primary-light),#f9fafb);border:1px solid var(--hl-line);border-radius:28px;padding:25px}
     .hl-quote{background:#fff;border-radius:20px;padding:28px;box-shadow:var(--hl-shadow)}
-    .hl-quote-icon{width:48px;height:48px;border-radius:14px;background:#eef0ff;color:var(--hl-primary);display:grid;place-items:center;margin-bottom:18px}
+    .hl-quote-icon{width:48px;height:48px;border-radius:14px;background:var(--primary-light);color:var(--hl-primary);display:grid;place-items:center;margin-bottom:18px}
     .hl-quote h3{font-size:20px;margin:0 0 10px}.hl-quote p{color:var(--hl-muted);line-height:1.75;font-size:14px;margin:0}
     .hl-values{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
     .hl-value{background:#fff;border:1px solid var(--hl-line);border-radius:20px;padding:26px;transition:.22s}
     .hl-value:hover{transform:translateY(-5px);box-shadow:var(--hl-shadow)}
-    .hl-value-icon{width:48px;height:48px;border-radius:14px;background:#eef0ff;color:var(--hl-primary);display:grid;place-items:center;margin-bottom:18px}
+    .hl-value-icon{width:48px;height:48px;border-radius:14px;background:var(--primary-light);color:var(--hl-primary);display:grid;place-items:center;margin-bottom:18px}
     .hl-value h3{font-size:17px;margin:0 0 9px}.hl-value p{font-size:13px;line-height:1.7;color:var(--hl-muted);margin:0 0 18px}
     .hl-value a{font-size:12px;font-weight:800;color:var(--hl-primary)}
     .hl-stats{background:var(--hl-dark);color:#fff;border-radius:28px;padding:42px;display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
     .hl-stat{text-align:center;border-right:1px solid rgba(255,255,255,.1)} .hl-stat:last-child{border:0}
-    .hl-stat strong{display:block;font-size:38px;letter-spacing:-1px}.hl-stat span{font-size:12px;color:#9aa3b2}
+    .hl-stat strong{display:block;font-size:38px;letter-spacing:-1px}.hl-stat span{font-size:12px;color:var(--text-muted)}
     .hl-live{font-size:10px;color:#6ce9a6;margin-top:7px;display:block}.hl-live i{font-size:6px;vertical-align:middle}
     .hl-journey{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
     .hl-step{background:#fff;border:1px solid var(--hl-line);border-radius:20px;padding:28px;position:relative}
@@ -105,13 +105,13 @@
     .hl-faq-a p{margin:0 0 20px}.hl-faq-item.open .hl-faq-a{max-height:180px}.hl-faq-item.open .hl-faq-q i{transform:rotate(180deg)}
     .hl-cta{padding:90px 0}
     .hl-cta-inner{background:linear-gradient(135deg,#151a31,#30245a);border-radius:28px;padding:55px;display:flex;align-items:center;justify-content:space-between;gap:30px;color:#fff}
-    .hl-cta h2{font:600 38px "Playfair Display",serif;margin:0 0 10px}.hl-cta p{color:#9aa3b2;margin:0;line-height:1.7}
+    .hl-cta h2{font:600 38px "Playfair Display",serif;margin:0 0 10px}.hl-cta p{color:var(--text-muted);margin:0;line-height:1.7}
     .hl-cta .hl-btn{white-space:nowrap}
-    .hl-footer{background:#182033;color:#9aa3b2;padding:55px 0 25px}
+    .hl-footer{background:var(--text-primary);color:var(--text-muted);padding:55px 0 25px}
     .hl-footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:35px}
-    .hl-footer .hl-logo{color:#fff}.hl-footer p{font-size:12px;line-height:1.8;max-width:310px}.hl-footer h4{color:#fff;font-size:12px;margin:5px 0 15px}.hl-footer a{display:block;color:#9aa3b2;font-size:12px;margin:10px 0}.hl-footer a:hover{color:#fff}
+    .hl-footer .hl-logo{color:#fff}.hl-footer p{font-size:12px;line-height:1.8;max-width:310px}.hl-footer h4{color:#fff;font-size:12px;margin:5px 0 15px}.hl-footer a{display:block;color:var(--text-muted);font-size:12px;margin:10px 0}.hl-footer a:hover{color:#fff}
     .hl-footer-bottom{border-top:1px solid rgba(255,255,255,.08);margin-top:35px;padding-top:20px;font-size:11px;display:flex;justify-content:space-between}
-    .hl-toast{position:fixed;right:20px;bottom:20px;z-index:2000;background:#182033;color:#fff;padding:13px 16px;border-radius:12px;font-size:12px;box-shadow:var(--hl-shadow);transform:translateY(120px);opacity:0;transition:.25s}
+    .hl-toast{position:fixed;right:20px;bottom:20px;z-index:2000;background:var(--text-primary);color:#fff;padding:13px 16px;border-radius:12px;font-size:12px;box-shadow:var(--hl-shadow);transform:translateY(120px);opacity:0;transition:.25s}
     .hl-toast.show{transform:none;opacity:1}
     .hl-loading{opacity:.6}
     @media(max-width:900px){
@@ -130,11 +130,12 @@
       .hl-footer-bottom{display:block}.hl-footer-bottom span{display:block;margin-top:7px}
     }
   </style>
+<style>/* HeavenLease brand mark */ .brand-logo-image{width:100%;height:100%;display:block;object-fit:contain;border-radius:inherit}.logo-icon,.hl-logo-icon,.logo-mark,.mark{overflow:hidden}</style>
 </head>
 <body>
   <nav class="hl-nav" id="hlNav">
     <div class="hl-container hl-nav-inner">
-      <a class="hl-logo" href="home"><span class="hl-logo-icon"><i class="fas fa-house"></i></span>Heaven<span>Lease</span></a>
+      <a class="hl-logo" href="home"><span class="hl-logo-icon"><img src="logo.svg" alt="HeavenLease" class="brand-logo-image"></span>Heaven<span>Lease</span></a>
       <div class="hl-nav-links">
         <a href="properties">Find a Home</a>
         <a href="map">Property Map</a>
@@ -296,7 +297,7 @@
     <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
         <div class="footer-brand">
             <a href="home" class="logo">
-                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <div class="logo-icon"><img src="logo.svg" alt="HeavenLease" class="brand-logo-image"></div>
                 <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
             <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>

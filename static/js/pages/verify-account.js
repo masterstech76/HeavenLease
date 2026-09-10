@@ -8,22 +8,34 @@
 (function () {
     'use strict';
 
-    // Back-button auth guard — never show this page to an active session.
-    try {
-        if (localStorage.getItem('heavenlease_token') || sessionStorage.getItem('heavenlease_token')) {
-            location.replace('home');
-            return;
-        }
-    } catch (e) { /* storage unavailable — ignore */ }
+    // Verification is deliberately a post-login step.
+    if (!window.api || !api.isAuthenticated()) {
+        window.location.replace('login?redirect=verify-account');
+        return;
+    }
 
-    // Read email/phone from URL params
     const params = new URLSearchParams(window.location.search);
-    const email = params.get('email');
-    const phone = params.get('phone');
+    let email = params.get('email');
+    let phone = params.get('phone');
 
     const target = document.getElementById('verifyTarget');
-    if (email && target) target.textContent = email;
-    if (phone && target) target.textContent = '+91 ' + phone;
+    const loadCurrentUser = async () => {
+        try {
+            const me = await api.getMe();
+            if (me && me.verified) {
+                showToast('Your account is already verified.', 'success');
+                setTimeout(() => window.location.replace('dashboard'), 400);
+                return false;
+            }
+            email = email || (me && me.email) || '';
+            phone = phone || (me && me.phone) || '';
+            if (email && target) target.textContent = email;
+            else if (phone && target) target.textContent = '+91 ' + phone;
+            return true;
+        } catch (e) {
+            return false;
+        }
+    };
 
     function handleOtpInput(el) {
         el.value = el.value.replace(/\D/g, '').slice(0, 1);
@@ -57,6 +69,9 @@
         }, 1000);
     }
 
+    // Resolve the authenticated user's verification target before enabling actions.
+    loadCurrentUser();
+
     // Verify account — preserve the existing API calls and redirect flow.
     window.verifyAccount = async function () {
         const code = getOtpValue();
@@ -78,11 +93,12 @@
             document.getElementById('successSection').style.display = 'block';
             document.querySelector('.otp-inputs').style.display = 'none';
             document.getElementById('verifyBtn').style.display = 'none';
-            document.querySelector('.resend-link').style.display = 'none';
+            const resend = document.querySelector('.resend-link');
+            if (resend) resend.style.display = 'none';
             showToast('Account verified successfully! 🎉', 'success');
             setTimeout(() => {
-                window.location.replace('home');
-            }, 1500);
+                window.location.replace('dashboard');
+            }, 900);
         } catch (error) {
             showToast(error.message || 'Verification failed. Please try again.', 'error');
         } finally {

@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.heavenlease.model.MaintenanceRequest;
 import com.heavenlease.model.Property;
 import com.heavenlease.repository.MaintenanceRequestRepository;
+import com.heavenlease.repository.BookingRepository;
+import com.heavenlease.repository.LeaseRepository;
 import com.heavenlease.repository.PropertyRepository;
 import com.heavenlease.security.CurrentUser;
 import com.heavenlease.service.NotificationService;
@@ -32,13 +34,19 @@ public class MaintenanceController {
     private final MaintenanceRequestRepository maintenanceRequestRepository;
     private final PropertyRepository propertyRepository;
     private final NotificationService notificationService;
+    private final BookingRepository bookingRepository;
+    private final LeaseRepository leaseRepository;
 
     public MaintenanceController(MaintenanceRequestRepository maintenanceRequestRepository,
                                  PropertyRepository propertyRepository,
-                                 NotificationService notificationService) {
+                                 NotificationService notificationService,
+                                 BookingRepository bookingRepository,
+                                 LeaseRepository leaseRepository) {
         this.maintenanceRequestRepository = maintenanceRequestRepository;
         this.propertyRepository = propertyRepository;
         this.notificationService = notificationService;
+        this.bookingRepository = bookingRepository;
+        this.leaseRepository = leaseRepository;
     }
 
     @GetMapping
@@ -144,6 +152,22 @@ public class MaintenanceController {
         Property p = property.get();
         if (p.getOwnerId() == null) {
             return ResponseEntity.badRequest().body(Map.of("error", "This property has no owner on record"));
+        }
+
+        // A tenant may only raise maintenance for a property they actually
+        // occupy/control. Owner/admin workflows are not allowed through this
+        // tenant creation endpoint.
+        boolean legitimateOccupancy = leaseRepository.findByTenantIdAndPropertyId(tenantId, p.getId()).stream()
+                .anyMatch(l -> "ACTIVE".equalsIgnoreCase(l.getStatus())
+                        || "SIGNED".equalsIgnoreCase(l.getStatus()));
+        if (!legitimateOccupancy) {
+            legitimateOccupancy = bookingRepository.findByTenantIdAndPropertyId(tenantId, p.getId()).stream()
+                    .anyMatch(b -> "APPROVED".equalsIgnoreCase(b.getStatus())
+                            || "CONFIRMED".equalsIgnoreCase(b.getStatus()));
+        }
+        if (!legitimateOccupancy) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .body(Map.of("error", "You are not authorized to create maintenance requests for this property"));
         }
 
         request.setId(null);

@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
-    <link rel="stylesheet" href="styles.css?v=20260909a">
+    <link rel="stylesheet" href="styles.css?v=20260910b">
     <style>
         .page-header { background: var(--gradient-soft); padding: 140px 0 80px; text-align: center; position: relative; overflow: hidden; }
         .page-header h1 { font-family: var(--font-heading); font-size: 48px; font-weight: 700; color: var(--dark); margin-bottom: 16px; }
@@ -32,16 +32,16 @@
     --sky-950:#073b5c;
     --sky-900:#075985;
     --sky-800:#0369a1;
-    --sky-700:#5b5ce2;
+    --sky-700:var(--primary);
     --sky-600:#0ea5e9;
     --sky-500:#38bdf8;
-    --sky-300:#eef0ff;
-    --sky-200:#eef0ff;
+    --sky-300:var(--primary-light);
+    --sky-200:var(--primary-light);
     --sky-100:#e0f2fe;
     --sky-50:#f0f9ff;
     --white:#ffffff;
     --text:#123047;
-    --muted:#687386;
+    --muted:var(--text-secondary);
 }
 body{
     background:
@@ -67,7 +67,7 @@ body{
     box-shadow:0 8px 20px rgba(14,165,233,.28);
 }
 .logo-text{color:#fff !important;}
-.logo-text span{color:#eef0ff !important;}
+.logo-text span{color:var(--primary-light) !important;}
 .user-menu-trigger{
     background:rgba(255,255,255,.12) !important;
     border:1px solid rgba(255,255,255,.28) !important;
@@ -80,7 +80,7 @@ body{
 }
 .user-dropdown{
     background:#fff !important;
-    border:1px solid #eef0ff !important;
+    border:1px solid var(--primary-light) !important;
     box-shadow:0 20px 50px rgba(3,105,161,.20) !important;
 }
 .user-dropdown a:hover{
@@ -130,11 +130,11 @@ body{
     color:#527187;
 }
 .page-header .breadcrumb a{
-    color:#5b5ce2;
+    color:var(--primary);
     font-weight:600;
 }
 .gradient-text{
-    background:linear-gradient(135deg,#5b5ce2,#38bdf8);
+    background:linear-gradient(135deg,var(--primary),#38bdf8);
     -webkit-background-clip:text;
     background-clip:text;
     color:transparent !important;
@@ -146,9 +146,9 @@ body{
         url('https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1900&q=80') center/cover;
 }
 .section-tag{
-    color:#5b5ce2 !important;
+    color:var(--primary) !important;
     background:rgba(224,242,254,.88) !important;
-    border:1px solid #eef0ff !important;
+    border:1px solid var(--primary-light) !important;
 }
 .section-header h2{
     color:#073b5c;
@@ -175,12 +175,12 @@ body{
     inset:0 auto auto 0;
     width:100%;
     height:4px;
-    background:linear-gradient(90deg,#5b5ce2,#38bdf8,#eef0ff);
+    background:linear-gradient(90deg,var(--primary),#38bdf8,var(--primary-light));
 }
 .press-card:hover{
     transform:translateY(-7px);
     box-shadow:0 24px 55px rgba(3,105,161,.16);
-    border-color:#eef0ff !important;
+    border-color:var(--primary-light) !important;
 }
 .press-card h3{
     color:#073b5c !important;
@@ -191,7 +191,7 @@ body{
     line-height:1.8 !important;
 }
 .press-date{
-    color:#5b5ce2 !important;
+    color:var(--primary) !important;
     font-weight:700;
     letter-spacing:.03em;
 }
@@ -199,7 +199,7 @@ body{
     padding:78px 0;
     text-align:center;
     background:
-        linear-gradient(135deg,#075985,#5b5ce2 55%,#0ea5e9);
+        linear-gradient(135deg,#075985,var(--primary) 55%,#0ea5e9);
     color:#fff;
     position:relative;
     overflow:hidden;
@@ -229,7 +229,7 @@ body{
     color:#fff !important;
 }
 .contact-press .gradient-text{
-    background:linear-gradient(135deg,#fff,#eef0ff);
+    background:linear-gradient(135deg,#fff,var(--primary-light));
     -webkit-background-clip:text;
     background-clip:text;
 }
@@ -244,17 +244,17 @@ body{
 }
 .footer{
     background:#052f49 !important;
-    color:#eef0ff !important;
+    color:var(--primary-light) !important;
     border-top:1px solid rgba(125,211,252,.18);
 }
 .footer .logo-text{color:#fff !important;}
-.footer .logo-text span{color:#eef0ff !important;}
+.footer .logo-text span{color:var(--primary-light) !important;}
 .footer p{color:#b8d3e4 !important;}
 .footer-bottom{
     border-top-color:rgba(186,230,253,.14) !important;
 }
 .back-to-top{
-    background:linear-gradient(135deg,#5b5ce2,#0ea5e9) !important;
+    background:linear-gradient(135deg,var(--primary),#0ea5e9) !important;
     box-shadow:0 10px 28px rgba(3,105,161,.25);
 }
 @media (max-width:768px){
@@ -264,12 +264,13 @@ body{
     .press-card{padding:28px !important;}
 }
 </style>
+<style>/* HeavenLease brand mark */ .brand-logo-image{width:100%;height:100%;display:block;object-fit:contain;border-radius:inherit}.logo-icon,.hl-logo-icon,.logo-mark,.mark{overflow:hidden}</style>
 </head>
 <body>
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <a href="/" class="logo">
-                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <div class="logo-icon"><img src="logo.svg" alt="HeavenLease" class="brand-logo-image"></div>
                 <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
             
@@ -364,7 +365,7 @@ body{
     <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
         <div class="footer-brand">
             <a href="home" class="logo">
-                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <div class="logo-icon"><img src="logo.svg" alt="HeavenLease" class="brand-logo-image"></div>
                 <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
             <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>

@@ -10,9 +10,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
-<link rel="stylesheet" href="styles.css?v=20260909a">
+<link rel="stylesheet" href="styles.css?v=20260910b">
 <style>
-:root{--profile-bg:#f5f7fb;--profile-card:rgba(255,255,255,.96);--profile-line:#e7eaf0;--profile-text:#182033;--profile-muted:#687386;}
+:root{--profile-bg:#f5f7fb;--profile-card:rgba(255,255,255,.96);--profile-line:#e7eaf0;--profile-text:var(--text-primary);--profile-muted:var(--text-secondary);}
 *{box-sizing:border-box}
 body{margin:0;background:var(--profile-bg);color:var(--profile-text)}
 .navbar{background:rgba(255,255,255,.98)!important;box-shadow:0 8px 30px rgba(15,23,42,.08);backdrop-filter:blur(14px);z-index:100}
@@ -31,8 +31,8 @@ url("https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fi
 .profile-card h2{font-size:18px;font-weight:700;color:var(--dark);margin:0 0 24px;display:flex;align-items:center;gap:11px}
 .profile-card h2 i{color:var(--primary)}
 .form-group{margin-bottom:19px}
-.form-group label{display:block;font-size:12px;font-weight:700;color:#525c6e;margin-bottom:8px;text-transform:uppercase;letter-spacing:.03em}
-.form-group input,.form-group textarea,.form-group select{width:100%;padding:13px 15px;border:1px solid var(--profile-line);border-radius:13px;background:#f7f8fc;font-size:14px;color:#3a4354;transition:.2s;font-family:inherit}
+.form-group label{display:block;font-size:12px;font-weight:700;color:var(--gray-600);margin-bottom:8px;text-transform:uppercase;letter-spacing:.03em}
+.form-group input,.form-group textarea,.form-group select{width:100%;padding:13px 15px;border:1px solid var(--profile-line);border-radius:13px;background:var(--surface-soft);font-size:14px;color:var(--gray-700);transition:.2s;font-family:inherit}
 .form-group textarea{resize:vertical;min-height:95px}
 .form-group input:focus,.form-group textarea:focus,.form-group select:focus{outline:none;border-color:var(--primary);background:#fff;box-shadow:0 0 0 4px rgba(79,70,229,.09)}
 .form-group input:disabled{cursor:not-allowed;opacity:.72}
@@ -43,18 +43,19 @@ url("https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fi
 .profile-avatar-lg img{width:100%;height:100%;object-fit:cover}
 .avatar-hint p{font-size:12px;color:var(--gray-500);margin:9px 0 0}
 .verified-badge,.unverified-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;font-size:12px;font-weight:700}
-.verified-badge{background:#dcfce7;color:#15803d}.unverified-badge{background:#fef3c7;color:#b45309}
+.verified-badge{background:#dcfce7;color:#15803d}.unverified-badge{background:#fef3c7;color:var(--warning-dark)}
 .danger-card{border-color:#fecaca!important;background:linear-gradient(145deg,#fff,#fff8f8)}
 .danger-card h2{color:#dc2626}
 .danger-actions{display:flex;gap:12px;flex-wrap:wrap}
-.site-footer{background:#182033!important;color:#d1d5db!important;border-top:0!important;opacity:1!important;position:relative;z-index:2}
+.site-footer{background:var(--text-primary)!important;color:#d1d5db!important;border-top:0!important;opacity:1!important;position:relative;z-index:2}
 @media(max-width:700px){.profile-page{padding-top:92px}.profile-container{padding:18px 14px}.profile-header{padding:22px;align-items:flex-start}.profile-header h1{font-size:27px}.profile-avatar{width:68px;height:68px;border-radius:20px}.form-row{grid-template-columns:1fr}.profile-card{padding:22px}.avatar-row{align-items:flex-start}.profile-avatar-lg{width:88px;height:88px}.danger-actions .btn{width:100%}}
 </style>
+<style>/* HeavenLease brand mark */ .brand-logo-image{width:100%;height:100%;display:block;object-fit:contain;border-radius:inherit}.logo-icon,.hl-logo-icon,.logo-mark,.mark{overflow:hidden}</style>
 </head>
 <body>
 <nav class="navbar" id="navbar">
 <div class="nav-container">
-<a href="home" class="logo"><div class="logo-icon"><i class="fas fa-home"></i></div><span class="logo-text">Heaven<span>Lease</span></span></a>
+<a href="home" class="logo"><div class="logo-icon"><img src="logo.svg" alt="HeavenLease" class="brand-logo-image"></div><span class="logo-text">Heaven<span>Lease</span></span></a>
 <div class="nav-actions"><div class="user-menu" id="userMenu">
 <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu"><span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span><span id="navUserName">Account</span><i class="fas fa-chevron-down"></i></button>
 <div class="user-dropdown" id="profileDropdown">
@@ -119,7 +120,7 @@ url("https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fi
     <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
         <div class="footer-brand">
             <a href="home" class="logo">
-                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <div class="logo-icon"><img src="logo.svg" alt="HeavenLease" class="brand-logo-image"></div>
                 <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
             <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>

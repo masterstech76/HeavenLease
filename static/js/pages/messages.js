@@ -110,7 +110,9 @@
                 + '</div>').join('')
         ).join('');
         messagesDiv.scrollTop = messagesDiv.scrollHeight;
-window.openConversation = function (convId) {
+    }
+
+    window.openConversation = function (convId) {
         if (!isPaid) {
             window.location.href = 'payment?redirect=messages';
             return;
@@ -179,6 +181,7 @@ window.openConversation = function (convId) {
                 try {
                     sendWebSocketMessage({
                         conversationId: Number(activeConversation),
+                        receiverId: Number(conv.otherUserId) || 0,
                         senderId: currentUserId,
                         senderName: meUser.name || 'You',
                         content: text,
@@ -223,16 +226,32 @@ window.openConversation = function (convId) {
         }
         renderConversations();
 
-        if (typeof connectWebSocket === 'function') {
-            try {
-                connectWebSocket((msg) => {
-                    if (msg && msg.conversationId && activeConversation && String(msg.conversationId) === String(activeConversation)) {
-                        appendIncoming(msg);
-                    }
-                });
-            } catch (_) { /* WS optional */ }
+        // The backend uses STOMP; this page intentionally uses the REST API as
+        // the reliable transport and polls the active conversation.
+        if (propertyParam && isPaid) {
+            setTimeout(() => {
+                const matching = conversations.find((c) => (c.property || '').toLowerCase().includes(propertyParam.toLowerCase()));
+                if (matching) openConversation(matching.id);
+            }, 50);
         }
     }
+
+    let messagePollTimer = null;
+    async function pollActiveConversation() {
+        if (!isPaid || !activeConversation || !currentUserId) return;
+        try {
+            const msgs = await api.getConversation(Number(activeConversation));
+            const conv = conversations.find((c) => c.id === String(activeConversation));
+            if (!conv || !Array.isArray(msgs)) return;
+            conv.messages = msgs.map((m) => ({
+                from: (m.senderId && String(m.senderId) === String(currentUserId)) ? 'me' : 'them',
+                text: m.content || '',
+                time: formatTime(m.timestamp)
+            }));
+            renderMessages(conv.id);
+        } catch (_) { /* transient network error; keep current UI */ }
+    }
+    messagePollTimer = window.setInterval(pollActiveConversation, 8000);
 
     /* ===== Access-Pass gate (server truth) ===== */
     (async () => {
@@ -246,11 +265,4 @@ window.openConversation = function (convId) {
     /* ===== URL ?property= auto-open ===== */
     const urlParams = new URLSearchParams(window.location.search);
     const propertyParam = urlParams.get('property');
-    if (propertyParam && isPaid) {
-        setTimeout(() => {
-            const matching = conversations.find((c) => (c.property || '').toLowerCase().includes(propertyParam.toLowerCase()));
-            if (matching) openConversation(matching.id);
-        }, 800);
-    }
 })();
-    }

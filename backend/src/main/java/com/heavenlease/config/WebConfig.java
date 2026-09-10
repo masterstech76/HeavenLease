@@ -21,10 +21,15 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(@NonNull ResourceHandlerRegistry registry) {
-        // Serve uploaded property photos from the configured upload dir.
+        // Only non-sensitive media is public. Documents are intentionally NOT
+        // registered as a static resource: they must pass authorization in
+        // DocumentController before being streamed to the caller.
         String uploadLocation = uploadDir.replace("\\", "/");
         if (!uploadLocation.endsWith("/")) uploadLocation += "/";
-        registry.addResourceHandler("/uploads/**")
+        registry.addResourceHandler("/uploads/avatars/**")
+                .addResourceLocations("file:" + uploadLocation + "avatars/");
+        // Property photos are stored directly under the upload root.
+        registry.addResourceHandler("/uploads/*")
                 .addResourceLocations("file:" + uploadLocation);
 
         // Prefer an explicit config (safe); otherwise relative to CWD/../static

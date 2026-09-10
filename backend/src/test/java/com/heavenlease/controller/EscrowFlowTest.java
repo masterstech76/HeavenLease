@@ -87,6 +87,7 @@ class EscrowFlowTest {
         property.setId(10L);
         property.setOwnerId(2L);
         property.setTitle("Sunny 2BHK");
+        property.setDeposit(15000.0);   // server-authoritative security deposit (must equal amount)
         when(propertyRepository.findById(10L)).thenReturn(Optional.of(property));
         when(paymentRepository.save(any(Payment.class))).thenAnswer(inv -> {
             Payment p = inv.getArgument(0);
@@ -124,6 +125,7 @@ class EscrowFlowTest {
         property.setId(10L);
         property.setOwnerId(2L);
         property.setTitle("Sunny 2BHK");
+        property.setDeposit(20000.0);   // server-authoritative security deposit (must equal amount)
         when(propertyRepository.findById(10L)).thenReturn(Optional.of(property));
         when(paymentRepository.save(any(Payment.class))).thenAnswer(inv -> {
             Payment p = inv.getArgument(0);

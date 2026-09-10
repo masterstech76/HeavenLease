@@ -75,6 +75,16 @@ public class User {
     @Column(nullable = false)
     private boolean deactivated;
 
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private boolean twoFactorEmailEnabled;
+
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private boolean twoFactorTotpEnabled;
+
+    @JsonIgnore
+    @Column(length = 1000)
+    private String totpSecretEncrypted;
+
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -148,6 +158,12 @@ public class User {
     public void setGender(String gender) { this.gender = gender; }
     public boolean isDeactivated() { return deactivated; }
     public void setDeactivated(boolean deactivated) { this.deactivated = deactivated; }
+    public boolean isTwoFactorEmailEnabled() { return twoFactorEmailEnabled; }
+    public void setTwoFactorEmailEnabled(boolean enabled) { this.twoFactorEmailEnabled = enabled; }
+    public boolean isTwoFactorTotpEnabled() { return twoFactorTotpEnabled; }
+    public void setTwoFactorTotpEnabled(boolean enabled) { this.twoFactorTotpEnabled = enabled; }
+    public String getTotpSecretEncrypted() { return totpSecretEncrypted; }
+    public void setTotpSecretEncrypted(String value) { this.totpSecretEncrypted = value; }
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
     public LocalDateTime getUpdatedAt() { return updatedAt; }

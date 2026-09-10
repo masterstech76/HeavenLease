@@ -122,7 +122,7 @@ async function loadMine() {
                     (d.reviewNote ? '<div class="vp-note">' + esc(d.reviewNote) + '</div>' : '') +
                     '</div>' +
                     '<div class="vp-actions">' + badge(d.status) +
-                    (d.fileUrl ? '<a class="btn btn-sm btn-secondary" href="' + esc(api.resolveMedia(d.fileUrl)) + '" target="_blank" rel="noopener"><i class="fas fa-eye"></i> View</a>' : '') +
+                    (d.id ? '<button class="btn btn-sm btn-secondary" type="button" onclick="verificationPanel.view(' + d.id + ')"><i class="fas fa-eye"></i> View</button>' : '') +
                     '<button class="btn btn-sm btn-danger" type="button" onclick="verificationPanel.remove(' + d.id + ')"><i class="fas fa-trash"></i></button>' +
                     '</div></div>';
             }).join('');
@@ -155,7 +155,7 @@ async function loadMine() {
                     (d.reviewNote ? '<div class="vp-note">' + esc(d.reviewNote) + '</div>' : '') +
                     '</div>' +
                     '<div class="vp-actions">' + actions +
-                    (d.fileUrl ? '<a class="btn btn-sm btn-secondary" href="' + esc(api.resolveMedia(d.fileUrl)) + '" target="_blank" rel="noopener"><i class="fas fa-eye"></i> View</a>' : '') +
+                    (d.id ? '<button class="btn btn-sm btn-secondary" type="button" onclick="verificationPanel.view(' + d.id + ')"><i class="fas fa-eye"></i> View</button>' : '') +
                     '</div></div>';
             }).join('');
         } catch (e) {
@@ -182,6 +182,16 @@ window.verificationPanel = {
                 if (typeof showToast === 'function') showToast(e.message || 'Upload failed.', 'error');
             } finally {
                 if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-cloud-arrow-up"></i> Upload'; }
+            }
+        },
+        async view(id) {
+            try {
+                var blob = await api.downloadDocument(id);
+                var url = URL.createObjectURL(blob);
+                window.open(url, '_blank', 'noopener');
+                setTimeout(function () { URL.revokeObjectURL(url); }, 60000);
+            } catch (e) {
+                if (typeof showToast === 'function') showToast(e.message || 'Could not open document.', 'error');
             }
         },
         async review(id, status) {

@@ -9,17 +9,17 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
-    <link rel="stylesheet" href="styles.css?v=20260909a">
+    <link rel="stylesheet" href="styles.css?v=20260910b">
     <style>
         :root {
-            --hl-ink: #182033;
-            --hl-muted: #687386;
-            --hl-line: #e4e7ee;
-            --hl-gold: #5b5ce2;
+            --hl-ink: var(--text-primary);
+            --hl-muted: var(--text-secondary);
+            --hl-line: var(--border);
+            --hl-gold: var(--primary);
             --hl-gold-dark: #9b6f38;
             --hl-surface: #ffffff;
             --hl-bg: #f6f7fb;
-            --hl-dark: #182033;
+            --hl-dark: var(--text-primary);
             --hl-shadow: 0 24px 70px rgba(13,21,18,.10);
         }
         html { scroll-behavior: smooth; }
@@ -49,7 +49,7 @@
         }
         .logo { text-decoration: none !important; }
         .logo-icon {
-            background: linear-gradient(145deg, #5b5ce2, #9b6f38) !important;
+            background: linear-gradient(145deg, var(--primary), #9b6f38) !important;
             color: #fff !important;
             box-shadow: 0 8px 24px rgba(210,170,112,.25);
         }
@@ -57,7 +57,7 @@
             color: #fff !important;
             font-family: "Playfair Display", Georgia, serif !important;
         }
-        .logo-text span { color: #5b5ce2 !important; }
+        .logo-text span { color: var(--primary) !important; }
         .user-menu-trigger {
             background: rgba(255,255,255,.08) !important;
             border: 1px solid rgba(255,255,255,.16) !important;
@@ -111,9 +111,9 @@
             margin-bottom: 18px !important;
         }
         .page-header h1 .gradient-text {
-            color: #5b5ce2 !important;
+            color: var(--primary) !important;
             background: none !important;
-            -webkit-text-fill-color: #5b5ce2 !important;
+            -webkit-text-fill-color: var(--primary) !important;
         }
         .page-header p {
             color: rgba(255,255,255,.80) !important;
@@ -195,7 +195,7 @@
             padding: 54px 0 24px !important;
         }
         .footer .logo-text { color: #fff !important; }
-        .footer .logo-text span { color: #5b5ce2 !important; }
+        .footer .logo-text span { color: var(--primary) !important; }
         .footer .footer-brand p { color: #aeb9b3 !important; line-height: 1.7; }
         .footer-bottom { border-top-color: rgba(255,255,255,.10) !important; }
         .footer-bottom p { color: #89958e !important; }
@@ -229,12 +229,13 @@
             .page-header h1 { font-size: 35px !important; }
         }
     </style>
+<style>/* HeavenLease brand mark */ .brand-logo-image{width:100%;height:100%;display:block;object-fit:contain;border-radius:inherit}.logo-icon,.hl-logo-icon,.logo-mark,.mark{overflow:hidden}</style>
 </head>
 <body>
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <a href="/" class="logo">
-                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <div class="logo-icon"><img src="logo.svg" alt="HeavenLease" class="brand-logo-image"></div>
                 <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
             
@@ -380,7 +381,7 @@
     <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
         <div class="footer-brand">
             <a href="home" class="logo">
-                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <div class="logo-icon"><img src="logo.svg" alt="HeavenLease" class="brand-logo-image"></div>
                 <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
             <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>

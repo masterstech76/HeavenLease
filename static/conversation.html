@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
 <title>HeavenLease — Messages</title>
-<link rel="stylesheet" href="styles.css?v=20260909a">
+<link rel="stylesheet" href="styles.css?v=20260910b">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,12 +15,12 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --primary:#5b5ce2;
-  --primary-dark:#4445c5;
-  --green:#18a878;
-  --ink:#182033;
-  --muted:#687386;
-  --line:#e4e7ee;
+  --primary:var(--primary);
+  --primary-dark:var(--primary-dark);
+  --green:var(--secondary);
+  --ink:var(--text-primary);
+  --muted:var(--text-secondary);
+  --line:var(--border);
   --surface:#ffffff;
   --soft:#f6f7fb;
 }
@@ -54,7 +54,7 @@ body{
 .logo{
   width:44px;height:44px;border-radius:13px;
   display:grid;place-items:center;
-  background:linear-gradient(135deg,#5b5ce2,#10b981);
+  background:linear-gradient(135deg,var(--primary),var(--success));
   box-shadow:0 8px 22px rgba(79,70,229,.35);
   font-size:19px;
 }
@@ -104,14 +104,14 @@ h1{font-size:30px;margin-top:5px}
   border:1px solid var(--line);background:#fff;color:#657085;border-radius:8px;
   padding:7px 10px;font-size:11px;font-weight:700;cursor:pointer
 }
-.filter.active{background:#eef0ff;color:var(--primary);border-color:#dfe2ff}
+.filter.active{background:var(--primary-light);color:var(--primary);border-color:#dfe2ff}
 .thread-list{overflow:auto}
 .thread{
   display:flex;gap:12px;padding:15px 17px;border-bottom:1px solid #f0f1f5;
   cursor:pointer;transition:.15s
 }
 .thread:hover{background:#fafaff}
-.thread.selected{background:#eef0ff;border-left:3px solid var(--primary);padding-left:14px}
+.thread.selected{background:var(--primary-light);border-left:3px solid var(--primary);padding-left:14px}
 .thread-avatar{width:44px;height:44px;border-radius:50%;object-fit:cover;flex:none}
 .thread-info{min-width:0;flex:1}
 .thread-row{display:flex;justify-content:space-between;gap:8px}
@@ -171,7 +171,7 @@ h1{font-size:30px;margin-top:5px}
   flex:1;min-height:42px;max-height:120px;resize:none;border:1px solid var(--line);
   border-radius:11px;padding:11px 13px;font:13px Inter;outline:none
 }
-.message-input:focus{border-color:#aeb1ff;box-shadow:0 0 0 3px #eef0ff}
+.message-input:focus{border-color:#aeb1ff;box-shadow:0 0 0 3px var(--primary-light)}
 .send{
   width:43px;height:43px;border:0;border-radius:11px;background:var(--primary);
   color:#fff;cursor:pointer
@@ -180,19 +180,19 @@ h1{font-size:30px;margin-top:5px}
 .empty{padding:30px;text-align:center;color:#9aa2b1;font-size:13px}
 
 footer{
-  background:#182033;color:#d4d8e2;padding:32px 16px;
+  background:var(--text-primary);color:var(--gray-300);padding:32px 16px;
   border-top:4px solid var(--primary)
 }
 .footer-inner{width:min(1180px,100%);margin:auto;display:flex;justify-content:space-between;gap:25px;align-items:center}
 .footer-brand{font:700 20px 'Playfair Display',serif;color:#fff}
-.footer-brand span{color:#5b5ce2}
-footer p{font-size:11px;color:#9aa3b2;margin-top:5px}
+.footer-brand span{color:var(--primary)}
+footer p{font-size:11px;color:var(--text-muted);margin-top:5px}
 .footer-links{display:flex;gap:18px}
-.footer-links a{color:#d4d8e2;text-decoration:none;font-size:12px}
+.footer-links a{color:var(--gray-300);text-decoration:none;font-size:12px}
 .footer-links a:hover{color:#fff}
 
 .toast{
-  position:fixed;right:20px;bottom:20px;background:#182033;color:#fff;
+  position:fixed;right:20px;bottom:20px;background:var(--text-primary);color:#fff;
   padding:12px 15px;border-radius:10px;font-size:12px;box-shadow:0 12px 30px rgba(0,0,0,.2);
   transform:translateY(20px);opacity:0;pointer-events:none;transition:.25s
 }
@@ -220,6 +220,7 @@ footer p{font-size:11px;color:#9aa3b2;margin-top:5px}
   .footer-inner{flex-direction:column;align-items:flex-start}
 }
 </style>
+<style>/* HeavenLease brand mark */ .brand-logo-image{width:100%;height:100%;display:block;object-fit:contain;border-radius:inherit}.logo-icon,.hl-logo-icon,.logo-mark,.mark{overflow:hidden}</style>
 </head>
 
 <body>
@@ -374,7 +375,7 @@ footer p{font-size:11px;color:#9aa3b2;margin-top:5px}
     <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
         <div class="footer-brand">
             <a href="home" class="logo">
-                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <div class="logo-icon"><img src="logo.svg" alt="HeavenLease" class="brand-logo-image"></div>
                 <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
             <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>

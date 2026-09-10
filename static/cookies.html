@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="HeavenLease Cookie Policy.">
 <title>Cookie Policy — HeavenLease</title>
-<link rel="stylesheet" href="styles.css?v=20260909a">
+<link rel="stylesheet" href="styles.css?v=20260910b">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
@@ -13,12 +13,12 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
- --primary:#5b5ce2;--primary2:#5b5ce2;--green:#18a878;
- --dark:#182033;--muted:#687386;--light:#f6f7fb;--line:#e4e7ee;
- --heading:#182033;--body:#182033;
+ --primary:var(--primary);--primary2:var(--primary);--green:var(--secondary);
+ --dark:var(--text-primary);--muted:var(--text-secondary);--light:#f6f7fb;--line:var(--border);
+ --heading:var(--text-primary);--body:var(--text-primary);
 }
 html{scroll-behavior:smooth}
-body{font-family:var(--body);color:var(--dark);background:#f7f8fc;line-height:1.6}
+body{font-family:var(--body);color:var(--dark);background:var(--surface-soft);line-height:1.6}
 a{color:inherit;text-decoration:none}
 .container{width:min(1180px,calc(100% - 32px));margin:auto}
 /* Modern solid navbar */
@@ -36,8 +36,8 @@ a{color:inherit;text-decoration:none}
 }
 .logo-text span{color:var(--primary2)}
 .nav-right{display:flex;align-items:center;gap:9px}
-.nav-link{font-size:13px;font-weight:600;color:#687386;padding:9px 12px;border-radius:9px}
-.nav-link:hover{background:#eef0ff;color:var(--primary)}
+.nav-link{font-size:13px;font-weight:600;color:var(--text-secondary);padding:9px 12px;border-radius:9px}
+.nav-link:hover{background:var(--primary-light);color:var(--primary)}
 .account{
  display:flex;align-items:center;gap:8px;padding:7px 10px;
  border:1px solid var(--line);border-radius:10px;background:#fff;
@@ -76,8 +76,8 @@ a{color:inherit;text-decoration:none}
  position:sticky;top:96px;background:#fff;border:1px solid var(--line);
  border-radius:16px;padding:20px;box-shadow:0 10px 30px rgba(30,41,59,.06)
 }
-.toc-title{font-size:12px;text-transform:uppercase;letter-spacing:.08em;font-weight:800;color:#9aa3b2;margin-bottom:13px}
-.toc a{display:block;font-size:12px;color:#687386;padding:8px 9px;border-radius:8px}
+.toc-title{font-size:12px;text-transform:uppercase;letter-spacing:.08em;font-weight:800;color:var(--text-muted);margin-bottom:13px}
+.toc a{display:block;font-size:12px;color:var(--text-secondary);padding:8px 9px;border-radius:8px}
 .toc a:hover{background:#f1f2ff;color:var(--primary)}
 .policy{
  background:#fff;border:1px solid var(--line);border-radius:18px;
@@ -98,17 +98,17 @@ a{color:inherit;text-decoration:none}
 .policy li{font-size:14px;color:var(--muted);line-height:1.8;margin-bottom:6px}
 .contact-card{
  margin-top:42px;padding:22px;border-radius:14px;
- background:linear-gradient(135deg,#eef0ff,#f0fdf8);border:1px solid #e1e5ff
+ background:linear-gradient(135deg,var(--primary-light),#f0fdf8);border:1px solid #e1e5ff
 }
 .contact-card strong{font-size:14px}.contact-card p{margin:6px 0 0;font-size:13px}
 /* Footer */
-.footer{background:#182033;color:#d5dbea;padding:42px 0 22px;border-top:4px solid var(--primary)}
+.footer{background:var(--text-primary);color:#d5dbea;padding:42px 0 22px;border-top:4px solid var(--primary)}
 .footer-grid{display:grid;grid-template-columns:1fr auto;gap:30px;align-items:center}
 .footer-brand{font-family:var(--heading);font-size:22px;color:#fff}
-.footer-brand span{color:#5b5ce2}
-.footer-desc{font-size:11px;color:#9aa3b2;max-width:420px;margin-top:6px}
+.footer-brand span{color:var(--primary)}
+.footer-desc{font-size:11px;color:var(--text-muted);max-width:420px;margin-top:6px}
 .footer-links{display:flex;gap:18px;flex-wrap:wrap;justify-content:flex-end}
-.footer-links a{font-size:11px;color:#d4d8e2}.footer-links a:hover{color:#fff}
+.footer-links a{font-size:11px;color:var(--gray-300)}.footer-links a:hover{color:#fff}
 .footer-bottom{border-top:1px solid rgba(255,255,255,.08);margin-top:28px;padding-top:18px;text-align:center;font-size:10px;color:#7f8ba3}
 .footer-bottom i{color:#f87171}
 /* Back to top */
@@ -141,12 +141,13 @@ a{color:inherit;text-decoration:none}
  .toc{padding:15px}
 }
 </style>
+<style>/* HeavenLease brand mark */ .brand-logo-image{width:100%;height:100%;display:block;object-fit:contain;border-radius:inherit}.logo-icon,.hl-logo-icon,.logo-mark,.mark{overflow:hidden}</style>
 </head>
 <body>
 <nav class="navbar">
  <div class="container nav-inner">
   <a href="/" class="logo">
-   <span class="logo-icon"><i class="fas fa-home"></i></span>
+   <span class="logo-icon"><img src="logo.svg" alt="HeavenLease" class="brand-logo-image"></span>
    <span class="logo-text">Heaven<span>Lease</span></span>
   </a>
   <div class="nav-right">
@@ -279,7 +280,7 @@ a{color:inherit;text-decoration:none}
     <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
         <div class="footer-brand">
             <a href="home" class="logo">
-                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <div class="logo-icon"><img src="logo.svg" alt="HeavenLease" class="brand-logo-image"></div>
                 <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
             <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>

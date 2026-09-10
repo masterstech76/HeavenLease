@@ -62,7 +62,7 @@ public class SmsVerificationService {
     private static final int MAX_VERIFY_ATTEMPTS = 5;
 
     /** Whether the on-screen otpPreview fallback is allowed when no SMS gateway works. */
-    @Value("${app.otp.self-hosted-preview:true}")
+    @Value("${app.otp.self-hosted-preview:false}")
     private boolean selfHostedPreviewEnabled;
 
     private final PhoneOtpRepository phoneOtpRepository;

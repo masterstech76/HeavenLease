@@ -113,10 +113,53 @@ class HeavenLeaseAPI {
         const body = { email, password };
         if (captchaToken) body.captchaToken = captchaToken;
         const data = await this.request('POST', '/api/auth/login', body);
-        this.setToken(data.token, remember);
-        this.setUser({ email: data.email, role: data.role, name: data.fullName || data.name || '', id: data.id }, remember);
+        return this.finishLogin(data, remember);
+    }
+
+    /**
+     * Completes an auth response for all login methods. When the server returns
+     * twoFactorRequired, stores the challenge (challengeToken + which methods
+     * are enabled) in sessionStorage — the page redirects to otp-verify?mode=2fa
+     * — and must NOT issue a token (the challenge token is not a session token).
+     */
+    finishLogin(data, remember = true) {
+        if (data && data.twoFactorRequired) {
+            this.store2faChallenge(data);
+            return data;
+        }
+        if (data && data.token) {
+            this.setToken(data.token, remember);
+            this.setUser({ email: data.email, role: data.role, name: data.fullName || data.name || '', id: data.id }, remember);
+        }
         return data;
     }
+
+    store2faChallenge(data) {
+        if (!data || !data.challengeToken) return;
+        sessionStorage.setItem('heavenlease_2fa_pending', data.challengeToken);
+        sessionStorage.setItem('heavenlease_2fa_email_enabled', data.emailEnabled ? '1' : '0');
+        sessionStorage.setItem('heavenlease_2fa_totp_enabled', data.totpEnabled ? '1' : '0');
+        sessionStorage.setItem('heavenlease_2fa_email_hint', data.emailHint || '');
+    }
+
+    async send2faEmail(challengeToken) {
+        return this.request('POST', '/api/auth/2fa/email/send', { challengeToken });
+    }
+
+    async verify2faEmail(challengeToken, code) {
+        return this.request('POST', '/api/auth/2fa/email/verify', { challengeToken, code });
+    }
+
+    async verify2faTotp(challengeToken, code) {
+        return this.request('POST', '/api/auth/2fa/totp/verify', { challengeToken, code });
+    }
+
+    async getTwoFactorStatus() { return this.request('POST', '/api/auth/2fa/status'); }
+    async setupTotp() { return this.request('POST', '/api/auth/2fa/totp/setup'); }
+    async enableTotp(code) { return this.request('POST', '/api/auth/2fa/totp/enable', { code }); }
+    async disableTotp(password) { return this.request('POST', '/api/auth/2fa/totp/disable', { password }); }
+    async enableEmail2fa() { return this.request('POST', '/api/auth/2fa/email/enable'); }
+    async disableEmail2fa(password) { return this.request('POST', '/api/auth/2fa/email/disable', { password }); }
 
     // Phone-based login (email + OTP after phone verification)
     async phoneLogin(phone, password, captchaToken, remember = true) {
@@ -150,16 +193,12 @@ class HeavenLeaseAPI {
 
     async loginWithEmailOtp(email, code, remember = true) {
         const data = await this.request('POST', '/api/auth/email-otp-login', { email, code });
-        this.setToken(data.token, remember);
-        this.setUser({ email: data.email, role: data.role, name: data.fullName || data.name || '', id: data.id }, remember);
-        return data;
+        return this.finishLogin(data, remember);
     }
 
     async loginWithPhoneOtp(phone, code, remember = true) {
         const data = await this.request('POST', '/api/auth/phone-otp-login', { phone, code });
-        this.setToken(data.token, remember);
-        this.setUser({ email: data.email, role: data.role, name: data.fullName || data.name || '', id: data.id }, remember);
-        return data;
+        return this.finishLogin(data, remember);
     }
 
     async verifyCaptcha(captchaToken) {
@@ -191,9 +230,7 @@ class HeavenLeaseAPI {
         const body = { idToken };
         if (role) body.role = role;
         const data = await this.request('POST', '/api/auth/google', body);
-        this.setToken(data.token, remember);
-        this.setUser({ email: data.email, role: data.role, name: data.fullName || data.name || '', id: data.id }, remember);
-        return data;
+        return this.finishLogin(data, remember);
     }
 
     async getMe() {
@@ -570,6 +607,20 @@ class HeavenLeaseAPI {
         return this.request('DELETE', `/api/documents/${id}`);
     }
 
+    async downloadDocument(id) {
+        const token = this.getToken();
+        const response = await fetch(`${this.baseUrl}/api/documents/${encodeURIComponent(id)}/download`, {
+            headers: token ? { Authorization: `Bearer ${token}` } : {}
+        });
+        if (response.status === 401) { this.logout(); throw new Error('Session expired. Please login again.'); }
+        if (!response.ok) {
+            let message = `Download failed (${response.status})`;
+            try { const data = await response.json(); message = data.error || data.message || message; } catch (_) {}
+            throw new Error(message);
+        }
+        return response.blob();
+    }
+
     // Submit feedback (stars 1-5 + comment) for a feature page.
     async submitFeedback(pageKey, stars, comment = '') {
         return this.request('POST', '/api/feedback', { pageKey, stars, comment });
@@ -609,15 +660,10 @@ api.escapeHtml = escapeHtml;
 // EVERY other page in this project requires authentication (deny-by-default),
 // so typing any other URL directly without a session will be redirected to login.
 const PUBLIC_PAGES = [
-    'index',
-    'login',
-    'signup',
-    'forgot-password',
-    'reset-password',
-    'otp-verify',
-    'verify-email',
-    'verify-account',
-    '404'
+    // The landing page is the only public marketing/discovery page.
+    // Auth pages remain public because they are required to establish a session.
+    'index', 'login', 'signup', 'forgot-password', 'reset-password',
+    'otp-verify', 'verify-email', 'verify-account', '404'
 ];
 
 // ALL other pages require authentication
@@ -821,42 +867,62 @@ function injectQuickNav(page) {
     }
 
     // ===== DYNAMIC NAVBAR =====
-    // On feature pages keep ONLY: logo + single "Home" link + account dropdown
-    // (Account + Settings). All other action buttons are removed.
+    // Account/profile controls are shown only on account/workflow screens where
+    // they are useful. Page-specific navigation actions are never deleted.
+    const PROFILE_NAV_PAGES = new Set([
+        'home','dashboard','tenant-dashboard','owner-dashboard','admin-dashboard',
+        'edit-profile','account-settings','security-settings','notification-settings',
+        'notifications','messages','documents','payment','payment-methods',
+        'transaction-history','support-tickets','support-ticket-detail',
+        'maintenance-request','maintenance-requests','rental-application',
+        'application-status','application-history','lease-details','lease-signing',
+        'owner-application','owner-applications','tenant-management','properties-management',
+        'lease-management','rent-collection','owner-resources','owner-support'
+    ]);
+
     function updateNavbar() {
         const isLoggedIn = api.isAuthenticated();
         const user = api.getUser();
         const role = user ? user.role : '';
         const isFeaturePage = !NO_NAV_PAGES.includes(currentPage);
+        const wantsProfileMenu = isLoggedIn && PROFILE_NAV_PAGES.has(currentPage);
 
-        // Home & logo: for a logged-in user, "Home" => the main hub, not the
-        // public landing page. Guests keep going to the landing page (index).
         const homeTarget = isLoggedIn ? 'home' : '/';
         document.querySelectorAll('a.logo, nav .nav-link').forEach(link => {
             const t = (link.textContent || '').trim().toLowerCase();
-            if (link.classList.contains('logo') || t === 'home') {
-                link.setAttribute('href', homeTarget);
-            }
+            if (link.classList.contains('logo') || t === 'home') link.setAttribute('href', homeTarget);
         });
 
-        // Feature pages: remove ANY leftover action button so only the Home
-        // link + avatar dropdown remain in the navbar.
-        if (isFeaturePage) {
-            document.querySelectorAll('.nav-actions a').forEach(a => {
-                if (!a.closest('.user-menu') && !a.closest('#navLinks')) {
-                    a.remove();
-                }
-            });
+        const navActions = document.querySelector('.nav-actions');
+        if (!navActions) return;
+
+        // Remove any static profile menu on pages that do not need account chrome.
+        navActions.querySelectorAll('.user-menu').forEach(menu => {
+            if (!wantsProfileMenu) menu.remove();
+        });
+
+        // IMPORTANT: keep existing page-specific CTAs. The old implementation
+        // removed them, which caused required buttons to disappear.
+        if (isFeaturePage && !wantsProfileMenu && !navActions.querySelector('a,button')) {
+            const propertyPages = new Set(['properties','property-detail','map','saved-properties','saved-searches','property-compare','comfort-scores']);
+            const ownerPages = new Set(['list-property','edit-property','owner-verify','owner-application','owner-applications','properties-management','tenant-management','lease-management','rent-collection','owner-resources','owner-support']);
+            let href = 'home'; let label = 'Home';
+            if (propertyPages.has(currentPage)) { href = 'properties'; label = 'Browse Properties'; }
+            else if (ownerPages.has(currentPage)) { href = 'dashboard'; label = 'Dashboard'; }
+            const cta = document.createElement('a');
+            cta.className = 'nav-context-cta btn btn-primary';
+            cta.href = href;
+            cta.innerHTML = '<i class="fas fa-arrow-left"></i> ' + label;
+            navActions.appendChild(cta);
         }
 
-        if (isLoggedIn) {
-            let userMenu = document.querySelector('.nav-actions .user-menu');
+        if (wantsProfileMenu) {
+            let userMenu = navActions.querySelector('.user-menu');
             if (!userMenu) {
                 userMenu = document.createElement('div');
                 userMenu.className = 'user-menu';
                 userMenu.id = 'userMenu';
-                const navActions = document.querySelector('.nav-actions');
-                if (navActions) navActions.appendChild(userMenu);
+                navActions.appendChild(userMenu);
             }
             rebuildAccountMenu(userMenu, user, role);
         }
@@ -1414,36 +1480,114 @@ document.addEventListener('submit', (e) => {
     }
 });
 
-// ===== REAL-TIME MESSAGING (WebSocket) =====
-// Lightweight STOMP-over-WebSocket client (no external library needed).
-// Connects to /ws, subscribes to /topic/messages, and calls onMessage.
-// Usage:
-//   connectWebSocket((msg) => { console.log('New message:', msg); });
-//   sendWebSocketMessage({ conversationId, senderId, senderName, content, timestamp });
+// ===== REAL-TIME MESSAGING (authenticated STOMP/WebSocket) =====
 let wsSocket = null;
 let wsConnected = false;
+let wsQueue = [];
+let wsOnMessage = null;
+let wsBuffer = '';
+
+function wsFrame(command, headers, body) {
+    let frame = command + '\\n';
+    Object.keys(headers || {}).forEach((k) => { frame += k + ':' + String(headers[k]).replace(/\\n/g, '') + '\\n'; });
+    frame += '\\n' + (body || '') + '\\0';
+    return frame;
+}
+
+function wsParseFrames(data) {
+    wsBuffer += data;
+    const frames = [];
+    while (true) {
+        const end = wsBuffer.indexOf('\\0');
+        if (end < 0) break;
+        let raw = wsBuffer.slice(0, end);
+        wsBuffer = wsBuffer.slice(end + 1);
+        raw = raw.replace(/^\\n+/, '');
+        if (!raw) continue;
+        const split = raw.indexOf('\\n\\n');
+        const head = split >= 0 ? raw.slice(0, split) : raw;
+        const body = split >= 0 ? raw.slice(split + 2) : '';
+        const lines = head.split('\\n');
+        const command = lines.shift();
+        const headers = {};
+        lines.forEach((line) => {
+            const i = line.indexOf(':');
+            if (i > 0) headers[line.slice(0, i)] = line.slice(i + 1);
+        });
+        frames.push({ command, headers, body });
+    }
+    return frames;
+}
 
 function connectWebSocket(onMessage) {
-    const proto = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
-    const url = proto + window.location.host + '/ws';
+    wsOnMessage = typeof onMessage === 'function' ? onMessage : null;
+    if (wsSocket && (wsSocket.readyState === WebSocket.OPEN || wsSocket.readyState === WebSocket.CONNECTING)) return true;
+    const token = window.api && api.getToken ? api.getToken() : null;
+    if (!token) return false;
+
+    const scheme = location.protocol === 'https:' ? 'wss' : 'ws';
+    let base = window.API_BASE_URL || (scheme + '://' + location.host);
+    if (/^https:\/\//i.test(base)) base = base.replace(/^https:\/\//i, 'wss://');
+    else if (/^http:\/\//i.test(base)) base = base.replace(/^http:\/\//i, 'ws://');
+    const url = base.replace(/\/$/, '') + '/ws';
     try {
         wsSocket = new WebSocket(url);
-        wsSocket.onopen = () => { wsConnected = true; };
-        wsSocket.onmessage = (event) => {
-            try {
-                const data = JSON.parse(event.data);
-                if (onMessage) onMessage(data);
-            } catch (e) { /* ignore non-JSON frames */ }
+        wsSocket.onopen = function () {
+            wsSocket.send(wsFrame('CONNECT', {
+                Authorization: 'Bearer ' + token,
+                'accept-version': '1.2',
+                'heart-beat': '10000,10000'
+            }, ''));
         };
-        wsSocket.onclose = () => { wsConnected = false; };
-        wsSocket.onerror = () => { wsConnected = false; };
-    } catch (e) {
+        wsSocket.onmessage = function (event) {
+            wsParseFrames(String(event.data)).forEach(function (frame) {
+                if (frame.command === 'CONNECTED') {
+                    wsConnected = true;
+                    wsSocket.send(wsFrame('SUBSCRIBE', {
+                        id: 'heavenlease-private-messages',
+                        destination: '/user/queue/messages',
+                        ack: 'auto'
+                    }, ''));
+                    const pending = wsQueue.splice(0);
+                    pending.forEach((payload) => wsSocket.send(wsFrame('SEND', {
+                        destination: '/app/chat.send',
+                        'content-type': 'application/json'
+                    }, JSON.stringify(payload))));
+                } else if (frame.command === 'MESSAGE') {
+                    try {
+                        const msg = JSON.parse(frame.body || '{}');
+                        if (wsOnMessage) wsOnMessage(msg);
+                    } catch (_) {}
+                } else if (frame.command === 'ERROR') {
+                    wsConnected = false;
+                    wsQueue = [];
+                }
+            });
+        };
+        wsSocket.onclose = function () {
+            wsConnected = false;
+            wsSocket = null;
+            // Do not reconnect forever after an authentication failure.
+        };
+        wsSocket.onerror = function () { wsConnected = false; };
+        return true;
+    } catch (_) {
+        wsSocket = null;
         wsConnected = false;
+        return false;
     }
 }
 
 function sendWebSocketMessage(payload) {
-    if (wsSocket && wsConnected) {
-        wsSocket.send(JSON.stringify(payload));
+    if (!payload || !payload.conversationId || !payload.receiverId || !payload.content) return false;
+    if (wsConnected && wsSocket && wsSocket.readyState === WebSocket.OPEN) {
+        wsSocket.send(wsFrame('SEND', {
+            destination: '/app/chat.send',
+            'content-type': 'application/json'
+        }, JSON.stringify(payload)));
+        return true;
     }
+    wsQueue.push(payload);
+    if (!wsSocket) connectWebSocket(wsOnMessage);
+    return true;
 }

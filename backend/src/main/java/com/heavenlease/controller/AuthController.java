@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import com.heavenlease.dto.GoogleLoginRequest;
 import com.heavenlease.dto.LoginRequest;
@@ -23,13 +24,14 @@ import com.heavenlease.dto.LoginResponse;
 import com.heavenlease.dto.TenantSignupRequest;
 import com.heavenlease.model.User;
 import com.heavenlease.repository.UserRepository;
-import com.heavenlease.security.CurrentUserDetails;
 import com.heavenlease.security.JwtService;
 import com.heavenlease.service.EmailVerificationService;
 import com.heavenlease.service.GoogleService;
 import com.heavenlease.service.LoginAttemptService;
 import com.heavenlease.service.ReCaptchaService;
 import com.heavenlease.service.SmsVerificationService;
+import com.heavenlease.service.TwoFactorEmailService;
+import com.heavenlease.service.TotpService;
 
 import jakarta.validation.Valid;
 
@@ -46,8 +48,10 @@ public class AuthController {
     private final SmsVerificationService smsVerificationService;
     private final ReCaptchaService reCaptchaService;
     private final LoginAttemptService loginAttemptService;
+    private final TwoFactorEmailService twoFactorEmailService;
+    private final TotpService totpService;
 
-    public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService, EmailVerificationService emailVerificationService, GoogleService googleService, SmsVerificationService smsVerificationService, ReCaptchaService reCaptchaService, LoginAttemptService loginAttemptService) {
+    public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService, EmailVerificationService emailVerificationService, GoogleService googleService, SmsVerificationService smsVerificationService, ReCaptchaService reCaptchaService, LoginAttemptService loginAttemptService, TwoFactorEmailService twoFactorEmailService, TotpService totpService) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
@@ -57,6 +61,8 @@ public class AuthController {
         this.smsVerificationService = smsVerificationService;
         this.reCaptchaService = reCaptchaService;
         this.loginAttemptService = loginAttemptService;
+        this.twoFactorEmailService = twoFactorEmailService;
+        this.totpService = totpService;
     }
 
     @PostMapping("/login")
@@ -72,16 +78,13 @@ public class AuthController {
                     .body(Map.of("error", "Too many failed attempts. Please try again in 15 minutes."));
         }
         try {
-            Authentication authentication = authenticationManager.authenticate(
+            authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
             );
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             User user = userRepository.findByEmail(request.getEmail())
                     .orElseThrow(() -> new RuntimeException("User not found"));
-            String token = jwtService.generateToken(userDetails);
             loginAttemptService.loginSucceeded(key);
-            LoginResponse response = new LoginResponse(token, user.getEmail(), user.getRole().name(), user.getId(), user.getFullName());
-            return ResponseEntity.ok(response);
+            return issueLogin(user);
         } catch (org.springframework.security.authentication.DisabledException e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("error", "This account has been deactivated. Contact support to reactivate."));
         } catch (BadCredentialsException e) {
@@ -91,6 +94,91 @@ public class AuthController {
             loginAttemptService.loginFailed(key);
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Invalid email or password"));
         }
+    }
+
+    @PostMapping("/2fa/email/send")
+    public ResponseEntity<?> send2faEmail(@RequestBody Map<String, String> body) {
+        User user = pendingUser(body.get("challengeToken"));
+        if (user == null || !user.isTwoFactorEmailEnabled()) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Invalid 2FA challenge"));
+        try { twoFactorEmailService.send(user); return ResponseEntity.ok(Map.of("message", "Verification code sent", "expiresIn", 300)); }
+        catch (IllegalStateException e) { return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body(Map.of("error", e.getMessage())); }
+        catch (RuntimeException e) { return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(Map.of("error", "Email verification is temporarily unavailable.")); }
+    }
+
+    @PostMapping("/2fa/email/verify")
+    public ResponseEntity<?> verify2faEmail(@RequestBody Map<String, String> body) {
+        User user = pendingUser(body.get("challengeToken"));
+        if (user == null || !user.isTwoFactorEmailEnabled()) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Invalid 2FA challenge"));
+        if (!twoFactorEmailService.verify(user, body.get("code"))) return ResponseEntity.badRequest().body(Map.of("error", "Invalid or expired verification code"));
+        return finish2fa(user);
+    }
+
+    @PostMapping("/2fa/totp/verify")
+    public ResponseEntity<?> verify2faTotp(@RequestBody Map<String, String> body) {
+        User user = pendingUser(body.get("challengeToken"));
+        if (user == null || !user.isTwoFactorTotpEnabled()) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Invalid 2FA challenge"));
+        boolean ok = totpService.verify(totpService.decrypt(user.getTotpSecretEncrypted()), body.get("code"));
+        if (!ok) return ResponseEntity.badRequest().body(Map.of("error", "Invalid authenticator code"));
+        return finish2fa(user);
+    }
+
+    @PostMapping("/2fa/status")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<?> twoFactorStatus() {
+        User user = currentAuthenticatedUser();
+        if (user == null) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        return ResponseEntity.ok(Map.of("emailEnabled", user.isTwoFactorEmailEnabled(), "totpEnabled", user.isTwoFactorTotpEnabled()));
+    }
+
+    @PostMapping("/2fa/totp/setup")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<?> setupTotp() {
+        User user = currentAuthenticatedUser();
+        if (user == null) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        String secret = totpService.newSecret();
+        user.setTotpSecretEncrypted(totpService.encrypt(secret));
+        user.setTwoFactorTotpEnabled(false);
+        userRepository.save(user);
+        return ResponseEntity.ok(Map.of("secret", secret, "issuer", "HeavenLease", "account", user.getEmail(), "otpauthUri", totpService.otpauthUri(user.getEmail(), secret), "qrCode", totpService.qrDataUrl(user.getEmail(), secret)));
+    }
+
+    @PostMapping("/2fa/totp/enable")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<?> enableTotp(@RequestBody Map<String, String> body) {
+        User user = currentAuthenticatedUser();
+        if (user == null || user.getTotpSecretEncrypted() == null) return ResponseEntity.badRequest().body(Map.of("error", "Authenticator setup has not been started"));
+        if (!totpService.verify(totpService.decrypt(user.getTotpSecretEncrypted()), body.get("code"))) return ResponseEntity.badRequest().body(Map.of("error", "Invalid authenticator code"));
+        user.setTwoFactorTotpEnabled(true); userRepository.save(user);
+        return ResponseEntity.ok(Map.of("message", "Authenticator 2FA enabled"));
+    }
+
+    @PostMapping("/2fa/totp/disable")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<?> disableTotp(@RequestBody Map<String, String> body) {
+        User user = currentAuthenticatedUser();
+        if (user == null) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        if (!passwordEncoder.matches(body.getOrDefault("password", ""), user.getPasswordHash())) return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("error", "Password verification failed"));
+        user.setTwoFactorTotpEnabled(false); user.setTotpSecretEncrypted(null); userRepository.save(user);
+        return ResponseEntity.ok(Map.of("message", "Authenticator 2FA disabled"));
+    }
+
+    @PostMapping("/2fa/email/enable")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<?> enableEmail2fa() {
+        User user = currentAuthenticatedUser();
+        if (user == null) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        user.setTwoFactorEmailEnabled(true); userRepository.save(user);
+        return ResponseEntity.ok(Map.of("message", "Email OTP 2FA enabled"));
+    }
+
+    @PostMapping("/2fa/email/disable")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<?> disableEmail2fa(@RequestBody Map<String, String> body) {
+        User user = currentAuthenticatedUser();
+        if (user == null) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        if (!passwordEncoder.matches(body.getOrDefault("password", ""), user.getPasswordHash())) return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("error", "Password verification failed"));
+        user.setTwoFactorEmailEnabled(false); userRepository.save(user);
+        return ResponseEntity.ok(Map.of("message", "Email OTP 2FA disabled"));
     }
 
     @PostMapping("/phone-login")
@@ -122,10 +210,7 @@ public class AuthController {
                         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Invalid phone or password"));
                     }
                     loginAttemptService.loginSucceeded(lockKey);
-                    UserDetails userDetails = new CurrentUserDetails(user.getId(), user.getEmail(), user.getPasswordHash(),
-                            java.util.Collections.singletonList(new org.springframework.security.core.authority.SimpleGrantedAuthority("ROLE_" + user.getRole().name())));
-                    String token = jwtService.generateToken(userDetails);
-                    return ResponseEntity.ok(new LoginResponse(token, user.getEmail(), user.getRole().name(), user.getId(), user.getFullName()));
+                    return issueLogin(user);
                 })
                 .orElseGet(() -> {
                     loginAttemptService.loginFailed(lockKey);
@@ -149,11 +234,7 @@ public class AuthController {
                     if (user.isDeactivated()) {
                         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("error", "This account has been deactivated."));
                     }
-                    UserDetails userDetails = new org.springframework.security.core.userdetails.User(
-                            user.getEmail(), user.getPasswordHash(),
-                            java.util.Collections.singletonList(new org.springframework.security.core.authority.SimpleGrantedAuthority("ROLE_" + user.getRole().name())));
-                    String token = jwtService.generateToken(userDetails);
-                    return ResponseEntity.ok(new LoginResponse(token, user.getEmail(), user.getRole().name(), user.getId(), user.getFullName()));
+                    return issueLogin(user);
                 })
                 .orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "User not found")));
     }
@@ -181,11 +262,7 @@ public class AuthController {
                     if (user.isDeactivated()) {
                         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("error", "This account has been deactivated."));
                     }
-                    UserDetails userDetails = new org.springframework.security.core.userdetails.User(
-                            user.getEmail(), user.getPasswordHash(),
-                            java.util.Collections.singletonList(new org.springframework.security.core.authority.SimpleGrantedAuthority("ROLE_" + user.getRole().name())));
-                    String token = jwtService.generateToken(userDetails);
-                    return ResponseEntity.ok(new LoginResponse(token, user.getEmail(), user.getRole().name(), user.getId(), user.getFullName()));
+                    return issueLogin(user);
                 })
                 .orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "User not found")));
     }
@@ -235,11 +312,7 @@ public class AuthController {
                 user.setVerified(true);
                 user = userRepository.save(user);
             }
-            UserDetails userDetails = new org.springframework.security.core.userdetails.User(
-                    user.getEmail(), user.getPasswordHash(),
-                    java.util.Collections.singletonList(new org.springframework.security.core.authority.SimpleGrantedAuthority("ROLE_" + user.getRole().name())));
-            String token = jwtService.generateToken(userDetails);
-            return ResponseEntity.ok(new LoginResponse(token, user.getEmail(), user.getRole().name(), user.getId(), user.getFullName()));
+            return issueLogin(user);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Google authentication failed"));
         }
@@ -300,7 +373,7 @@ public class AuthController {
     /**
      * Issues a verification code for an email that does NOT have an account yet.
      * Used by the public signup flow to send the OTP BEFORE the user is created.
-     * The code is always delivered via real AWS SES (or fails with a clear error).
+     * Legacy account-verification delivery; login 2FA uses the native SMTP-backed TwoFactorEmailService above.
      */
     @PostMapping("/send-signup-code")
     public ResponseEntity<?> sendSignupCode(@RequestBody Map<String, String> body) {
@@ -335,11 +408,16 @@ public class AuthController {
     }
 
     @PostMapping("/verify-sms-otp")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> verifySmsOtp(@RequestBody Map<String, String> body) {
         String phone = body.get("phone");
         String code = body.get("code");
         if (phone == null || phone.isBlank() || code == null || code.isBlank()) {
             return ResponseEntity.badRequest().body(Map.of("error", "Phone and code are required"));
+        }
+        User current = currentAuthenticatedUser();
+        if (current == null || !SmsVerificationService.normalizePhone(current.getPhone()).equals(SmsVerificationService.normalizePhone(phone))) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("error", "You can only verify the phone number on your own account"));
         }
         boolean valid = smsVerificationService.verifyCode(phone, code);
         if (!valid) {
@@ -354,19 +432,24 @@ public class AuthController {
         if (email == null || email.isBlank()) {
             return ResponseEntity.badRequest().body(Map.of("error", "Email is required"));
         }
-        if (!userRepository.existsByEmail(email)) {
-            return ResponseEntity.badRequest().body(Map.of("error", "User not found"));
+        // Do not reveal whether the email is registered.
+        if (userRepository.existsByEmail(email)) {
+            emailVerificationService.generateCode(email);
         }
-        emailVerificationService.generateCode(email);
-        return ResponseEntity.ok(Map.of("message", "Verification code sent"));
+        return ResponseEntity.ok(Map.of("message", "If the account exists, a verification code has been sent"));
     }
 
     @PostMapping("/verify-email")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> verifyEmail(@RequestBody Map<String, String> body) {
         String email = body.get("email");
         String code = body.get("code");
         if (email == null || email.isBlank() || code == null || code.isBlank()) {
             return ResponseEntity.badRequest().body(Map.of("error", "Email and code are required"));
+        }
+        User current = currentAuthenticatedUser();
+        if (current == null || current.getEmail() == null || !current.getEmail().equalsIgnoreCase(email)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("error", "You can only verify the email on your own account"));
         }
         boolean valid = emailVerificationService.verifyCode(email, code);
         if (!valid) {
@@ -467,11 +550,53 @@ public class AuthController {
         return ResponseEntity.ok(response);
     }
 
+    private User currentAuthenticatedUser() {
+        Authentication authentication = org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated() || authentication.getName() == null) {
+            return null;
+        }
+        return userRepository.findByEmail(authentication.getName()).orElse(null);
+    }
+
     /**
      * Returns true when reCAPTCHA is NOT configured so login/signup remain open.
      * When a real secret key is set, the enforcement path (reCaptchaService.verify)
      * is required and mock tokens are rejected.
      */
+    private User pendingUser(String token) {
+        try {
+            if (token == null || !jwtService.isPending2faToken(token)) return null;
+            return userRepository.findByEmail(jwtService.extractUsername(token)).orElse(null);
+        } catch (Exception e) { return null; }
+    }
+
+    private ResponseEntity<?> issueLogin(User user) {
+        if (user.isDeactivated()) return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("error", "This account has been deactivated."));
+        if (user.isTwoFactorEmailEnabled() || user.isTwoFactorTotpEnabled()) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("twoFactorRequired", true);
+            response.put("challengeToken", jwtService.generatePending2faToken(user.getEmail()));
+            response.put("emailEnabled", user.isTwoFactorEmailEnabled());
+            response.put("totpEnabled", user.isTwoFactorTotpEnabled());
+            response.put("emailHint", maskEmail(user.getEmail()));
+            return ResponseEntity.ok(response);
+        }
+        UserDetails details = new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPasswordHash(),
+                java.util.Collections.singletonList(new org.springframework.security.core.authority.SimpleGrantedAuthority("ROLE_" + user.getRole().name())));
+        return ResponseEntity.ok(new LoginResponse(jwtService.generateToken(details), user.getEmail(), user.getRole().name(), user.getId(), user.getFullName()));
+    }
+
+    private ResponseEntity<?> finish2fa(User user) {
+        UserDetails details = new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPasswordHash(),
+                java.util.Collections.singletonList(new org.springframework.security.core.authority.SimpleGrantedAuthority("ROLE_" + user.getRole().name())));
+        return ResponseEntity.ok(new LoginResponse(jwtService.generateToken(details), user.getEmail(), user.getRole().name(), user.getId(), user.getFullName()));
+    }
+
+    private String maskEmail(String email) {
+        int at = email.indexOf('@'); if (at <= 1) return "••••" + email.substring(Math.max(at, 0));
+        return email.substring(0, 2) + "••••" + email.substring(at);
+    }
+
     private boolean reCaptchaIsOpen() {
         String secret = reCaptchaService.getConfiguredSecretOrNull();
         return secret == null || secret.isBlank();

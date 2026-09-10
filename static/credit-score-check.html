@@ -5,14 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Tenant credit score and financial history checks on HeavenLease.">
 <title>Credit Score Check — HeavenLease</title>
-<link rel="stylesheet" href="styles.css?v=20260909a">
+<link rel="stylesheet" href="styles.css?v=20260910b">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{--primary:#5b5ce2;--primary2:#5b5ce2;--green:#18a878;--dark:#182033;--muted:#687386;--bg:#f6f7fb;--line:#e4e7ee;--white:#ffffff;--heading:#182033;--body:#182033color:var(;--dark);background:var(--bg);line-height:1.6}
+:root{--primary:var(--primary);--primary2:var(--primary);--green:var(--secondary);--dark:var(--text-primary);--muted:var(--text-secondary);--bg:#f6f7fb;--line:var(--border);--white:#ffffff;--heading:var(--text-primary);--body:var(--text-primary)color:var(;--dark);background:var(--bg);line-height:1.6}
 a{text-decoration:none;color:inherit}
 .container{width:min(1160px,calc(100% - 32px));margin:auto}
 /* Solid modern navbar */
@@ -22,9 +22,9 @@ a{text-decoration:none;color:inherit}
 .logo-icon{width:43px;height:43px;border-radius:12px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,var(--primary),var(--green));box-shadow:0 7px 18px rgba(79,70,229,.25)}
 .logo-text span{color:var(--primary2)}
 .nav-actions{display:flex;align-items:center;gap:8px}
-.nav-link{font-size:13px;font-weight:600;color:#687386;padding:9px 12px;border-radius:9px}
-.nav-link:hover{background:#eef0ff;color:var(--primary)}
-.account{display:flex;align-items:center;gap:8px;border:1px solid var(--line);padding:8px 11px;border-radius:10px;font-size:12px;font-weight:700;color:#687386}
+.nav-link{font-size:13px;font-weight:600;color:var(--text-secondary);padding:9px 12px;border-radius:9px}
+.nav-link:hover{background:var(--primary-light);color:var(--primary)}
+.account{display:flex;align-items:center;gap:8px;border:1px solid var(--line);padding:8px 11px;border-radius:10px;font-size:12px;font-weight:700;color:var(--text-secondary)}
 .account i:first-child{color:var(--primary)}
 .menu{display:none;border:0;background:#f2f4f8;width:40px;height:40px;border-radius:9px}
 /* Hero */
@@ -46,7 +46,7 @@ a{text-decoration:none;color:inherit}
 .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:48px}
 .card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:25px;box-shadow:0 10px 28px rgba(30,41,59,.055);transition:.2s}
 .card:hover{transform:translateY(-4px);box-shadow:0 17px 35px rgba(30,41,59,.1);border-color:#cfd3ff}
-.card-icon{width:48px;height:48px;border-radius:13px;display:grid;place-items:center;background:#eef0ff;color:var(--primary);font-size:20px;margin-bottom:15px}
+.card-icon{width:48px;height:48px;border-radius:13px;display:grid;place-items:center;background:var(--primary-light);color:var(--primary);font-size:20px;margin-bottom:15px}
 .card h3{font-size:16px;margin-bottom:7px}.card p{font-size:13px;color:var(--muted);line-height:1.7}
 /* Explanation blocks */
 .feature{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
@@ -55,7 +55,7 @@ a{text-decoration:none;color:inherit}
 .feature-box h3 i{font-family:var(--body);font-size:18px;color:var(--primary)}
 .feature-box p{font-size:14px;color:var(--muted);line-height:1.8;margin-bottom:10px}
 .feature-box ul{list-style:none;margin-top:12px}
-.feature-box li{display:flex;gap:10px;font-size:13px;color:#687386;padding:8px 0}
+.feature-box li{display:flex;gap:10px;font-size:13px;color:var(--text-secondary);padding:8px 0}
 .feature-box li i{color:var(--green);margin-top:4px}
 /* Verification */
 .verification{background:#fff;border:1px solid var(--line);border-radius:18px;padding:30px;box-shadow:0 12px 35px rgba(30,41,59,.06);margin-top:30px}
@@ -65,29 +65,29 @@ a{text-decoration:none;color:inherit}
 .doc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
 .doc{border:1px dashed #ccd2df;border-radius:12px;padding:16px;text-align:center;background:#fafbfc}
 .doc i{font-size:21px;color:var(--primary);margin-bottom:8px}.doc strong{display:block;font-size:12px}.doc span{font-size:10px;color:#8b94a3}
-.status{margin-top:17px;padding:12px 14px;background:#f7f8fc;border-radius:10px;font-size:12px;color:#697487}
+.status{margin-top:17px;padding:12px 14px;background:var(--surface-soft);border-radius:10px;font-size:12px;color:#697487}
 .status i{color:var(--green);margin-right:6px}
 /* Help */
 .help{margin-top:22px}
 .help h3{font:700 25px var(--heading);margin-bottom:7px}
 .help>p{font-size:13px;color:var(--muted);margin-bottom:17px}
-.help-card{background:linear-gradient(135deg,#eef0ff,#effcf7);border:1px solid #dfe4ff;border-radius:17px;padding:23px}
+.help-card{background:linear-gradient(135deg,var(--primary-light),#effcf7);border:1px solid #dfe4ff;border-radius:17px;padding:23px}
 textarea,input{font:13px var(--body);outline:none}
 textarea{width:100%;min-height:115px;resize:vertical;border:1px solid #dfe3ec;border-radius:11px;padding:12px 13px;background:#fff}
 input{width:100%;max-width:360px;margin-top:10px;padding:11px 13px;border:1px solid #dfe3ec;border-radius:10px;background:#fff}
-textarea:focus,input:focus{border-color:#aeb1ff;box-shadow:0 0 0 3px #eef0ff}
+textarea:focus,input:focus{border-color:#aeb1ff;box-shadow:0 0 0 3px var(--primary-light)}
 .help-actions{display:flex;gap:9px;margin-top:12px}
 .btn{border:0;border-radius:9px;padding:10px 15px;font-weight:700;font-size:12px;cursor:pointer}
 .primary{background:var(--primary);color:#fff}.primary:hover{background:#3730a3}
-.ghost{background:#fff;color:#687386;border:1px solid #dfe3ec}
+.ghost{background:#fff;color:var(--text-secondary);border:1px solid #dfe3ec}
 .note{font-size:11px;color:#8992a2;margin-top:9px}
 /* Footer */
-.footer{background:#182033;color:#d6dbe8;padding:42px 0 21px;border-top:4px solid var(--primary)}
+.footer{background:var(--text-primary);color:#d6dbe8;padding:42px 0 21px;border-top:4px solid var(--primary)}
 .footer-grid{display:grid;grid-template-columns:1fr auto;gap:30px;align-items:center}
-.footer-brand{font:700 22px var(--heading);color:#fff}.footer-brand span{color:#5b5ce2}
-.footer-desc{font-size:11px;color:#9aa3b2;max-width:430px;margin-top:6px}
+.footer-brand{font:700 22px var(--heading);color:#fff}.footer-brand span{color:var(--primary)}
+.footer-desc{font-size:11px;color:var(--text-muted);max-width:430px;margin-top:6px}
 .footer-links{display:flex;gap:18px;flex-wrap:wrap;justify-content:flex-end}
-.footer-links a{font-size:11px;color:#d4d8e2}.footer-links a:hover{color:#fff}
+.footer-links a{font-size:11px;color:var(--gray-300)}.footer-links a:hover{color:#fff}
 .footer-bottom{border-top:1px solid rgba(255,255,255,.08);margin-top:27px;padding-top:17px;text-align:center;font-size:10px;color:#7f8ba3}.footer-bottom i{color:#f87171}
 /* Top */
 .top{position:fixed;right:20px;bottom:20px;width:42px;height:42px;border:0;border-radius:11px;background:var(--primary);color:#fff;opacity:0;transform:translateY(10px);pointer-events:none;transition:.25s;cursor:pointer;box-shadow:0 10px 24px rgba(79,70,229,.3)}
@@ -102,11 +102,12 @@ textarea:focus,input:focus{border-color:#aeb1ff;box-shadow:0 0 0 3px #eef0ff}
  .account{display:none}.help-actions{flex-wrap:wrap}
 }
 </style>
+<style>/* HeavenLease brand mark */ .brand-logo-image{width:100%;height:100%;display:block;object-fit:contain;border-radius:inherit}.logo-icon,.hl-logo-icon,.logo-mark,.mark{overflow:hidden}</style>
 </head>
 <body>
 <nav class="navbar">
  <div class="container nav-inner">
-  <a href="/" class="logo"><span class="logo-icon"><i class="fas fa-home"></i></span><span class="logo-text">Heaven<span>Lease</span></span></a>
+  <a href="/" class="logo"><span class="logo-icon"><img src="logo.svg" alt="HeavenLease" class="brand-logo-image"></span><span class="logo-text">Heaven<span>Lease</span></span></a>
   <div class="nav-actions">
    <a class="nav-link" href="/">Home</a>
    <a class="nav-link" href="properties">Properties</a>
@@ -202,7 +203,7 @@ textarea:focus,input:focus{border-color:#aeb1ff;box-shadow:0 0 0 3px #eef0ff}
     <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
         <div class="footer-brand">
             <a href="home" class="logo">
-                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <div class="logo-icon"><img src="logo.svg" alt="HeavenLease" class="brand-logo-image"></div>
                 <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
             <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>

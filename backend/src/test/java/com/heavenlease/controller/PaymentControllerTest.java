@@ -11,6 +11,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -98,6 +99,8 @@ class PaymentControllerTest {
     @Test
     void verifyPayment_derivesDescriptionAndAmountServerSide() {
         when(gateway.verifyPaymentSignature("o1", "p1", "sig")).thenReturn(true);
+        when(paymentRepository.findFirstByDescriptionContainingAndUserId("order:o1", 1L))
+                .thenReturn(Optional.of(pendingStoredOrder("order:o1 plan:12 purpose:subscription", "SUBSCRIPTION", 799.0)));
         when(paymentRepository.save(any(Payment.class))).thenAnswer(inv -> inv.getArgument(0));
 
         var resp = controller.verifyPayment(Map.of(
@@ -107,23 +110,26 @@ class PaymentControllerTest {
         Payment saved = (Payment) ((Map<?, ?>) resp.getBody()).get("payment");
         assertThat(saved.getAmount()).isEqualTo(799.0);
         assertThat(saved.getPaymentType()).isEqualTo("SUBSCRIPTION");
-        assertThat(saved.getDescription()).contains("plan:12").contains("tenant");
+        assertThat(saved.getDescription()).contains("plan:12");
         assertThat(saved.getUserId()).isEqualTo(1L);
     }
 
     @Test
     void verifyPayment_rejectsClientAmountAndDescription() {
         when(gateway.verifyPaymentSignature("o1", "p1", "sig")).thenReturn(true);
+        when(paymentRepository.findFirstByDescriptionContainingAndUserId("order:o1", 1L))
+                .thenReturn(Optional.of(pendingStoredOrder("order:o1 plan:12 purpose:subscription", "SUBSCRIPTION", 799.0)));
         when(paymentRepository.save(any(Payment.class))).thenAnswer(inv -> inv.getArgument(0));
 
+        // The client tries to smuggle a bogus amount ₹1 and an "owner" description.
         var resp = controller.verifyPayment(Map.of(
                 "orderId", "o1", "paymentId", "p1", "signature", "sig",
                 "planMonths", "12", "amount", "1", "description", "plan:12 role:owner"));
 
+        // Both are ignored: the plan, amount and description come from the server-side order only.
         Payment saved = (Payment) ((Map<?, ?>) resp.getBody()).get("payment");
         assertThat(saved.getAmount()).isEqualTo(799.0);
-        assertThat(saved.getDescription()).contains("plan:12").contains("tenant");
-        assertThat(saved.getDescription()).doesNotContain("role:owner");
+        assertThat(saved.getDescription()).contains("plan:12").doesNotContain("role:owner");
     }
 
     @Test
@@ -140,13 +146,28 @@ class PaymentControllerTest {
     @Test
     void verifyPayment_doesNotGrantPlanForMissingPlanMonths() {
         when(gateway.verifyPaymentSignature("o1", "p1", "sig")).thenReturn(true);
+        when(paymentRepository.findFirstByDescriptionContainingAndUserId("order:o1", 1L))
+                .thenReturn(Optional.of(pendingStoredOrder("order:o1 purpose:online", "ONLINE", 500.0)));
         when(paymentRepository.save(any(Payment.class))).thenAnswer(inv -> inv.getArgument(0));
 
         var resp = controller.verifyPayment(Map.of(
                 "orderId", "o1", "paymentId", "p1", "signature", "sig"));
 
         Payment saved = (Payment) ((Map<?, ?>) resp.getBody()).get("payment");
-        assertThat(saved.getDescription()).isEqualTo("online payment");
+        assertThat(saved.getDescription()).isEqualTo("order:o1 purpose:online");
         assertThat(saved.getPaymentType()).isEqualTo("ONLINE");
+    }
+
+    /** Represents the order persisted by createOrder — the server-authoritative payment record. */
+    private Payment pendingStoredOrder(String description, String paymentType, double amount) {
+        Payment p = new Payment();
+        p.setId(4L);
+        p.setUserId(1L);
+        p.setAmount(amount);
+        p.setPaymentType(paymentType);
+        p.setStatus("pending");
+        p.setActive(false);
+        p.setDescription(description);
+        return p;
     }
 }

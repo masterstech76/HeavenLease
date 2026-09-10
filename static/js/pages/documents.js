@@ -37,16 +37,25 @@
                 return;
             }
             wrap.innerHTML = '<div class="documents-list">' + list.map((d) => {
-                const url = d.fileUrl ? api.resolveMedia(d.fileUrl) : '';
+                const canView = !!d.id;
                 return '<div class="document-card">'
                     + '<div class="doc-left"><div class="doc-icon"><i class="fas fa-file-lines"></i></div><div><div class="doc-name">' + api.escapeHtml(d.fileName || d.docType || ('Doc #' + d.id)) + ' ' + badge(d.status) + '</div><div class="doc-meta">' + api.escapeHtml(d.docType || 'Document') + ' · ' + api.escapeHtml(d.pageKey || 'General') + ' · ' + fmt(d.createdAt) + '</div></div></div>'
-                    + '<div class="doc-actions">' + (url ? '<a class="btn btn-view" href="' + api.escapeHtml(url) + '" target="_blank" rel="noopener"><i class="fas fa-eye"></i>View</a>' : '')
+                    + '<div class="doc-actions">' + (canView ? '<button class="btn btn-view" type="button" onclick="viewDoc(' + d.id + ')"><i class="fas fa-eye"></i>View</button>' : '')
                     + '<button class="btn btn-delete" onclick="delDoc(' + d.id + ')" aria-label="Delete document"><i class="fas fa-trash"></i></button></div></div>';
             }).join('') + '</div>';
         } catch (e) {
             wrap.innerHTML = '<div class="empty-state"><i class="fas fa-circle-exclamation"></i><h3>Could not load documents</h3><p>' + api.escapeHtml(e.message || 'Please try again.') + '</p></div>';
         }
     }
+
+    window.viewDoc = async function (id) {
+        try {
+            const blob = await api.downloadDocument(id);
+            const url = URL.createObjectURL(blob);
+            window.open(url, '_blank', 'noopener');
+            setTimeout(() => URL.revokeObjectURL(url), 60000);
+        } catch (e) { showToast(e.message || 'Could not open document.', 'error'); }
+    };
 
     window.uploadDoc = async function () {
         const fileInput = document.getElementById('docFile');

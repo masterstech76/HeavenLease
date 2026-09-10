@@ -35,6 +35,10 @@ Thumbs.db
 # One-off provisioning / scratch scripts (not part of the app)
 *.sh
 
+# Scratch audit/analysis scripts + build logs (keep local only)
+_*.py
+_*.log
+
 # Rebuild scratch: local backups + python caches (never push)
 backup/
 __pycache__/

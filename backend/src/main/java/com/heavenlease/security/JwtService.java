@@ -99,7 +99,22 @@ public class JwtService {
 
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token) && !isPending2faToken(token));
+    }
+
+    public String generatePending2faToken(String email) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("purpose", "2fa_pending");
+        return Jwts.builder().claims(claims).subject(email)
+                .issuedAt(new Date()).expiration(new Date(System.currentTimeMillis() + 10 * 60 * 1000))
+                .signWith(getSigningKey()).compact();
+    }
+
+    public boolean isPending2faToken(String token) {
+        try {
+            Claims claims = extractAllClaims(token);
+            return "2fa_pending".equals(claims.get("purpose", String.class)) && !isTokenExpired(token);
+        } catch (Exception e) { return false; }
     }
 
     /**

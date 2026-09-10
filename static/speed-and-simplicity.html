@@ -9,15 +9,15 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
-    <link rel="stylesheet" href="styles.css?v=20260909a">
+    <link rel="stylesheet" href="styles.css?v=20260910b">
     <style>
         :root{
-            --hl-ink:#182033;
-            --hl-muted:#687386;
-            --hl-green:#18a878;
-            --hl-green-dark:#0f8a63;
-            --hl-gold:#5b5ce2;
-            --hl-line:#e4e7ee;
+            --hl-ink:var(--text-primary);
+            --hl-muted:var(--text-secondary);
+            --hl-green:var(--secondary);
+            --hl-green-dark:var(--secondary-dark);
+            --hl-gold:var(--primary);
+            --hl-line:var(--border);
             --hl-card:#ffffff;
             --hl-shadow:0 24px 70px rgba(17,35,27,.13);
             --hl-soft-shadow:0 12px 32px rgba(17,35,27,.08);
@@ -46,7 +46,7 @@
         .logo{display:flex;align-items:center;gap:12px;color:#fff}
         .logo-icon{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(145deg,#c8a15f,#8f6b36);box-shadow:0 8px 20px rgba(0,0,0,.22)}
         .logo-text{font-family:"Playfair Display",serif;font-size:25px;letter-spacing:-.3px}
-        .logo-text span{color:#5b5ce2}
+        .logo-text span{color:var(--primary)}
         .nav-actions{display:flex;align-items:center}
         .user-menu{position:relative}
         .user-menu-trigger{
@@ -82,7 +82,7 @@
             font-size:11px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;backdrop-filter:blur(8px);margin-bottom:20px
         }
         .page-header h1{font-family:"Playfair Display",serif;font-size:clamp(45px,6vw,66px);line-height:1.05;font-weight:600;margin:0 0 15px;letter-spacing:-1px}
-        .gradient-text{color:#5b5ce2}
+        .gradient-text{color:var(--primary)}
         .page-header p{max-width:660px;margin:0 auto;color:rgba(255,255,255,.82);font-size:16px;line-height:1.7}
         .breadcrumb{display:flex;justify-content:center;align-items:center;gap:9px;margin-top:20px;font-size:11px;color:rgba(255,255,255,.62);flex-wrap:wrap}
         .breadcrumb a{color:#e1c78f}
@@ -145,9 +145,9 @@
             background:#fff;color:var(--hl-green-dark);font-size:12px;font-weight:800
         }
         /* Opaque footer */
-        footer,.footer{background:#182033!important;color:#dbe5df!important;opacity:1!important}
+        footer,.footer{background:var(--text-primary)!important;color:#dbe5df!important;opacity:1!important}
         .footer .logo-text{color:#fff}
-        .footer .logo-text span{color:#5b5ce2}
+        .footer .logo-text span{color:var(--primary)}
         .footer p{color:#9caea5!important}
         .footer-bottom{border-top-color:rgba(255,255,255,.10)!important}
         .back-to-top{z-index:20}
@@ -176,12 +176,13 @@
             .cta-buttons .btn{justify-content:center}
         }
     </style>
+<style>/* HeavenLease brand mark */ .brand-logo-image{width:100%;height:100%;display:block;object-fit:contain;border-radius:inherit}.logo-icon,.hl-logo-icon,.logo-mark,.mark{overflow:hidden}</style>
 </head>
 <body>
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <a href="/" class="logo" aria-label="HeavenLease home">
-                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <div class="logo-icon"><img src="logo.svg" alt="HeavenLease" class="brand-logo-image"></div>
                 <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
             <div class="nav-actions">
@@ -308,7 +309,7 @@
     <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
         <div class="footer-brand">
             <a href="home" class="logo">
-                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <div class="logo-icon"><img src="logo.svg" alt="HeavenLease" class="brand-logo-image"></div>
                 <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
             <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>

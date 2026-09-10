@@ -70,7 +70,9 @@
             showToast('User verified successfully!', 'success');
             setTimeout(loadUsers, 500);
         } catch (e) { showToast((e && e.message) || 'Action failed.', 'error'); }
-/* ===== Properties ===== */
+    };
+
+    /* ===== Properties ===== */
     async function loadProperties() {
         try {
             const props = (await api.getProperties(0, 100).catch(() => [])) || [];
@@ -118,6 +120,7 @@
             if (el) el.innerHTML = '<div class="empty-state"><i class="fas fa-file-shield"></i><p>Could not load applications.</p></div>';
         }
     }
+
     window.handleOwnerApp = async function (id, status) {
         try {
             await api.updateOwnerApplicationStatus(id, status, 'Reviewed by admin');
@@ -237,4 +240,3 @@ function renderIntegrationCards() {
     loadOwnerApps();
     loadIntegrations();
 })();
-    };

@@ -57,7 +57,9 @@
         AMOUNT_PAISE = PAYMENT_AMOUNT * 100;
         selectedRole = el.getAttribute('data-role') || 'tenant';
         updatePlanDisplay();
-window.payNow = async function () {
+    };
+
+    window.payNow = async function () {
         if (!razorpayConfigured || !RAZORPAY_KEY || RAZORPAY_KEY.includes('YOUR_KEY')) {
             showToast('Payments are not ready yet — the payment provider is still being set up. Please try again shortly.', 'error');
             return;
@@ -120,4 +122,3 @@ window.payNow = async function () {
         } catch (e) { /* ignore */ }
     })();
 })();
-    };

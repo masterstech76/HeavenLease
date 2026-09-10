@@ -123,7 +123,7 @@
   };
 
   /* ---- Helper: is demo data present? ---- */
-  window.HL_DEMO_MODE = true; /* auto-removed when this file is deleted */
+  window.HL_DEMO_MODE = false; /* auto-removed when this file is deleted */
 
   window.HL_USE_DEMO = function () {
     return !!(window.HL_DEMO_DATA && window.HL_DEMO_MODE);

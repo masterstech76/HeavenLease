@@ -9,12 +9,12 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
-<link rel="stylesheet" href="styles.css?v=20260909a">
+<link rel="stylesheet" href="styles.css?v=20260910b">
 <link rel="stylesheet" href="feature-panel.css?v=20260902a">
 <style>
 :root{
-    --ink:#182033;--muted:#687386;--line:#e4e7ee;--primary:#5b5ce2;
-    --primary-soft:#eef0ff;--green:#18a878;--dark:#182033;
+    --ink:var(--text-primary);--muted:var(--text-secondary);--line:var(--border);--primary:var(--primary);
+    --primary-soft:var(--primary-light);--green:var(--secondary);--dark:var(--text-primary);
     --radius:22px;--shadow:0 22px 60px rgba(15,23,42,.11);
 }
 *{box-sizing:border-box}
@@ -43,7 +43,7 @@ body{
 .navbar .logo{color:#fff}
 .logo-icon{
     width:44px;height:44px;border-radius:13px;display:grid;place-items:center;
-    background:linear-gradient(135deg,#5b5ce2,#10b981);color:#fff;
+    background:linear-gradient(135deg,var(--primary),var(--success));color:#fff;
     box-shadow:0 10px 25px rgba(79,70,229,.3)
 }
 .logo-text{font:700 28px 'Playfair Display',serif;letter-spacing:-.4px}
@@ -60,18 +60,18 @@ body{
 .user-menu-trigger>i{font-size:10px;color:rgba(255,255,255,.65)}
 .user-dropdown{
     position:absolute;right:0;top:calc(100% + 10px);width:285px;max-height:70vh;
-    overflow:auto;padding:8px;background:#fff;border:1px solid #e4e7ee;
+    overflow:auto;padding:8px;background:#fff;border:1px solid var(--border);
     border-radius:16px;box-shadow:0 24px 60px rgba(15,23,42,.22);display:none
 }
 .user-menu:hover .user-dropdown,.user-menu:focus-within .user-dropdown{display:block}
 .user-dropdown a{
     display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;
-    color:#3a4354;text-decoration:none;font-size:12px;font-weight:600
+    color:var(--gray-700);text-decoration:none;font-size:12px;font-weight:600
 }
-.user-dropdown a:hover{background:#eef0f5;color:var(--primary)}
-.user-dropdown a i{width:18px;text-align:center;color:#687386}
-.dropdown-divider{height:1px;background:#e4e7ee;margin:7px 4px}
-.logout-link{color:#b91c1c!important}.logout-link i{color:#b91c1c!important}
+.user-dropdown a:hover{background:var(--gray-100);color:var(--primary)}
+.user-dropdown a i{width:18px;text-align:center;color:var(--text-secondary)}
+.dropdown-divider{height:1px;background:var(--border);margin:7px 4px}
+.logout-link{color:var(--danger-dark)!important}.logout-link i{color:var(--danger-dark)!important}
 /* HERO */
 .owner-hero{
     min-height:590px;padding:150px 0 82px;display:flex;align-items:center;
@@ -85,7 +85,7 @@ body{
 .eyebrow{
     display:inline-flex;align-items:center;gap:8px;padding:8px 12px;
     border:1px solid rgba(255,255,255,.2);border-radius:999px;
-    background:rgba(255,255,255,.09);color:#eef0ff;
+    background:rgba(255,255,255,.09);color:var(--primary-light);
     font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase
 }
 .owner-hero h1{
@@ -95,7 +95,7 @@ body{
 .owner-hero h1 span{color:#aeb1ff}
 .hero-copy>p{max-width:630px;margin:0;color:rgba(255,255,255,.78);font-size:18px;line-height:1.7}
 .breadcrumb{display:flex;align-items:center;gap:9px;margin-top:25px;font-size:12px;color:rgba(255,255,255,.58)}
-.breadcrumb a{color:#eef0ff;text-decoration:none}.breadcrumb i{font-size:9px}
+.breadcrumb a{color:var(--primary-light);text-decoration:none}.breadcrumb i{font-size:9px}
 .hero-card{
     width:270px;padding:25px;border:1px solid rgba(255,255,255,.18);border-radius:22px;
     background:rgba(255,255,255,.1);backdrop-filter:blur(16px);
@@ -103,7 +103,7 @@ body{
 }
 .hero-card-icon{
     width:48px;height:48px;border-radius:15px;display:grid;place-items:center;
-    background:rgba(129,140,248,.22);color:#eef0ff;margin-bottom:17px
+    background:rgba(129,140,248,.22);color:var(--primary-light);margin-bottom:17px
 }
 .hero-card strong{display:block;font-size:15px;margin-bottom:7px}
 .hero-card span:last-child{display:block;color:rgba(255,255,255,.65);font-size:12px;line-height:1.6}
@@ -129,10 +129,10 @@ body{
 }
 .feature-card:before{
     content:"";position:absolute;inset:0 0 auto;height:3px;
-    background:linear-gradient(90deg,#5b5ce2,#5b5ce2,#10b981);
+    background:linear-gradient(90deg,var(--primary),var(--primary),var(--success));
     transform:scaleX(0);transform-origin:left;transition:transform .22s ease
 }
-.feature-card:hover{transform:translateY(-6px);box-shadow:0 30px 70px rgba(15,23,42,.15);border-color:#eef0ff!important}
+.feature-card:hover{transform:translateY(-6px);box-shadow:0 30px 70px rgba(15,23,42,.15);border-color:var(--primary-light)!important}
 .feature-card:hover:before{transform:scaleX(1)}
 .feature-icon{
     width:56px!important;height:56px!important;border-radius:16px!important;
@@ -165,23 +165,23 @@ body{
     border-top:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.55);
     font-size:11px;line-height:1.6
 }
-.support-note i{color:#aeb1ff;margin-top:2px}.support-note strong{color:#eef0ff}
+.support-note i{color:#aeb1ff;margin-top:2px}.support-note strong{color:var(--primary-light)}
 .help-form{background:#fff;border-radius:20px;padding:25px;color:var(--ink)}
-.help-form label{display:block;margin-bottom:7px;font-size:12px;font-weight:800;color:#3a4354}
-.help-form label span{font-weight:500;color:#9aa3b2}
+.help-form label{display:block;margin-bottom:7px;font-size:12px;font-weight:800;color:var(--gray-700)}
+.help-form label span{font-weight:500;color:var(--text-muted)}
 .help-form textarea,.help-form input{
-    width:100%;border:1px solid #d9e1ea;border-radius:12px;background:#f7f8fc;
+    width:100%;border:1px solid #d9e1ea;border-radius:12px;background:var(--surface-soft);
     padding:13px 14px;font:14px Inter;color:var(--ink);outline:none
 }
 .help-form textarea{min-height:145px;resize:vertical;margin-bottom:16px}
 .help-form input{margin-bottom:18px}
-.help-form textarea:focus,.help-form input:focus{border-color:#5b5ce2;box-shadow:0 0 0 4px rgba(99,102,241,.1);background:#fff}
+.help-form textarea:focus,.help-form input:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(99,102,241,.1);background:#fff}
 .form-actions{display:flex;gap:10px;flex-wrap:wrap}
 .btn{border:0;border-radius:11px;min-height:45px;padding:0 17px;font:700 12px Inter;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
-.btn-primary{background:#182033;color:#fff;box-shadow:0 10px 22px rgba(15,23,42,.18)}
+.btn-primary{background:var(--text-primary);color:#fff;box-shadow:0 10px 22px rgba(15,23,42,.18)}
 .btn-primary:hover{background:#24344d;transform:translateY(-1px)}
-.btn-ghost{background:#eef2f7;color:#3a4354}.btn-ghost:hover{background:#e4e7ee}
-.help-note{font-size:11px!important;color:#9aa3b2!important;line-height:1.5!important;margin:12px 0 0}
+.btn-ghost{background:#eef2f7;color:var(--gray-700)}.btn-ghost:hover{background:var(--border)}
+.help-note{font-size:11px!important;color:var(--text-muted)!important;line-height:1.5!important;margin:12px 0 0}
 /* OPAQUE FOOTER */
 .footer{background:#091321!important;color:#fff!important;padding:42px 0 20px!important;border-top:1px solid rgba(255,255,255,.08)}
 .footer-grid{display:grid;grid-template-columns:1fr!important}
@@ -193,7 +193,7 @@ body{
 .footer-bottom .fa-heart{color:#fda4af}
 .back-to-top{
     position:fixed;right:22px;bottom:22px;width:44px;height:44px;border:0;border-radius:13px;
-    background:#182033;color:#fff;box-shadow:0 15px 30px rgba(15,23,42,.2);
+    background:var(--text-primary);color:#fff;box-shadow:0 15px 30px rgba(15,23,42,.2);
     cursor:pointer;opacity:0;visibility:hidden;transform:translateY(8px);transition:.2s;z-index:900
 }
 .back-to-top.visible{opacity:1;visibility:visible;transform:none}
@@ -223,12 +223,13 @@ body{
     .breadcrumb{font-size:10px;flex-wrap:wrap}
 }
 </style>
+<style>/* HeavenLease brand mark */ .brand-logo-image{width:100%;height:100%;display:block;object-fit:contain;border-radius:inherit}.logo-icon,.hl-logo-icon,.logo-mark,.mark{overflow:hidden}</style>
 </head>
 <body>
 <nav class="navbar" id="navbar">
     <div class="nav-container">
         <a href="/" class="logo">
-            <div class="logo-icon"><i class="fas fa-home"></i></div>
+            <div class="logo-icon"><img src="logo.svg" alt="HeavenLease" class="brand-logo-image"></div>
             <span class="logo-text">Heaven<span>Lease</span></span>
         </a>
         <div class="nav-actions">
@@ -371,7 +372,7 @@ body{
     <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
         <div class="footer-brand">
             <a href="home" class="logo">
-                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <div class="logo-icon"><img src="logo.svg" alt="HeavenLease" class="brand-logo-image"></div>
                 <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
             <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>

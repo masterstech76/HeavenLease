@@ -3,6 +3,15 @@ spring:
     name: HeavenLease-backend
   config:
     import: optional:file:.env[.properties]
+  mail:
+    host: ${SMTP_HOST:}
+    port: ${SMTP_PORT:587}
+    username: ${SMTP_USERNAME:}
+    password: ${SMTP_PASSWORD:}
+    properties:
+      mail.smtp.auth: ${SMTP_AUTH:true}
+      mail.smtp.starttls.enable: ${SMTP_STARTTLS:true}
+      mail.smtp.starttls.required: ${SMTP_STARTTLS_REQUIRED:true}
   servlet:
     multipart:
       max-file-size: 5MB
@@ -27,8 +36,8 @@ spring:
 server:
   port: 8080
   tomcat:
-    max-swallow-size: 2MB
-    max-http-form-post-size: 2MB
+    max-swallow-size: 10MB
+    max-http-form-post-size: 10MB
 
 app:
   upload-dir: ${UPLOAD_DIR:./uploads}
@@ -55,7 +64,16 @@ app:
     # 6-digit code is returned in the API response (otpPreview) so the frontend
     # can show it inline + the notification bell. Set false to only ever send
     # via AWS SNS (and fail if SNS is unavailable).
-    self-hosted-preview: ${OTP_SELF_HOSTED_PREVIEW:true}
+    self-hosted-preview: ${OTP_SELF_HOSTED_PREVIEW:false}
+  two-factor:
+    email-enabled: ${TWO_FACTOR_EMAIL_ENABLED:true}
+    email-otp-expiry-seconds: ${TWO_FACTOR_EMAIL_OTP_EXPIRY_SECONDS:300}
+    max-attempts: ${TWO_FACTOR_MAX_ATTEMPTS:5}
+    resend-seconds: ${TWO_FACTOR_RESEND_SECONDS:30}
+    issuer: ${TWO_FACTOR_ISSUER:HeavenLease}
+    totp-digits: ${TWO_FACTOR_TOTP_DIGITS:6}
+    totp-period: ${TWO_FACTOR_TOTP_PERIOD:30}
+    secret-key: ${TWO_FACTOR_SECRET_KEY:${APP_ENCRYPTION_KEY:}}
   admin:
     email: ${ADMIN_EMAIL:}
     password: ${ADMIN_PASSWORD:}

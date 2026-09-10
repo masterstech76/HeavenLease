@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Central document storage and management.">
 <title>Documents — HeavenLease</title>
-<link rel="stylesheet" href="styles.css?v=20260909a">
+<link rel="stylesheet" href="styles.css?v=20260910b">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,9 +13,9 @@
 <link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
 <style>
 :root{
---primary:#5b5ce2;--primary2:#5b5ce2;--primary-light:#eef0ff;--green:#18a878;
---dark:#182033;--muted:#687386;--bg:#f6f7fb;--line:#e4e7ee;--white:#ffffff;
---danger:#dc2626;--warning:#b45309;--radius:18px;
+--primary:var(--primary);--primary2:var(--primary);--primary-light:var(--primary-light);--green:var(--secondary);
+--dark:var(--text-primary);--muted:var(--text-secondary);--bg:#f6f7fb;--line:var(--border);--white:#ffffff;
+--danger:#dc2626;--warning:var(--warning-dark);--radius:18px;
 --shadow:0 8px 28px rgba(23,32,51,.07);--shadow-lg:0 20px 55px rgba(23,32,51,.12);
 }
 *{box-sizing:border-box}html{scroll-behavior:smooth}
@@ -30,7 +30,7 @@ a{text-decoration:none;color:inherit}button,input{font:inherit}
 .logo-text{font-size:20px;letter-spacing:-.5px}.logo-text span{color:var(--primary)}
 .user-menu{position:relative}.user-menu-trigger{border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 12px 6px 6px;display:flex;align-items:center;gap:9px;color:var(--dark);cursor:pointer}
 .user-avatar{width:35px;height:35px;border-radius:50%;background:var(--primary-light);color:var(--primary);display:grid;place-items:center}
-.user-menu-trigger>i{font-size:10px;color:#9aa3b2}.user-dropdown{position:absolute;right:0;top:51px;width:280px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:8px;box-shadow:var(--shadow-lg);display:none}
+.user-menu-trigger>i{font-size:10px;color:var(--text-muted)}.user-dropdown{position:absolute;right:0;top:51px;width:280px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:8px;box-shadow:var(--shadow-lg);display:none}
 .user-menu.open .user-dropdown{display:block}.user-dropdown a{display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:10px;font-size:13px;color:#566173}.user-dropdown a:hover{background:var(--bg);color:var(--primary)}.user-dropdown i{width:18px;text-align:center}.dropdown-divider{height:1px;background:var(--line);margin:7px 4px}
 /* Hero */
 .page-header{position:relative;overflow:hidden;padding:88px 0 78px;background:linear-gradient(120deg,rgba(17,24,39,.86),rgba(49,46,129,.76)),url("https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=2200&q=85") center/cover}
@@ -47,28 +47,29 @@ a{text-decoration:none;color:inherit}button,input{font:inherit}
 .text-input:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(79,70,229,.08)}
 .btn{border:0;border-radius:11px;padding:12px 16px;display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:700;font-size:12px;cursor:pointer;transition:.2s ease}
 .btn-primary{background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff;box-shadow:0 8px 20px rgba(79,70,229,.2)}.btn-primary:hover{transform:translateY(-2px)}
-.btn-view{background:#eef0ff;color:var(--primary)}.btn-delete{background:#fee2e2;color:var(--danger);width:38px;height:38px;padding:0}
+.btn-view{background:var(--primary-light);color:var(--primary)}.btn-delete{background:#fee2e2;color:var(--danger);width:38px;height:38px;padding:0}
 .documents-list{display:flex;flex-direction:column;gap:11px}
 .document-card{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:17px 18px;border:1px solid var(--line);border-radius:15px;background:#fff;transition:.2s ease}
 .document-card:hover{transform:translateY(-2px);box-shadow:var(--shadow);border-color:#d5d9ff}
 .doc-left{display:flex;align-items:center;gap:13px;min-width:0}.doc-icon{width:44px;height:44px;flex:none;border-radius:12px;background:var(--primary-light);color:var(--primary);display:grid;place-items:center}
 .doc-name{font-weight:700;font-size:13px;overflow-wrap:anywhere}.doc-meta{margin-top:4px;color:#98a0ae;font-size:10px}
 .doc-actions{display:flex;align-items:center;gap:7px;flex:none}
-.status{display:inline-flex;align-items:center;padding:4px 8px;border-radius:999px;font-size:10px;font-weight:800;margin-left:6px}.status-pending{background:#fef3c7;color:#b45309}.status-completed{background:#d1fae5;color:#047857}.status-inactive{background:#fee2e2;color:#dc2626}
+.status{display:inline-flex;align-items:center;padding:4px 8px;border-radius:999px;font-size:10px;font-weight:800;margin-left:6px}.status-pending{background:#fef3c7;color:var(--warning-dark)}.status-completed{background:#d1fae5;color:var(--success-dark)}.status-inactive{background:#fee2e2;color:#dc2626}
 .empty-state{text-align:center;padding:55px 20px;background:linear-gradient(180deg,#fbfcff,#fff);border:2px dashed #dfe3ec;border-radius:20px}.empty-state i{font-size:50px;color:#cbd1dc}.empty-state h3{margin:15px 0 6px;font-size:18px}.empty-state p{color:var(--muted);font-size:13px}
 /* CTA + solid footer */
-.page-cta{padding:0 0 70px}.cta-banner{position:relative;overflow:hidden;border-radius:25px;padding:42px 28px;text-align:center;color:#fff;background:linear-gradient(135deg,#5b5ce2,#4445c5)}
+.page-cta{padding:0 0 70px}.cta-banner{position:relative;overflow:hidden;border-radius:25px;padding:42px 28px;text-align:center;color:#fff;background:linear-gradient(135deg,var(--primary),var(--primary-dark))}
 .cta-banner:after{content:"";position:absolute;width:250px;height:250px;border:1px solid rgba(255,255,255,.13);border-radius:50%;right:-70px;top:-110px}.cta-banner>*{position:relative;z-index:1}.cta-banner h2{font:700 29px "Playfair Display",serif;margin:0 0 8px}.cta-banner p{margin:0 auto 22px;color:rgba(255,255,255,.82);font-size:13px}.cta-actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}.cta-banner .btn{background:#fff;color:var(--primary)}.cta-banner .btn.ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.55)}
-.footer{background:#182033;color:#fff;padding:38px 0 22px}.footer-inner{text-align:center}.footer-brand{display:flex;justify-content:center}.footer p{color:#9ca3af;font-size:11px;margin:13px 0 0}.footer .logo-icon{box-shadow:none}.footer-bottom{margin-top:25px;padding-top:18px;border-top:1px solid rgba(255,255,255,.09);font-size:10px;color:#687386}
+.footer{background:var(--text-primary);color:#fff;padding:38px 0 22px}.footer-inner{text-align:center}.footer-brand{display:flex;justify-content:center}.footer p{color:#9ca3af;font-size:11px;margin:13px 0 0}.footer .logo-icon{box-shadow:none}.footer-bottom{margin-top:25px;padding-top:18px;border-top:1px solid rgba(255,255,255,.09);font-size:10px;color:var(--text-secondary)}
 /* Responsive */
 @media(max-width:800px){.upload-box{grid-template-columns:1fr}.page-header{padding:70px 0 68px}.page-header h1{font-size:38px}.documents-panel{padding:20px}}
 @media(max-width:600px){.container,.nav-container{width:calc(100% - 24px)}.navbar{height:66px}.user-menu-trigger>span:not(.user-avatar),.user-menu-trigger>i{display:none}.page-header h1{font-size:32px}.page-header p{font-size:14px}.document-card{align-items:flex-start;flex-direction:column}.doc-actions{width:100%;justify-content:flex-end}.doc-actions .btn-view{flex:1}.section-title{align-items:flex-start;flex-direction:column}.cta-banner{padding:34px 18px}}
 </style>
+<style>/* HeavenLease brand mark */ .brand-logo-image{width:100%;height:100%;display:block;object-fit:contain;border-radius:inherit}.logo-icon,.hl-logo-icon,.logo-mark,.mark{overflow:hidden}</style>
 </head>
 <body>
 <nav class="navbar" id="navbar">
 <div class="nav-container">
-<a href="/" class="logo"><div class="logo-icon"><i class="fas fa-home"></i></div><span class="logo-text">Heaven<span>Lease</span></span></a>
+<a href="/" class="logo"><div class="logo-icon"><img src="logo.svg" alt="HeavenLease" class="brand-logo-image"></div><span class="logo-text">Heaven<span>Lease</span></span></a>
 <div class="user-menu" id="userMenu">
 <button class="user-menu-trigger" id="profileBtn" aria-label="Account menu"><span class="user-avatar"><i class="fas fa-user" id="navAvatarIcon"></i></span><span id="navUserName">Account</span><i class="fas fa-chevron-down"></i></button>
 <div class="user-dropdown" id="profileDropdown">
@@ -120,7 +121,7 @@ a{text-decoration:none;color:inherit}button,input{font:inherit}
     <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
         <div class="footer-brand">
             <a href="home" class="logo">
-                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <div class="logo-icon"><img src="logo.svg" alt="HeavenLease" class="brand-logo-image"></div>
                 <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
             <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>

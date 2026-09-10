@@ -21,6 +21,9 @@ import com.heavenlease.model.Property;
 import com.heavenlease.repository.DocumentUploadRepository;
 import com.heavenlease.repository.NotificationRepository;
 import com.heavenlease.repository.PropertyRepository;
+import com.heavenlease.repository.BookingRepository;
+import com.heavenlease.repository.LeaseRepository;
+import com.heavenlease.service.DocumentStorageService;
 import com.heavenlease.repository.UserRepository;
 import com.heavenlease.security.CurrentUserDetails;
 
@@ -37,6 +40,9 @@ class DocumentControllerTest {
     private UserRepository userRepository;
     private PropertyRepository propertyRepository;
     private NotificationRepository notificationRepository;
+    private BookingRepository bookingRepository;
+    private LeaseRepository leaseRepository;
+    private DocumentStorageService storageService;
     private DocumentController controller;
 
     @BeforeEach
@@ -45,7 +51,11 @@ class DocumentControllerTest {
         userRepository = mock(UserRepository.class);
         propertyRepository = mock(PropertyRepository.class);
         notificationRepository = mock(NotificationRepository.class);
-        controller = new DocumentController(documentRepository, userRepository, propertyRepository, notificationRepository);
+        bookingRepository = mock(BookingRepository.class);
+        leaseRepository = mock(LeaseRepository.class);
+        storageService = mock(DocumentStorageService.class);
+        controller = new DocumentController(documentRepository, userRepository, propertyRepository,
+                bookingRepository, leaseRepository, notificationRepository, storageService);
     }
 
     private void loginAs(Long id, String role) {

@@ -33,8 +33,20 @@ public class GoogleService {
             // Without a configured client ID, the audience cannot be verified, so the
             // caller must have added their Google key in Admin → Integrations.
             String aud = response.get("aud") != null ? String.valueOf(response.get("aud")) : "";
-            if (clientId != null && !clientId.isBlank() && !clientId.equals(aud)) {
-                throw new RuntimeException("Google token was not issued for this application");
+            if (clientId == null || clientId.isBlank() || !clientId.equals(aud)) {
+                throw new RuntimeException("Google token audience is not configured for this application");
+            }
+            String issuer = response.get("iss") != null ? String.valueOf(response.get("iss")) : "";
+            if (!"accounts.google.com".equals(issuer) && !"https://accounts.google.com".equals(issuer)) {
+                throw new RuntimeException("Invalid Google token issuer");
+            }
+            try {
+                long exp = Long.parseLong(String.valueOf(response.get("exp")));
+                if (exp * 1000L <= System.currentTimeMillis()) {
+                    throw new RuntimeException("Google token has expired");
+                }
+            } catch (NumberFormatException ex) {
+                throw new RuntimeException("Google token expiry is invalid");
             }
             Object emailVerified = response.get("email_verified");
             if (emailVerified != null && !Boolean.parseBoolean(String.valueOf(emailVerified))) {

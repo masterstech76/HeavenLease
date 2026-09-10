@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="vendor/font-awesome/css/all.min.css?v=20260909a">
-    <link rel="stylesheet" href="styles.css?v=20260909a">
+    <link rel="stylesheet" href="styles.css?v=20260910b">
     <style>
         .page-header { background: rgba(255,255,255,0.45); backdrop-filter: blur(6px); padding: 140px 0 70px; text-align: center; position: relative; overflow: hidden; }
         .page-header h1 { font-family: var(--font-heading); font-size: 46px; font-weight: 700; color: var(--dark); margin-bottom: 12px; }
@@ -36,10 +36,10 @@
     </style>
 <style id="modern-faq-rebuild">
 :root{
-  --faq-ink:#182033;
-  --faq-muted:#687386;
-  --faq-primary:#5b5ce2;
-  --faq-primary-2:#4445c5;
+  --faq-ink:var(--text-primary);
+  --faq-muted:var(--text-secondary);
+  --faq-primary:var(--primary);
+  --faq-primary-2:var(--primary-dark);
   --faq-card:#ffffff;
   --faq-border:rgba(15,23,42,.10);
 }
@@ -58,7 +58,7 @@ body::before{
 }
 /* Clearly separated, opaque navbar */
 .navbar{
-  background:#182033 !important;
+  background:var(--text-primary) !important;
   border-bottom:1px solid rgba(255,255,255,.10) !important;
   box-shadow:0 12px 30px rgba(2,6,23,.24) !important;
   backdrop-filter:none !important;
@@ -81,7 +81,7 @@ body::before{
 }
 .user-dropdown{
   background:#fff !important;
-  border:1px solid #e4e7ee !important;
+  border:1px solid var(--border) !important;
   box-shadow:0 18px 45px rgba(15,23,42,.20) !important;
   z-index:1100;
 }
@@ -99,7 +99,7 @@ body::before{
 .page-header h1{color:#fff !important;font-size:clamp(38px,5vw,58px) !important;letter-spacing:-1px}
 .page-header p{color:rgba(255,255,255,.82) !important;font-size:18px}
 .page-header .ph-icon{
-  background:linear-gradient(135deg,#5b5ce2,#4445c5) !important;
+  background:linear-gradient(135deg,var(--primary),var(--primary-dark)) !important;
   box-shadow:0 16px 40px rgba(0,0,0,.28) !important;
 }
 /* Main FAQ surface */
@@ -116,7 +116,7 @@ body::before{
   transition:.2s ease;
 }
 #faqSearch:focus{
-  border-color:#5b5ce2 !important;
+  border-color:var(--primary) !important;
   box-shadow:0 0 0 4px rgba(99,102,241,.12),0 10px 28px rgba(15,23,42,.08) !important;
 }
 #faqList details{
@@ -146,16 +146,16 @@ body::before{
   position:absolute;right:22px;top:50%;transform:translateY(-50%);
   width:28px;height:28px;border-radius:50%;
   display:grid;place-items:center;
-  background:#eef0ff;color:#5b5ce2;font-size:20px;font-weight:400;
+  background:var(--primary-light);color:var(--primary);font-size:20px;font-weight:400;
 }
 #faqList details[open] summary::after{content:"−"}
 #faqList details p{
   margin:0 !important;
   padding:0 24px 23px !important;
-  color:#687386 !important;
+  color:var(--text-secondary) !important;
   font-size:15px;
 }
-#faqList details p a{color:#5b5ce2;font-weight:600}
+#faqList details p a{color:var(--primary);font-weight:600}
 /* Category cards */
 .feature-grid{
   grid-template-columns:repeat(3,1fr) !important;
@@ -170,8 +170,8 @@ body::before{
 }
 .feature-card:hover{transform:translateY(-5px);border-color:#aeb1ff !important}
 .feature-card .fc-icon{
-  background:#eef0ff !important;
-  color:#5b5ce2 !important;
+  background:var(--primary-light) !important;
+  color:var(--primary) !important;
 }
 .feature-card h3{font-size:18px !important}
 .feature-card p{font-size:14px !important}
@@ -209,12 +209,13 @@ body::before{
   .cta-banner{padding:40px 20px !important}
 }
 </style>
+<style>/* HeavenLease brand mark */ .brand-logo-image{width:100%;height:100%;display:block;object-fit:contain;border-radius:inherit}.logo-icon,.hl-logo-icon,.logo-mark,.mark{overflow:hidden}</style>
 </head>
 <body>
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <a href="/" class="logo">
-                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <div class="logo-icon"><img src="logo.svg" alt="HeavenLease" class="brand-logo-image"></div>
                 <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
             <div class="nav-actions">
@@ -274,7 +275,7 @@ body::before{
     <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
         <div class="footer-brand">
             <a href="home" class="logo">
-                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <div class="logo-icon"><img src="logo.svg" alt="HeavenLease" class="brand-logo-image"></div>
                 <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
             <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>

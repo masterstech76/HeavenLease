@@ -183,6 +183,30 @@ sudo systemctl start nginx httpd apache2   # the one that was running before
 
 ---
 
+## 6.5 2FA schema upgrade (required for builds with 2FA)
+
+If you are deploying the build that includes the native 2FA feature
+(Email OTP + Authenticator app), the production database must be upgraded
+BEFORE first boot. The app runs `ddl-auto: validate` in the prod profile and
+will refuse to start until these objects exist:
+
+```bash
+psql "postgresql://<DB_USERNAME>:<DB_PASSWORD>@<DB_HOST>:5432/<DB_NAME>" \
+  -f /opt/heavenlease/backend/db/migration/V20260911__heavenlease_two_factor.sql
+```
+
+This adds `two_factor_email_enabled`, `two_factor_totp_enabled` and
+`totp_secret_encrypted` to `users`, and creates the `two_factor_challenges`
+table (plus indexes). Run it once before the first 2FA deployment.
+There is no auto-migration framework — this is intentionally a manual step,
+so it is safe to run `IF NOT EXISTS` style SQL repeatedly.
+
+Email OTP 2FA additionally requires working SMTP credentials in `.env.aws`
+(`SMTP_HOST`, `SMTP_PORT`, `SMTP_USERNAME`, `SMTP_PASSWORD`) or email
+verification codes cannot be delivered.
+
+---
+
 ## Security notes
 - `backend/.env.aws` and `heavenlease-prod.pem` stay on the server only — they are git-ignored and must never be committed.
 - This repo is **public** on GitHub — never add real keys/secrets to any committed file.

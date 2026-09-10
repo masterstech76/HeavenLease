@@ -1,5 +1,33 @@
 # HeavenLease — Seller Checklist (₹7 Lakh Sale)
 
+## ✅ Build verified green — 11-Sep-2026 (post-audit fix round)
+
+- [x] Fixed 3 backend compile errors (`WebSocketAuthInterceptor` SEND/SUBSCRIBE auth check; `PaymentRepository.findByOwnerId`).
+- [x] Fixed 5 stale tests to the current server-authoritative payment/escrow flow (seeded stored orders + property security deposit).
+- [x] **`mvn test`: Tests run 78 — Failures 0, Errors 0, Skipped 0 → BUILD SUCCESS.**
+- [x] **`mvn package`**: builds `backend/target/HeavenLease-backend-1.0.0.jar` (what the Dockerfile produces).
+- [x] **`python verify.py` + `python verify.py --no-demo`**: 107 HTML + 96 JS checked = `failed=0`.
+- [x] Created the missing buyer handover file **`backend/.env.aws.example`** (real placeholder template; secrets stay in `.env.aws` on the server only).
+
+> ⚠️ Handover warning discovered in the 11-Sep audit: the local working folder is **not a git repository** and
+> **differs from the public GitHub repo** (`masterstech76/HeavenLease`, 36 commits — e.g. `WebSocketAuthInterceptor.java`
+> exists only locally). Before handing over, commit/sync these fixes to the repo so the buyer's clone matches this code.
+
+## 🛠️ Code-level production pass completed — 10-Sep-2026
+
+- [x] Dark-mode and mobile CSS fixes
+- [x] Nginx `/api`, `/uploads`, `/ws` proxy precedence fix
+- [x] Authenticated-only application pages; `index` remains the sole public landing page
+- [x] Post-login verification flow
+- [x] Server-side ownership/authorization checks reviewed and strengthened
+- [x] Messaging new-thread + participant protection repaired
+- [x] Messaging Access Pass gate enforced server-side
+- [x] Escrow amount tied to the property's server-side deposit
+- [x] Property pagination input hardened
+- [x] Property-detail favorites wired to the real API
+- [x] JS syntax + HTML/asset validation rerun successfully
+
+
 > Purpose: complete the security + ownership steps before showing/handing over
 > the project to a buyer. Tick each item as you finish it.
 

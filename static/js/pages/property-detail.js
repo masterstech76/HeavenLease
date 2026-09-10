@@ -79,16 +79,41 @@
         /* ===== Favorite toggle ===== */
         const favBtn = document.getElementById('detailFavorite');
         if (favBtn) {
-            favBtn.addEventListener('click', () => {
+            const syncFavoriteState = async () => {
+                if (!api.isAuthenticated()) return;
+                if (typeof refreshApiFavorites === 'function') await refreshApiFavorites();
+                const existing = typeof favoriteRecord === 'function' ? favoriteRecord(Number(p.id)) : null;
+                favBtn.classList.toggle('active', !!existing);
                 const icon = favBtn.querySelector('i');
-                if (favBtn.classList.contains('active')) {
-                    favBtn.classList.remove('active');
-                    icon.classList.remove('fas');
-                    icon.classList.add('far');
-                } else {
-                    favBtn.classList.add('active');
-                    icon.classList.remove('far');
-                    icon.classList.add('fas');
+                if (icon) {
+                    icon.classList.toggle('fas', !!existing);
+                    icon.classList.toggle('far', !existing);
+                }
+            };
+            syncFavoriteState();
+            favBtn.addEventListener('click', async () => {
+                if (!api.isAuthenticated()) {
+                    window.location.href = 'login?redirect=' + encodeURIComponent('property-detail?id=' + p.id);
+                    return;
+                }
+                const icon = favBtn.querySelector('i');
+                const existing = typeof favoriteRecord === 'function' ? favoriteRecord(Number(p.id)) : null;
+                favBtn.disabled = true;
+                try {
+                    if (existing) {
+                        await api.removeFavorite(existing.id);
+                        favBtn.classList.remove('active');
+                        if (icon) { icon.classList.remove('fas'); icon.classList.add('far'); }
+                    } else {
+                        const rec = await api.addFavorite({ propertyId: Number(p.id) });
+                        if (rec && typeof refreshApiFavorites === 'function') await refreshApiFavorites();
+                        favBtn.classList.add('active');
+                        if (icon) { icon.classList.remove('far'); icon.classList.add('fas'); }
+                    }
+                } catch (e) {
+                    showToast(e.message || 'Could not update saved property.', 'error');
+                } finally {
+                    favBtn.disabled = false;
                 }
             });
         }

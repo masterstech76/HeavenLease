@@ -109,7 +109,9 @@ public class PropertyController {
 
     @GetMapping
     public ResponseEntity<?> getAllProperties(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "20") int size) {
-        Pageable pageable = PageRequest.of(page, Math.min(size, 100));
+        int safePage = Math.max(page, 0);
+        int safeSize = Math.max(1, Math.min(size, 100));
+        Pageable pageable = PageRequest.of(safePage, safeSize);
         Page<Property> properties = propertyRepository.findAll(pageable);
         properties.getContent().forEach(this::applyContactVisibility);
         return ResponseEntity.ok(properties);
@@ -131,7 +133,7 @@ public class PropertyController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size) {
         // Cap page size to prevent abuse
-        int safeSize = Math.min(size, 100);
+        int safeSize = Math.max(1, Math.min(size, 100));
         Pageable pageable = PageRequest.of(Math.max(page, 0), safeSize);
         Page<Property> properties = propertyRepository.searchProperties(
                 status, city, propertyType, minRent, maxRent, bhk,

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
 <title>HeavenLease — Redirecting…</title>
-<link rel="stylesheet" href="styles.css?v=20260909a">
+<link rel="stylesheet" href="styles.css?v=20260910b">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
@@ -31,7 +31,7 @@ body{
 .brand{display:flex;align-items:center;gap:13px;text-decoration:none;color:#fff}
 .logo{
     width:47px;height:47px;border-radius:14px;display:grid;place-items:center;
-    background:linear-gradient(135deg,#5b5ce2,#10b981);
+    background:linear-gradient(135deg,var(--primary),var(--success));
     box-shadow:0 12px 30px rgba(79,70,229,.3);font-size:20px
 }
 .logo-text{font:700 30px 'Playfair Display',serif}
@@ -55,11 +55,11 @@ main{
 }
 .card:before{
     content:"";position:absolute;left:0;right:0;top:0;height:4px;
-    background:linear-gradient(90deg,#5b5ce2,#5b5ce2,#10b981)
+    background:linear-gradient(90deg,var(--primary),var(--primary),var(--success))
 }
 .icon{
     width:76px;height:76px;margin:0 auto 24px;padding:5px;border-radius:22px;
-    background:linear-gradient(135deg,#5b5ce2,#10b981)
+    background:linear-gradient(135deg,var(--primary),var(--success))
 }
 .spinner{
     width:100%;height:100%;border-radius:50%;
@@ -69,7 +69,7 @@ main{
 @keyframes spin{to{transform:rotate(360deg)}}
 .eyebrow{
     display:inline-flex;gap:8px;align-items:center;margin-bottom:17px;
-    color:#eef0ff;font-size:11px;font-weight:800;letter-spacing:.12em;
+    color:var(--primary-light);font-size:11px;font-weight:800;letter-spacing:.12em;
     text-transform:uppercase
 }
 h1{font:600 clamp(28px,5vw,38px)/1.15 'Playfair Display',serif;margin-bottom:14px}
@@ -77,20 +77,20 @@ p{max-width:430px;margin:auto;color:rgba(255,255,255,.7);font-size:14px;line-hei
 .progress{height:5px;max-width:320px;margin:28px auto 0;background:rgba(255,255,255,.1);border-radius:99px;overflow:hidden}
 .progress span{
     display:block;width:40%;height:100%;border-radius:inherit;
-    background:linear-gradient(90deg,#5b5ce2,#10b981);
+    background:linear-gradient(90deg,var(--primary),var(--success));
     animation:load 1.5s ease-in-out infinite
 }
 @keyframes load{0%{transform:translateX(-150%)}100%{transform:translateX(360%)}}
 .button{
     display:inline-flex;align-items:center;gap:9px;margin-top:30px;
     min-height:48px;padding:0 21px;border-radius:12px;
-    background:#fff;color:#182033;text-decoration:none;
+    background:#fff;color:var(--text-primary);text-decoration:none;
     font-size:13px;font-weight:800;transition:.2s
 }
 .button:hover{transform:translateY(-2px);box-shadow:0 14px 30px rgba(0,0,0,.28)}
 .footer{
     min-height:54px;padding:17px 20px;text-align:center;
-    background:#182033;border-top:1px solid rgba(255,255,255,.1);
+    background:var(--text-primary);border-top:1px solid rgba(255,255,255,.1);
     color:rgba(255,255,255,.5);font-size:11px
 }
 @media(max-width:560px){
@@ -101,6 +101,7 @@ p{max-width:430px;margin:auto;color:rgba(255,255,255,.7);font-size:14px;line-hei
 }
 @media(prefers-reduced-motion:reduce){.spinner,.progress span{animation:none}}
 </style>
+<style>/* HeavenLease brand mark */ .brand-logo-image{width:100%;height:100%;display:block;object-fit:contain;border-radius:inherit}.logo-icon,.hl-logo-icon,.logo-mark,.mark{overflow:hidden}</style>
 </head>
 
 <body>
@@ -128,7 +129,7 @@ p{max-width:430px;margin:auto;color:rgba(255,255,255,.7);font-size:14px;line-hei
     <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: left;">
         <div class="footer-brand">
             <a href="home" class="logo">
-                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <div class="logo-icon"><img src="logo.svg" alt="HeavenLease" class="brand-logo-image"></div>
                 <span class="logo-text">Heaven<span>Lease</span></span>
             </a>
             <p style="margin:12px 0 0;max-width:280px;font-size:13px;color:#858c9e;">Direct owner rentals with zero broker fees. Verified owners, comfort-first search and everything you need to move in with confidence.</p>

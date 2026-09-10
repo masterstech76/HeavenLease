@@ -10,5 +10,6 @@ import java.util.List;
 public interface LeaseRepository extends JpaRepository<Lease, Long> {
     List<Lease> findByPropertyId(Long propertyId);
     List<Lease> findByTenantId(Long tenantId);
+    List<Lease> findByTenantIdAndPropertyId(Long tenantId, Long propertyId);
     List<Lease> findByOwnerId(Long ownerId);
 }

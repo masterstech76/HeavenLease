@@ -65,7 +65,9 @@
         } catch (e) {
             txWrap.innerHTML = '<p style="text-align:center;color:var(--gray-400);padding:40px 0;">Could not load transactions.</p>';
         }
-async function loadEscrows() {
+    }
+
+    async function loadEscrows() {
         try {
             let list = await api.getMyEscrows().catch(() => []);
             if (!Array.isArray(list)) list = [];
@@ -149,4 +151,3 @@ window.showInvoice = async function (id) {
     loadPayments();
     loadEscrows();
 })();
-    }
