@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="HeavenLease — find verified rental homes, connect directly with owners, and manage your rental journey in one place.">
   <title>HeavenLease — Find a place that feels like home</title>
-<link rel="stylesheet" href="styles.css?v=20260910b">
+<link rel="stylesheet" href="styles.css?v=20260915a">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -320,6 +320,37 @@
         <div class="trust-item"><i class="fas fa-comments"></i><div><strong>Direct communication</strong><span>Talk to owners and tenants</span></div></div>
       </div>
     </section>
+    <section class="section feed-section">
+      <div class="container feed">
+        <nav class="category-rail" id="categoryRail" aria-label="Browse by category">
+          <a class="category-pill" href="properties?type=apartment">Flats</a>
+          <a class="category-pill" href="properties?type=villa">Houses</a>
+          <a class="category-pill" href="properties?type=villa">Villas</a>
+          <a class="category-pill" href="properties?type=studio">Studios</a>
+          <a class="category-pill" href="properties?type=pg">PG / Hostels</a>
+          <a class="category-pill" href="properties?bhk=1">1 BHK</a>
+          <a class="category-pill" href="properties?bhk=2">2 BHK</a>
+          <a class="category-pill" href="properties?budget=20000">Under ₹20k</a>
+        </nav>
+
+        <section class="feed-rail" id="recommendedSection">
+          <div class="feed-head"><h2 class="feed-title">Recommended for you</h2><a class="see-all" href="properties">See all <i class="fas fa-arrow-right"></i></a></div>
+          <div class="rail" id="railRecommended"><div class="skeleton-card"></div><div class="skeleton-card"></div><div class="skeleton-card"></div></div>
+        </section>
+
+        <section class="feed-rail" id="freshSection">
+          <div class="feed-head"><h2 class="feed-title">Fresh near you</h2><a class="see-all" href="properties">See all <i class="fas fa-arrow-right"></i></a></div>
+          <div class="rail" id="railFresh"><div class="skeleton-card"></div><div class="skeleton-card"></div></div>
+        </section>
+
+        <nav class="category-rail city-rail" id="cityRail" aria-label="Browse by city"></nav>
+
+        <section class="feed-rail" id="propertyFeedSection">
+          <div class="feed-head"><h2 class="feed-title">Explore homes</h2><a class="see-all" href="properties">See all <i class="fas fa-arrow-right"></i></a></div>
+          <div class="property-feed" id="propertyFeed"><div class="skeleton-card"></div><div class="skeleton-card"></div><div class="skeleton-card"></div></div>
+        </section>
+      </div>
+    </section>
     <section class="section">
       <div class="container">
         <div class="section-head">
@@ -478,6 +509,7 @@
       </div>
     </div>
   </footer>
+  <script src="js/demo/demo-data.js?v=20260915a"></script>
   <script src="js/api.js?v=20260915a"></script>
   <script src="js/core.js?v=20260915a"></script>
   <script src="js/pages/home.js?v=20260915a"></script>

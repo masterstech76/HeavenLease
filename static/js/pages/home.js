@@ -66,6 +66,89 @@
             : base + 'find your perfect home and track your applications here.';
     }
 
+    /* ===== Amazon-style data feed (rails + dense grid) ===== */
+    const esc = (typeof escapeHtml === 'function') ? escapeHtml : function (s) {
+        return String(s == null ? '' : s).replace(/[&<>"']/g, function (m) {
+            return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m];
+        });
+    };
+    const KNOWN_CITIES = ['Mumbai', 'Pune', 'Bengaluru', 'Nashik', 'Delhi', 'Hyderabad', 'Chennai', 'Kolkata', 'Jaipur', 'Ahmedabad'];
+
+    function renderCard(property) {
+        if (typeof renderPropertyCard === 'function') return renderPropertyCard(property, { showActions: false });
+        const p = property;
+        const img = (p.photos && p.photos[0]) || 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1000&q=85';
+        return '<article class="property-card fade-in-up" data-id="' + esc(p.id) + '">'
+            + '<div class="property-image"><div class="property-image-placeholder"><img src="' + img + '" alt="' + esc(p.title || 'Property') + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;"></div>'
+            + '<span class="property-badge"><i class="fas fa-check-circle"></i> ' + esc(p.badge || 'Verified Owner') + '</span></div>'
+            + '<div class="property-body"><h3 class="property-title">' + esc(p.title) + '</h3>'
+            + '<p class="property-location"><i class="fas fa-location-dot"></i> ' + esc(p.location) + '</p>'
+            + '<div class="property-price"><span class="price">₹' + Number(p.price || 0).toLocaleString('en-IN') + '</span><span class="per-month">/month</span></div>'
+            + '</div></article>';
+    }
+
+    function wireFavButtons(el) {
+        if (!el) return;
+        el.querySelectorAll('.property-favorite').forEach(function (btn) {
+            if (btn.dataset.wired) return;
+            btn.dataset.wired = '1';
+            btn.addEventListener('click', function (e) {
+                e.preventDefault();
+                if (typeof toggleFavorite === 'function') toggleFavorite(e);
+                else window.location.href = 'login?redirect=properties';
+            });
+        });
+    }
+
+    function renderRail(el, list) {
+        if (!el) return;
+        if (!list || !list.length) { el.innerHTML = ''; if (el.parentElement) el.parentElement.classList.add('empty'); return; }
+        el.innerHTML = list.map(renderCard).join('');
+        wireFavButtons(el);
+        if (el.parentElement) el.parentElement.classList.remove('empty');
+    }
+
+    function renderFeed(list) {
+        const feed = document.getElementById('propertyFeed');
+        if (!feed) return;
+        if (!list || !list.length) {
+            feed.innerHTML = '<div class="no-results" style="grid-column:1/-1;"><i class="fas fa-search"></i><h3>No homes listed yet</h3><p>Check back soon — new verified listings are added every day.</p><a href="list-property" class="btn btn-primary"><i class="fas fa-plus"></i> List your property</a></div>';
+            return;
+        }
+        feed.innerHTML = list.map(renderCard).join('');
+        wireFavButtons(feed);
+    }
+
+    function renderCityRail(list) {
+        const rail = document.getElementById('cityRail');
+        if (!rail) return;
+        const cities = [];
+        (list || []).forEach(function (p) { const c = (p.city || '').trim(); if (c && cities.indexOf(c) < 0) cities.push(c); });
+        const merged = cities.length ? cities : KNOWN_CITIES;
+        rail.innerHTML = merged.slice(0, 8).map(function (c) {
+            return '<a class="category-pill" href="properties?location=' + encodeURIComponent(c) + '">' + esc(c) + '</a>';
+        }).join('') + '<a class="category-pill pill-more" href="properties">All cities <i class="fas fa-arrow-right"></i></a>';
+    }
+
+    let feedShown = false;
+    function renderFeedAll(list) {
+        list = list || [];
+        renderRail(document.getElementById('railRecommended'), list.slice(0, 6));
+        renderRail(document.getElementById('railFresh'), list.slice(0, 8));
+        renderCityRail(list);
+        if (!feedShown) { renderFeed(list); feedShown = true; }
+    }
+
+    if (window.HL_DEMO_DATA && Array.isArray(window.HL_DEMO_DATA.properties)) {
+        renderFeedAll(window.HL_DEMO_DATA.properties);
+    } else if (typeof fetchApiProperties === 'function') {
+        fetchApiProperties(0, 100).then(function (list) {
+            renderFeedAll(list && list.length ? list : []);
+        }).catch(function () { renderFeedAll([]); });
+    } else {
+        renderFeedAll([]);
+    }
+
     /* ===== Natural-language search → properties ===== */
     function parseQueryToParams(q) {
         q = (q || '').toLowerCase();
