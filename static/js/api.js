@@ -663,7 +663,21 @@ const PUBLIC_PAGES = [
     // The landing page is the only public marketing/discovery page.
     // Auth pages remain public because they are required to establish a session.
     'index', 'login', 'signup', 'forgot-password', 'reset-password',
-    'otp-verify', 'verify-email', 'verify-account', '404'
+    'otp-verify', 'verify-email', 'verify-account', '404',
+    // ---- Public browse & discovery (Amazon-style home feeds into these) ----
+    'properties', 'property-detail', 'map',
+    // ---- Public marketing / legal / help / blog ----
+    'about', 'press', 'how-it-works', 'faq', 'blog', 'blog-detail',
+    'privacy', 'terms', 'cookies', 'escrow-policy', 'rental-laws',
+    'rent-pricing-guide', 'helper', 'contact', 'careers', 'buy-sell',
+    'buy-a-home', 'maintenance', 'sell-your-home', 'comfort-scores',
+    'no-brokers-ever', 'trust-and-safety-first', 'speed-and-simplicity',
+    'fair-for-everyone', 'community-focused', 'comfort-over-everything',
+    'identity-verification', 'credit-score-check',
+    // ---- Blog article pages ----
+    'how-to-choose-the-right-neighbourhood', 'understanding-escrow-protection',
+    'maximizing-your-rental-income', 'the-ultimate-moving-checklist',
+    'finding-pet-friendly-rentals', 'why-sunlight-matters-in-a-home'
 ];
 
 // ALL other pages require authentication
@@ -705,8 +719,6 @@ const PROTECTED_PAGES = [
     'transaction-history',
     'maintenance-request',
     'maintenance-requests',
-    'faq',
-    'blog-detail',
     'write-review',
     'report-property',
     'report-user',

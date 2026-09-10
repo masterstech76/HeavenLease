@@ -326,6 +326,55 @@ function formatPrice(price) {
     return '₹' + price.toLocaleString('en-IN');
 }
 
+/* ===== SHARED PROPERTY CARD RENDERER ===== */
+// Used by the home feed (index.js rails), the browse page (properties.js grid),
+// and anywhere a property card needs identical markup + escaping.
+// `opts` may include: { locked:boolean, showActions:boolean }.
+function renderPropertyCard(property, opts) {
+    if (!property) return '';
+    opts = opts || {};
+    const esc = (typeof escapeHtml === 'function') ? escapeHtml
+        : function (v) { return String(v == null ? '' : v).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[c])); };
+    const price = (property.forSale && property.salePrice) ? property.salePrice : (property.price || property.rentAmount || 0);
+    const img = (property.photos && property.photos[0])
+        ? '<img src="' + esc(property.photos[0]) + '" alt="' + esc(property.title) + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;">'
+        : '<i class="fas ' + esc(property.icon || 'fa-building') + '"></i>';
+    const amenities = (Array.isArray(property.amenities) && property.amenities.length)
+        ? property.amenities.map((a) => '<span class="property-amenity"><i class="fas fa-check"></i> ' + esc(a) + '</span>').join('')
+        : '<span class="property-amenity"><i class="fas fa-check"></i> ' + esc(property.bhk || 0) + ' BHK</span>';
+    const actions = (opts.showActions === false)
+        ? ''
+        : '<div class="property-actions">'
+            + '<a href="property-detail?id=' + esc(property.id) + '" class="btn btn-primary"><i class="fas fa-eye"></i> View Details</a>'
+            + '<a href="messages?property=' + encodeURIComponent(property.title || '') + '" class="btn btn-outline"><i class="fas fa-comments"></i> Chat</a>'
+            + '</div>';
+    const lock = opts.locked
+        ? '<div class="property-lock" onclick="event.preventDefault();event.stopPropagation();">'
+            + '<div class="property-lock-inner"><i class="fas fa-lock"></i><h4>Access Pass required</h4><p>Unlock full details and contact the owner.</p>'
+            + '<a href="payment?redirect=properties" class="btn btn-primary"><i class="fas fa-unlock"></i> Unlock with Access Pass</a></div></div>'
+        : '';
+    return '<article class="property-card fade-in-up' + (opts.locked ? ' locked' : '') + '" data-id="' + esc(property.id) + '">'
+        + '<div class="property-image">'
+        + '<div class="property-image-placeholder">' + img + '</div>'
+        + '<span class="property-badge"><i class="fas fa-check-circle"></i> ' + esc(property.badge || 'Verified Owner') + '</span>'
+        + '<button class="property-favorite" data-id="' + esc(property.id) + '" aria-label="Save property"><i class="far fa-heart"></i></button>'
+        + '</div>'
+        + '<div class="property-body">'
+        + '<h3 class="property-title">' + esc(property.title) + '</h3>'
+        + '<p class="property-location"><i class="fas fa-location-dot"></i> ' + esc(property.location) + '</p>'
+        + '<div class="property-price"><span class="price">' + formatPrice(price) + '</span><span class="per-month">/month</span></div>'
+        + '<div class="property-amenities">' + amenities + '</div>'
+        + '<div class="property-comfort">'
+        + '<div class="comfort-score"><i class="fas fa-volume-low"></i><span>Quiet ' + Number(property.quietness || 0) + '%</span></div>'
+        + '<div class="comfort-score"><i class="fas fa-sun"></i><span>Sun ' + Number(property.sunlight || 0) + '%</span></div>'
+        + '<div class="comfort-score"><i class="fas fa-car"></i><span>Commute ' + Number(property.commute || 0) + '%</span></div>'
+        + '</div>'
+        + actions
+        + '</div>'
+        + lock
+        + '</article>';
+}
+
 function createPropertyCard(property) {
     // Use uploaded photo if available, otherwise use icon placeholder
     // SECURITY: all user-controlled text is HTML-escaped to prevent stored XSS.

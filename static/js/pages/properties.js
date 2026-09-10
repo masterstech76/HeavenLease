@@ -92,37 +92,9 @@
         propertiesListGrid.innerHTML = pageItems.map((property, i) => {
             const globalIdx = filtered.indexOf(property);
             const isLocked = !isPaidUserFlag && globalIdx >= FREE_PREVIEW_COUNT;
-            return '<div class="property-card fade-in-up' + (isLocked ? ' locked' : '') + '" data-id="' + esc(property.id) + '">'
-                + '<div class="property-image">'
-                + '<div class="property-image-placeholder"><i class="fas ' + esc(property.icon) + '"></i></div>'
-                + '<span class="property-badge"><i class="fas fa-check-circle"></i> ' + esc(property.badge) + '</span>'
-                + '<button class="property-favorite" data-id="' + esc(property.id) + '" aria-label="Save property"><i class="far fa-heart"></i></button>'
-                + '</div>'
-                + '<div class="property-body">'
-                + '<h3 class="property-title">' + esc(property.title) + '</h3>'
-                + '<p class="property-location"><i class="fas fa-location-dot"></i> ' + esc(property.location) + '</p>'
-                + '<div class="property-price"><span class="price">' + (typeof formatPrice === 'function' ? formatPrice(property.price) : '₹' + Number(property.price || 0).toLocaleString('en-IN')) + '</span><span class="per-month">/month</span></div>'
-                + '<div class="property-amenities">'
-                + (Array.isArray(property.amenities) ? property.amenities.map((a) =>
-                    '<span class="property-amenity"><i class="fas fa-check"></i> ' + esc(a) + '</span>').join('')
-                    : '<span class="property-amenity"><i class="fas fa-check"></i> ' + esc(property.bhk) + ' BHK</span>')
-                + '</div>'
-                + '<div class="property-comfort">'
-                + '<div class="comfort-score"><i class="fas fa-volume-low"></i><span>Quiet ' + Number(property.quietness || 0) + '%</span></div>'
-                + '<div class="comfort-score"><i class="fas fa-sun"></i><span>Sun ' + Number(property.sunlight || 0) + '%</span></div>'
-                + '<div class="comfort-score"><i class="fas fa-car"></i><span>Commute ' + Number(property.commute || 0) + '%</span></div>'
-                + '</div>'
-                + '<div class="property-actions">'
-                + '<a href="property-detail?id=' + esc(property.id) + '" class="btn btn-primary"><i class="fas fa-eye"></i> View Details</a>'
-                + '<a href="messages?property=' + encodeURIComponent(property.title) + '" class="btn btn-outline"><i class="fas fa-comments"></i> Chat</a>'
-                + '</div>'
-                + '</div>'
-                + (isLocked
-                    ? '<div class="property-lock" onclick="event.preventDefault();event.stopPropagation();">'
-                        + '<div class="property-lock-inner"><i class="fas fa-lock"></i><h4>Access Pass required</h4><p>Unlock full details and contact the owner.</p>'
-                        + '<a href="payment?redirect=properties" class="btn btn-primary"><i class="fas fa-unlock"></i> Unlock with Access Pass</a></div></div>'
-                    : '')
-                + '</div>';
+            return (typeof renderPropertyCard === 'function')
+                ? renderPropertyCard(property, { locked: isLocked })
+                : '<div class="property-card fade-in-up" data-id="' + esc(property.id) + '">' + esc(property.title) + '</div>';
         }).join('');
 
         document.querySelectorAll('.property-favorite').forEach((btn) => {

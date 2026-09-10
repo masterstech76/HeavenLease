@@ -1,10 +1,11 @@
 /* ============================================================
  * HeavenLease — Landing (index) page module
- * 1. Demo-data renderer: fills the featured-properties grid from
- *    window.HL_DEMO_DATA.properties when present; falls back to
- *    the real Properties API when the demo file is deleted.
- * 2. Landing UI: search filter, favorites, mobile menu.
- * Categories & steps sections are static HTML (not demo).
+ * Amazon-style browse feed backed by real data:
+ *   1. Demo-data fallback (window.HL_DEMO_DATA.properties) when
+ *      the live API has no listings (e.g. fresh/demo server).
+ *   2. Real Properties API otherwise (fetchApiProperties + shared
+ *      renderPropertyCard from core.js).
+ *   3. Search → navigates to /properties?... (real filter flow).
  * Requires js/api.js + js/core.js loaded first.
  * ============================================================ */
 (function () {
@@ -15,36 +16,102 @@
             return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m];
         });
     };
-    const d = window.HL_DEMO_DATA;
 
-    /* ---- Featured properties grid ---- */
-    const grid = document.getElementById('propertyGrid');
-    if (grid) {
-        const renderProps = function (list) {
-            grid.innerHTML = list.map(function (p) {
-                var img = (p.photos && p.photos[0]) || 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1000&q=85';
-                return '<article class="card property" data-location="' + esc((p.city || '').toLowerCase()) + '" data-type="' + esc((p.type || '').toLowerCase()) + '" data-price="' + (p.price || 0) + '">'
-                    + '<div class="photo"><img src="' + esc(img) + '" alt="' + esc(p.title || 'Property') + '" loading="lazy">'
-                    + '<span class="tag">' + esc(p.badge || 'FEATURED') + '</span>'
-                    + '<button class="heart" onclick="favorite(this)"><i class="fa-regular fa-heart"></i></button></div>'
-                    + '<div class="card-body">'
-                    + '<div class="price">₹' + Number(p.price || 0).toLocaleString('en-IN') + ' <span>/ month</span></div>'
-                    + '<div class="card-title">' + esc(p.title || '') + '</div>'
-                    + '<div class="location"><i class="fa-solid fa-location-dot"></i> ' + esc(p.location || '') + '</div>'
-                    + '<div class="meta"><span><i class="fa-solid fa-bed"></i> ' + (p.bhk || 0) + ' Beds</span><span><i class="fa-solid fa-shield-halved"></i> Verified</span></div>'
-                    + '</div></article>';
-            }).join('');
-        };
-        if (d && Array.isArray(d.properties) && d.properties.length) {
-            renderProps(d.properties);
-        } else if (window.api && typeof api.getProperties === 'function') {
-            Promise.resolve(api.getProperties(0, 6)).then(function (list) {
-                if (list && Array.isArray(list) && list.length) renderProps(list);
-            }).catch(function () {});
-        }
+    const KNOWN_CITIES = ['Mumbai', 'Pune', 'Bengaluru', 'Nashik', 'Delhi', 'Hyderabad', 'Chennai', 'Kolkata', 'Jaipur', 'Ahmedabad'];
+
+    function renderCard(property) {
+        if (typeof renderPropertyCard === 'function') return renderPropertyCard(property, { showActions: false });
+        // Minimal fallback when core.js is absent.
+        const p = property;
+        const img = (p.photos && p.photos[0]) || 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1000&q=85';
+        return '<article class="property-card fade-in-up" data-id="' + esc(p.id) + '">'
+            + '<div class="property-image"><div class="property-image-placeholder"><img src="' + esc(img) + '" alt="' + esc(p.title || 'Property') + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;"></div>'
+            + '<span class="property-badge"><i class="fas fa-check-circle"></i> ' + esc(p.badge || 'Verified Owner') + '</span></div>'
+            + '<div class="property-body"><h3 class="property-title">' + esc(p.title) + '</h3>'
+            + '<p class="property-location"><i class="fas fa-location-dot"></i> ' + esc(p.location) + '</p>'
+            + '<div class="property-price"><span class="price">₹' + Number(p.price || 0).toLocaleString('en-IN') + '</span><span class="per-month">/month</span></div>'
+            + '</div></article>';
     }
 
-    /* ---- Categories & steps are static HTML (not demo) ---- */
+    function renderRail(el, list) {
+        if (!el) return;
+        if (!list || !list.length) {
+            el.innerHTML = '';
+            el.parentElement.classList.add('empty');
+            return;
+        }
+        el.innerHTML = list.map(renderCard).join('');
+        wireFavoriteButtons(el);
+        el.parentElement.classList.remove('empty');
+    }
+
+    function renderFeed(list) {
+        const feed = document.getElementById('propertyFeed');
+        if (!feed) return;
+        if (!list || !list.length) {
+            feed.innerHTML = '<div class="no-results" style="grid-column:1/-1;"><i class="fas fa-search"></i><h3>No homes listed yet</h3><p>Check back soon — new verified listings are added every day.</p><a href="list-property" class="btn btn-primary"><i class="fas fa-plus"></i> List your property</a></div>';
+            return;
+        }
+        feed.innerHTML = list.map(renderCard).join('');
+        wireFavoriteButtons(feed);
+    }
+
+    // Cards are rendered after core.js has already attached its one-time
+    // .property-favorite listeners, so re-wire every fresh set of hearts.
+    function wireFavoriteButtons(container) {
+        if (!container) return;
+        container.querySelectorAll('.property-favorite').forEach(function (btn) {
+            if (btn.dataset.wired) return;
+            btn.dataset.wired = '1';
+            btn.addEventListener('click', function (e) {
+                e.preventDefault();
+                if (typeof toggleFavorite === 'function') {
+                    toggleFavorite(e);
+                } else {
+                    window.location.href = 'login?redirect=properties';
+                }
+            });
+        });
+    }
+
+    function renderCityRail(list) {
+        const rail = document.getElementById('cityRail');
+        if (!rail) return;
+        const cities = [];
+        (list || []).forEach(function (p) {
+            const c = (p.city || '').trim();
+            if (c && cities.indexOf(c) < 0) cities.push(c);
+        });
+        const merged = cities.length ? cities : KNOWN_CITIES;
+        rail.innerHTML = merged.slice(0, 8).map(function (c) {
+            return '<a class="category-pill" href="properties?location=' + encodeURIComponent(c) + '">' + esc(c) + '</a>';
+        }).join('') + '<a class="category-pill pill-more" href="properties">All cities <i class="fa-solid fa-arrow-right"></i></a>';
+    }
+
+    let shownFeed = false;
+    function renderAll(list) {
+        list = list || [];
+        renderRail(document.getElementById('railRecommended'), list.slice(0, 6));
+        renderRail(document.getElementById('railFresh'), list.slice(0, 8));
+        renderCityRail(list);
+        if (!shownFeed) { renderFeed(list); shownFeed = true; }
+    }
+
+    // 1) Demo data is the low-cost instant render (keeps the page useful when
+    //    the API has no listings yet).
+    if (window.HL_DEMO_DATA && Array.isArray(window.HL_DEMO_DATA.properties)) {
+        renderAll(window.HL_DEMO_DATA.properties);
+    } else if (typeof fetchApiProperties === 'function') {
+        fetchApiProperties(0, 100).then(function (list) {
+            if (list && list.length) {
+                renderAll(list);
+            } else {
+                renderAll([]);
+            }
+        }).catch(function () { renderAll([]); });
+    } else {
+        renderAll([]);
+    }
 })();
 /* ===== Landing UI ===== */
 (function () {
@@ -69,26 +136,23 @@
     }
     window.favorite = favorite;
 
+    // Home search navigates to the browse page with query params, exactly like
+    // an Amazon-style search. properties.js reads ?location/?type/?budget via
+    // applyUrlQueryParams(), so no backend change is needed. Param VALUES match
+    // properties.html's filter options (type is lowercase; budget is a bucket).
     const searchForm = document.getElementById("searchForm");
     if (searchForm) {
         searchForm.addEventListener("submit", function (e) {
             e.preventDefault();
-            const location = (document.getElementById("location").value || "").trim().toLowerCase();
-            const type = (document.getElementById("type").value || "").toLowerCase();
-            const budget = document.getElementById("budget").value;
-            const cards = Array.prototype.slice.call(document.querySelectorAll(".property"));
-            let count = 0;
-            cards.forEach(function (card) {
-                const matchLocation = !location || (card.dataset.location || '').includes(location);
-                const matchType = !type || card.dataset.type === type;
-                const matchBudget = !budget || Number(card.dataset.price) <= Number(budget);
-                const visible = matchLocation && matchType && matchBudget;
-                card.style.display = visible ? "" : "none";
-                if (visible) count++;
-            });
-            const props = document.getElementById("properties");
-            if (props) props.scrollIntoView({ behavior: "smooth" });
-            toast(count + (count === 1 ? " property found" : " properties found"));
+            const location = (document.getElementById("location").value || "").trim();
+            const type = (document.getElementById("type").value || "").trim().toLowerCase();
+            const budget = (document.getElementById("budget").value || "").trim();
+            const qs = new URLSearchParams();
+            if (location) qs.set("location", location);
+            if (type) qs.set("type", type);
+            if (budget) qs.set("budget", budget);
+            const query = qs.toString();
+            window.location.href = "properties" + (query ? "?" + query : "");
         });
     }
 
